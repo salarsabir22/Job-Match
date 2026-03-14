@@ -890,20 +890,11 @@ function Footer() {
         { label: "Post a Job", href: "/signup?role=recruiter" },
       ],
     },
-    {
-      title: "Company",
-      links: [
-        { label: "About", href: "#" },
-        { label: "Blog", href: "#" },
-        { label: "Privacy Policy", href: "#" },
-        { label: "Terms of Service", href: "#" },
-      ],
-    },
   ]
 
   return (
     <footer className="bg-[#0F1115] border-t border-white/8">
-      <div className="max-w-7xl mx-auto px-5 py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
+      <div className="max-w-7xl mx-auto px-5 py-16 grid grid-cols-2 md:grid-cols-3 gap-10">
         {/* Brand */}
         <div className="col-span-2 md:col-span-1">
           <Link href="/" className="flex items-center gap-2.5 mb-4">
@@ -945,10 +936,6 @@ function Footer() {
         <div className="max-w-7xl mx-auto px-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="font-data text-[11px] tracking-wide text-[#94A3B8]">
             © {new Date().getFullYear()} JobMatch. All rights reserved.
-          </p>
-          <p className="font-data text-[11px] tracking-wide text-[#94A3B8]">
-            Built with{" "}
-            <span className="gradient-text font-medium">Next.js + Supabase</span>
           </p>
         </div>
       </div>
