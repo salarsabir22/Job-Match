@@ -1,90 +1,184 @@
 "use client"
 
-import { useState, useRef, useCallback } from "react"
+import { useRef, useCallback } from "react"
 
 interface SwipeCardProps {
-  onSwipeLeft: () => void
+  onSwipeLeft:  () => void
   onSwipeRight: () => void
-  onSwipeSave?: () => void
-  children: React.ReactNode
-  disabled?: boolean
+  children:     React.ReactNode
+  disabled?:    boolean
 }
 
-const SWIPE_THRESHOLD = 90
+// How far (px) the card must travel to trigger a swipe
+const DISTANCE_THRESHOLD = 80
+// How fast (px/ms) a flick must be to trigger a swipe regardless of distance
+const VELOCITY_THRESHOLD = 0.45
 
-export function SwipeCard({ onSwipeLeft, onSwipeRight, onSwipeSave, children, disabled }: SwipeCardProps) {
-  const [pos, setPos] = useState({ x: 0, y: 0 })
-  const [isDragging, setIsDragging] = useState(false)
-  const [leaving, setLeaving] = useState<"left" | "right" | null>(null)
-  const startPos = useRef({ x: 0, y: 0 })
-  const cardRef = useRef<HTMLDivElement>(null)
+export function SwipeCard({
+  onSwipeLeft,
+  onSwipeRight,
+  children,
+  disabled,
+}: SwipeCardProps) {
+  const cardRef  = useRef<HTMLDivElement>(null)
+  const likeRef  = useRef<HTMLDivElement>(null)
+  const nopeRef  = useRef<HTMLDivElement>(null)
 
-  const rotation = Math.min(Math.max(pos.x / 15, -20), 20)
-  const likeOpacity = Math.min(pos.x / SWIPE_THRESHOLD, 1)
-  const nopeOpacity = Math.min(-pos.x / SWIPE_THRESHOLD, 1)
+  // All drag state lives in a ref — zero re-renders during drag
+  const drag = useRef({
+    active:   false,
+    leaving:  false,
+    startX:   0,
+    startY:   0,
+    x:        0,
+    y:        0,
+    lastX:    0,
+    lastT:    0,
+    velocityX: 0,
+  })
 
-  const triggerSwipe = useCallback((direction: "left" | "right") => {
-    setLeaving(direction)
+  /* ── update card visuals directly on the DOM ────────────────── */
+  const applyTransform = (x: number, y: number) => {
+    const card = cardRef.current
+    const like = likeRef.current
+    const nope = nopeRef.current
+    if (!card) return
+
+    const rot = Math.min(Math.max(x / 18, -22), 22)
+    card.style.transform = `translateX(${x}px) translateY(${y * 0.12}px) rotate(${rot}deg)`
+
+    const progress = Math.abs(x) / DISTANCE_THRESHOLD
+    if (like) like.style.opacity = x > 0 ? String(Math.min(progress, 1)) : "0"
+    if (nope) nope.style.opacity = x < 0 ? String(Math.min(progress, 1)) : "0"
+  }
+
+  /* ── fly the card off screen, then call the callback ────────── */
+  const flyOff = useCallback((direction: "left" | "right") => {
+    const card = cardRef.current
+    if (!card || drag.current.leaving) return
+    drag.current.leaving = true
+
+    card.style.transition = "transform 0.38s cubic-bezier(0.55, 0, 0.85, 0.15)"
+    card.style.transform   =
+      direction === "right"
+        ? "translateX(140vw) rotate(28deg)"
+        : "translateX(-140vw) rotate(-28deg)"
+
     setTimeout(() => {
-      setLeaving(null)
-      setPos({ x: 0, y: 0 })
+      drag.current.leaving = false
       if (direction === "right") onSwipeRight()
       else onSwipeLeft()
-    }, 350)
+    }, 380)
   }, [onSwipeLeft, onSwipeRight])
 
-  const handlePointerDown = (e: React.PointerEvent) => {
-    if (disabled || leaving) return
-    setIsDragging(true)
-    startPos.current = { x: e.clientX - pos.x, y: e.clientY - pos.y }
-    cardRef.current?.setPointerCapture(e.pointerId)
+  /* ── spring back to centre ──────────────────────────────────── */
+  const snapBack = () => {
+    const card = cardRef.current
+    const like = likeRef.current
+    const nope = nopeRef.current
+    if (!card) return
+
+    card.style.transition = "transform 0.42s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+    card.style.transform  = "translateX(0px) translateY(0px) rotate(0deg)"
+    if (like) like.style.opacity = "0"
+    if (nope) nope.style.opacity = "0"
+
+    setTimeout(() => { if (card) card.style.transition = "none" }, 420)
   }
 
-  const handlePointerMove = (e: React.PointerEvent) => {
-    if (!isDragging || leaving) return
-    setPos({ x: e.clientX - startPos.current.x, y: e.clientY - startPos.current.y })
-  }
+  /* ── pointer handlers ───────────────────────────────────────── */
+  const onDown = useCallback((e: React.PointerEvent) => {
+    if (disabled || drag.current.leaving) return
+    const card = cardRef.current
+    if (!card) return
 
-  const handlePointerUp = () => {
-    if (!isDragging) return
-    setIsDragging(false)
-    if (pos.x > SWIPE_THRESHOLD) triggerSwipe("right")
-    else if (pos.x < -SWIPE_THRESHOLD) triggerSwipe("left")
-    else setPos({ x: 0, y: 0 })
-  }
+    card.style.transition = "none"
+    card.setPointerCapture(e.pointerId)
 
-  const transform = leaving === "right"
-    ? `translateX(120vw) rotate(30deg)`
-    : leaving === "left"
-    ? `translateX(-120vw) rotate(-30deg)`
-    : `translateX(${pos.x}px) translateY(${pos.y * 0.3}px) rotate(${rotation}deg)`
+    drag.current = {
+      ...drag.current,
+      active:    true,
+      startX:    e.clientX,
+      startY:    e.clientY,
+      x:         0,
+      y:         0,
+      lastX:     e.clientX,
+      lastT:     e.timeStamp,
+      velocityX: 0,
+    }
+  }, [disabled])
 
-  const transition = isDragging ? "none" : leaving ? "transform 0.35s ease" : "transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+  const onMove = useCallback((e: React.PointerEvent) => {
+    const d = drag.current
+    if (!d.active || d.leaving) return
+
+    const x = e.clientX - d.startX
+    const y = e.clientY - d.startY
+
+    // rolling velocity (px / ms)
+    const dt = e.timeStamp - d.lastT
+    if (dt > 0) d.velocityX = (e.clientX - d.lastX) / dt
+    d.lastX = e.clientX
+    d.lastT = e.timeStamp
+    d.x = x
+    d.y = y
+
+    applyTransform(x, y)
+  }, [])
+
+  const onUp = useCallback(() => {
+    const d = drag.current
+    if (!d.active) return
+    d.active = false
+
+    const farRight = d.x >  DISTANCE_THRESHOLD || d.velocityX >  VELOCITY_THRESHOLD
+    const farLeft  = d.x < -DISTANCE_THRESHOLD || d.velocityX < -VELOCITY_THRESHOLD
+
+    if (farRight)     flyOff("right")
+    else if (farLeft) flyOff("left")
+    else              snapBack()
+  }, [flyOff])
+
+  /* ── programmatic trigger (used by button controls) ─────────── */
+  const triggerLeft  = useCallback(() => flyOff("left"),  [flyOff])
+  const triggerRight = useCallback(() => flyOff("right"), [flyOff])
 
   return (
     <div
       ref={cardRef}
-      style={{ transform, transition, touchAction: "none" }}
-      className="relative cursor-grab active:cursor-grabbing select-none"
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onPointerLeave={handlePointerUp}
+      style={{
+        touchAction: "none",
+        willChange:  "transform",
+        userSelect:  "none",
+      }}
+      className="relative cursor-grab active:cursor-grabbing"
+      onPointerDown={onDown}
+      onPointerMove={onMove}
+      onPointerUp={onUp}
+      onPointerCancel={onUp}
+      data-trigger-left={String(triggerLeft)}
+      data-trigger-right={String(triggerRight)}
     >
-      {/* Like indicator */}
+      {/* Apply overlay */}
       <div
-        className="absolute top-6 left-5 z-10 border-4 border-green-500 text-green-500 font-black text-xl px-3 py-1 rounded-lg rotate-[-20deg] uppercase pointer-events-none"
-        style={{ opacity: likeOpacity }}
+        ref={likeRef}
+        style={{ opacity: 0 }}
+        className="absolute top-5 left-4 z-20 pointer-events-none"
       >
-        Like
+        <div className="border-[3px] border-[#F7931A] text-[#F7931A] font-black text-lg px-3 py-0.5 rounded-xl -rotate-[22deg] uppercase tracking-wider shadow-[0_0_15px_-3px_rgba(247,147,26,0.5)]">
+          Apply ✓
+        </div>
       </div>
 
-      {/* Nope indicator */}
+      {/* Pass overlay */}
       <div
-        className="absolute top-6 right-5 z-10 border-4 border-red-500 text-red-500 font-black text-xl px-3 py-1 rounded-lg rotate-[20deg] uppercase pointer-events-none"
-        style={{ opacity: nopeOpacity }}
+        ref={nopeRef}
+        style={{ opacity: 0 }}
+        className="absolute top-5 right-4 z-20 pointer-events-none"
       >
-        Nope
+        <div className="border-[3px] border-red-500 text-red-500 font-black text-lg px-3 py-0.5 rounded-xl rotate-[22deg] uppercase tracking-wider shadow-[0_0_15px_-3px_rgba(239,68,68,0.4)]">
+          Pass ✗
+        </div>
       </div>
 
       {children}
@@ -93,7 +187,8 @@ export function SwipeCard({ onSwipeLeft, onSwipeRight, onSwipeSave, children, di
 }
 
 export function useSwipeControls(onLeft: () => void, onRight: () => void) {
-  const triggerLeft = useCallback(() => onLeft(), [onLeft])
-  const triggerRight = useCallback(() => onRight(), [onRight])
-  return { triggerLeft, triggerRight }
+  return {
+    triggerLeft:  useCallback(() => onLeft(),  [onLeft]),
+    triggerRight: useCallback(() => onRight(), [onRight]),
+  }
 }
