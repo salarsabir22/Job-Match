@@ -1,26 +1,190 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *));
+
+/* ─── Design Token Layer ─────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --radius: 0.75rem;
+
+  /* Bitcoin DeFi palette */
+  --void:       #030304;
+  --surface:    #0F1115;
+  --foreground: #FFFFFF;
+  --muted:      #94A3B8;
+  --boundary:   #1E293B;
+  --btc:        #F7931A;
+  --btc-deep:   #EA580C;
+  --gold:       #FFD600;
+
+  /* shadcn compat */
+  --background: oklch(0.01 0 0);
+  --card:       oklch(0.07 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover:    oklch(0.07 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary:    oklch(0.72 0.19 42);   /* Bitcoin orange */
+  --primary-foreground: oklch(1 0 0);
+  --secondary:  oklch(0.13 0.005 240);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted-var:  oklch(0.13 0.005 240);
+  --muted-foreground: oklch(0.6 0.01 240);
+  --accent:     oklch(0.13 0.005 240);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border:     oklch(1 0 0 / 8%);
+  --input:      oklch(1 0 0 / 10%);
+  --ring:       oklch(0.72 0.19 42);
+  --success:    oklch(0.65 0.2 142);
+  --success-foreground: oklch(1 0 0);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted-var);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ─── Base ───────────────────────────────────────────────────────── */
 body {
-  background: var(--background);
+  font-family: var(--font-geist-sans, Arial, sans-serif);
+  background: var(--void);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+* { border-color: var(--border); }
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(247,147,26,0.3); border-radius: 2px; }
+
+/* ─── Typography Utilities ───────────────────────────────────────── */
+.font-heading {
+  font-family: var(--font-space-grotesk), 'Space Grotesk', system-ui, sans-serif;
+}
+.font-body {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+.font-data {
+  font-family: var(--font-jetbrains-mono), 'JetBrains Mono', monospace;
+}
+
+/* ─── Gradient Text ──────────────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(to right, #F7931A, #FFD600);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-text-fire {
+  background: linear-gradient(to right, #EA580C, #F7931A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Grid Background Pattern ────────────────────────────────────── */
+.bg-grid-pattern {
+  background-size: 50px 50px;
+  background-image:
+    linear-gradient(to right, rgba(30,41,59,0.5) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(30,41,59,0.5) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse at 50% 40%, black 30%, transparent 75%);
+}
+
+/* ─── Glass Morphism ─────────────────────────────────────────────── */
+.glass {
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.glass-dark {
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ─── Animations ─────────────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-20px); }
+}
+@keyframes float-sm {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes float-card {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-12px) rotate(1deg); }
+  66%       { transform: translateY(-6px) rotate(-1deg); }
+}
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%       { opacity: 0.7; transform: scale(1.05); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes orbit-cw {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes orbit-ccw {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+.animate-float         { animation: float 8s ease-in-out infinite; }
+.animate-float-sm      { animation: float-sm 6s ease-in-out infinite; }
+.animate-float-card    { animation: float-card 7s ease-in-out infinite; }
+.animate-float-card-2  { animation: float-card 9s ease-in-out infinite; animation-delay: -3s; }
+.animate-float-card-3  { animation: float-card 8s ease-in-out infinite; animation-delay: -5s; }
+.animate-float-card-4  { animation: float-card 10s ease-in-out infinite; animation-delay: -2s; }
+.animate-glow-pulse    { animation: glow-pulse 3s ease-in-out infinite; }
+.animate-ticker        { animation: ticker 25s linear infinite; }
+.animate-orbit-cw      { animation: orbit-cw 12s linear infinite; }
+.animate-orbit-ccw     { animation: orbit-ccw 18s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-float-sm,
+  .animate-float-card,
+  .animate-float-card-2,
+  .animate-float-card-3,
+  .animate-float-card-4,
+  .animate-glow-pulse,
+  .animate-ticker,
+  .animate-orbit-cw,
+  .animate-orbit-ccw { animation: none !important; }
 }
