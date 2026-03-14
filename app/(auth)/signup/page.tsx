@@ -38,7 +38,9 @@ function getPasswordStrength(pw: string): PasswordStrength {
   return map[score as keyof typeof map]
 }
 
-const ROLE_INFO = {
+type SignupRole = "student" | "recruiter"
+
+const ROLE_INFO: Record<SignupRole, { icon: React.ElementType; label: string; description: string }> = {
   student: {
     icon: GraduationCap,
     label: "Student / Job Seeker",
@@ -56,7 +58,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
-  const [role, setRole] = useState<UserRole>("student")
+  const [role, setRole] = useState<SignupRole>("student")
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -171,7 +173,7 @@ export default function SignupPage() {
       <div className="mb-5">
         <p className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8] mb-2">I am joining as a…</p>
         <div className="grid grid-cols-2 gap-3">
-          {(["student", "recruiter"] as UserRole[]).map((r) => {
+          {(["student", "recruiter"] as SignupRole[]).map((r) => {
             const { icon: Icon, label, description } = ROLE_INFO[r]
             const active = role === r
             return (
