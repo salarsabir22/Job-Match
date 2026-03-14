@@ -61,7 +61,7 @@ export async function middleware(request: NextRequest) {
 
       if (profile.role === "student") return NextResponse.redirect(new URL("/discover", request.url))
       if (profile.role === "recruiter") return NextResponse.redirect(new URL("/jobs", request.url))
-      if (profile.role === "admin") return NextResponse.redirect(new URL("/admin/users", request.url))
+      if (profile.role === "admin") return NextResponse.redirect(new URL("/admin", request.url))
     } catch (err) {
       console.error("[middleware] profile lookup failed:", err)
       // Don't crash — just let the request through

@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Layers, Heart, Bookmark, MessageCircle, User, Briefcase, Users, Building2, Hash, Zap, LogOut } from "lucide-react"
+import { Layers, Heart, Bookmark, MessageCircle, User, Briefcase, Users, Building2, Hash, Zap, LogOut, LayoutDashboard } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { createClient } from "@/lib/supabase/client"
 import type { UserRole } from "@/types"
@@ -24,9 +24,10 @@ const recruiterLinks = [
 ]
 
 const adminLinks = [
-  { href: "/admin/users",      icon: Users,     label: "Users" },
-  { href: "/admin/recruiters", icon: Building2, label: "Recruiters" },
-  { href: "/admin/channels",   icon: Hash,      label: "Channels" },
+  { href: "/admin",            icon: LayoutDashboard, label: "Overview" },
+  { href: "/admin/users",      icon: Users,           label: "Users" },
+  { href: "/admin/recruiters", icon: Building2,       label: "Recruiters" },
+  { href: "/admin/channels",   icon: Hash,            label: "Channels" },
 ]
 
 interface AppNavProps {
@@ -43,7 +44,10 @@ export function AppNav({ role }: AppNavProps) {
     window.location.href = "/login"
   }
 
-  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`)
+  const isActive = (href: string) => {
+    if (href === "/admin") return pathname === "/admin"
+    return pathname === href || pathname.startsWith(`${href}/`)
+  }
 
   return (
     <>
