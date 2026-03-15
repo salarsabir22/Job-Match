@@ -45,7 +45,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
     setOverallStats({
       totalMatches: all.length,
       shortlisted: all.filter((m: any) => m.is_shortlisted && !m.is_archived).length,
-      inConversation: all.filter((m: any) => m.conversations?.length > 0).length,
+      inConversation: all.filter((m: any) => (Array.isArray(m.conversations) ? m.conversations?.length > 0 : !!m.conversations?.id)).length,
       archived: all.filter((m: any) => m.is_archived).length,
     })
     setLoading(false)
@@ -81,7 +81,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
   const MatchCard = ({ match }: { match: any }) => {
     const profile = match.profiles
     const sp = match.profiles?.student_profiles
-    const convId = match.conversations?.[0]?.id
+    const convId = Array.isArray(match.conversations) ? match.conversations?.[0]?.id : match.conversations?.id
     const skills = sp?.skills?.slice(0, 3) || []
 
     return (

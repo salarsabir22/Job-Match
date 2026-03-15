@@ -28,7 +28,10 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
   const appliedCount = appliedRes.count || 0
   const savedCount = savedRes.count || 0
   const matchRate = appliedCount > 0 ? Math.round((matches.length / appliedCount) * 100) : 0
-  const withChat = matches.filter(m => (m as any).conversations?.length > 0).length
+  const withChat = matches.filter(m => {
+    const c = (m as any).conversations
+    return Array.isArray(c) ? c?.length > 0 : !!c?.id
+  }).length
 
   return (
     <div className="space-y-6">
@@ -135,7 +138,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
             {(matches as any[]).map((match) => {
               const job = match.jobs
               const company = job?.recruiter_profiles
-              const convId = match.conversations?.[0]?.id
+              const convId = Array.isArray(match.conversations) ? match.conversations?.[0]?.id : match.conversations?.id
               return (
                 <Link key={match.id} href={convId ? `/chat/${convId}` : "#"}>
                   <div className="flex items-start gap-4 p-5 rounded-2xl bg-[#0F1115] border border-white/8 hover:border-[#F7931A]/30 hover:shadow-[0_0_25px_-8px_rgba(247,147,26,0.2)] transition-all duration-300 h-full cursor-pointer">
