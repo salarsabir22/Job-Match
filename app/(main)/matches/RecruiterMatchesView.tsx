@@ -34,8 +34,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
       .select(`
         *,
         jobs(title, job_type),
-        profiles!matches_student_id_fkey(id, full_name, avatar_url, bio),
-        student_profiles(skills, university, degree, graduation_year),
+        profiles!matches_student_id_fkey(id, full_name, avatar_url, bio, student_profiles(skills, university, degree, graduation_year)),
         conversations(id)
       `)
       .eq("recruiter_id", userId)
@@ -81,7 +80,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
 
   const MatchCard = ({ match }: { match: any }) => {
     const profile = match.profiles
-    const sp = match.student_profiles
+    const sp = match.profiles?.student_profiles
     const convId = match.conversations?.[0]?.id
     const skills = sp?.skills?.slice(0, 3) || []
 
