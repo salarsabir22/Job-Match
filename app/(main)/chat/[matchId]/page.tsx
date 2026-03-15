@@ -26,9 +26,9 @@ export default async function ChatPage({ params }: { params: Promise<{ matchId: 
   const otherUser = profile?.role === "student" ? match?.recruiter : match?.student
 
   return (
-    <div className="flex flex-col h-screen bg-[#030304]">
+    <div className="flex flex-col rounded-2xl overflow-hidden border border-white/8 bg-[#0A0B0E]" style={{ height: "calc(100dvh - 10rem)" }}>
       {/* Chat header */}
-      <div className="flex items-center gap-3 p-4 glass border-b border-white/8 sticky top-0 z-10">
+      <div className="flex items-center gap-3 p-4 border-b border-white/8 z-10 shrink-0">
         <Link href="/matches"
           className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors shrink-0">
           <ArrowLeft className="h-4 w-4 text-white" />

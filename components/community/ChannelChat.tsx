@@ -84,7 +84,7 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center flex-1 bg-[#030304]">
+      <div className="flex items-center justify-center flex-1">
         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(247,147,26,0.6)]">
           <Zap className="h-5 w-5 text-white" />
         </div>
@@ -93,7 +93,7 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
   }
 
   return (
-    <div className="flex flex-col flex-1 overflow-hidden bg-[#030304]">
+    <div className="flex flex-col flex-1 overflow-hidden">
       <div className="flex-1 overflow-y-auto px-4">
         <div className="py-4 space-y-3">
           {messages.length === 0 && (
@@ -141,7 +141,7 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
         </div>
       </div>
 
-      <form onSubmit={sendMessage} className="flex gap-2 p-4 glass border-t border-white/8">
+      <form onSubmit={sendMessage} className="flex gap-2 p-4 border-t border-white/8 bg-[#0A0B0E] shrink-0">
         <input
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
