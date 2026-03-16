@@ -299,6 +299,16 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
 
               {/* Body */}
               <div className="p-6 space-y-5">
+                {(currentCandidate.profile as any).profile_video_url && (
+                  <div className="rounded-xl overflow-hidden bg-black aspect-video max-h-[240px]">
+                    <video
+                      src={(currentCandidate.profile as any).profile_video_url}
+                      controls
+                      className="w-full h-full object-contain"
+                      playsInline
+                    />
+                  </div>
+                )}
                 {currentCandidate.profile.bio && (
                   <div>
                     <p className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8] mb-2">About</p>

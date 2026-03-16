@@ -9,6 +9,7 @@ import {
 } from "lucide-react"
 import { getInitials } from "@/lib/utils"
 import Link from "next/link"
+import { ProfileVideoBlock } from "@/components/profile/ProfileVideoBlock"
 
 type QuickLink = { label: string; href: string; icon: React.ElementType }
 
@@ -46,6 +47,7 @@ function computeStudentCompleteness(profile: any, sp: any): { score: number; mis
   const checks = [
     { label: "Bio / About", done: !!profile?.bio?.trim() },
     { label: "Profile photo", done: !!profile?.avatar_url },
+    { label: "Profile video", done: !!profile?.profile_video_url },
     { label: "University", done: !!sp?.university },
     { label: "Degree", done: !!sp?.degree },
     { label: "Graduation year", done: !!sp?.graduation_year },
@@ -64,6 +66,7 @@ function computeRecruiterCompleteness(profile: any, rp: any): { score: number; m
   const checks = [
     { label: "Company description", done: !!rp?.description?.trim() },
     { label: "Company logo", done: !!rp?.logo_url },
+    { label: "Profile video", done: !!profile?.profile_video_url },
     { label: "Website URL", done: !!rp?.website_url },
     { label: "Hiring focus", done: !!rp?.hiring_focus?.trim() },
     { label: "Bio / About", done: !!profile?.bio?.trim() },
@@ -327,6 +330,12 @@ export default async function ProfilePage() {
               </div>
             )}
           </div>
+
+          {/* Profile video (upload or record) */}
+          <ProfileVideoBlock
+            userId={user.id}
+            initialVideoUrl={(profile as any)?.profile_video_url ?? null}
+          />
 
           {/* Student sections */}
           {isStudent && (

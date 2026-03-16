@@ -8,6 +8,7 @@ export interface Profile {
   full_name: string | null
   avatar_url: string | null
   bio: string | null
+  profile_video_url: string | null
   created_at: string
   updated_at: string
 }

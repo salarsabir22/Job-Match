@@ -6,7 +6,7 @@ import {
   Loader2, X, Plus, GraduationCap, Building2, CheckCircle2,
   Zap, AlertCircle, Info, ExternalLink, FileText, ImageIcon,
   Heart, Briefcase, MessageCircle, Star, TrendingUp, Users,
-  ChevronRight, ArrowRight, MapPin, Clock, Send, Bell
+  ChevronRight, ArrowRight, MapPin, Clock, Send, Bell, Video
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { UserRole } from "@/types"
@@ -871,6 +871,7 @@ export default function OnboardingPage() {
   const [githubUrl, setGithubUrl] = useState("")
   const [portfolioUrl, setPortfolioUrl] = useState("")
   const [resumeFile, setResumeFile] = useState<File | null>(null)
+  const [profileVideoFile, setProfileVideoFile] = useState<File | null>(null)
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
 
@@ -938,8 +939,17 @@ export default function OnboardingPage() {
       let avatarUrl: string | undefined
       if (avatarFile) { setUploading(true); avatarUrl = await uploadFile(avatarFile, "avatars", `${user.id}/avatar`); setUploading(false) }
 
+      let profileVideoUrl: string | undefined
+      if (profileVideoFile) {
+        setUploading(true)
+        const ext = profileVideoFile.name.split(".").pop()?.toLowerCase() || "mp4"
+        profileVideoUrl = await uploadFile(profileVideoFile, "profile-videos", `${user.id}/video.${ext}`)
+        setUploading(false)
+      }
+
       const profileUpdate: Record<string, unknown> = { bio }
       if (avatarUrl) profileUpdate.avatar_url = avatarUrl
+      if (profileVideoUrl) profileUpdate.profile_video_url = profileVideoUrl
       const { data: existingProfile } = await supabase.from("profiles").select("id").eq("id", user.id).maybeSingle()
       if (existingProfile) {
         await supabase.from("profiles").update(profileUpdate).eq("id", user.id)
@@ -1252,6 +1262,21 @@ export default function OnboardingPage() {
                     </label>
                     <HelpText>Profiles with a resume get 5× more recruiter outreach</HelpText>
                   </div>
+                  <div>
+                    <label className={labelClass}>Profile video (optional)</label>
+                    <label className={cn(
+                      "flex items-center gap-3 p-4 border-2 border-dashed rounded-xl cursor-pointer transition-all",
+                      profileVideoFile ? "border-[#F7931A]/40 bg-[#F7931A]/5" : "border-white/8 hover:border-[#F7931A]/25 hover:bg-[#F7931A]/3"
+                    )}>
+                      <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", profileVideoFile ? "bg-[#F7931A]/18" : "bg-white/4")}>
+                        <Video className={cn("h-5 w-5", profileVideoFile ? "text-[#F7931A]" : "text-[#334155]")} />
+                      </div>
+                      {profileVideoFile
+                        ? <div><p className="font-body text-sm text-white font-medium">{profileVideoFile.name}</p><p className="font-body text-xs text-[#4A5568]">Click to replace</p></div>
+                        : <div><p className="font-body text-sm text-[#4A5568]">Upload a short intro video</p><p className="font-body text-xs text-[#334155]">MP4, WebM · Max 50MB · or record from Profile later</p></div>}
+                      <input type="file" accept="video/mp4,video/webm,video/quicktime" className="hidden" onChange={(e) => setProfileVideoFile(e.target.files?.[0] || null)} />
+                    </label>
+                  </div>
                 </div>
               )}
 
@@ -1312,6 +1337,21 @@ export default function OnboardingPage() {
                       onChange={(e) => setHiringFocus(e.target.value)}
                     />
                     <HelpText>Be specific — helps students know if they&apos;re a fit before swiping</HelpText>
+                  </div>
+                  <div>
+                    <label className={labelClass}>Profile video (optional)</label>
+                    <label className={cn(
+                      "flex items-center gap-3 p-4 border-2 border-dashed rounded-xl cursor-pointer transition-all",
+                      profileVideoFile ? "border-[#F7931A]/40 bg-[#F7931A]/5" : "border-white/8 hover:border-[#F7931A]/25 hover:bg-[#F7931A]/3"
+                    )}>
+                      <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", profileVideoFile ? "bg-[#F7931A]/18" : "bg-white/4")}>
+                        <Video className={cn("h-5 w-5", profileVideoFile ? "text-[#F7931A]" : "text-[#334155]")} />
+                      </div>
+                      {profileVideoFile
+                        ? <div><p className="font-body text-sm text-white font-medium">{profileVideoFile.name}</p><p className="font-body text-xs text-[#4A5568]">Click to replace</p></div>
+                        : <div><p className="font-body text-sm text-[#4A5568]">Upload a short intro video</p><p className="font-body text-xs text-[#334155]">MP4, WebM · Max 50MB</p></div>}
+                      <input type="file" accept="video/mp4,video/webm,video/quicktime" className="hidden" onChange={(e) => setProfileVideoFile(e.target.files?.[0] || null)} />
+                    </label>
                   </div>
                   <div className="flex items-start gap-2.5 p-4 rounded-xl bg-[#F7931A]/6 border border-[#F7931A]/15">
                     <Info className="h-4 w-4 text-[#F7931A] shrink-0 mt-0.5" />
