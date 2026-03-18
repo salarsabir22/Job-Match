@@ -80,7 +80,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
           </Link>
 
           {/* Desktop nav (was previously in the sidebar) */}
-          <nav className="hidden lg:flex items-center gap-2 ml-2">
+          <nav className="hidden lg:flex items-center gap-2 ml-2 bg-white/[0.02] border border-white/6 rounded-2xl p-1">
             {links.map(({ href, icon: Icon, label }) => {
               const active = isActive(href)
               return (
@@ -88,10 +88,10 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
                   key={href}
                   href={href}
                   className={cn(
-                    "flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-200 border",
+                    "flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-200 border bg-transparent",
                     active
                       ? "bg-[#F7931A]/12 text-[#F7931A] border-[#F7931A]/30"
-                      : "bg-white/0 text-[#94A3B8] border-white/0 hover:bg-white/4 hover:text-white border"
+                      : "bg-transparent text-[#94A3B8] border-white/0 hover:bg-white/4 hover:text-white border"
                   )}
                 >
                   <Icon className="h-4 w-4" strokeWidth={active ? 2.5 : 1.8} />
