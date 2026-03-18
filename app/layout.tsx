@@ -3,6 +3,7 @@ import { Geist } from "next/font/google"
 import { Space_Grotesk, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import { Providers } from "@/components/providers"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const geist = Geist({
   subsets: ["latin"],
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className={`${geist.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased bg-[#030304] text-white`}
       >
         <Providers>{children}</Providers>
+        <SpeedInsights />
       </body>
     </html>
   )
