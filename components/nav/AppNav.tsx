@@ -69,14 +69,38 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
     <>
       {/* Top header (no sidebar) */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-[#08090C]/90 backdrop-blur-md border-b border-white/6 h-14 flex items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center shadow-[0_0_10px_-2px_rgba(247,147,26,0.6)]">
-            <Zap className="h-3.5 w-3.5 text-white" strokeWidth={2.5} />
-          </div>
-          <span className="font-heading font-bold text-base text-white">
-            Job<span className="gradient-text">Match</span>
-          </span>
-        </Link>
+        <div className="flex items-center gap-3 min-w-0">
+          <Link href="/" className="flex items-center gap-2 shrink-0">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center shadow-[0_0_10px_-2px_rgba(247,147,26,0.6)]">
+              <Zap className="h-3.5 w-3.5 text-white" strokeWidth={2.5} />
+            </div>
+            <span className="font-heading font-bold text-base text-white">
+              Job<span className="gradient-text">Match</span>
+            </span>
+          </Link>
+
+          {/* Desktop nav (was previously in the sidebar) */}
+          <nav className="hidden lg:flex items-center gap-2 ml-2">
+            {links.map(({ href, icon: Icon, label }) => {
+              const active = isActive(href)
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  className={cn(
+                    "flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-200 border",
+                    active
+                      ? "bg-[#F7931A]/12 text-[#F7931A] border-[#F7931A]/30"
+                      : "bg-white/0 text-[#94A3B8] border-white/0 hover:bg-white/4 hover:text-white border"
+                  )}
+                >
+                  <Icon className="h-4 w-4" strokeWidth={active ? 2.5 : 1.8} />
+                  <span className="font-body text-xs tracking-wider uppercase">{label}</span>
+                </Link>
+              )
+            })}
+          </nav>
+        </div>
         <button
           onClick={handleSignOut}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[#94A3B8] hover:text-red-400 hover:bg-red-400/10 font-body text-xs font-medium transition-all duration-200 border border-white/8"
