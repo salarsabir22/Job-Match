@@ -41,6 +41,7 @@ export default function NotificationsPage() {
     // If the notification has a conversation_id, we can route directly to the chat.
     const conversationId = (n.data as any)?.conversation_id as string | undefined
     const matchId = (n.data as any)?.match_id as string | undefined
+    const jobId = (n.data as any)?.job_id as string | undefined
 
     // Mark as read first so UI updates immediately.
     if (!n.is_read) {
@@ -68,7 +69,14 @@ export default function NotificationsPage() {
       }
     }
 
-    // Last fallback: go to matches list.
+    // Pre-match notification for recruiters (candidate interested in a specific job).
+    // No match exists yet, so take them to candidate discovery.
+    if (jobId && (n.type === "candidate_interested" || n.type === "candidate_interested")) {
+      router.push("/discover")
+      return
+    }
+
+    // Last fallback.
     router.push("/matches")
   }
 

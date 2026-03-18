@@ -7,15 +7,15 @@
 :root {
   --radius: 0.75rem;
 
-  /* Bitcoin DeFi palette */
-  --void:       #030304;
-  --surface:    #0F1115;
-  --foreground: #FFFFFF;
-  --muted:      #94A3B8;
-  --boundary:   #1E293B;
-  --btc:        #F7931A;
-  --btc-deep:   #EA580C;
-  --gold:       #FFD600;
+  /* Blue / White premium palette */
+  --void:       #F8FAFC;
+  --surface:    #FFFFFF;
+  --foreground: #0F172A;
+  --muted:      #64748B;
+  --boundary:   #E2E8F0;
+  --btc:        #2563EB;
+  --btc-deep:   #1D4ED8;
+  --gold:       #60A5FA;
 
   /* shadcn compat */
   --background: oklch(0.01 0 0);
@@ -70,7 +70,7 @@
 
 /* ─── Base ───────────────────────────────────────────────────────── */
 body {
-  font-family: var(--font-geist-sans, Arial, sans-serif);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   background: var(--void);
   color: var(--foreground);
   -webkit-tap-highlight-color: transparent;
@@ -84,24 +84,24 @@ body {
 
 /* ─── Typography Utilities ───────────────────────────────────────── */
 .font-heading {
-  font-family: var(--font-space-grotesk), 'Space Grotesk', system-ui, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .font-body {
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .font-data {
-  font-family: var(--font-jetbrains-mono), 'JetBrains Mono', monospace;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 /* ─── Gradient Text ──────────────────────────────────────────────── */
 .gradient-text {
-  background: linear-gradient(to right, #F7931A, #FFD600);
+  background: linear-gradient(to right, #1D4ED8, #3B82F6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 .gradient-text-fire {
-  background: linear-gradient(to right, #EA580C, #F7931A);
+  background: linear-gradient(to right, #1D4ED8, #3B82F6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -118,16 +118,16 @@ body {
 
 /* ─── Glass Morphism ─────────────────────────────────────────────── */
 .glass {
-  background: rgba(255,255,255,0.03);
+  background: rgba(255,255,255,0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(2,6,23,0.08);
 }
 .glass-dark {
   background: rgba(0,0,0,0.4);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
 }
 
 /* ─── Animations ─────────────────────────────────────────────────── */

@@ -22,7 +22,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
   }
 
   return (
-    <div className="min-h-screen bg-[#030304]">
+    <div className="min-h-screen bg-[#F8FAFC] flex">
       <AppNav
         role={role}
         fullName={fullName}
@@ -30,17 +30,31 @@ export default async function MainLayout({ children }: { children: React.ReactNo
         avatarUrl={avatarUrl}
       />
 
-      {/* Page content */}
-      <main className="min-h-screen pt-14 pb-24 lg:pb-0 overflow-y-auto">
-        <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-screen-xl mx-auto">
-          {/* Card-style wrapper to match the dashboard design */}
-          <div className="rounded-3xl border border-white/6 bg-white/[0.02] backdrop-blur-sm shadow-[0_0_40px_-20px_rgba(247,147,26,0.25)] overflow-hidden">
-            <div className="p-5 lg:p-8">
-              {children}
+      {/* Main content — offset by sidebar on desktop */}
+      <div className="flex-1 lg:ml-64 min-h-screen flex flex-col">
+        {/* Desktop top bar */}
+        <div className="hidden lg:flex h-14 shrink-0 items-center border-b border-white/6 bg-[#030304]/80 backdrop-blur-sm sticky top-0 z-30 px-8">
+          <div className="flex-1" />
+          <div className="flex items-center gap-3">
+            <div className="text-right">
+              <p className="font-body text-sm font-medium text-white leading-none">{fullName ?? user?.email?.split("@")[0]}</p>
+              <p className="font-data text-[10px] tracking-wider uppercase text-[#94A3B8] mt-0.5 capitalize">{role}</p>
+            </div>
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center text-white font-bold text-sm shadow-[0_0_12px_-2px_rgba(247,147,26,0.5)] shrink-0">
+              {(fullName ?? user?.email ?? "?").charAt(0).toUpperCase()}
             </div>
           </div>
         </div>
-      </main>
+
+        {/* Page content */}
+        <main className="flex-1 pt-16 pb-24 lg:pt-0 lg:pb-0 overflow-y-auto">
+          <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-screen-xl mx-auto">
+            <div className="rounded-3xl border border-black/10 bg-white/[0.98] backdrop-blur-sm shadow-[0_10px_40px_-20px_rgba(29,78,216,0.25)] overflow-hidden">
+              <div className="p-5 lg:p-8">{children}</div>
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
   )
 }
