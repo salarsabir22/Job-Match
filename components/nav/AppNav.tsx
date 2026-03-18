@@ -6,6 +6,7 @@ import {
   Layers, Heart, Bookmark, MessageCircle, User, Briefcase,
   Users, Building2, Hash, Zap, LogOut, LayoutDashboard,
   ChevronRight,
+  Bell,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { createClient } from "@/lib/supabase/client"
@@ -14,6 +15,7 @@ import type { UserRole } from "@/types"
 const studentLinks = [
   { href: "/discover",  icon: Layers,       label: "Discover",  desc: "Browse jobs" },
   { href: "/matches",   icon: Heart,         label: "Matches",   desc: "Your matches" },
+  { href: "/notifications", icon: Bell,     label: "Alerts",    desc: "Your notifications" },
   { href: "/saved",     icon: Bookmark,      label: "Saved",     desc: "Saved jobs" },
   { href: "/community", icon: MessageCircle, label: "Community", desc: "Channels" },
   { href: "/profile",   icon: User,          label: "Profile",   desc: "Your profile" },
@@ -23,6 +25,7 @@ const recruiterLinks = [
   { href: "/jobs",      icon: Briefcase,     label: "My Jobs",   desc: "Manage postings" },
   { href: "/discover",  icon: Users,         label: "Discover",  desc: "Find candidates" },
   { href: "/matches",   icon: Heart,         label: "Matches",   desc: "Candidates" },
+  { href: "/notifications", icon: Bell,     label: "Alerts",    desc: "Your notifications" },
   { href: "/community", icon: MessageCircle, label: "Community", desc: "Channels" },
   { href: "/profile",   icon: User,          label: "Profile",   desc: "Your profile" },
 ]
