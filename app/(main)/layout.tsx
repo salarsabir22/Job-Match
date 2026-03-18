@@ -30,24 +30,11 @@ export default async function MainLayout({ children }: { children: React.ReactNo
         avatarUrl={avatarUrl}
       />
 
-      {/* Main content — offset by sidebar on desktop */}
-      <div className="flex-1 lg:ml-64 min-h-screen flex flex-col">
-        {/* Desktop top bar */}
-        <div className="hidden lg:flex h-14 shrink-0 items-center border-b border-white/6 bg-[#030304]/80 backdrop-blur-sm sticky top-0 z-30 px-8">
-          <div className="flex-1" />
-          <div className="flex items-center gap-3">
-            <div className="text-right">
-              <p className="font-body text-sm font-medium text-white leading-none">{fullName ?? user?.email?.split("@")[0]}</p>
-              <p className="font-data text-[10px] tracking-wider uppercase text-[#94A3B8] mt-0.5 capitalize">{role}</p>
-            </div>
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center text-white font-bold text-sm shadow-[0_0_12px_-2px_rgba(247,147,26,0.5)] shrink-0">
-              {(fullName ?? user?.email ?? "?").charAt(0).toUpperCase()}
-            </div>
-          </div>
-        </div>
+      {/* Main content */}
+      <div className="flex-1 min-h-screen flex flex-col">
 
         {/* Page content */}
-        <main className="flex-1 pt-16 pb-24 lg:pt-0 lg:pb-0 overflow-y-auto">
+        <main className="flex-1 pt-16 pb-24 lg:pb-0 overflow-y-auto">
           <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-screen-xl mx-auto">
             {children}
           </div>

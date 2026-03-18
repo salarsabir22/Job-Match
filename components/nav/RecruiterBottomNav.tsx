@@ -18,7 +18,7 @@ export function RecruiterBottomNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 glass border-t border-white/8">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 glass border-t border-white/8 lg:hidden">
       <div className="max-w-md mx-auto flex">
         {navItems.map(({ href, icon: Icon, label }) => {
           const active = pathname === href || pathname.startsWith(`${href}/`)
