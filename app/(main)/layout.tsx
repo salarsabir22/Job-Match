@@ -22,7 +22,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex">
+    <div className="min-h-screen bg-[#030304] flex">
       <AppNav
         role={role}
         fullName={fullName}
@@ -49,9 +49,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
         {/* Page content */}
         <main className="flex-1 pt-16 pb-24 lg:pt-0 lg:pb-0 overflow-y-auto">
           <div className="px-4 py-6 lg:px-8 lg:py-8 max-w-screen-xl mx-auto">
-            <div className="rounded-3xl border border-black/10 bg-white/[0.98] backdrop-blur-sm shadow-[0_10px_40px_-20px_rgba(29,78,216,0.25)] overflow-hidden">
-              <div className="p-5 lg:p-8">{children}</div>
-            </div>
+            {children}
           </div>
         </main>
       </div>

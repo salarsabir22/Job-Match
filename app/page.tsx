@@ -946,20 +946,19 @@ function Footer() {
 /* ─── Page ───────────────────────────────────────────────────────── */
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#030304] text-white overflow-x-hidden">
-      <Navbar />
-      <main>
-        <Hero />
-        <StatsBar />
-        <HowItWorks />
-        <Features />
-        <AudienceSplit />
-        <Community />
-        <Testimonials />
-        <TrustStrip />
-        <CTASection />
-      </main>
-      <Footer />
-    </div>
+    <WaitlistRedirector />
   )
+}
+
+function WaitlistRedirector() {
+  // Keep the existing landing file structure, but show the waitlist UI at `/`.
+  // (No redirect needed; user asked to remove landing and collect emails.)
+  return <WaitlistForm />
+}
+
+function WaitlistForm() {
+  // Lazy import pattern to avoid restructuring the rest of this large file.
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const Waitlist = require("@/components/waitlist/WaitlistForm").WaitlistForm as React.ComponentType
+  return <Waitlist />
 }
