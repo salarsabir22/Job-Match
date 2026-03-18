@@ -19,7 +19,8 @@ export function WaitlistForm() {
 
     const v = email.trim().toLowerCase()
     if (!v) return setError("Email is required.")
-    if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v)) return setError("Enter a valid email.")
+    // Relaxed validation to prevent false negatives (pasted input, unicode whitespace, etc.)
+    if (!v.includes("@") || !v.includes(".")) return setError("Enter a valid email.")
 
     setSubmitting(true)
     try {
