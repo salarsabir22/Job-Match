@@ -7,6 +7,7 @@ export function createClient() {
     {
       auth: {
         flowType: "implicit",
+        
       },
     }
   )
