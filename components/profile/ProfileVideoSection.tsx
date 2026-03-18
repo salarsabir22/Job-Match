@@ -20,7 +20,10 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
   const [uploading, setUploading] = useState(false)
   const [recording, setRecording] = useState(false)
   const [showRecordModal, setShowRecordModal] = useState(false)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
+  const streamRef = useRef<MediaStream | null>(null)
+  const videoPreviewRef = useRef<HTMLVideoElement | null>(null)
   const chunksRef = useRef<Blob[]>([])
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
@@ -57,12 +60,29 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
   const startRecording = useCallback(async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+      streamRef.current = stream
+      setPreviewUrl(null)
+      if (videoPreviewRef.current) {
+        videoPreviewRef.current.srcObject = stream
+        // iOS/Safari sometimes requires muted for autoplay
+        videoPreviewRef.current.muted = true
+        await videoPreviewRef.current.play().catch(() => {})
+      }
       const recorder = new MediaRecorder(stream, { mimeType: "video/webm;codecs=vp9,opus" })
       chunksRef.current = []
       recorder.ondataavailable = (e) => { if (e.data.size) chunksRef.current.push(e.data) }
       recorder.onstop = async () => {
         stream.getTracks().forEach((t) => t.stop())
+        streamRef.current = null
+        if (videoPreviewRef.current) {
+          videoPreviewRef.current.srcObject = null
+        }
         const blob = new Blob(chunksRef.current, { type: "video/webm" })
+        const url = URL.createObjectURL(blob)
+        setPreviewUrl((prev) => {
+          if (prev) URL.revokeObjectURL(prev)
+          return url
+        })
         const file = new File([blob], "recording.webm", { type: "video/webm" })
         await uploadFile(file)
       }
@@ -86,6 +106,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
       mediaRecorderRef.current.stop()
       setRecording(false)
       setShowRecordModal(false)
+      // Tracks will be stopped in recorder.onstop
     }
   }, [])
 
@@ -213,6 +234,26 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
               <p className="font-body text-sm text-[#94A3B8]">
                 {recording ? "Recording… (max 2 min). Click Stop when done." : "Allow camera and microphone, then click Start to record."}
               </p>
+
+              {/* Live preview + post-record preview */}
+              <div className="rounded-xl overflow-hidden bg-black border border-white/10 aspect-video">
+                {previewUrl ? (
+                  <video
+                    src={previewUrl}
+                    controls
+                    playsInline
+                    className="w-full h-full object-contain"
+                  />
+                ) : (
+                  <video
+                    ref={videoPreviewRef}
+                    autoPlay
+                    playsInline
+                    className="w-full h-full object-contain"
+                  />
+                )}
+              </div>
+
               <div className="flex gap-2">
                 {!recording ? (
                   <button

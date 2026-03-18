@@ -37,6 +37,40 @@ export function SwipeCard({
     velocityX: 0,
   })
 
+  // Simple swipe sound (no external audio files needed).
+  const playSwipeSound = useCallback((direction: "left" | "right") => {
+    try {
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext
+      if (!AudioCtx) return
+      const ctx = new AudioCtx()
+      const now = ctx.currentTime
+
+      // Right swipe = slightly higher pitch, left swipe = lower pitch.
+      const baseFreq = direction === "right" ? 740 : 520
+      const osc = ctx.createOscillator()
+      const gain = ctx.createGain()
+
+      osc.type = "triangle"
+      osc.frequency.setValueAtTime(baseFreq, now)
+      osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.15, now + 0.08)
+
+      gain.gain.setValueAtTime(0.0001, now)
+      gain.gain.exponentialRampToValueAtTime(0.18, now + 0.01)
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.14)
+
+      osc.connect(gain)
+      gain.connect(ctx.destination)
+
+      osc.start(now)
+      osc.stop(now + 0.16)
+
+      // Cleanup context after playback.
+      setTimeout(() => { ctx.close().catch(() => {}) }, 220)
+    } catch {
+      // No-op: sound is optional and should never break swipe UX.
+    }
+  }, [])
+
   /* ── update card visuals directly on the DOM ────────────────── */
   const applyTransform = (x: number, y: number) => {
     const card = cardRef.current
@@ -66,10 +100,11 @@ export function SwipeCard({
 
     setTimeout(() => {
       drag.current.leaving = false
+      playSwipeSound(direction)
       if (direction === "right") onSwipeRight()
       else onSwipeLeft()
     }, 380)
-  }, [onSwipeLeft, onSwipeRight])
+  }, [onSwipeLeft, onSwipeRight, playSwipeSound])
 
   /* ── spring back to centre ──────────────────────────────────── */
   const snapBack = () => {
