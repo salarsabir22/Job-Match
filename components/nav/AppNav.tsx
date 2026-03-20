@@ -1,16 +1,16 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 import {
   Layers, Heart, Bookmark, MessageCircle, User, Briefcase,
   Users, Building2, Hash, Zap, LogOut, LayoutDashboard,
   ChevronRight,
-  Bell,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { createClient } from "@/lib/supabase/client"
 import type { UserRole } from "@/types"
+import { NotificationBell } from "@/components/nav/NotificationBell"
 
 const studentLinks = [
   { href: "/discover",  icon: Layers,       label: "Discover",  desc: "Browse jobs" },
@@ -40,12 +40,10 @@ interface AppNavProps {
   fullName?: string | null
   email?:    string | null
   avatarUrl?: string | null
-  unreadNotificationCount?: number
 }
 
-export function AppNav({ role, fullName, email, avatarUrl, unreadNotificationCount = 0 }: AppNavProps) {
+export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
   const pathname = usePathname()
-  const router = useRouter()
   const links = role === "student" ? studentLinks : role === "recruiter" ? recruiterLinks : adminLinks
 
   const handleSignOut = async () => {
@@ -166,22 +164,7 @@ export function AppNav({ role, fullName, email, avatarUrl, unreadNotificationCou
           </span>
         </Link>
         <div className="flex items-center gap-2">
-          <Link
-            href="/notifications"
-            onClick={(e) => {
-              e.preventDefault()
-              router.push("/notifications")
-            }}
-            className="relative z-50 pointer-events-auto h-8 w-8 rounded-lg border border-white/10 text-[#94A3B8] hover:text-[#F7931A] hover:border-[#F7931A]/40 transition-all flex items-center justify-center"
-            title="Notifications"
-          >
-            <Bell className="h-4 w-4" />
-            {unreadNotificationCount > 0 && (
-              <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-[#F7931A] text-[#030304] font-data text-[9px] leading-4 text-center">
-                {unreadNotificationCount > 99 ? "99+" : unreadNotificationCount}
-              </span>
-            )}
-          </Link>
+          <NotificationBell />
           <button
             onClick={handleSignOut}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[#94A3B8] hover:text-red-400 hover:bg-red-400/10 font-body text-xs font-medium transition-all duration-200 border border-white/8"
