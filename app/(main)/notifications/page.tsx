@@ -85,7 +85,7 @@ export default function NotificationsPage() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="font-heading font-bold text-2xl text-black flex items-center gap-2">
-            <Bell className="h-5 w-5 text-[#FAFAFA]" />
+            <Bell className="h-5 w-5 text-neutral-900" />
             Notifications
           </h1>
           <p className="font-data text-[11px] tracking-widest uppercase text-neutral-700 mt-1">
@@ -96,7 +96,7 @@ export default function NotificationsPage() {
 
       {loading ? (
         <div className="flex items-center justify-center py-24">
-          <Loader2 className="h-8 w-8 animate-spin text-[#FAFAFA]" />
+          <Loader2 className="h-8 w-8 animate-spin text-neutral-900" />
         </div>
       ) : items.length === 0 ? (
         <div className="rounded-2xl bg-white border border-black/10 p-6 text-center">
@@ -125,7 +125,7 @@ export default function NotificationsPage() {
                 </div>
                 <div className="shrink-0 flex items-center gap-2">
                   {!n.is_read ? (
-                    <CheckCircle className="h-4 w-4 text-[#FAFAFA]" />
+                    <CheckCircle className="h-4 w-4 text-neutral-900" />
                   ) : (
                     <XCircle className="h-4 w-4 text-neutral-700" />
                   )}

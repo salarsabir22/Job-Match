@@ -28,7 +28,7 @@ export default async function AdminRecruitersPage() {
 
       {pending > 0 && (
         <div className="p-4 rounded-xl bg-[#FAFAFA]/10 border border-[#FAFAFA]/25">
-          <p className="font-data text-[11px] tracking-widest uppercase text-[#FAFAFA]">
+          <p className="font-data text-[11px] tracking-widest uppercase text-neutral-900">
             {pending} recruiter{pending > 1 ? "s" : ""} awaiting approval
           </p>
         </div>
@@ -38,7 +38,7 @@ export default async function AdminRecruitersPage() {
         {!recruiters?.length ? (
           <div className="text-center py-16">
             <div className="w-14 h-14 rounded-2xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center mx-auto mb-4">
-              <Building2 className="h-7 w-7 text-[#FAFAFA]" />
+              <Building2 className="h-7 w-7 text-neutral-900" />
             </div>
             <p className="font-body text-neutral-700 text-sm">No recruiter profiles yet</p>
           </div>
@@ -46,7 +46,7 @@ export default async function AdminRecruitersPage() {
           <div key={recruiter.id} className="rounded-xl bg-white border border-black/10 p-4 space-y-3">
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shrink-0 shadow-[0_0_12px_-3px_rgba(255,255,255,0.4)]">
+                <div className="h-12 w-12 rounded-xl bg-neutral-200 flex items-center justify-center shrink-0 shadow-[0_0_12px_-3px_rgba(255,255,255,0.4)]">
                   {recruiter.logo_url ? (
                     <img src={recruiter.logo_url} className="h-full w-full rounded-xl object-cover" alt="" />
                   ) : (

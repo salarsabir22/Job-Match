@@ -45,7 +45,7 @@ function PhoneFrame({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative mx-auto" style={{ width: 272, height: 556 }}>
       {/* Outer shell */}
-      <div className="absolute inset-0 rounded-[44px] bg-gradient-to-b from-[#1C1F26] to-[#0D0F13] border border-black/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.95),0_0_0_1px_rgba(255,255,255,0.05),inset_0_1px_0_rgba(255,255,255,0.08)]" />
+      <div className="absolute inset-0 rounded-[44px] bg-[#0D0F13] border border-black/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.95),0_0_0_1px_rgba(255,255,255,0.05),inset_0_1px_0_rgba(255,255,255,0.08)]" />
       {/* Side buttons */}
       <div className="absolute -right-[3px] top-24 w-[3px] h-8 rounded-r-sm bg-[#2A2D35]" />
       <div className="absolute -left-[3px] top-20 w-[3px] h-6 rounded-l-sm bg-[#2A2D35]" />
@@ -108,7 +108,7 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
         <div className="flex items-center gap-2">
           <div className="relative">
             <div className="w-8 h-8 rounded-xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/25 flex items-center justify-center">
-              <Bell className="h-3.5 w-3.5 text-[#FAFAFA]" />
+              <Bell className="h-3.5 w-3.5 text-neutral-900" />
             </div>
             <div className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-red-500 border border-[#07090C] flex items-center justify-center">
               <span className="font-data text-[7px] text-black font-bold">3</span>
@@ -121,7 +121,7 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
       <div className="flex-1 relative mx-4 mb-3">
         {/* Back card (peeking) */}
         <div className="absolute inset-x-3 top-2 bottom-0 rounded-3xl border border-black/10 overflow-hidden"
-          style={{ background: `linear-gradient(135deg, ${back.accentBg}, #0D0F13)`, transform: "scale(0.95) translateY(6px)", zIndex: 1 }}>
+          style={{ background: back.accentBg, transform: "scale(0.95) translateY(6px)", zIndex: 1 }}>
           <div className="p-4 pt-5">
             <div className="w-9 h-9 rounded-2xl border border-black/10 flex items-center justify-center mb-2"
               style={{ background: back.accentBg }}>
@@ -134,17 +134,17 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
 
         {/* Front card */}
         <div className="absolute inset-0 rounded-3xl border border-black/10 overflow-hidden flex flex-col"
-          style={{ background: `linear-gradient(145deg, ${card.accentBg} 0%, #0D0F13 55%)`, boxShadow: `0 24px 48px -10px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06), 0 0 40px -15px ${card.accent}40`, zIndex: 2 }}>
+          style={{ background: card.accentBg, boxShadow: `0 24px 48px -10px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06), 0 0 40px -15px ${card.accent}40`, zIndex: 2 }}>
 
           {/* Card top accent bar */}
-          <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, ${card.accent}, transparent)` }} />
+          <div className="h-1 w-full" style={{ background: card.accent }} />
 
           <div className="flex-1 p-4 flex flex-col">
             {/* Company row */}
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center gap-2.5">
                 <div className="w-11 h-11 rounded-2xl border border-black/10 flex items-center justify-center shrink-0"
-                  style={{ background: `linear-gradient(135deg, ${card.accentBg}, #0D0F13)`, boxShadow: `0 0 20px -5px ${card.accent}50` }}>
+                  style={{ background: card.accentBg, boxShadow: `0 0 20px -5px ${card.accent}50` }}>
                   <Briefcase className="h-5 w-5" style={{ color: card.accent === "#000000" ? "#94A3B8" : card.accent }} />
                 </div>
                 <div>
@@ -192,7 +192,7 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
               <X className="h-4.5 w-4.5 text-neutral-500" style={{ width: 18, height: 18 }} />
             </button>
             <button className="w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_24px_-4px_rgba(255,255,255,0.7)]"
-              style={{ background: `linear-gradient(135deg, #525252, #FAFAFA)` }}>
+              style={{ background: `#525252` }}>
               <Heart className="h-6 w-6 text-black fill-white" />
             </button>
             <button className="w-11 h-11 rounded-full flex items-center justify-center border border-neutral-500/30 bg-neutral-500/10 shadow-[0_0_12px_-4px_rgba(255,255,255,0.4)]">
@@ -210,7 +210,7 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
         </div>
         <div className="w-1 h-1 rounded-full bg-white/10" />
         <div className="flex items-center gap-1.5 text-[#334155]">
-          <Heart className="h-3 w-3 text-[#FAFAFA]/50" />
+          <Heart className="h-3 w-3 text-neutral-900/50" />
           <span className="font-body text-[10px]">Like</span>
         </div>
         <div className="w-1 h-1 rounded-full bg-white/10" />
@@ -231,23 +231,23 @@ function StudentMatchScreen() {
         <div key={i} className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#FAFAFA] opacity-[0.08] animate-ping"
           style={{ width: size, height: size, animationDelay: `${i * 0.4}s`, animationDuration: "2.5s" }} />
       ))}
-      <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-[#FAFAFA]/12 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-48 bg-neutral-100/80" />
 
       <div className="flex-1 flex flex-col items-center justify-center px-5 relative z-10">
         {/* Avatars */}
         <div className="flex items-center gap-0 mb-5">
-          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] border-[3px] border-[#07090C] flex items-center justify-center shadow-[0_0_20px_-4px_rgba(255,255,255,0.6)] z-10">
+          <div className="w-16 h-16 rounded-full bg-neutral-200 border-[3px] border-[#07090C] flex items-center justify-center shadow-[0_0_20px_-4px_rgba(255,255,255,0.6)] z-10">
             <GraduationCap className="h-8 w-8 text-black" />
           </div>
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] border-2 border-[#07090C] flex items-center justify-center -mx-1 z-20 shadow-[0_0_16px_-4px_rgba(255,255,255,0.8)]">
+          <div className="w-9 h-9 rounded-full bg-neutral-200 border-2 border-[#07090C] flex items-center justify-center -mx-1 z-20 shadow-[0_0_16px_-4px_rgba(255,255,255,0.8)]">
             <Heart className="h-4 w-4 text-black fill-white" />
           </div>
-          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#635BFF] to-[#4338CA] border-[3px] border-[#07090C] flex items-center justify-center shadow-[0_0_20px_-4px_rgba(99,91,255,0.5)] z-10">
+          <div className="w-16 h-16 rounded-full bg-neutral-700 border-[3px] border-[#07090C] flex items-center justify-center shadow-md z-10">
             <Building2 className="h-8 w-8 text-black" />
           </div>
         </div>
 
-        <div className="font-data text-[10px] tracking-[0.2em] uppercase text-[#FAFAFA] mb-1.5 bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 rounded-full px-3 py-0.5">
+        <div className="font-data text-[10px] tracking-[0.2em] uppercase text-neutral-900 mb-1.5 bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 rounded-full px-3 py-0.5">
           New Match
         </div>
         <h3 className="font-heading font-bold text-2xl text-black mb-1">It&apos;s a Match!</h3>
@@ -268,7 +268,7 @@ function StudentMatchScreen() {
         </div>
 
         <button className="w-full h-10 rounded-2xl text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] mb-2.5"
-          style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)" }}>
+          style={{ background: "#525252" }}>
           💬 Send a Message
         </button>
         <button className="w-full h-10 rounded-2xl border border-black/10 text-[#64748B] font-body text-sm">
@@ -290,7 +290,7 @@ function StudentChatScreen() {
   return (
     <div className="h-full flex flex-col bg-[#07090C]">
       <div className="flex items-center gap-3 px-4 pt-10 pb-3 border-b border-black/10">
-        <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-[#635BFF] to-[#4338CA] flex items-center justify-center shrink-0">
+        <div className="w-9 h-9 rounded-2xl bg-neutral-700 flex items-center justify-center shrink-0">
           <Building2 className="h-4.5 w-4.5 text-black" style={{ width: 18, height: 18 }} />
         </div>
         <div className="flex-1">
@@ -301,14 +301,14 @@ function StudentChatScreen() {
           </div>
         </div>
         <div className="w-7 h-7 rounded-xl bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 flex items-center justify-center">
-          <Briefcase className="h-3.5 w-3.5 text-[#FAFAFA]" />
+          <Briefcase className="h-3.5 w-3.5 text-neutral-900" />
         </div>
       </div>
       <div className="flex-1 px-3 py-3 space-y-2 overflow-hidden flex flex-col justify-end">
         {msgs.map((m, i) => (
           <div key={i} className={cn("flex items-end gap-2", m.from === "me" ? "justify-end" : "justify-start")}>
             {m.from === "them" && (
-              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#635BFF] to-[#4338CA] flex items-center justify-center shrink-0 mb-0.5">
+              <div className="w-5 h-5 rounded-full bg-neutral-700 flex items-center justify-center shrink-0 mb-0.5">
                 <Building2 className="h-3 w-3 text-black" />
               </div>
             )}
@@ -317,7 +317,7 @@ function StudentChatScreen() {
               m.from === "me"
                 ? "rounded-2xl rounded-br-sm text-black shadow-[0_4px_12px_-3px_rgba(255,255,255,0.3)]"
                 : "rounded-2xl rounded-bl-sm bg-white/6 text-neutral-700"
-            )} style={m.from === "me" ? { background: "linear-gradient(135deg, #525252, #FAFAFA)" } : {}}>
+            )} style={m.from === "me" ? { background: "#525252" } : {}}>
               {m.text}
             </div>
           </div>
@@ -327,7 +327,7 @@ function StudentChatScreen() {
         <div className="flex items-center gap-2 bg-white/5 border border-black/10 rounded-2xl px-3 py-2.5">
           <span className="font-body text-[11px] text-[#1E293B] flex-1">Message Sarah…</span>
           <div className="w-7 h-7 rounded-xl flex items-center justify-center shadow-[0_0_10px_-2px_rgba(255,255,255,0.4)]"
-            style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)" }}>
+            style={{ background: "#525252" }}>
             <Send className="h-3.5 w-3.5 text-black" />
           </div>
         </div>
@@ -339,10 +339,10 @@ function StudentChatScreen() {
 function StudentProfileScreen() {
   return (
     <div className="h-full flex flex-col bg-[#07090C]">
-      <div className="h-28 relative" style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.08))" }}>
+      <div className="h-28 relative bg-neutral-100">
         <div className="absolute inset-x-0 top-8 flex items-center justify-center">
           <div className="w-16 h-16 rounded-2xl border-[3px] border-[#07090C] flex items-center justify-center shadow-[0_0_20px_-5px_rgba(255,255,255,0.6)]"
-            style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)" }}>
+            style={{ background: "#525252" }}>
             <GraduationCap className="h-8 w-8 text-black" />
           </div>
         </div>
@@ -353,12 +353,12 @@ function StudentProfileScreen() {
           <p className="font-body text-[10px] text-[#4A5568]">B.Sc. Computer Science · MIT · 2026</p>
           <div className="flex items-center justify-center gap-1.5 mt-2">
             {["React", "Python", "Node.js", "+4"].map(s => (
-              <span key={s} className="font-data text-[9px] px-1.5 py-0.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-[#FAFAFA]">{s}</span>
+              <span key={s} className="font-data text-[9px] px-1.5 py-0.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-neutral-900">{s}</span>
             ))}
           </div>
         </div>
         <div className="grid grid-cols-3 gap-2 mb-3">
-          {[{ l: "Matches", v: "12", c: "text-[#FAFAFA]" }, { l: "Views", v: "84", c: "text-neutral-400" }, { l: "Score", v: "94%", c: "text-neutral-400" }].map(({ l, v, c }) => (
+          {[{ l: "Matches", v: "12", c: "text-neutral-900" }, { l: "Views", v: "84", c: "text-neutral-400" }, { l: "Score", v: "94%", c: "text-neutral-400" }].map(({ l, v, c }) => (
             <div key={l} className="bg-white/4 border border-black/10 rounded-2xl p-2 text-center">
               <p className={cn("font-heading font-bold text-base", c)}>{v}</p>
               <p className="font-data text-[9px] text-[#4A5568]">{l}</p>
@@ -368,7 +368,7 @@ function StudentProfileScreen() {
         <p className="font-data text-[9px] tracking-wider uppercase text-[#334155] mb-2">Activity</p>
         <div className="space-y-1.5">
           {[
-            { icon: Heart, text: "Stripe liked your profile", t: "2m ago", c: "text-[#FAFAFA]", bg: "bg-[#FAFAFA]/10" },
+            { icon: Heart, text: "Stripe liked your profile", t: "2m ago", c: "text-neutral-900", bg: "bg-[#FAFAFA]/10" },
             { icon: MessageCircle, text: "New message from Notion", t: "1h ago", c: "text-neutral-400", bg: "bg-neutral-500/10" },
             { icon: TrendingUp, text: "Profile views +23% this week", t: "Today", c: "text-neutral-400", bg: "bg-neutral-500/10" },
           ].map(({ icon: Icon, text, t, c, bg }) => (
@@ -430,9 +430,9 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
         {/* Back card */}
         <div className="absolute inset-x-3 top-2 bottom-0 rounded-3xl border border-black/10 bg-[#0D0F13] overflow-hidden"
           style={{ transform: "scale(0.95) translateY(6px)", zIndex: 1 }}>
-          <div className="h-16 bg-gradient-to-br from-[#1E293B] to-[#0D0F13]" />
+          <div className="h-16 bg-[#0D0F13]" />
           <div className="px-3 -mt-6">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#334155] to-[#1E293B] border-2 border-[#0D0F13] flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full bg-neutral-800 border-2 border-[#0D0F13] flex items-center justify-center">
               <span className="font-heading font-bold text-base text-black/40">{back.name[0]}</span>
             </div>
             <p className="font-heading font-semibold text-sm text-black/40 mt-2">{back.name}</p>
@@ -445,8 +445,8 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
           style={{ background: "#0D0F13", boxShadow: `0 24px 48px -10px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06), 0 0 40px -20px ${card.accent}40`, zIndex: 2 }}>
 
           {/* Cover */}
-          <div className="relative h-[90px] shrink-0" style={{ background: `linear-gradient(135deg, ${card.accent}20, #0D0F13)` }}>
-            <div className="absolute inset-x-0 bottom-0 h-px" style={{ background: `linear-gradient(90deg, ${card.accent}40, transparent)` }} />
+          <div className="relative h-[90px] shrink-0" style={{ background: "#0D0F13" }}>
+            <div className="absolute inset-x-0 bottom-0 h-px bg-black/20" />
             {/* School badge */}
             <div className="absolute top-3 right-3 bg-white/40 border border-black/10 rounded-xl px-2 py-1 flex items-center gap-1.5 backdrop-blur-sm">
               <GraduationCap className="h-3 w-3 text-neutral-700" />
@@ -457,7 +457,7 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
           {/* Avatar overlapping cover */}
           <div className="px-4 -mt-7 mb-2 flex items-end gap-3">
             <div className="w-14 h-14 rounded-2xl border-[3px] border-[#0D0F13] flex items-center justify-center shrink-0 shadow-[0_8px_20px_-6px_rgba(0,0,0,0.6)]"
-              style={{ background: `linear-gradient(135deg, ${card.accent}60, ${card.accent}20)` }}>
+              style={{ background: `${card.accent}40` }}>
               <span className="font-heading font-bold text-xl text-black">{card.name[0]}</span>
             </div>
             <div className="mb-1 flex-1">
@@ -507,7 +507,7 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
               <X className="h-[18px] w-[18px] text-neutral-500" />
             </button>
             <button className="w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_24px_-4px_rgba(255,255,255,0.7)]"
-              style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)" }}>
+              style={{ background: "#525252" }}>
               <Heart className="h-6 w-6 text-black fill-white" />
             </button>
             <button className="w-11 h-11 rounded-full flex items-center justify-center border border-neutral-500/30 bg-neutral-500/10">
@@ -520,7 +520,7 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
       <div className="flex items-center justify-center gap-4 pb-8 pt-1">
         <span className="font-body text-[10px] text-[#1E293B]">Pass</span>
         <div className="w-1 h-1 rounded-full bg-white/8" />
-        <span className="font-body text-[10px] text-[#FAFAFA]/40">Interested</span>
+        <span className="font-body text-[10px] text-neutral-900/40">Interested</span>
         <div className="w-1 h-1 rounded-full bg-white/8" />
         <span className="font-body text-[10px] text-[#1E293B]">Super like</span>
       </div>
@@ -535,20 +535,20 @@ function RecruiterMatchScreen() {
         <div key={i} className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-neutral-500 opacity-[0.06] animate-ping"
           style={{ width: size, height: size, animationDelay: `${i * 0.5}s`, animationDuration: "2.5s" }} />
       ))}
-      <div className="absolute inset-0 bg-gradient-to-b from-neutral-500/8 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-neutral-100/40" />
 
       <div className="flex-1 flex flex-col items-center justify-center px-5 relative z-10">
         <div className="flex items-center gap-0 mb-4">
           <div className="w-16 h-16 rounded-2xl border-[3px] border-[#07090C] flex items-center justify-center shadow-[0_0_20px_-4px_rgba(34,197,94,0.4)] z-10"
-            style={{ background: "linear-gradient(135deg, rgba(34,197,94,0.6), rgba(34,197,94,0.2))" }}>
+            style={{ background: "rgba(34,197,94,0.35)" }}>
             <span className="font-heading font-bold text-xl text-black">A</span>
           </div>
           <div className="w-9 h-9 rounded-full border-2 border-[#07090C] flex items-center justify-center -mx-1 z-20"
-            style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)", boxShadow: "0 0 16px -4px rgba(255,255,255,0.8)" }}>
+            style={{ background: "#525252", boxShadow: "0 0 16px -4px rgba(255,255,255,0.8)" }}>
             <Heart className="h-4 w-4 text-black fill-white" />
           </div>
           <div className="w-16 h-16 rounded-2xl border-[3px] border-[#07090C] flex items-center justify-center z-10"
-            style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)", boxShadow: "0 0 20px -4px rgba(255,255,255,0.5)" }}>
+            style={{ background: "#525252", boxShadow: "0 0 20px -4px rgba(255,255,255,0.5)" }}>
             <Building2 className="h-8 w-8 text-black" />
           </div>
         </div>
@@ -574,7 +574,7 @@ function RecruiterMatchScreen() {
         </div>
 
         <button className="w-full h-10 rounded-2xl text-black font-body font-semibold text-sm mb-2.5"
-          style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)" }}>
+          style={{ background: "#525252" }}>
           💬 Start Interview
         </button>
         <button className="w-full h-10 rounded-2xl border border-black/10 text-[#64748B] font-body text-sm">
@@ -601,7 +601,7 @@ function RecruiterPipelineScreen() {
 
       {/* Stats row */}
       <div className="grid grid-cols-3 gap-2 px-4 mb-3">
-        {[{ l: "Total", v: "34", c: "text-black" }, { l: "Interviews", v: "6", c: "text-[#FAFAFA]" }, { l: "Hired", v: "2", c: "text-neutral-400" }].map(({ l, v, c }) => (
+        {[{ l: "Total", v: "34", c: "text-black" }, { l: "Interviews", v: "6", c: "text-neutral-900" }, { l: "Hired", v: "2", c: "text-neutral-400" }].map(({ l, v, c }) => (
           <div key={l} className="bg-white/4 border border-black/10 rounded-2xl py-2.5 text-center">
             <p className={cn("font-heading font-bold text-lg", c)}>{v}</p>
             <p className="font-data text-[9px] text-[#334155]">{l}</p>
@@ -621,7 +621,7 @@ function RecruiterPipelineScreen() {
               <p className="font-body text-[10px] text-[#4A5568] truncate">{c.uni} · {c.role}</p>
             </div>
             <div className="text-right shrink-0">
-              <p className="font-data text-[10px] text-[#FAFAFA] font-bold">{c.match}%</p>
+              <p className="font-data text-[10px] text-neutral-900 font-bold">{c.match}%</p>
               <div className="flex items-center gap-1 justify-end">
                 <div className={cn("w-1.5 h-1.5 rounded-full", c.dot)} />
                 <span className="font-data text-[9px] text-[#334155]">{c.status}</span>
@@ -632,7 +632,7 @@ function RecruiterPipelineScreen() {
         ))}
       </div>
       <div className="pb-8 pt-2 px-4">
-        <button className="w-full h-9 rounded-2xl border border-[#FAFAFA]/25 text-[#FAFAFA] font-body text-xs"
+        <button className="w-full h-9 rounded-2xl border border-[#FAFAFA]/25 text-neutral-900 font-body text-xs"
           style={{ background: "rgba(255,255,255,0.06)" }}>
           + Post Another Job
         </button>
@@ -663,8 +663,8 @@ function RecruiterChatScreen() {
           </div>
         </div>
         <div className="flex items-center gap-1 bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 rounded-xl px-2 py-1">
-          <Star className="h-3 w-3 text-[#FAFAFA]" />
-          <span className="font-data text-[9px] text-[#FAFAFA]">Top</span>
+          <Star className="h-3 w-3 text-neutral-900" />
+          <span className="font-data text-[9px] text-neutral-900">Top</span>
         </div>
       </div>
       <div className="flex-1 px-3 py-3 space-y-2 overflow-hidden flex flex-col justify-end">
@@ -680,7 +680,7 @@ function RecruiterChatScreen() {
               m.from === "me"
                 ? "rounded-2xl rounded-br-sm text-black"
                 : "rounded-2xl rounded-bl-sm bg-white/6 text-neutral-700"
-            )} style={m.from === "me" ? { background: "linear-gradient(135deg, #525252, #FAFAFA)" } : {}}>
+            )} style={m.from === "me" ? { background: "#525252" } : {}}>
               {m.text}
             </div>
           </div>
@@ -690,7 +690,7 @@ function RecruiterChatScreen() {
         <div className="flex items-center gap-2 bg-white/5 border border-black/10 rounded-2xl px-3 py-2.5">
           <span className="font-body text-[11px] text-[#1E293B] flex-1">Message Alex…</span>
           <div className="w-7 h-7 rounded-xl flex items-center justify-center"
-            style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)" }}>
+            style={{ background: "#525252" }}>
             <Send className="h-3.5 w-3.5 text-black" />
           </div>
         </div>
@@ -765,7 +765,7 @@ function ProductDemo({ role }: { role: UserRole | null }) {
     <div className="h-full flex flex-col items-center justify-center gap-4 relative py-6 px-4 overflow-hidden">
       {/* Ambient glow behind phone */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full blur-[80px] opacity-20 pointer-events-none"
-        style={{ background: isRecruiter ? "radial-gradient(circle, #D4D4D4, transparent)" : "radial-gradient(circle, #FAFAFA, transparent)" }} />
+        style={{ background: isRecruiter ? "#f5f5f5" : "#fafafa" }} />
 
       {/* Screen label */}
       <div className="text-center space-y-1 relative z-10">
@@ -998,7 +998,7 @@ export default function OnboardingPage() {
   if (!role) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-white gap-3">
-        <Loader2 className="h-8 w-8 animate-spin text-[#FAFAFA]" />
+        <Loader2 className="h-8 w-8 animate-spin text-neutral-900" />
         <p className="font-body text-sm text-neutral-700">Loading your profile…</p>
       </div>
     )
@@ -1014,7 +1014,7 @@ export default function OnboardingPage() {
       {/* ── Top bar ── */}
       <header className="relative z-10 flex items-center justify-between px-6 py-4 border-b border-black/10">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)]">
+          <div className="w-8 h-8 rounded-xl bg-neutral-200 flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)]">
             <Zap className="w-4 h-4 text-black" strokeWidth={2.5} />
           </div>
           <span className="font-heading font-bold text-base text-black tracking-tight">
@@ -1040,7 +1040,7 @@ export default function OnboardingPage() {
             <p className="font-body text-xs text-neutral-700 font-medium">{currentStep.title}</p>
           </div>
           <div className="w-8 h-8 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/25 flex items-center justify-center">
-            <span className="font-data text-[11px] font-bold text-[#FAFAFA]">{progress}%</span>
+            <span className="font-data text-[11px] font-bold text-neutral-900">{progress}%</span>
           </div>
         </div>
       </header>
@@ -1057,12 +1057,12 @@ export default function OnboardingPage() {
               <div key={i} className="flex items-center gap-1.5 shrink-0">
                 <div className={cn(
                   "flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-data tracking-wider transition-all",
-                  i < step ? "text-[#FAFAFA]/70"
-                    : i === step ? "bg-[#FAFAFA]/12 border border-[#FAFAFA]/35 text-[#FAFAFA]"
+                  i < step ? "text-neutral-900/70"
+                    : i === step ? "bg-[#FAFAFA]/12 border border-[#FAFAFA]/35 text-neutral-900"
                       : "text-[#334155]"
                 )}>
                   {i < step
-                    ? <CheckCircle2 className="h-3 w-3 text-[#FAFAFA]" />
+                    ? <CheckCircle2 className="h-3 w-3 text-neutral-900" />
                     : i === step
                       ? <span className="h-1.5 w-1.5 rounded-full bg-[#FAFAFA] animate-pulse" />
                       : <span className="h-1.5 w-1.5 rounded-full bg-white/10" />}
@@ -1078,7 +1078,7 @@ export default function OnboardingPage() {
             {/* Card header */}
             <div className="flex items-start gap-3 px-6 py-5 border-b border-black/10">
               <div className="w-10 h-10 rounded-xl bg-[#FAFAFA]/12 border border-[#FAFAFA]/25 flex items-center justify-center shrink-0">
-                {role === "student" ? <GraduationCap className="h-5 w-5 text-[#FAFAFA]" /> : <Building2 className="h-5 w-5 text-[#FAFAFA]" />}
+                {role === "student" ? <GraduationCap className="h-5 w-5 text-neutral-900" /> : <Building2 className="h-5 w-5 text-neutral-900" />}
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
@@ -1108,7 +1108,7 @@ export default function OnboardingPage() {
                             ? <img src={avatarPreview} alt="Avatar" className="h-full w-full object-cover" />
                             : <ImageIcon className="h-7 w-7 text-[#1E293B]" />}
                         </div>
-                        <label className="absolute -bottom-1.5 -right-1.5 h-7 w-7 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] flex items-center justify-center cursor-pointer shadow-[0_0_10px_-2px_rgba(255,255,255,0.5)] hover:scale-110 transition-transform">
+                        <label className="absolute -bottom-1.5 -right-1.5 h-7 w-7 rounded-full bg-black text-white flex items-center justify-center cursor-pointer shadow-[0_0_10px_-2px_rgba(255,255,255,0.5)] hover:scale-110 transition-transform">
                           <Plus className="h-3.5 w-3.5 text-black" />
                           <input type="file" accept="image/*" className="hidden" onChange={(e) => {
                             const f = e.target.files?.[0]
@@ -1119,7 +1119,7 @@ export default function OnboardingPage() {
                       <div>
                         <p className="font-body text-sm text-black font-medium">Add a profile photo</p>
                         <p className="font-body text-xs text-[#334155] mt-0.5">JPG, PNG or GIF · Max 5MB</p>
-                        <p className="font-body text-[11px] text-[#FAFAFA]/60 mt-1">3× more views with a photo</p>
+                        <p className="font-body text-[11px] text-neutral-900/60 mt-1">3× more views with a photo</p>
                       </div>
                     </div>
                   </div>
@@ -1183,14 +1183,14 @@ export default function OnboardingPage() {
                         onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addSkill(skillInput) } }}
                       />
                       <button type="button" onClick={() => addSkill(skillInput)} disabled={!skillInput.trim()}
-                        className="h-11 w-11 rounded-xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-[#FAFAFA] hover:bg-[#FAFAFA]/25 transition-colors flex-shrink-0 flex items-center justify-center disabled:opacity-40">
+                        className="h-11 w-11 rounded-xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-neutral-900 hover:bg-[#FAFAFA]/25 transition-colors flex-shrink-0 flex items-center justify-center disabled:opacity-40">
                         <Plus className="h-4 w-4" />
                       </button>
                     </div>
                     <div className="flex flex-wrap gap-1.5 mt-2">
                       {SKILL_SUGGESTIONS.filter(s => !skills.includes(s)).slice(0, 8).map(s => (
                         <button key={s} type="button" onClick={() => addSkill(s)}
-                          className="text-xs px-2.5 py-1 rounded-full border border-dashed border-black/10 text-[#334155] hover:border-[#FAFAFA]/40 hover:text-[#FAFAFA] transition-all">
+                          className="text-xs px-2.5 py-1 rounded-full border border-dashed border-black/10 text-[#334155] hover:border-[#FAFAFA]/40 hover:text-black transition-all">
                           + {s}
                         </button>
                       ))}
@@ -1198,7 +1198,7 @@ export default function OnboardingPage() {
                     {skills.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 mt-2.5">
                         {skills.map(s => (
-                          <span key={s} className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-[#FAFAFA]/12 border border-[#FAFAFA]/25 text-[#FAFAFA]">
+                          <span key={s} className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-[#FAFAFA]/12 border border-[#FAFAFA]/25 text-neutral-900">
                             {s}
                             <button onClick={() => setSkills(skills.filter(sk => sk !== s))} className="hover:text-black transition-colors ml-0.5">
                               <X className="h-3 w-3" />
@@ -1218,7 +1218,7 @@ export default function OnboardingPage() {
                           onClick={() => setPreferredCategories(prev => prev.includes(c) ? prev.filter(x => x !== c) : [...prev, c])}
                           className={cn("text-xs px-2.5 py-1 rounded-full border transition-all duration-200",
                             preferredCategories.includes(c)
-                              ? "bg-[#FAFAFA]/18 border-[#FAFAFA]/50 text-[#FAFAFA]"
+                              ? "bg-[#FAFAFA]/18 border-[#FAFAFA]/50 text-neutral-900"
                               : "border-black/10 text-[#334155] hover:border-white/18 hover:text-neutral-700"
                           )}>
                           {c}
@@ -1253,7 +1253,7 @@ export default function OnboardingPage() {
                       resumeFile ? "border-[#FAFAFA]/40 bg-[#FAFAFA]/5" : "border-black/10 hover:border-[#FAFAFA]/25 hover:bg-[#FAFAFA]/3"
                     )}>
                       <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", resumeFile ? "bg-[#FAFAFA]/18" : "bg-white/4")}>
-                        <FileText className={cn("h-5 w-5", resumeFile ? "text-[#FAFAFA]" : "text-[#334155]")} />
+                        <FileText className={cn("h-5 w-5", resumeFile ? "text-neutral-900" : "text-[#334155]")} />
                       </div>
                       {resumeFile
                         ? <div><p className="font-body text-sm text-black font-medium">{resumeFile.name}</p><p className="font-body text-xs text-[#4A5568]">Click to replace</p></div>
@@ -1269,7 +1269,7 @@ export default function OnboardingPage() {
                       profileVideoFile ? "border-[#FAFAFA]/40 bg-[#FAFAFA]/5" : "border-black/10 hover:border-[#FAFAFA]/25 hover:bg-[#FAFAFA]/3"
                     )}>
                       <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", profileVideoFile ? "bg-[#FAFAFA]/18" : "bg-white/4")}>
-                        <Video className={cn("h-5 w-5", profileVideoFile ? "text-[#FAFAFA]" : "text-[#334155]")} />
+                        <Video className={cn("h-5 w-5", profileVideoFile ? "text-neutral-900" : "text-[#334155]")} />
                       </div>
                       {profileVideoFile
                         ? <div><p className="font-body text-sm text-black font-medium">{profileVideoFile.name}</p><p className="font-body text-xs text-[#4A5568]">Click to replace</p></div>
@@ -1345,7 +1345,7 @@ export default function OnboardingPage() {
                       profileVideoFile ? "border-[#FAFAFA]/40 bg-[#FAFAFA]/5" : "border-black/10 hover:border-[#FAFAFA]/25 hover:bg-[#FAFAFA]/3"
                     )}>
                       <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", profileVideoFile ? "bg-[#FAFAFA]/18" : "bg-white/4")}>
-                        <Video className={cn("h-5 w-5", profileVideoFile ? "text-[#FAFAFA]" : "text-[#334155]")} />
+                        <Video className={cn("h-5 w-5", profileVideoFile ? "text-neutral-900" : "text-[#334155]")} />
                       </div>
                       {profileVideoFile
                         ? <div><p className="font-body text-sm text-black font-medium">{profileVideoFile.name}</p><p className="font-body text-xs text-[#4A5568]">Click to replace</p></div>
@@ -1354,9 +1354,9 @@ export default function OnboardingPage() {
                     </label>
                   </div>
                   <div className="flex items-start gap-2.5 p-4 rounded-xl bg-[#FAFAFA]/6 border border-[#FAFAFA]/15">
-                    <Info className="h-4 w-4 text-[#FAFAFA] shrink-0 mt-0.5" />
+                    <Info className="h-4 w-4 text-neutral-900 shrink-0 mt-0.5" />
                     <div>
-                      <p className="font-data text-[10px] tracking-wider uppercase text-[#FAFAFA] mb-1">Pending Admin Approval</p>
+                      <p className="font-data text-[10px] tracking-wider uppercase text-neutral-900 mb-1">Pending Admin Approval</p>
                       <p className="font-body text-xs text-[#4A5568] leading-relaxed">
                         Your recruiter account will be reviewed before going live. Usually within 24 hours — you&apos;ll receive an email. You can explore the platform in the meantime.
                       </p>
@@ -1391,13 +1391,13 @@ export default function OnboardingPage() {
                       </button>
                     )}
                     <button type="button" onClick={() => { if (canProceed()) setStep(step + 1) }}
-                      className="flex-1 h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.35)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.5)] transition-all duration-300">
+                      className="flex-1 h-11 rounded-xl bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.35)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.5)] transition-all duration-300">
                       Continue →
                     </button>
                   </>
                 ) : (
                   <button type="button" onClick={handleComplete} disabled={loading || uploading}
-                    className="flex-1 h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.35)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.5)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-40 disabled:pointer-events-none flex items-center justify-center gap-2">
+                    className="flex-1 h-11 rounded-xl bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.35)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.5)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-40 disabled:pointer-events-none flex items-center justify-center gap-2">
                     {loading || uploading
                       ? <><Loader2 className="h-4 w-4 animate-spin" />{uploading ? "Uploading…" : "Saving…"}</>
                       : <><Zap className="h-4 w-4" /> Complete Setup</>}

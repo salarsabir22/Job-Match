@@ -42,7 +42,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
               <p className="font-body text-sm font-medium text-black leading-none">{fullName ?? user?.email?.split("@")[0]}</p>
               <p className="font-data text-[10px] tracking-wider uppercase text-neutral-700 mt-0.5 capitalize">{role}</p>
             </div>
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center text-black font-bold text-sm shadow-[0_0_12px_-2px_rgba(255,255,255,0.5)] shrink-0">
+            <div className="w-8 h-8 rounded-full bg-neutral-200 flex items-center justify-center text-black font-bold text-sm shadow-[0_0_12px_-2px_rgba(255,255,255,0.5)] shrink-0">
               {(fullName ?? user?.email ?? "?").charAt(0).toUpperCase()}
             </div>
           </div>

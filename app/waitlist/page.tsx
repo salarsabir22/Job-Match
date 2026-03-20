@@ -25,7 +25,7 @@ export default function WaitlistSuccessPage({ searchParams }: { searchParams?: {
               </Link>
               <Link
                 href="/auth/signup"
-                className="inline-flex items-center justify-center px-7 py-3.5 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm tracking-wide hover:scale-[1.01] transition-all duration-200"
+                className="inline-flex items-center justify-center px-7 py-3.5 rounded-full bg-black text-white font-body font-semibold text-sm tracking-wide hover:scale-[1.01] transition-all duration-200"
               >
                 Sign up
               </Link>

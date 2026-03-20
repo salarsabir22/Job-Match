@@ -175,7 +175,7 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
               <div className="flex items-start gap-3">
                 <Avatar className="h-11 w-11 border border-black/10">
                   <AvatarImage src={item.avatar_url || undefined} />
-                  <AvatarFallback className="bg-white text-[#FAFAFA] text-xs font-bold">
+                  <AvatarFallback className="bg-white text-neutral-900 text-xs font-bold">
                     {getInitials(item.full_name || "?")}
                   </AvatarFallback>
                 </Avatar>
@@ -201,7 +201,7 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
                       {item.skills.slice(0, 4).map((skill) => (
                         <span
                           key={skill}
-                          className="font-data text-[9px] tracking-wider px-1.5 py-0.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-[#FAFAFA]"
+                          className="font-data text-[9px] tracking-wider px-1.5 py-0.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-neutral-900"
                         >
                           {skill}
                         </span>
@@ -211,7 +211,7 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
 
                   <div className="flex items-center gap-2 mt-3">
                     {item.resume_url && (
-                      <a href={item.resume_url} target="_blank" rel="noreferrer" className="text-[#FAFAFA]">
+                      <a href={item.resume_url} target="_blank" rel="noreferrer" className="text-neutral-900">
                         <FileText className="h-3.5 w-3.5" />
                       </a>
                     )}
@@ -239,7 +239,7 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
                   type="button"
                   disabled={busyId === item.id}
                   onClick={() => void setDecision(item.id, "right")}
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body text-xs font-semibold disabled:opacity-60"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-black text-white font-body text-xs font-semibold disabled:opacity-60"
                 >
                   <Check className="h-3.5 w-3.5" /> Shortlist
                 </button>

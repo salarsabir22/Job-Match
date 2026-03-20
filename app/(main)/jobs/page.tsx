@@ -71,7 +71,7 @@ export default async function JobsPage() {
         </div>
         <Link
           href="/jobs/new"
-          className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-xs shadow-[0_0_15px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_25px_-5px_rgba(255,255,255,0.7)] transition-all duration-300"
+          className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-black text-white font-body font-semibold text-xs shadow-[0_0_15px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_25px_-5px_rgba(255,255,255,0.7)] transition-all duration-300"
         >
           <Plus className="h-3.5 w-3.5" />Post Job
         </Link>
@@ -118,7 +118,7 @@ export default async function JobsPage() {
             <div className="rounded-xl bg-white border border-black/10 p-4">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <BarChart2 className="h-4 w-4 text-[#FAFAFA]" />
+                  <BarChart2 className="h-4 w-4 text-neutral-900" />
                   <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700">Recruitment Funnel</p>
                 </div>
                 <p className="font-data text-[10px] text-neutral-700">All-time</p>
@@ -150,7 +150,7 @@ export default async function JobsPage() {
       {!jobs?.length ? (
         <div className="flex flex-col items-center justify-center py-20 text-center space-y-5">
           <div className="w-16 h-16 rounded-2xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
-            <Briefcase className="h-8 w-8 text-[#FAFAFA]" />
+            <Briefcase className="h-8 w-8 text-neutral-900" />
           </div>
           <div>
             <h3 className="font-heading font-semibold text-lg text-black">No jobs posted yet</h3>
@@ -160,7 +160,7 @@ export default async function JobsPage() {
           </div>
           <Link
             href="/jobs/new"
-            className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300"
+            className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300"
           >
             <Plus className="h-4 w-4" />Post Your First Job
           </Link>
@@ -176,7 +176,7 @@ export default async function JobsPage() {
             ].map((tip, i) => (
               <div key={i} className="flex items-start gap-2.5">
                 <div className="w-5 h-5 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center shrink-0 mt-0.5">
-                  <span className="font-data text-[9px] text-[#FAFAFA]">{i + 1}</span>
+                  <span className="font-data text-[9px] text-neutral-900">{i + 1}</span>
                 </div>
                 <p className="font-body text-xs text-neutral-700">{tip}</p>
               </div>
@@ -203,7 +203,7 @@ export default async function JobsPage() {
                           <Calendar className="h-3 w-3" />{job.job_type.replace(/_/g, " ")}
                         </span>
                         {job.is_remote ? (
-                          <span className="flex items-center gap-1 text-[#FAFAFA]">
+                          <span className="flex items-center gap-1 text-neutral-900">
                             <Wifi className="h-3 w-3" />Remote
                           </span>
                         ) : job.location ? (
@@ -217,7 +217,7 @@ export default async function JobsPage() {
                     <div className="flex items-center gap-2 shrink-0">
                       <span className={`font-data text-[9px] tracking-widest uppercase px-2 py-1 rounded-full border ${
                         job.is_active
-                          ? "bg-[#FAFAFA]/15 border-[#FAFAFA]/30 text-[#FAFAFA]"
+                          ? "bg-[#FAFAFA]/15 border-[#FAFAFA]/30 text-neutral-900"
                           : "bg-white/5 border-white/15 text-neutral-700"
                       }`}>
                         {job.is_active ? "Active" : "Paused"}
@@ -230,7 +230,7 @@ export default async function JobsPage() {
                   {job.required_skills?.length > 0 && (
                     <div className="flex flex-wrap gap-1 mt-3">
                       {job.required_skills.slice(0, 5).map((s: string) => (
-                        <span key={s} className="font-data text-[9px] tracking-wider px-2 py-0.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-[#FAFAFA]">{s}</span>
+                        <span key={s} className="font-data text-[9px] tracking-wider px-2 py-0.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-neutral-900">{s}</span>
                       ))}
                       {job.required_skills.length > 5 && (
                         <span className="font-data text-[9px] tracking-wider px-2 py-0.5 rounded-full border border-black/10 text-neutral-700">+{job.required_skills.length - 5}</span>
@@ -245,7 +245,7 @@ export default async function JobsPage() {
                       <p className="font-data text-[9px] tracking-wider uppercase text-neutral-700">Applications</p>
                     </div>
                     <div>
-                      <p className="font-heading font-bold text-xl text-[#FAFAFA]">{stats.matches}</p>
+                      <p className="font-heading font-bold text-xl text-neutral-900">{stats.matches}</p>
                       <p className="font-data text-[9px] tracking-wider uppercase text-neutral-700">Matches</p>
                     </div>
                     <div>

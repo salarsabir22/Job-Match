@@ -56,7 +56,7 @@ export default function ForgotPasswordPage() {
       <div className="bg-white border border-black/10 rounded-2xl p-8 shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
         <div className="text-center mb-6">
           <div className="w-16 h-16 rounded-2xl bg-[#FAFAFA]/12 border border-[#FAFAFA]/25 flex items-center justify-center mx-auto mb-4">
-            <Mail className="h-8 w-8 text-[#FAFAFA]" />
+            <Mail className="h-8 w-8 text-neutral-900" />
           </div>
           <h2 className="font-heading font-bold text-xl text-black mb-2">Check your inbox</h2>
           <p className="font-body text-neutral-700 text-sm">
@@ -74,7 +74,7 @@ export default function ForgotPasswordPage() {
           ].map(({ n, text }) => (
             <div key={n} className="flex items-center gap-3">
               <div className="w-6 h-6 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center shrink-0">
-                <span className="font-data text-[10px] font-bold text-[#FAFAFA]">{n}</span>
+                <span className="font-data text-[10px] font-bold text-neutral-900">{n}</span>
               </div>
               <p className="font-body text-sm text-neutral-700">{text}</p>
             </div>
@@ -118,7 +118,7 @@ export default function ForgotPasswordPage() {
     <div className="bg-white border border-black/10 rounded-2xl p-8 shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
       {/* Header */}
       <div className="text-center mb-7">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_-5px_rgba(255,255,255,0.6)]">
+        <div className="w-14 h-14 rounded-2xl bg-neutral-200 flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_-5px_rgba(255,255,255,0.6)]">
           <Zap className="w-7 h-7 text-black" />
         </div>
         <h1 className="font-heading font-bold text-2xl text-black">Reset your password</h1>
@@ -157,7 +157,7 @@ export default function ForgotPasswordPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2"
+          className="w-full h-11 rounded-xl bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2"
         >
           {loading
             ? <><Loader2 className="h-4 w-4 animate-spin" /> Sending link…</>

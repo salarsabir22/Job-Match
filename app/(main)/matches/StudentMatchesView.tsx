@@ -65,7 +65,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
       {appliedCount > 0 && (
         <div className="rounded-xl bg-white border border-black/10 p-5">
           <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="h-4 w-4 text-[#FAFAFA]" />
+            <TrendingUp className="h-4 w-4 text-neutral-900" />
             <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700">Your Job Search Funnel</p>
           </div>
           <div className="flex items-center gap-2 overflow-x-auto pb-1">
@@ -92,7 +92,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
       {!matches.length ? (
         <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
           <div className="w-20 h-20 rounded-3xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
-            <Heart className="h-10 w-10 text-[#FAFAFA]" />
+            <Heart className="h-10 w-10 text-neutral-900" />
           </div>
           <div>
             <h3 className="font-heading font-semibold text-xl text-black">No matches yet</h3>
@@ -116,7 +116,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
             ))}
             <Link
               href="/onboarding"
-              className="inline-flex items-center gap-1.5 font-body text-xs text-[#FAFAFA] hover:text-[#D4D4D4] transition-colors mt-1"
+              className="inline-flex items-center gap-1.5 font-body text-xs text-neutral-900 hover:text-neutral-600 transition-colors mt-1"
             >
               Complete Profile <ArrowRight className="h-3 w-3" />
             </Link>
@@ -124,7 +124,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
 
           <Link
             href="/discover"
-            className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300"
+            className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300"
           >
             <Zap className="h-4 w-4" />Discover Jobs
           </Link>
@@ -142,7 +142,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
               return (
                 <Link key={match.id} href={convId ? `/chat/${convId}` : "#"}>
                   <div className="flex items-start gap-4 p-5 rounded-2xl bg-white border border-black/10 hover:border-[#FAFAFA]/30 hover:shadow-[0_0_25px_-8px_rgba(255,255,255,0.2)] transition-all duration-300 h-full cursor-pointer">
-                    <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shrink-0 shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)]">
+                    <div className="h-14 w-14 rounded-2xl bg-neutral-200 flex items-center justify-center shrink-0 shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)]">
                       {company?.logo_url ? (
                         <img src={company.logo_url} className="h-full w-full rounded-2xl object-cover" alt="" />
                       ) : (
@@ -157,7 +157,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
                         <p className="font-data text-[10px] text-neutral-700">{formatDate(match.created_at)}</p>
                       </div>
                       <div className="flex items-center gap-2 mt-3">
-                        <span className="font-data text-[9px] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-[#FAFAFA]">
+                        <span className="font-data text-[9px] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-neutral-900">
                           ✓ Matched
                         </span>
                         {convId ? (

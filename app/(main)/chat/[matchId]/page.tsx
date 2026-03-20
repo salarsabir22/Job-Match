@@ -35,7 +35,7 @@ export default async function ChatPage({ params }: { params: Promise<{ matchId: 
         </Link>
         <Avatar className="h-9 w-9 border border-[#FAFAFA]/30">
           <AvatarImage src={otherUser?.avatar_url} />
-          <AvatarFallback className="bg-white text-[#FAFAFA] text-xs font-bold">
+          <AvatarFallback className="bg-white text-neutral-900 text-xs font-bold">
             {getInitials(otherUser?.full_name || "?")}
           </AvatarFallback>
         </Avatar>

@@ -89,7 +89,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
         <div className="p-4 flex items-start gap-3">
           <Avatar className="h-12 w-12 shrink-0 border border-black/10">
             <AvatarImage src={profile?.avatar_url} />
-            <AvatarFallback className="bg-white text-[#FAFAFA] text-sm font-bold">
+            <AvatarFallback className="bg-white text-neutral-900 text-sm font-bold">
               {getInitials(profile?.full_name || "?")}
             </AvatarFallback>
           </Avatar>
@@ -113,7 +113,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
             {skills.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-2">
                 {skills.map((s: string) => (
-                  <span key={s} className="font-data text-[9px] tracking-wider px-1.5 py-0.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-[#FAFAFA]">
+                  <span key={s} className="font-data text-[9px] tracking-wider px-1.5 py-0.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-neutral-900">
                     {s}
                   </span>
                 ))}
@@ -150,7 +150,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
                 "h-8 w-8 rounded-lg border flex items-center justify-center transition-all",
                 match.is_shortlisted
                   ? "border-[#D4D4D4]/50 bg-[#D4D4D4]/15 text-[#D4D4D4]"
-                  : "border-black/10 text-neutral-700 hover:border-[#D4D4D4]/40 hover:text-[#D4D4D4]"
+                  : "border-black/10 text-neutral-700 hover:border-[#D4D4D4]/40 hover:text-neutral-600"
               )}
             >
               <Star className="h-3.5 w-3.5" />
@@ -165,7 +165,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
             {convId ? (
               <Link
                 href={`/chat/${convId}`}
-                className="flex items-center gap-1.5 h-8 px-3 rounded-lg bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-xs shadow-[0_0_10px_-3px_rgba(255,255,255,0.5)] hover:shadow-[0_0_15px_-3px_rgba(255,255,255,0.7)] transition-all"
+                className="flex items-center gap-1.5 h-8 px-3 rounded-lg bg-black text-white font-body font-semibold text-xs shadow-[0_0_10px_-3px_rgba(255,255,255,0.5)] hover:shadow-[0_0_15px_-3px_rgba(255,255,255,0.7)] transition-all"
               >
                 <MessageCircle className="h-3 w-3" />Chat
               </Link>
@@ -183,7 +183,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-32">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
+        <div className="w-10 h-10 rounded-full bg-neutral-200 flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
           <Zap className="h-5 w-5 text-black" />
         </div>
       </div>
@@ -222,7 +222,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
       {matches.length > 0 && (
         <div className="rounded-xl bg-white border border-black/10 p-4">
           <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="h-4 w-4 text-[#FAFAFA]" />
+            <TrendingUp className="h-4 w-4 text-neutral-900" />
             <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700">Candidate Pipeline</p>
           </div>
           <div className="flex items-center gap-2 overflow-x-auto pb-1">
@@ -259,7 +259,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
             className={cn(
               "flex-1 py-1.5 rounded-lg font-data text-[10px] tracking-wider uppercase transition-all duration-200",
               tab === t.key
-                ? "bg-[#FAFAFA]/20 text-[#FAFAFA] border border-[#FAFAFA]/30"
+                ? "bg-[#FAFAFA]/20 text-neutral-900 border border-[#FAFAFA]/30"
                 : "text-neutral-700 hover:text-black"
             )}
           >

@@ -39,7 +39,7 @@ export default async function SavedJobsPage() {
             return (
               <div key={swipe.id} className="rounded-xl bg-white border border-black/10 p-4 space-y-3">
                 <div className="flex items-start gap-3">
-                  <div className="h-11 w-11 rounded-xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shrink-0 shadow-[0_0_10px_-3px_rgba(255,255,255,0.4)]">
+                  <div className="h-11 w-11 rounded-xl bg-neutral-200 flex items-center justify-center shrink-0 shadow-[0_0_10px_-3px_rgba(255,255,255,0.4)]">
                     {company?.logo_url ? (
                       <img src={company.logo_url} className="h-full w-full rounded-xl object-cover" alt="" />
                     ) : (
@@ -55,7 +55,7 @@ export default async function SavedJobsPage() {
                 <div className="flex flex-wrap gap-3 font-data text-[10px] tracking-wider text-neutral-700">
                   <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" />{job?.job_type?.replace("_", " ")}</span>
                   {job?.is_remote ? (
-                    <span className="flex items-center gap-1"><Wifi className="h-3.5 w-3.5 text-[#FAFAFA]" />Remote</span>
+                    <span className="flex items-center gap-1"><Wifi className="h-3.5 w-3.5 text-neutral-900" />Remote</span>
                   ) : job?.location ? (
                     <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" />{job.location}</span>
                   ) : null}
@@ -63,7 +63,7 @@ export default async function SavedJobsPage() {
                 {job?.required_skills?.length > 0 && (
                   <div className="flex flex-wrap gap-1">
                     {job.required_skills.slice(0, 4).map((s: string) => (
-                      <span key={s} className="font-data text-[9px] tracking-wider px-2 py-0.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-[#FAFAFA]">{s}</span>
+                      <span key={s} className="font-data text-[9px] tracking-wider px-2 py-0.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-neutral-900">{s}</span>
                     ))}
                   </div>
                 )}

@@ -28,7 +28,7 @@ export default async function AdminUsersPage() {
 
   const roleBadge = (role: string) => {
     if (role === "admin") return "bg-[#D4D4D4]/15 border-[#D4D4D4]/30 text-[#D4D4D4]"
-    if (role === "recruiter") return "bg-[#FAFAFA]/15 border-[#FAFAFA]/30 text-[#FAFAFA]"
+    if (role === "recruiter") return "bg-[#FAFAFA]/15 border-[#FAFAFA]/30 text-neutral-900"
     return "bg-white/5 border-white/15 text-neutral-700"
   }
 
@@ -96,7 +96,7 @@ export default async function AdminUsersPage() {
             <span className="flex items-center gap-1.5 text-neutral-700">
               <span className="w-2 h-2 rounded-full bg-[#94A3B8]" />Students ({students.length})
             </span>
-            <span className="flex items-center gap-1.5 text-[#FAFAFA]">
+            <span className="flex items-center gap-1.5 text-neutral-900">
               <span className="w-2 h-2 rounded-full bg-[#FAFAFA]" />Recruiters ({recruiters.length})
             </span>
             {admins.length > 0 && (
@@ -131,7 +131,7 @@ export default async function AdminUsersPage() {
                     <div className="flex items-center gap-2.5">
                       <Avatar className="h-8 w-8 border border-black/10 shrink-0">
                         <AvatarImage src={profile.avatar_url || undefined} />
-                        <AvatarFallback className="bg-white text-[#FAFAFA] text-xs font-bold">
+                        <AvatarFallback className="bg-white text-neutral-900 text-xs font-bold">
                           {getInitials(profile.full_name || "?")}
                         </AvatarFallback>
                       </Avatar>

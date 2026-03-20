@@ -89,7 +89,7 @@ export default function ResetPasswordPage() {
   if (!sessionReady && !sessionError) {
     return (
       <div className="bg-white border border-black/10 rounded-2xl p-8 text-center shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
-        <Loader2 className="h-8 w-8 animate-spin text-[#FAFAFA] mx-auto mb-3" />
+        <Loader2 className="h-8 w-8 animate-spin text-neutral-900 mx-auto mb-3" />
         <p className="font-body text-sm text-neutral-700">Verifying your reset link…</p>
       </div>
     )
@@ -109,7 +109,7 @@ export default function ResetPasswordPage() {
         <p className="font-body text-xs text-[#64748B] mb-6">Request a new link and use it right away.</p>
         <Link
           href="/forgot-password"
-          className="inline-flex items-center justify-center gap-2 w-full h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300 mb-3"
+          className="inline-flex items-center justify-center gap-2 w-full h-11 rounded-xl bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300 mb-3"
         >
           Request a new link
         </Link>
@@ -132,7 +132,7 @@ export default function ResetPasswordPage() {
         <p className="font-body text-neutral-700 text-sm mb-1">Your password has been changed successfully.</p>
         <p className="font-body text-xs text-[#64748B] mb-6">Redirecting you to sign in…</p>
         <div className="flex items-center justify-center gap-2 text-neutral-700">
-          <Loader2 className="h-4 w-4 animate-spin text-[#FAFAFA]" />
+          <Loader2 className="h-4 w-4 animate-spin text-neutral-900" />
           <span className="font-body text-sm">Taking you to login</span>
         </div>
       </div>
@@ -144,7 +144,7 @@ export default function ResetPasswordPage() {
     <div className="bg-white border border-black/10 rounded-2xl p-8 shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
       {/* Header */}
       <div className="text-center mb-7">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_-5px_rgba(255,255,255,0.6)]">
+        <div className="w-14 h-14 rounded-2xl bg-neutral-200 flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_-5px_rgba(255,255,255,0.6)]">
           <Zap className="w-7 h-7 text-black" />
         </div>
         <h1 className="font-heading font-bold text-2xl text-black">Choose a new password</h1>
@@ -256,7 +256,7 @@ export default function ResetPasswordPage() {
         <button
           type="submit"
           disabled={loading || password !== confirm || password.length < 8}
-          className="w-full h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-40 disabled:pointer-events-none flex items-center justify-center gap-2"
+          className="w-full h-11 rounded-xl bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-40 disabled:pointer-events-none flex items-center justify-center gap-2"
         >
           {loading
             ? <><Loader2 className="h-4 w-4 animate-spin" /> Updating password…</>

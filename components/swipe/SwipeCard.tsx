@@ -200,7 +200,7 @@ export function SwipeCard({
         style={{ opacity: 0 }}
         className="absolute top-5 left-4 z-20 pointer-events-none"
       >
-        <div className="border-[3px] border-[#FAFAFA] text-[#FAFAFA] font-black text-lg px-3 py-0.5 rounded-xl -rotate-[22deg] uppercase tracking-wider shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)]">
+        <div className="border-[3px] border-[#FAFAFA] text-neutral-900 font-black text-lg px-3 py-0.5 rounded-xl -rotate-[22deg] uppercase tracking-wider shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)]">
           Apply ✓
         </div>
       </div>

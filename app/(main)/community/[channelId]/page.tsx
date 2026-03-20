@@ -27,7 +27,7 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
           <ArrowLeft className="h-4 w-4 text-black" />
         </Link>
         <div className="w-9 h-9 rounded-xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center shrink-0">
-          <Hash className="h-4 w-4 text-[#FAFAFA]" />
+          <Hash className="h-4 w-4 text-neutral-900" />
         </div>
         <div className="flex-1 min-w-0">
           <p className="font-heading font-semibold text-sm text-black">#{channel.name}</p>
@@ -43,7 +43,7 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
       ) : (
         <div className="flex flex-col items-center justify-center flex-1 gap-5 p-4 text-center">
           <div className="w-16 h-16 rounded-2xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
-            <Users className="h-8 w-8 text-[#FAFAFA]" />
+            <Users className="h-8 w-8 text-neutral-900" />
           </div>
           <div>
             <h3 className="font-heading font-semibold text-lg text-black">Join #{channel.name}</h3>

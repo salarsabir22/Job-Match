@@ -12,12 +12,12 @@ export function CandidateCard({ profile, studentProfile }: CandidateCardProps) {
   return (
     <div className="rounded-3xl overflow-hidden bg-white border border-black/10 shadow-[0_8px_40px_-8px_rgba(0,0,0,0.6)] w-full select-none">
       {/* Header */}
-      <div className="relative h-40 bg-gradient-to-br from-[#0a0f1a] via-[#0d1626] to-[#06080f] flex flex-col items-center justify-end pb-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#A3A3A3]/20 via-[#737373]/10 to-transparent pointer-events-none" />
+      <div className="relative h-40 bg-neutral-800 flex flex-col items-center justify-end pb-4 overflow-hidden">
+        <div className="absolute inset-0 bg-black/5 pointer-events-none" />
         <div className="absolute top-3 right-3 w-20 h-20 rounded-full bg-[#A3A3A3]/8 blur-xl" />
         <Avatar className="h-16 w-16 border-[3px] border-[#A3A3A3]/40 shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] relative z-10">
           <AvatarImage src={profile.avatar_url || undefined} />
-          <AvatarFallback className="text-base font-bold bg-gradient-to-br from-[#A3A3A3] to-[#737373] text-black">
+          <AvatarFallback className="text-base font-bold bg-neutral-300 text-black">
             {getInitials(profile.full_name || "?")}
           </AvatarFallback>
         </Avatar>
@@ -78,7 +78,7 @@ export function CandidateCard({ profile, studentProfile }: CandidateCardProps) {
           )}
           {studentProfile.portfolio_url && (
             <a href={studentProfile.portfolio_url} target="_blank" rel="noopener noreferrer"
-              className="text-neutral-700 hover:text-[#FAFAFA] transition-colors"
+              className="text-neutral-700 hover:text-black transition-colors"
               onClick={(e) => e.stopPropagation()}>
               <Link2 className="h-3.5 w-3.5" />
             </a>

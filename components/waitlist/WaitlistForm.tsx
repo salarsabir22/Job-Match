@@ -45,7 +45,7 @@ export function WaitlistForm() {
         <div className="rounded-3xl border border-black/10 bg-white/[0.02] backdrop-blur-sm shadow-[0_0_50px_-25px_rgba(255,255,255,0.5)] overflow-hidden">
           <div className="p-6 sm:p-10 space-y-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_20px_-8px_rgba(255,255,255,0.8)]">
+              <div className="w-10 h-10 rounded-2xl bg-neutral-200 flex items-center justify-center shadow-[0_0_20px_-8px_rgba(255,255,255,0.8)]">
                 <Zap className="h-5 w-5 text-black" />
               </div>
               <div>
@@ -79,7 +79,7 @@ export function WaitlistForm() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm tracking-wide shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:scale-[1.01] transition-all duration-200 disabled:opacity-60 disabled:hover:scale-100"
+                className="w-full inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-black text-white font-body font-semibold text-sm tracking-wide shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:scale-[1.01] transition-all duration-200 disabled:opacity-60 disabled:hover:scale-100"
               >
                 {submitting ? "Submitting..." : "Join waitlist"}
               </button>

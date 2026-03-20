@@ -13,7 +13,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="hidden lg:flex lg:w-[420px] xl:w-[480px] shrink-0 flex-col justify-between p-12 border-r border-black/10 relative z-10">
         <div>
           <Link href="/" className="flex items-center gap-2.5 mb-14">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_20px_-4px_rgba(255,255,255,0.6)]">
+            <div className="w-9 h-9 rounded-xl bg-neutral-200 flex items-center justify-center shadow-[0_0_20px_-4px_rgba(255,255,255,0.6)]">
               <Zap className="w-4.5 h-4.5 text-black" strokeWidth={2.5} />
             </div>
             <span className="font-heading font-bold text-xl text-black tracking-tight">
@@ -40,7 +40,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
               ].map(({ icon: Icon, title, desc }) => (
                 <div key={title} className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-lg bg-[#FAFAFA]/12 border border-[#FAFAFA]/20 flex items-center justify-center shrink-0 mt-0.5">
-                    <Icon className="h-4 w-4 text-[#FAFAFA]" />
+                    <Icon className="h-4 w-4 text-neutral-900" />
                   </div>
                   <div>
                     <p className="font-body font-semibold text-sm text-black">{title}</p>
@@ -72,7 +72,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="flex-1 flex flex-col items-center justify-center p-4 lg:p-12 relative z-10 min-h-screen lg:min-h-0">
         {/* Mobile logo */}
         <Link href="/" className="flex items-center gap-2.5 mb-6 lg:hidden">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.6)]">
+          <div className="w-8 h-8 rounded-lg bg-neutral-200 flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.6)]">
             <Zap className="w-4 h-4 text-black" strokeWidth={2.5} />
           </div>
           <span className="font-heading font-bold text-lg text-black tracking-tight">

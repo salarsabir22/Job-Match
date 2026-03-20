@@ -30,10 +30,10 @@ import {
 /* ─── Shared primitives ──────────────────────────────────────────── */
 function OrangeBadge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#FAFAFA]/30 bg-[#FAFAFA]/10 font-data text-xs tracking-widest uppercase text-[#FAFAFA]">
+    <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-black/15 bg-neutral-100 font-data text-xs tracking-widest uppercase text-neutral-900">
       <span className="relative flex h-2 w-2">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FAFAFA] opacity-60" />
-        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FAFAFA]" />
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-neutral-900 opacity-40" />
+        <span className="relative inline-flex rounded-full h-2 w-2 bg-neutral-900" />
       </span>
       {children}
     </span>
@@ -52,7 +52,7 @@ function PrimaryButton({
   return (
     <Link
       href={href}
-      className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm tracking-wide shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:scale-105 hover:shadow-[0_0_35px_-5px_rgba(255,255,255,0.7)] transition-all duration-300 ${className}`}
+      className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-black text-white font-body font-semibold text-sm tracking-wide shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:scale-105 hover:shadow-[0_0_35px_-5px_rgba(255,255,255,0.7)] transition-all duration-300 ${className}`}
     >
       {children}
     </Link>
@@ -105,7 +105,7 @@ function Navbar() {
       <nav className="max-w-7xl mx-auto px-5 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.6)]">
+          <div className="w-8 h-8 rounded-lg bg-neutral-200 flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.6)]">
             <Zap className="w-4 h-4 text-black" strokeWidth={2.5} />
           </div>
           <span className="font-heading font-bold text-lg tracking-tight">
@@ -198,7 +198,7 @@ function HeroOrb() {
       />
 
       {/* Core sphere */}
-      <div className="relative z-10 w-[110px] h-[110px] md:w-[160px] md:h-[160px] rounded-full bg-gradient-to-br from-[#525252] via-[#FAFAFA] to-[#D4D4D4] shadow-[0_0_60px_-5px_rgba(255,255,255,0.8)] animate-float flex items-center justify-center">
+      <div className="relative z-10 w-[110px] h-[110px] md:w-[160px] md:h-[160px] rounded-full bg-neutral-200 border border-black/10 shadow-lg animate-float flex items-center justify-center">
         <Zap className="w-10 h-10 md:w-16 md:h-16 text-black drop-shadow-lg" strokeWidth={1.5} />
       </div>
 
@@ -231,7 +231,7 @@ function StatCard({
       className={`glass-dark rounded-2xl px-4 py-3 flex items-center gap-3 shadow-[0_0_25px_-8px_rgba(255,255,255,0.25)] ${className}`}
     >
       <div className="w-9 h-9 rounded-lg bg-[#525252]/20 border border-[#525252]/40 flex items-center justify-center flex-shrink-0">
-        <Icon className="w-4 h-4 text-[#FAFAFA]" />
+        <Icon className="w-4 h-4 text-neutral-900" />
       </div>
       <div>
         <p className="font-data font-medium text-sm text-black leading-none">{value}</p>
@@ -402,7 +402,7 @@ function HowItWorks() {
 
         <div className="relative">
           {/* Vertical timeline line */}
-          <div className="absolute left-[28px] md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#FAFAFA] via-[#525252]/40 to-transparent hidden sm:block" />
+          <div className="absolute left-[28px] md:left-1/2 top-0 bottom-0 w-px bg-neutral-300 hidden sm:block" />
 
           <div className="flex flex-col gap-16">
             {STEPS.map((step, i) => {
@@ -416,7 +416,7 @@ function HowItWorks() {
                   }`}
                 >
                   {/* Node */}
-                  <div className="relative z-10 flex-shrink-0 w-14 h-14 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)]">
+                  <div className="relative z-10 flex-shrink-0 w-14 h-14 rounded-full bg-neutral-200 flex items-center justify-center shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)]">
                     <Icon className="w-6 h-6 text-black" />
                   </div>
 
@@ -430,7 +430,7 @@ function HowItWorks() {
                     <span className="absolute top-3 left-3 w-5 h-5 border-t border-l border-[#FAFAFA]/50 rounded-tl-sm" />
                     <span className="absolute bottom-3 right-3 w-5 h-5 border-b border-r border-[#FAFAFA]/50 rounded-br-sm" />
 
-                    <span className="font-data text-[11px] tracking-widest text-[#FAFAFA] uppercase">
+                    <span className="font-data text-[11px] tracking-widest text-neutral-900 uppercase">
                       Step {step.n}
                     </span>
                     <h3 className="font-heading font-semibold text-xl mt-2 mb-3">{step.title}</h3>
@@ -439,8 +439,8 @@ function HowItWorks() {
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3">
                       <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#FAFAFA]/10 border border-[#FAFAFA]/20">
-                        <GraduationCap className="w-3.5 h-3.5 text-[#FAFAFA] flex-shrink-0" />
-                        <span className="font-data text-[10px] tracking-wide text-[#FAFAFA]">
+                        <GraduationCap className="w-3.5 h-3.5 text-neutral-900 flex-shrink-0" />
+                        <span className="font-data text-[10px] tracking-wide text-neutral-900">
                           {step.studentNote}
                         </span>
                       </div>
@@ -589,10 +589,10 @@ function AudienceSplit() {
 
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
-                <GraduationCap className="w-6 h-6 text-[#FAFAFA]" />
+                <GraduationCap className="w-6 h-6 text-neutral-900" />
               </div>
               <div>
-                <span className="font-data text-[10px] tracking-widest uppercase text-[#FAFAFA]">
+                <span className="font-data text-[10px] tracking-widest uppercase text-neutral-900">
                   For Students
                 </span>
                 <h3 className="font-heading font-semibold text-xl">Launch your career</h3>
@@ -602,7 +602,7 @@ function AudienceSplit() {
             <ul className="space-y-3.5 mb-8">
               {STUDENT_PERKS.map((p) => (
                 <li key={p} className="flex items-start gap-3">
-                  <CheckCircle2 className="w-4 h-4 text-[#FAFAFA] mt-0.5 flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-neutral-900 mt-0.5 flex-shrink-0" />
                   <span className="font-body text-neutral-700 text-sm">{p}</span>
                 </li>
               ))}
@@ -687,7 +687,7 @@ function Community() {
               ].map((item) => (
                 <li key={item.text} className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center flex-shrink-0">
-                    <item.icon className="w-4 h-4 text-[#FAFAFA]" />
+                    <item.icon className="w-4 h-4 text-neutral-900" />
                   </div>
                   <span className="font-body text-sm text-neutral-700">{item.text}</span>
                 </li>
@@ -718,7 +718,7 @@ function Community() {
                   </p>
                 </div>
                 <ChevronRight
-                  className="w-4 h-4 text-black/20 group-hover:text-[#FAFAFA] transition-colors"
+                  className="w-4 h-4 text-black/20 group-hover:text-black transition-colors"
                 />
               </div>
             ))}
@@ -791,7 +791,7 @@ function Testimonials() {
               <div className="flex items-center gap-3 pt-5 border-t border-black/10">
                 <div
                   className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-black flex-shrink-0"
-                  style={{ background: `linear-gradient(135deg, ${t.color}, #030304)` }}
+                  style={{ background: t.color }}
                 >
                   {t.initials}
                 </div>
@@ -822,7 +822,7 @@ function TrustStrip() {
       <div className="max-w-7xl mx-auto px-5 flex flex-wrap justify-center gap-8 md:gap-12">
         {TRUST.map((t) => (
           <div key={t.label} className="flex items-center gap-2.5">
-            <t.icon className="w-4 h-4 text-[#FAFAFA]" />
+            <t.icon className="w-4 h-4 text-neutral-900" />
             <span className="font-data text-[11px] tracking-wider uppercase text-neutral-700">
               {t.label}
             </span>
@@ -898,7 +898,7 @@ function Footer() {
         {/* Brand */}
         <div className="col-span-2 md:col-span-1">
           <Link href="/" className="flex items-center gap-2.5 mb-4">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_12px_-2px_rgba(255,255,255,0.5)]">
+            <div className="w-8 h-8 rounded-lg bg-neutral-200 flex items-center justify-center shadow-[0_0_12px_-2px_rgba(255,255,255,0.5)]">
               <Zap className="w-4 h-4 text-black" strokeWidth={2.5} />
             </div>
             <span className="font-heading font-bold text-lg">

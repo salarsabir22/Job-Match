@@ -19,9 +19,9 @@ export function JobCard({ job }: JobCardProps) {
     <div className="rounded-3xl overflow-hidden bg-white border border-black/10 shadow-[0_8px_40px_-8px_rgba(0,0,0,0.6)] w-full select-none">
 
       {/* Header */}
-      <div className="relative h-44 bg-gradient-to-br from-[#1a0f00] via-[#2a1200] to-[#0a0600] flex items-center justify-center overflow-hidden">
+      <div className="relative h-44 bg-neutral-900 flex items-center justify-center overflow-hidden">
         {/* Ambient glow */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#FAFAFA]/20 via-[#525252]/10 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-black/5 pointer-events-none" />
         <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-[#FAFAFA]/10 rounded-full blur-2xl pointer-events-none" />
 
         {/* Logo */}
@@ -34,7 +34,7 @@ export function JobCard({ job }: JobCardProps) {
               draggable={false}
             />
           ) : (
-            <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_25px_-5px_rgba(255,255,255,0.5)]">
+            <div className="h-20 w-20 rounded-2xl bg-neutral-200 flex items-center justify-center shadow-[0_0_25px_-5px_rgba(255,255,255,0.5)]">
               <Building2 className="h-10 w-10 text-black" />
             </div>
           )}
@@ -42,7 +42,7 @@ export function JobCard({ job }: JobCardProps) {
 
         {/* Job type badge */}
         <div className="absolute bottom-3 right-4">
-          <span className="font-data text-[9px] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#FAFAFA]/20 border border-[#FAFAFA]/40 text-[#FAFAFA]">
+          <span className="font-data text-[9px] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#FAFAFA]/20 border border-[#FAFAFA]/40 text-neutral-900">
             {JOB_TYPE_LABEL[job.job_type] ?? job.job_type}
           </span>
         </div>
@@ -98,7 +98,7 @@ export function JobCard({ job }: JobCardProps) {
               {job.required_skills.slice(0, 5).map((s) => (
                 <span
                   key={s}
-                  className="font-data text-[9px] tracking-wider px-2.5 py-1 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/25 text-[#FAFAFA]"
+                  className="font-data text-[9px] tracking-wider px-2.5 py-1 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/25 text-neutral-900"
                 >
                   {s}
                 </span>
@@ -118,7 +118,7 @@ export function JobCard({ job }: JobCardProps) {
             href={company.website_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 font-body text-xs text-[#FAFAFA] hover:text-[#D4D4D4] transition-colors"
+            className="inline-flex items-center gap-1 font-body text-xs text-neutral-900 hover:text-neutral-600 transition-colors"
             onClick={(e) => e.stopPropagation()}
           >
             <ExternalLink className="h-3 w-3" />

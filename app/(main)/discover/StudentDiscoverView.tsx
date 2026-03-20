@@ -94,7 +94,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
     return (
       <div className="flex items-center justify-center py-32">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
+          <div className="w-12 h-12 rounded-full bg-neutral-200 flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
             <Zap className="h-6 w-6 text-black" />
           </div>
           <p className="font-data text-xs tracking-widest uppercase text-neutral-700">Finding jobs for you...</p>
@@ -115,7 +115,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
             Swipe right to apply · {remaining > 0 ? `${remaining} jobs waiting` : "All caught up"}
           </p>
         </div>
-        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.6)]">
+        <div className="w-9 h-9 rounded-full bg-neutral-200 flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.6)]">
           <Sparkles className="h-4 w-4 text-black" />
         </div>
       </div>
@@ -143,7 +143,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
         /* ── All caught up ── */
         <div className="flex flex-col items-center gap-5 text-center py-16">
           <div className="w-20 h-20 rounded-3xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
-            <CheckCircle className="h-10 w-10 text-[#FAFAFA]" />
+            <CheckCircle className="h-10 w-10 text-neutral-900" />
           </div>
           <div>
             <h3 className="font-heading font-bold text-xl text-black">All caught up!</h3>
@@ -165,7 +165,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
             ))}
           </div>
           <button onClick={loadJobs}
-            className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300">
+            className="px-6 py-2.5 rounded-full bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300">
             Refresh Jobs
           </button>
         </div>
@@ -202,14 +202,14 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
                 <Bookmark className="h-5 w-5 text-[#D4D4D4]" />
               </button>
               <button onClick={() => handleSwipe("right")} disabled={swiping} title="Apply"
-                className="h-14 w-14 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] shadow-[0_0_20px_-5px_rgba(255,255,255,0.6)] flex items-center justify-center hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.9)] transition-all duration-200 active:scale-90">
+                className="h-14 w-14 rounded-full bg-neutral-200 shadow-[0_0_20px_-5px_rgba(255,255,255,0.6)] flex items-center justify-center hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.9)] transition-all duration-200 active:scale-90">
                 <Heart className="h-7 w-7 text-black" fill="white" />
               </button>
             </div>
             <div className="flex items-center gap-4 font-data text-[9px] tracking-wider uppercase text-neutral-700">
               <span className="text-neutral-500">← Pass</span>
               <span className="text-[#D4D4D4]">↑ Save</span>
-              <span className="text-[#FAFAFA]">→ Apply</span>
+              <span className="text-neutral-900">→ Apply</span>
             </div>
           </div>
 
@@ -218,15 +218,15 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
             {/* Job detail */}
             <div className="rounded-2xl bg-white border border-black/10 overflow-hidden">
               {/* Header */}
-              <div className="h-36 bg-gradient-to-br from-[#1a0f00] via-[#2a1200] to-[#0a0600] relative overflow-hidden flex items-end px-6 pb-4">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#FAFAFA]/20 via-[#525252]/10 to-transparent pointer-events-none" />
+              <div className="h-36 bg-neutral-900 relative overflow-hidden flex items-end px-6 pb-4">
+                <div className="absolute inset-0 bg-black/5 pointer-events-none" />
                 <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full bg-[#FAFAFA]/8 blur-2xl" />
                 <div className="flex items-end gap-4 relative z-10">
                   {company?.logo_url ? (
                     <img src={company.logo_url} alt={company.company_name}
                       className="h-14 w-14 rounded-xl object-cover border border-black/10 shadow-[0_0_20px_-5px_rgba(255,255,255,0.4)] shrink-0" />
                   ) : (
-                    <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shrink-0 shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)]">
+                    <div className="h-14 w-14 rounded-xl bg-neutral-200 flex items-center justify-center shrink-0 shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)]">
                       <Building2 className="h-7 w-7 text-black" />
                     </div>
                   )}
@@ -246,7 +246,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
               <div className="p-6 space-y-5">
                 {/* Meta */}
                 <div className="flex flex-wrap gap-2">
-                  <span className="font-data text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-[#FAFAFA]">
+                  <span className="font-data text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-neutral-900">
                     {JOB_TYPE_LABEL[currentJob.job_type] ?? currentJob.job_type}
                   </span>
                   {currentJob.is_remote ? (
@@ -274,7 +274,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
                     <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mb-2">Required skills</p>
                     <div className="flex flex-wrap gap-2">
                       {currentJob.required_skills.map((s) => (
-                        <span key={s} className="font-data text-[10px] tracking-wide px-2.5 py-1 rounded-md bg-[#FAFAFA]/10 border border-[#FAFAFA]/25 text-[#FAFAFA]">
+                        <span key={s} className="font-data text-[10px] tracking-wide px-2.5 py-1 rounded-md bg-[#FAFAFA]/10 border border-[#FAFAFA]/25 text-neutral-900">
                           {s}
                         </span>
                       ))}
@@ -307,7 +307,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
                 {/* Company website */}
                 {company?.website_url && (
                   <a href={company.website_url} target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 font-body text-xs text-[#FAFAFA] hover:text-[#D4D4D4] transition-colors">
+                    className="inline-flex items-center gap-1.5 font-body text-xs text-neutral-900 hover:text-neutral-600 transition-colors">
                     <ExternalLink className="h-3.5 w-3.5" />
                     Visit {company.company_name}
                   </a>
@@ -324,7 +324,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
                     <Bookmark className="h-4 w-4" /> Save
                   </button>
                   <button onClick={() => handleSwipe("right")} disabled={swiping}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black hover:opacity-90 transition-all font-body text-sm font-semibold shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)]">
+                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-black text-white hover:opacity-90 transition-all font-body text-sm font-semibold shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)]">
                     <Heart className="h-4 w-4" fill="currentColor" /> Apply Now
                   </button>
                 </div>
@@ -343,7 +343,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
                         {co?.logo_url ? (
                           <img src={co.logo_url} alt="" className="h-8 w-8 rounded-lg object-cover border border-black/10 shrink-0" />
                         ) : (
-                          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-[#525252]/60 to-[#FAFAFA]/60 flex items-center justify-center shrink-0">
+                          <div className="h-8 w-8 rounded-lg bg-neutral-200 flex items-center justify-center shrink-0">
                             <Building2 className="h-4 w-4 text-black/70" />
                           </div>
                         )}

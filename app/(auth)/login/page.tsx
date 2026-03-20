@@ -76,7 +76,7 @@ export default function LoginPage() {
     <div className="bg-white border border-black/10 rounded-2xl p-8 shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
       {/* Header */}
       <div className="text-center mb-7">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_-5px_rgba(255,255,255,0.6)]">
+        <div className="w-14 h-14 rounded-2xl bg-neutral-200 flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_-5px_rgba(255,255,255,0.6)]">
           <Zap className="w-7 h-7 text-black" />
         </div>
         <h1 className="font-heading font-bold text-2xl text-black">Welcome back</h1>
@@ -135,7 +135,7 @@ export default function LoginPage() {
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
             <label className="font-data text-[11px] tracking-wider uppercase text-neutral-700">Password</label>
-            <Link href="/forgot-password" className="font-body text-xs text-[#FAFAFA] hover:text-[#D4D4D4] transition-colors inline-flex items-center gap-1">
+            <Link href="/forgot-password" className="font-body text-xs text-neutral-900 hover:text-neutral-600 transition-colors inline-flex items-center gap-1">
               <KeyRound className="h-3 w-3" />
               Forgot password?
             </Link>
@@ -162,14 +162,14 @@ export default function LoginPage() {
         </div>
 
         <button type="submit" disabled={loading || success}
-          className="w-full h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2">
+          className="w-full h-11 rounded-xl bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2">
           {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Signing in…</> : "Sign In"}
         </button>
       </form>
 
       <p className="font-body text-center text-sm text-neutral-700 mt-6">
         Don&apos;t have an account?{" "}
-        <Link href="/signup" className="text-[#FAFAFA] hover:text-[#D4D4D4] font-medium transition-colors">
+        <Link href="/signup" className="text-neutral-900 hover:text-neutral-600 font-medium transition-colors">
           Create one free
         </Link>
       </p>

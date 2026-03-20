@@ -92,7 +92,7 @@ export default function NewJobPage() {
           </div>
           <button type="button" onClick={() => setIsRemote(!isRemote)}
             className={cn("flex flex-col items-center gap-1 px-3 py-2 rounded-xl border-2 font-data text-[10px] tracking-wider uppercase transition-all duration-200",
-              isRemote ? "border-[#FAFAFA] bg-[#FAFAFA]/15 text-[#FAFAFA]" : "border-black/10 text-neutral-700 hover:border-white/20")}>
+              isRemote ? "border-[#FAFAFA] bg-[#FAFAFA]/15 text-neutral-900" : "border-black/10 text-neutral-700 hover:border-white/20")}>
             <Wifi className="h-4 w-4" />Remote
           </button>
         </div>
@@ -104,21 +104,21 @@ export default function NewJobPage() {
             <input className={inputClass} placeholder="Add skill..." value={reqSkillInput} onChange={(e) => setReqSkillInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addSkill(reqSkillInput, requiredSkills, setRequiredSkills, () => setReqSkillInput("")))} />
             <button type="button" onClick={() => addSkill(reqSkillInput, requiredSkills, setRequiredSkills, () => setReqSkillInput(""))}
-              className="h-11 w-11 rounded-xl bg-[#FAFAFA]/20 border border-[#FAFAFA]/40 text-[#FAFAFA] hover:bg-[#FAFAFA]/30 transition-colors flex-shrink-0 flex items-center justify-center">
+              className="h-11 w-11 rounded-xl bg-[#FAFAFA]/20 border border-[#FAFAFA]/40 text-neutral-900 hover:bg-[#FAFAFA]/30 transition-colors flex-shrink-0 flex items-center justify-center">
               <Plus className="h-4 w-4" />
             </button>
           </div>
           <div className="flex flex-wrap gap-1">
             {SKILL_SUGGESTIONS.filter(s => !requiredSkills.includes(s)).slice(0, 5).map(s => (
               <button key={s} type="button" onClick={() => addSkill(s, requiredSkills, setRequiredSkills, () => {})}
-                className="font-data text-[10px] tracking-wider px-2.5 py-1 rounded-full border border-dashed border-white/15 text-neutral-700 hover:border-[#FAFAFA]/50 hover:text-[#FAFAFA] transition-colors">
+                className="font-data text-[10px] tracking-wider px-2.5 py-1 rounded-full border border-dashed border-white/15 text-neutral-700 hover:border-[#FAFAFA]/50 hover:text-black transition-colors">
                 + {s}
               </button>
             ))}
           </div>
           <div className="flex flex-wrap gap-1.5">
             {requiredSkills.map(s => (
-              <span key={s} className="flex items-center gap-1 font-data text-[10px] tracking-wider px-2.5 py-1 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-[#FAFAFA]">
+              <span key={s} className="flex items-center gap-1 font-data text-[10px] tracking-wider px-2.5 py-1 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-neutral-900">
                 {s}<button type="button" onClick={() => setRequiredSkills(requiredSkills.filter(x => x !== s))}><X className="h-3 w-3" /></button>
               </span>
             ))}
@@ -146,7 +146,7 @@ export default function NewJobPage() {
         </div>
 
         <button type="submit" disabled={loading}
-          className="w-full h-12 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2">
+          className="w-full h-12 rounded-xl bg-black text-white font-body font-semibold shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2">
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Post Job"}
         </button>
       </form>

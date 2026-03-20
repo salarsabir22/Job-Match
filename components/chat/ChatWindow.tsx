@@ -86,7 +86,7 @@ export function ChatWindow({ conversationId, currentUserId, otherUser }: ChatWin
   if (loading) {
     return (
       <div className="flex items-center justify-center flex-1">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
+        <div className="w-10 h-10 rounded-full bg-neutral-200 flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
           <Zap className="h-5 w-5 text-black" />
         </div>
       </div>
@@ -102,7 +102,7 @@ export function ChatWindow({ conversationId, currentUserId, otherUser }: ChatWin
             <div className="flex flex-col items-center gap-3 py-12 text-center">
               <Avatar className="h-14 w-14 border-2 border-[#FAFAFA]/30 shadow-[0_0_15px_-5px_rgba(255,255,255,0.4)]">
                 <AvatarImage src={otherUser.avatar_url || undefined} />
-                <AvatarFallback className="bg-white text-[#FAFAFA] font-bold">
+                <AvatarFallback className="bg-white text-neutral-900 font-bold">
                   {getInitials(otherUser.full_name || "?")}
                 </AvatarFallback>
               </Avatar>
@@ -126,14 +126,14 @@ export function ChatWindow({ conversationId, currentUserId, otherUser }: ChatWin
                   {!isOwn && (
                     <Avatar className="h-7 w-7 shrink-0 mb-1 border border-black/10">
                       <AvatarImage src={otherUser.avatar_url || undefined} />
-                      <AvatarFallback className="bg-white text-[#FAFAFA] text-[10px] font-bold">
+                      <AvatarFallback className="bg-white text-neutral-900 text-[10px] font-bold">
                         {getInitials(otherUser.full_name || "?")}
                       </AvatarFallback>
                     </Avatar>
                   )}
                   <div className={`max-w-[72%] px-4 py-2.5 rounded-2xl font-body text-sm leading-relaxed ${
                     isOwn
-                      ? "bg-gradient-to-br from-[#525252] to-[#FAFAFA] text-black rounded-br-sm shadow-[0_0_15px_-5px_rgba(255,255,255,0.4)]"
+                      ? "bg-neutral-200 text-black rounded-br-sm shadow-[0_0_15px_-5px_rgba(255,255,255,0.4)]"
                       : "bg-white text-black rounded-bl-sm border border-black/10"
                   }`}>
                     {msg.content}
@@ -158,7 +158,7 @@ export function ChatWindow({ conversationId, currentUserId, otherUser }: ChatWin
         <button
           type="submit"
           disabled={sending || !newMessage.trim()}
-          className="w-11 h-11 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)] hover:shadow-[0_0_20px_-3px_rgba(255,255,255,0.7)] transition-all duration-200 disabled:opacity-40 disabled:pointer-events-none shrink-0"
+          className="w-11 h-11 rounded-full bg-neutral-200 flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)] hover:shadow-[0_0_20px_-3px_rgba(255,255,255,0.7)] transition-all duration-200 disabled:opacity-40 disabled:pointer-events-none shrink-0"
         >
           {sending ? <Loader2 className="h-4 w-4 text-black animate-spin" /> : <Send className="h-4 w-4 text-black" />}
         </button>

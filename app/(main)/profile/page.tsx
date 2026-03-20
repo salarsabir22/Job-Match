@@ -34,7 +34,7 @@ function QuickActions({ isStudent }: { isStudent: boolean }) {
         {links.map(({ label, href, icon: Icon }) => (
           <Link key={href} href={href}
             className="flex items-center gap-2 px-3 py-2.5 rounded-xl border border-black/10 text-neutral-700 hover:border-[#FAFAFA]/30 hover:text-black transition-all duration-200">
-            <Icon className="h-3.5 w-3.5 text-[#FAFAFA]" />
+            <Icon className="h-3.5 w-3.5 text-neutral-900" />
             <span className="font-body text-xs">{label}</span>
           </Link>
         ))}
@@ -113,7 +113,7 @@ export default async function ProfilePage() {
     ? computeStudentCompleteness(profile, studentProfile)
     : computeRecruiterCompleteness(profile, recruiterProfile)
 
-  const completenessColor = completeness >= 80 ? "#D4D4D4" : completeness >= 50 ? "#D4D4D4" : "#FAFAFA"
+  const completenessColor = completeness >= 80 ? "#171717" : completeness >= 50 ? "#404040" : "#737373"
 
   return (
     <div className="space-y-6">
@@ -121,7 +121,7 @@ export default async function ProfilePage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-heading font-bold text-3xl text-black">Profile</h1>
-          <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mt-0.5">
+          <p className="font-data text-[11px] tracking-wider uppercase text-neutral-600 mt-0.5">
             {profile?.full_name || user.email}
           </p>
         </div>
@@ -139,7 +139,7 @@ export default async function ProfilePage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <BarChart2 className="h-4 w-4" style={{ color: completenessColor }} />
-              <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700">Profile Completeness</p>
+              <p className="font-data text-[11px] tracking-wider uppercase text-neutral-800">Profile Completeness</p>
             </div>
             <p className="font-heading font-bold text-lg" style={{ color: completenessColor }}>{completeness}%</p>
           </div>
@@ -154,7 +154,7 @@ export default async function ProfilePage() {
               {missing.slice(0, 4).map(item => (
                 <div key={item} className="flex items-center gap-1.5">
                   <AlertCircle className="h-3 w-3 text-neutral-700" />
-                  <span className="font-data text-[9px] tracking-wider text-neutral-700">{item}</span>
+                  <span className="font-data text-[9px] tracking-wider text-neutral-800">{item}</span>
                 </div>
               ))}
               {missing.length > 4 && (
@@ -164,7 +164,7 @@ export default async function ProfilePage() {
           )}
           <Link
             href="/onboarding"
-            className="inline-flex items-center gap-1.5 font-body text-xs text-[#FAFAFA] hover:text-[#D4D4D4] transition-colors"
+            className="inline-flex items-center gap-1.5 font-body text-xs text-neutral-900 hover:text-neutral-600 transition-colors"
           >
             Complete your profile →
           </Link>
@@ -186,14 +186,14 @@ export default async function ProfilePage() {
           {/* Avatar card */}
           <div className="rounded-2xl bg-white border border-black/10 p-6 flex flex-col items-center gap-4 shadow-[0_0_50px_-10px_rgba(255,255,255,0.08)]">
             {isStudent ? (
-              <Avatar className="h-28 w-28 border-2 border-[#FAFAFA]/40 shadow-[0_0_25px_-5px_rgba(255,255,255,0.3)]">
+              <Avatar className="h-28 w-28 border-2 border-black/15 shadow-sm">
                 <AvatarImage src={profile?.avatar_url || undefined} />
-                <AvatarFallback className="bg-white text-[#FAFAFA] text-3xl font-bold">
+                <AvatarFallback className="bg-white text-neutral-900 text-3xl font-bold">
                   {getInitials(profile?.full_name || "?")}
                 </AvatarFallback>
               </Avatar>
             ) : (
-              <div className="h-28 w-28 rounded-3xl overflow-hidden border-2 border-[#D4D4D4]/40 shadow-[0_0_25px_-5px_rgba(255,214,0,0.2)] bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center">
+              <div className="h-28 w-28 rounded-3xl overflow-hidden border-2 border-[#D4D4D4]/40 shadow-[0_0_25px_-5px_rgba(255,214,0,0.2)] bg-neutral-200 flex items-center justify-center">
                 {(recruiterProfile as any)?.logo_url ? (
                   <img src={(recruiterProfile as any).logo_url} className="h-full w-full object-cover" alt="company logo" />
                 ) : (
@@ -243,10 +243,10 @@ export default async function ProfilePage() {
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Heart className="h-3.5 w-3.5 text-[#FAFAFA]" />
+                  <Heart className="h-3.5 w-3.5 text-neutral-900" />
                   <p className="font-body text-sm text-neutral-700">Matches</p>
                 </div>
-                <p className="font-heading font-bold text-sm text-[#FAFAFA]">{matchCount || 0}</p>
+                <p className="font-heading font-bold text-sm text-neutral-900">{matchCount || 0}</p>
               </div>
               {isStudent && (
                 <div className="flex items-center justify-between">
@@ -277,7 +277,7 @@ export default async function ProfilePage() {
               <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700">Links</p>
               {(studentProfile as any)?.linkedin_url && (
                 <a href={(studentProfile as any).linkedin_url} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-[#FAFAFA] hover:text-[#D4D4D4] font-body transition-colors">
+                  className="flex items-center gap-2 text-sm text-neutral-900 hover:text-neutral-600 font-body transition-colors">
                   <Linkedin className="h-4 w-4" />LinkedIn Profile
                 </a>
               )}
@@ -289,14 +289,14 @@ export default async function ProfilePage() {
               )}
               {(studentProfile as any)?.resume_url && (
                 <a href={(studentProfile as any).resume_url} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-[#FAFAFA] hover:text-[#D4D4D4] font-body transition-colors">
+                  className="flex items-center gap-2 text-sm text-neutral-900 hover:text-neutral-600 font-body transition-colors">
                   <FileText className="h-4 w-4" />View Resume
                 </a>
               )}
               {!(studentProfile as any)?.linkedin_url && !(studentProfile as any)?.github_url && !(studentProfile as any)?.resume_url && (
                 <div className="space-y-1">
                   <p className="text-xs text-neutral-700/60 font-body italic">No links added yet.</p>
-                  <Link href="/onboarding" className="text-xs text-[#FAFAFA] font-body hover:underline">Add links →</Link>
+                  <Link href="/onboarding" className="text-xs text-neutral-900 font-body hover:underline">Add links →</Link>
                 </div>
               )}
             </div>
@@ -307,7 +307,7 @@ export default async function ProfilePage() {
             <div className="rounded-xl bg-white border border-black/10 p-4">
               <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mb-2">Company Website</p>
               <a href={(recruiterProfile as any).website_url} target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-[#FAFAFA] hover:text-[#D4D4D4] font-body transition-colors truncate">
+                className="flex items-center gap-2 text-sm text-neutral-900 hover:text-neutral-600 font-body transition-colors truncate">
                 <Globe className="h-4 w-4 shrink-0" />{(recruiterProfile as any).website_url}
               </a>
             </div>
@@ -324,7 +324,7 @@ export default async function ProfilePage() {
             ) : (
               <div className="space-y-2">
                 <p className="font-body text-sm text-neutral-700/50 italic">No bio added yet.</p>
-                <Link href="/onboarding" className="inline-flex items-center gap-1 text-xs text-[#FAFAFA] font-body hover:text-[#D4D4D4] transition-colors">
+                <Link href="/onboarding" className="inline-flex items-center gap-1 text-xs text-neutral-900 font-body hover:text-neutral-600 transition-colors">
                   <Edit className="h-3 w-3" />Add bio →
                 </Link>
               </div>
@@ -359,7 +359,7 @@ export default async function ProfilePage() {
                 ) : (
                   <div className="space-y-1.5">
                     <p className="font-body text-sm text-neutral-700/50 italic">No education info added.</p>
-                    <Link href="/onboarding" className="inline-flex items-center gap-1 text-xs text-[#FAFAFA] font-body hover:text-[#D4D4D4] transition-colors">
+                    <Link href="/onboarding" className="inline-flex items-center gap-1 text-xs text-neutral-900 font-body hover:text-neutral-600 transition-colors">
                       <GraduationCap className="h-3 w-3" />Add education →
                     </Link>
                   </div>
@@ -376,7 +376,7 @@ export default async function ProfilePage() {
                 {(studentProfile as any)?.skills?.length > 0 ? (
                   <div className="flex flex-wrap gap-2">
                     {(studentProfile as any).skills.map((s: string) => (
-                      <span key={s} className="px-3 py-1.5 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-[#FAFAFA] font-data text-[10px] tracking-wider">
+                      <span key={s} className="px-3 py-1.5 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-neutral-900 font-data text-[10px] tracking-wider">
                         {s}
                       </span>
                     ))}
@@ -384,7 +384,7 @@ export default async function ProfilePage() {
                 ) : (
                   <div className="space-y-1.5">
                     <p className="font-body text-sm text-neutral-700/50 italic">No skills added yet.</p>
-                    <Link href="/onboarding" className="inline-flex items-center gap-1 text-xs text-[#FAFAFA] font-body hover:text-[#D4D4D4] transition-colors">
+                    <Link href="/onboarding" className="inline-flex items-center gap-1 text-xs text-neutral-900 font-body hover:text-neutral-600 transition-colors">
                       <Tag className="h-3 w-3" />Add skills →
                     </Link>
                   </div>
@@ -422,7 +422,7 @@ export default async function ProfilePage() {
                 </div>
               )}
               {!(recruiterProfile as any)?.description && !(recruiterProfile as any)?.hiring_focus && (
-                <Link href="/onboarding" className="inline-flex items-center gap-1 text-xs text-[#FAFAFA] font-body hover:text-[#D4D4D4] transition-colors">
+                <Link href="/onboarding" className="inline-flex items-center gap-1 text-xs text-neutral-900 font-body hover:text-neutral-600 transition-colors">
                   <Building2 className="h-3 w-3" />Complete company details →
                 </Link>
               )}

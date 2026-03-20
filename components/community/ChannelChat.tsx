@@ -85,7 +85,7 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center flex-1">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
+        <div className="w-10 h-10 rounded-full bg-neutral-200 flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
           <Zap className="h-5 w-5 text-black" />
         </div>
       </div>
@@ -112,7 +112,7 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
                 {!isOwn && (
                   <Avatar className="h-8 w-8 shrink-0 mt-1 border border-black/10">
                     <AvatarImage src={sender?.avatar_url || undefined} />
-                    <AvatarFallback className="bg-white text-[#FAFAFA] text-xs font-bold">
+                    <AvatarFallback className="bg-white text-neutral-900 text-xs font-bold">
                       {getInitials(sender?.full_name || "?")}
                     </AvatarFallback>
                   </Avatar>
@@ -125,7 +125,7 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
                   )}
                   <div className={`px-4 py-2.5 rounded-2xl font-body text-sm leading-relaxed ${
                     isOwn
-                      ? "bg-gradient-to-br from-[#525252] to-[#FAFAFA] text-black rounded-br-sm shadow-[0_0_12px_-5px_rgba(255,255,255,0.4)]"
+                      ? "bg-neutral-200 text-black rounded-br-sm shadow-[0_0_12px_-5px_rgba(255,255,255,0.4)]"
                       : "bg-white text-black rounded-bl-sm border border-black/10"
                   }`}>
                     {msg.content}
@@ -150,7 +150,7 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
           className="flex-1 h-11 px-4 rounded-full bg-white border border-black/10 text-black text-sm placeholder:text-black/25 focus:outline-none focus:border-[#FAFAFA]/50 transition-all duration-200"
         />
         <button type="submit" disabled={sending || !newMessage.trim()}
-          className="w-11 h-11 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)] hover:shadow-[0_0_20px_-3px_rgba(255,255,255,0.7)] transition-all duration-200 disabled:opacity-40 disabled:pointer-events-none shrink-0">
+          className="w-11 h-11 rounded-full bg-neutral-200 flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)] hover:shadow-[0_0_20px_-3px_rgba(255,255,255,0.7)] transition-all duration-200 disabled:opacity-40 disabled:pointer-events-none shrink-0">
           {sending ? <Loader2 className="h-4 w-4 text-black animate-spin" /> : <Send className="h-4 w-4 text-black" />}
         </button>
       </form>

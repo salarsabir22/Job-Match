@@ -68,14 +68,14 @@ export default async function AdminOverviewPage() {
       {/* Pending approvals alert */}
       {pendingRecruiters.length > 0 && (
         <div className="flex items-start gap-3 p-4 rounded-xl bg-[#FAFAFA]/8 border border-[#FAFAFA]/30">
-          <AlertTriangle className="h-4 w-4 text-[#FAFAFA] shrink-0 mt-0.5" />
+          <AlertTriangle className="h-4 w-4 text-neutral-900 shrink-0 mt-0.5" />
           <div className="flex-1 min-w-0">
-            <p className="font-data text-[10px] tracking-widest uppercase text-[#FAFAFA] mb-0.5">Action Required</p>
+            <p className="font-data text-[10px] tracking-widest uppercase text-neutral-900 mb-0.5">Action Required</p>
             <p className="font-body text-sm text-neutral-700">
               {pendingRecruiters.length} recruiter{pendingRecruiters.length > 1 ? "s" : ""} waiting for approval
             </p>
           </div>
-          <Link href="/admin/recruiters" className="flex items-center gap-1 font-body text-xs text-[#FAFAFA] hover:text-[#D4D4D4] transition-colors shrink-0">
+          <Link href="/admin/recruiters" className="flex items-center gap-1 font-body text-xs text-neutral-900 hover:text-neutral-600 transition-colors shrink-0">
             Review <ArrowRight className="h-3 w-3" />
           </Link>
         </div>
@@ -107,10 +107,10 @@ export default async function AdminOverviewPage() {
         <div className="rounded-xl bg-white border border-black/10 p-5 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Users className="h-4 w-4 text-[#FAFAFA]" />
+              <Users className="h-4 w-4 text-neutral-900" />
               <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700">User Breakdown</p>
             </div>
-            <Link href="/admin/users" className="font-data text-[9px] tracking-wider uppercase text-[#FAFAFA] hover:text-[#D4D4D4] transition-colors">
+            <Link href="/admin/users" className="font-data text-[9px] tracking-wider uppercase text-neutral-900 hover:text-neutral-600 transition-colors">
               Manage →
             </Link>
           </div>
@@ -139,7 +139,7 @@ export default async function AdminOverviewPage() {
         {/* Platform activity */}
         <div className="rounded-xl bg-white border border-black/10 p-5 space-y-4">
           <div className="flex items-center gap-2">
-            <TrendingUp className="h-4 w-4 text-[#FAFAFA]" />
+            <TrendingUp className="h-4 w-4 text-neutral-900" />
             <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700">Platform Activity</p>
           </div>
           <div className="space-y-3">
@@ -170,7 +170,7 @@ export default async function AdminOverviewPage() {
               <Clock className="h-4 w-4 text-[#D4D4D4]" />
               <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700">Pending Approvals</p>
             </div>
-            <Link href="/admin/recruiters" className="font-data text-[9px] tracking-wider uppercase text-[#FAFAFA] hover:text-[#D4D4D4] transition-colors">
+            <Link href="/admin/recruiters" className="font-data text-[9px] tracking-wider uppercase text-neutral-900 hover:text-neutral-600 transition-colors">
               View all →
             </Link>
           </div>
@@ -178,7 +178,7 @@ export default async function AdminOverviewPage() {
             {pendingRecruiters.map((recruiter: any) => (
               <div key={recruiter.id} className="flex items-center justify-between gap-3 p-3 rounded-lg bg-white/[0.02] border border-black/10">
                 <div className="flex items-center gap-2.5">
-                  <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center">
+                  <div className="h-9 w-9 rounded-lg bg-neutral-200 flex items-center justify-center">
                     <Building2 className="h-4 w-4 text-black" />
                   </div>
                   <div>
@@ -193,7 +193,7 @@ export default async function AdminOverviewPage() {
             ))}
           </div>
           <Link href="/admin/recruiters"
-            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.4)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.6)] transition-all duration-300">
+            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.4)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.6)] transition-all duration-300">
             Review & Approve Recruiters <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -203,10 +203,10 @@ export default async function AdminOverviewPage() {
       <div className="rounded-xl bg-white border border-black/10 overflow-hidden">
         <div className="flex items-center justify-between p-4 border-b border-black/10">
           <div className="flex items-center gap-2">
-            <Zap className="h-4 w-4 text-[#FAFAFA]" />
+            <Zap className="h-4 w-4 text-neutral-900" />
             <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700">Recent Signups</p>
           </div>
-          <Link href="/admin/users" className="font-data text-[9px] tracking-wider uppercase text-[#FAFAFA] hover:text-[#D4D4D4] transition-colors">
+          <Link href="/admin/users" className="font-data text-[9px] tracking-wider uppercase text-neutral-900 hover:text-neutral-600 transition-colors">
             All users →
           </Link>
         </div>
@@ -215,7 +215,7 @@ export default async function AdminOverviewPage() {
             <div key={u.id} className="flex items-center gap-3 px-4 py-3 hover:bg-white/[0.015] transition-colors">
               <Avatar className="h-8 w-8 border border-black/10">
                 <AvatarImage src={u.avatar_url || undefined} />
-                <AvatarFallback className="bg-white text-[#FAFAFA] text-xs font-bold">
+                <AvatarFallback className="bg-white text-neutral-900 text-xs font-bold">
                   {getInitials(u.full_name || "?")}
                 </AvatarFallback>
               </Avatar>
@@ -227,7 +227,7 @@ export default async function AdminOverviewPage() {
                 u.role === "admin"
                   ? "bg-[#D4D4D4]/15 border-[#D4D4D4]/30 text-[#D4D4D4]"
                   : u.role === "recruiter"
-                  ? "bg-[#FAFAFA]/15 border-[#FAFAFA]/30 text-[#FAFAFA]"
+                  ? "bg-[#FAFAFA]/15 border-[#FAFAFA]/30 text-neutral-900"
                   : "bg-white/5 border-white/15 text-neutral-700"
               }`}>
                 {u.role}

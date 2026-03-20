@@ -112,7 +112,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
     return (
       <div className="flex items-center justify-center py-32">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
+          <div className="w-12 h-12 rounded-full bg-neutral-200 flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
             <Zap className="h-6 w-6 text-black" />
           </div>
           <p className="font-data text-xs tracking-widest uppercase text-neutral-700">Finding candidates...</p>
@@ -131,13 +131,13 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
         </div>
         <div className="flex flex-col items-center gap-4 text-center py-24 rounded-2xl bg-white border border-black/10">
           <div className="w-16 h-16 rounded-2xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
-            <Briefcase className="h-8 w-8 text-[#FAFAFA]" />
+            <Briefcase className="h-8 w-8 text-neutral-900" />
           </div>
           <div>
             <h3 className="font-heading font-semibold text-lg text-black">No active jobs</h3>
             <p className="font-body text-sm text-neutral-700 mt-1">Post a job first to start discovering candidates</p>
           </div>
-          <a href="/jobs" className="px-5 py-2.5 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm">
+          <a href="/jobs" className="px-5 py-2.5 rounded-full bg-black text-white font-body font-semibold text-sm">
             Post a Job
           </a>
         </div>
@@ -192,7 +192,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
       {currentIndex >= candidates.length ? (
         <div className="flex flex-col items-center gap-5 text-center py-20 rounded-2xl bg-white border border-black/10">
           <div className="w-20 h-20 rounded-3xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
-            <CheckCircle className="h-10 w-10 text-[#FAFAFA]" />
+            <CheckCircle className="h-10 w-10 text-neutral-900" />
           </div>
           <div>
             <h3 className="font-heading font-bold text-xl text-black">All caught up!</h3>
@@ -202,7 +202,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
           </div>
           <div className="grid grid-cols-2 gap-3 text-left w-full max-w-xs">
             <div className="rounded-xl bg-white border border-black/10 p-3 text-center">
-              <p className="font-heading font-bold text-xl text-[#FAFAFA]">{stats.liked}</p>
+              <p className="font-heading font-bold text-xl text-neutral-900">{stats.liked}</p>
               <p className="font-data text-[9px] tracking-wider uppercase text-neutral-700 mt-0.5">Liked</p>
             </div>
             <div className="rounded-xl bg-white border border-black/10 p-3 text-center">
@@ -212,7 +212,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
           </div>
           <button
             onClick={() => loadCandidates(selectedJobId)}
-            className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm"
+            className="px-6 py-2.5 rounded-full bg-black text-white font-body font-semibold text-sm"
           >
             Refresh Candidates
           </button>
@@ -251,7 +251,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
               <button
                 onClick={() => handleSwipe("right")}
                 disabled={swiping}
-                className="h-14 w-14 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] shadow-[0_0_20px_-5px_rgba(255,255,255,0.6)] flex items-center justify-center hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.9)] transition-all duration-200 active:scale-90"
+                className="h-14 w-14 rounded-full bg-neutral-200 shadow-[0_0_20px_-5px_rgba(255,255,255,0.6)] flex items-center justify-center hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.9)] transition-all duration-200 active:scale-90"
               >
                 <Heart className="h-7 w-7 text-black" fill="white" />
               </button>
@@ -259,7 +259,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
 
             <div className="flex items-center gap-5 font-data text-[9px] tracking-wider uppercase">
               <span className="text-neutral-500">← Pass</span>
-              <span className="text-[#FAFAFA]">Like →</span>
+              <span className="text-neutral-900">Like →</span>
             </div>
           </div>
 
@@ -268,13 +268,13 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
             {/* Candidate detail */}
             <div className="rounded-2xl bg-white border border-black/10 overflow-hidden">
               {/* Header gradient */}
-              <div className="h-32 bg-gradient-to-br from-[#0a0f1a] via-[#0d1626] to-[#06080f] relative overflow-hidden flex items-end px-6 pb-4">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#A3A3A3]/25 via-[#737373]/10 to-transparent pointer-events-none" />
+              <div className="h-32 bg-neutral-800 relative overflow-hidden flex items-end px-6 pb-4">
+                <div className="absolute inset-0 bg-black/5 pointer-events-none" />
                 <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full bg-[#A3A3A3]/8 blur-2xl" />
                 <div className="flex items-end gap-4 relative z-10">
                   <Avatar className="h-16 w-16 border-[3px] border-[#A3A3A3]/40 shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)]">
                     <AvatarImage src={currentCandidate.profile.avatar_url || undefined} />
-                    <AvatarFallback className="text-lg font-bold bg-gradient-to-br from-[#A3A3A3] to-[#737373] text-black">
+                    <AvatarFallback className="text-lg font-bold bg-neutral-300 text-black">
                       {getInitials(currentCandidate.profile.full_name || "?")}
                     </AvatarFallback>
                   </Avatar>
@@ -334,7 +334,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
                     <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mb-2">Looking For</p>
                     <div className="flex flex-wrap gap-2">
                       {currentCandidate.studentProfile.preferred_job_categories.map((c: string) => (
-                        <span key={c} className="font-data text-[10px] tracking-wide px-2.5 py-1 rounded-md bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-[#FAFAFA]">
+                        <span key={c} className="font-data text-[10px] tracking-wide px-2.5 py-1 rounded-md bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-neutral-900">
                           {c}
                         </span>
                       ))}
@@ -364,7 +364,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
                   )}
                   {currentCandidate.studentProfile.resume_url && (
                     <a href={currentCandidate.studentProfile.resume_url} target="_blank" rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#FAFAFA]/8 border border-[#FAFAFA]/20 text-[#FAFAFA] hover:bg-[#FAFAFA]/15 transition-colors font-body text-xs">
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#FAFAFA]/8 border border-[#FAFAFA]/20 text-neutral-900 hover:bg-[#FAFAFA]/15 transition-colors font-body text-xs">
                       <FileText className="h-3.5 w-3.5" /> Resume
                     </a>
                   )}
@@ -382,7 +382,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
                   <button
                     onClick={() => handleSwipe("right")}
                     disabled={swiping}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black hover:opacity-90 transition-all font-body text-sm font-semibold shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)]"
+                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-black text-white hover:opacity-90 transition-all font-body text-sm font-semibold shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)]"
                   >
                     <Heart className="h-4 w-4" fill="currentColor" /> Like Candidate
                   </button>
@@ -399,7 +399,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
                     <div key={profile.id} className="flex items-center gap-3 p-2.5 rounded-xl bg-white border border-black/10 opacity-70">
                       <Avatar className="h-8 w-8 shrink-0">
                         <AvatarImage src={profile.avatar_url || undefined} />
-                        <AvatarFallback className="text-xs bg-gradient-to-br from-[#A3A3A3] to-[#737373] text-black">
+                        <AvatarFallback className="text-xs bg-neutral-300 text-black">
                           {getInitials(profile.full_name || "?")}
                         </AvatarFallback>
                       </Avatar>

@@ -136,7 +136,7 @@ export default function SignupPage() {
     return (
       <div className="bg-white border border-black/10 rounded-2xl p-8 text-center shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
         <div className="w-16 h-16 rounded-2xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center mx-auto mb-5">
-          <Mail className="h-8 w-8 text-[#FAFAFA]" />
+          <Mail className="h-8 w-8 text-neutral-900" />
         </div>
         <h2 className="font-heading font-bold text-xl text-black mb-2">Check your inbox</h2>
         <p className="font-body text-neutral-700 text-sm mb-1">
@@ -144,7 +144,7 @@ export default function SignupPage() {
         </p>
         <p className="font-body text-black font-medium text-sm mb-5">{email}</p>
         <div className="p-3.5 rounded-xl bg-[#FAFAFA]/10 border border-[#FAFAFA]/25 mb-5 text-left">
-          <p className="font-data text-[11px] tracking-wider uppercase text-[#FAFAFA] mb-1">What to do next</p>
+          <p className="font-data text-[11px] tracking-wider uppercase text-neutral-900 mb-1">What to do next</p>
           <ol className="list-decimal list-inside space-y-1">
             <li className="font-body text-xs text-neutral-700">Open the email from JobMatch</li>
             <li className="font-body text-xs text-neutral-700">Click the &quot;Confirm your email&quot; button</li>
@@ -153,7 +153,7 @@ export default function SignupPage() {
         </div>
         <p className="font-body text-xs text-neutral-700">
           Didn&apos;t receive it? Check spam or{" "}
-          <button onClick={() => setVerifyMode(false)} className="text-[#FAFAFA] hover:underline">try again</button>
+          <button onClick={() => setVerifyMode(false)} className="text-neutral-900 hover:underline">try again</button>
         </p>
       </div>
     )
@@ -162,7 +162,7 @@ export default function SignupPage() {
   return (
     <div className="bg-white border border-black/10 rounded-2xl p-8 shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
       <div className="text-center mb-7">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_-5px_rgba(255,255,255,0.6)]">
+        <div className="w-14 h-14 rounded-2xl bg-neutral-200 flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_-5px_rgba(255,255,255,0.6)]">
           <Zap className="w-7 h-7 text-black" />
         </div>
         <h1 className="font-heading font-bold text-2xl text-black">Create your account</h1>
@@ -185,10 +185,10 @@ export default function SignupPage() {
                     : "border-black/10 hover:border-white/20"
                 )}>
                 <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center", active ? "bg-[#FAFAFA]/20" : "bg-white/5")}>
-                  <Icon className={cn("h-4 w-4", active ? "text-[#FAFAFA]" : "text-neutral-700")} />
+                  <Icon className={cn("h-4 w-4", active ? "text-neutral-900" : "text-neutral-700")} />
                 </div>
                 <div>
-                  <p className={cn("font-body font-semibold text-xs", active ? "text-[#FAFAFA]" : "text-black")}>{label}</p>
+                  <p className={cn("font-body font-semibold text-xs", active ? "text-neutral-900" : "text-black")}>{label}</p>
                   <p className="font-body text-[10px] text-[#64748B] mt-0.5 leading-relaxed">{description}</p>
                 </div>
               </button>
@@ -204,7 +204,7 @@ export default function SignupPage() {
           <div>
             <p className="font-body text-sm text-neutral-400">{error}</p>
             {error.includes("already exists") && (
-              <Link href="/login" className="font-body text-xs text-[#FAFAFA] hover:underline mt-1 inline-block">Go to sign in →</Link>
+              <Link href="/login" className="font-body text-xs text-neutral-900 hover:underline mt-1 inline-block">Go to sign in →</Link>
             )}
           </div>
         </div>
@@ -298,14 +298,14 @@ export default function SignupPage() {
         )}
 
         <button type="submit" disabled={loading}
-          className="w-full h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2">
+          className="w-full h-11 rounded-xl bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2">
           {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Creating account…</> : "Create Account"}
         </button>
       </form>
 
       <p className="font-body text-center text-sm text-neutral-700 mt-5">
         Already have an account?{" "}
-        <Link href="/login" className="text-[#FAFAFA] hover:text-[#D4D4D4] font-medium transition-colors">Sign in</Link>
+        <Link href="/login" className="text-neutral-900 hover:text-neutral-600 font-medium transition-colors">Sign in</Link>
       </p>
 
       <p className="font-body text-center text-[10px] text-[#4A5568] mt-4">

@@ -134,7 +134,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
     <>
       <div className="rounded-2xl bg-white border border-black/10 overflow-hidden">
         <div className="flex items-center gap-2 p-4 border-b border-black/10">
-          <Video className="h-4 w-4 text-[#FAFAFA]" />
+          <Video className="h-4 w-4 text-neutral-900" />
           <h3 className="font-data text-[11px] tracking-widest uppercase text-neutral-700">Profile Video</h3>
         </div>
         <div className="p-4 space-y-4">
@@ -177,13 +177,13 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
           ) : (
             <div className="rounded-xl border border-dashed border-white/15 bg-white/[0.02] aspect-video max-h-[200px] flex flex-col items-center justify-center gap-3 p-4">
               <div className="w-12 h-12 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
-                <Video className="h-6 w-6 text-[#FAFAFA]" />
+                <Video className="h-6 w-6 text-neutral-900" />
               </div>
               <p className="font-body text-sm text-neutral-700 text-center">
                 Add a short intro video so recruiters can get to know you
               </p>
               <div className="flex flex-wrap items-center justify-center gap-2">
-                <label className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-[#FAFAFA] font-body text-sm font-medium cursor-pointer hover:bg-[#FAFAFA]/25 transition-colors">
+                <label className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-neutral-900 font-body text-sm font-medium cursor-pointer hover:bg-[#FAFAFA]/25 transition-colors">
                   <Upload className="h-4 w-4" />
                   Upload video
                   <input
@@ -259,7 +259,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
                   <button
                     type="button"
                     onClick={startRecording}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold"
+                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-black text-white font-body font-semibold"
                   >
                     Start recording
                   </button>

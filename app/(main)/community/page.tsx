@@ -64,8 +64,8 @@ export default async function CommunityPage() {
         <div className="flex items-center gap-2">
           {joinedCount > 0 && (
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/25">
-              <CheckCircle className="h-3.5 w-3.5 text-[#FAFAFA]" />
-              <span className="font-data text-[10px] tracking-wider uppercase text-[#FAFAFA]">
+              <CheckCircle className="h-3.5 w-3.5 text-neutral-900" />
+              <span className="font-data text-[10px] tracking-wider uppercase text-neutral-900">
                 {joinedCount} joined
               </span>
             </div>
@@ -97,10 +97,10 @@ export default async function CommunityPage() {
       {/* Most active channel highlight */}
       {topChannel && (topChannel.channel_members?.length || 0) > 1 && (
         <Link href={`/community/${topChannel.id}`}>
-          <div className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-[#FAFAFA]/10 to-transparent border border-[#FAFAFA]/25 hover:border-[#FAFAFA]/40 transition-all duration-300 cursor-pointer">
+          <div className="flex items-center gap-4 p-4 rounded-xl bg-neutral-50 border border-black/10 hover:border-black/20 transition-all duration-300 cursor-pointer">
             <div className="flex items-center gap-1.5">
-              <TrendingUp className="h-4 w-4 text-[#FAFAFA]" />
-              <span className="font-data text-[10px] tracking-widest uppercase text-[#FAFAFA]">Most Active</span>
+              <TrendingUp className="h-4 w-4 text-neutral-900" />
+              <span className="font-data text-[10px] tracking-widest uppercase text-neutral-900">Most Active</span>
             </div>
             <div className="flex items-center gap-2 flex-1 min-w-0">
               <Hash className="h-4 w-4 text-black shrink-0" />
@@ -157,7 +157,7 @@ export default async function CommunityPage() {
                         <div className="flex items-center gap-2 flex-wrap">
                           <p className="font-heading font-semibold text-sm text-black">#{channel.name}</p>
                           {isJoined && (
-                            <span className="font-data text-[9px] tracking-widest uppercase px-1.5 py-0.5 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-[#FAFAFA]">
+                            <span className="font-data text-[9px] tracking-widest uppercase px-1.5 py-0.5 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-neutral-900">
                               Joined
                             </span>
                           )}
@@ -177,7 +177,7 @@ export default async function CommunityPage() {
                             <Users className="h-3 w-3" />{memberCount} member{memberCount !== 1 ? "s" : ""}
                           </div>
                           {!isJoined && (
-                            <span className="font-data text-[9px] tracking-wider uppercase text-[#FAFAFA]">
+                            <span className="font-data text-[9px] tracking-wider uppercase text-neutral-900">
                               Join →
                             </span>
                           )}
@@ -196,7 +196,7 @@ export default async function CommunityPage() {
       {!channels?.length && (
         <div className="text-center py-32 space-y-4">
           <div className="w-16 h-16 rounded-2xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center mx-auto">
-            <MessageCircle className="h-8 w-8 text-[#FAFAFA]" />
+            <MessageCircle className="h-8 w-8 text-neutral-900" />
           </div>
           <div>
             <p className="font-heading font-semibold text-black mb-1">No channels yet</p>

@@ -61,7 +61,7 @@ export default function AdminChannelsPage() {
           <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mt-0.5">{channels.length} channels</p>
         </div>
         <button onClick={() => setOpen(true)}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-xs shadow-[0_0_15px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_25px_-5px_rgba(255,255,255,0.7)] transition-all duration-300">
+          className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-black text-white font-body font-semibold text-xs shadow-[0_0_15px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_25px_-5px_rgba(255,255,255,0.7)] transition-all duration-300">
           <Plus className="h-3.5 w-3.5" />New Channel
         </button>
       </div>
@@ -91,7 +91,7 @@ export default function AdminChannelsPage() {
                 <input className={inputClass} placeholder="e.g. tech, career, networking" value={category} onChange={(e) => setCategory(e.target.value)} />
               </div>
               <button type="submit" disabled={creating}
-                className="w-full h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2">
+                className="w-full h-11 rounded-xl bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2">
                 {creating ? <Loader2 className="h-4 w-4 animate-spin" /> : "Create Channel"}
               </button>
             </form>
@@ -101,7 +101,7 @@ export default function AdminChannelsPage() {
 
       {loading ? (
         <div className="flex justify-center py-12">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
+          <div className="w-10 h-10 rounded-full bg-neutral-200 flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
             <Zap className="h-5 w-5 text-black" />
           </div>
         </div>
@@ -110,7 +110,7 @@ export default function AdminChannelsPage() {
           {channels.map((ch) => (
             <div key={ch.id} className="flex items-center gap-3 p-4 rounded-xl bg-white border border-black/10">
               <div className="h-10 w-10 rounded-xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center shrink-0">
-                <Hash className="h-5 w-5 text-[#FAFAFA]" />
+                <Hash className="h-5 w-5 text-neutral-900" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
