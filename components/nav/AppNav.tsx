@@ -42,9 +42,10 @@ interface AppNavProps {
   fullName?: string | null
   email?:    string | null
   avatarUrl?: string | null
+  unreadNotificationCount?: number
 }
 
-export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
+export function AppNav({ role, fullName, email, avatarUrl, unreadNotificationCount = 0 }: AppNavProps) {
   const pathname = usePathname()
   const links = role === "student" ? studentLinks : role === "recruiter" ? recruiterLinks : adminLinks
 
@@ -165,13 +166,27 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
             Job<span className="gradient-text">Match</span>
           </span>
         </Link>
-        <button
-          onClick={handleSignOut}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[#94A3B8] hover:text-red-400 hover:bg-red-400/10 font-body text-xs font-medium transition-all duration-200 border border-white/8"
-        >
-          <LogOut className="h-3.5 w-3.5" />
-          Logout
-        </button>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/notifications"
+            className="relative h-8 w-8 rounded-lg border border-white/10 text-[#94A3B8] hover:text-[#F7931A] hover:border-[#F7931A]/40 transition-all flex items-center justify-center"
+            title="Notifications"
+          >
+            <Bell className="h-4 w-4" />
+            {unreadNotificationCount > 0 && (
+              <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-[#F7931A] text-[#030304] font-data text-[9px] leading-4 text-center">
+                {unreadNotificationCount > 99 ? "99+" : unreadNotificationCount}
+              </span>
+            )}
+          </Link>
+          <button
+            onClick={handleSignOut}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[#94A3B8] hover:text-red-400 hover:bg-red-400/10 font-body text-xs font-medium transition-all duration-200 border border-white/8"
+          >
+            <LogOut className="h-3.5 w-3.5" />
+            Logout
+          </button>
+        </div>
       </header>
 
       {/* ── Mobile Bottom Nav ─────────────────────────────────────── */}

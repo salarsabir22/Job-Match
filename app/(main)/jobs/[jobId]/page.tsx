@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, MapPin, Wifi, Calendar } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import { JobToggleButton } from "./JobToggleButton"
+import { InterestedCandidatesPanel } from "./InterestedCandidatesPanel"
 
 export default async function JobDetailPage({ params }: { params: Promise<{ jobId: string }> }) {
   const { jobId } = await params
@@ -42,6 +43,8 @@ export default async function JobDetailPage({ params }: { params: Promise<{ jobI
           <p className="text-xs text-muted-foreground mt-0.5">Matches</p>
         </div>
       </div>
+
+      <InterestedCandidatesPanel recruiterId={user!.id} jobId={jobId} />
 
       <div className="rounded-xl border border-border p-4 space-y-4">
         <div className="flex flex-wrap gap-2">

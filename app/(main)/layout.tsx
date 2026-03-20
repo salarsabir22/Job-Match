@@ -1,6 +1,8 @@
 import { createClient } from "@/lib/supabase/server"
 import { AppNav } from "@/components/nav/AppNav"
 import type { UserRole } from "@/types"
+import Link from "next/link"
+import { Bell } from "lucide-react"
 
 export default async function MainLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -21,6 +23,14 @@ export default async function MainLayout({ children }: { children: React.ReactNo
     avatarUrl = profile?.avatar_url ?? null
   }
 
+  const { count: unreadNotificationCount } = user
+    ? await supabase
+        .from("notifications")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", user.id)
+        .eq("is_read", false)
+    : { count: 0 }
+
   return (
     <div className="min-h-screen bg-[#030304] flex">
       <AppNav
@@ -28,6 +38,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
         fullName={fullName}
         email={user?.email ?? null}
         avatarUrl={avatarUrl}
+        unreadNotificationCount={unreadNotificationCount ?? 0}
       />
 
       {/* Main content — offset by sidebar on desktop */}
@@ -36,6 +47,18 @@ export default async function MainLayout({ children }: { children: React.ReactNo
         <div className="hidden lg:flex h-14 shrink-0 items-center border-b border-white/6 bg-[#030304]/80 backdrop-blur-sm sticky top-0 z-30 px-8">
           <div className="flex-1" />
           <div className="flex items-center gap-3">
+            <Link
+              href="/notifications"
+              className="relative h-8 w-8 rounded-lg border border-white/10 text-[#94A3B8] hover:text-[#F7931A] hover:border-[#F7931A]/40 transition-all flex items-center justify-center"
+              title="Notifications"
+            >
+              <Bell className="h-4 w-4" />
+              {(unreadNotificationCount ?? 0) > 0 && (
+                <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-[#F7931A] text-[#030304] font-data text-[9px] leading-4 text-center">
+                  {(unreadNotificationCount ?? 0) > 99 ? "99+" : unreadNotificationCount}
+                </span>
+              )}
+            </Link>
             <div className="text-right">
               <p className="font-body text-sm font-medium text-white leading-none">{fullName ?? user?.email?.split("@")[0]}</p>
               <p className="font-data text-[10px] tracking-wider uppercase text-[#94A3B8] mt-0.5 capitalize">{role}</p>
