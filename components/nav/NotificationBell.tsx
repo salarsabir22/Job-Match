@@ -99,7 +99,7 @@ export function NotificationBell() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="relative h-8 w-8 rounded-lg border border-white/10 text-[#94A3B8] hover:text-[#FAFAFA] hover:border-[#FAFAFA]/40 transition-all flex items-center justify-center"
+        className="relative h-8 w-8 rounded-lg border border-black/10 text-neutral-700 hover:text-[#FAFAFA] hover:border-[#FAFAFA]/40 transition-all flex items-center justify-center"
         title="Notifications"
       >
         <Bell className="h-4 w-4" />
@@ -111,9 +111,9 @@ export function NotificationBell() {
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-[320px] max-w-[85vw] rounded-xl border border-white/10 bg-[#0F1115] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.7)] overflow-hidden">
-          <div className="px-3 py-2 border-b border-white/8 flex items-center justify-between">
-            <p className="font-body text-sm text-white">Notifications</p>
+        <div className="absolute right-0 mt-2 w-[320px] max-w-[85vw] rounded-xl border border-black/10 bg-white shadow-[0_10px_30px_-10px_rgba(0,0,0,0.7)] overflow-hidden">
+          <div className="px-3 py-2 border-b border-black/10 flex items-center justify-between">
+            <p className="font-body text-sm text-black">Notifications</p>
             <button
               type="button"
               onClick={() => {
@@ -128,27 +128,27 @@ export function NotificationBell() {
 
           <div className="max-h-[360px] overflow-y-auto">
             {loading ? (
-              <p className="px-3 py-4 font-body text-xs text-[#94A3B8]">Loading...</p>
+              <p className="px-3 py-4 font-body text-xs text-neutral-700">Loading...</p>
             ) : items.length === 0 ? (
-              <p className="px-3 py-4 font-body text-xs text-[#94A3B8]">No notifications yet.</p>
+              <p className="px-3 py-4 font-body text-xs text-neutral-700">No notifications yet.</p>
             ) : (
               items.map((n) => (
                 <button
                   key={n.id}
                   type="button"
                   onClick={() => void openNotification(n)}
-                  className="w-full text-left px-3 py-2.5 border-b border-white/5 last:border-b-0 hover:bg-white/5 transition-colors"
+                  className="w-full text-left px-3 py-2.5 border-b border-black/10 last:border-b-0 hover:bg-white/5 transition-colors"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
-                      <p className="font-body text-xs text-white truncate">{n.title}</p>
-                      {n.body && <p className="font-body text-[11px] text-[#CBD5E1] mt-0.5 line-clamp-2">{n.body}</p>}
-                      <p className="font-data text-[9px] text-[#94A3B8] mt-1">{formatTime(n.created_at)}</p>
+                      <p className="font-body text-xs text-black truncate">{n.title}</p>
+                      {n.body && <p className="font-body text-[11px] text-neutral-800 mt-0.5 line-clamp-2">{n.body}</p>}
+                      <p className="font-data text-[9px] text-neutral-700 mt-1">{formatTime(n.created_at)}</p>
                     </div>
                     {!n.is_read ? (
                       <CheckCircle className="h-3.5 w-3.5 text-[#FAFAFA] shrink-0 mt-0.5" />
                     ) : (
-                      <XCircle className="h-3.5 w-3.5 text-[#94A3B8] shrink-0 mt-0.5" />
+                      <XCircle className="h-3.5 w-3.5 text-neutral-700 shrink-0 mt-0.5" />
                     )}
                   </div>
                 </button>

@@ -26,23 +26,23 @@ export default async function ChatPage({ params }: { params: Promise<{ matchId: 
   const otherUser = profile?.role === "student" ? match?.recruiter : match?.student
 
   return (
-    <div className="flex flex-col rounded-2xl overflow-hidden border border-white/8 bg-[#0A0B0E]" style={{ height: "calc(100dvh - 10rem)" }}>
+    <div className="flex flex-col rounded-2xl overflow-hidden border border-black/10 bg-white" style={{ height: "calc(100dvh - 10rem)" }}>
       {/* Chat header */}
-      <div className="flex items-center gap-3 p-4 border-b border-white/8 z-10 shrink-0">
+      <div className="flex items-center gap-3 p-4 border-b border-black/10 z-10 shrink-0">
         <Link href="/matches"
-          className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors shrink-0">
-          <ArrowLeft className="h-4 w-4 text-white" />
+          className="w-9 h-9 rounded-full bg-white/5 border border-black/10 flex items-center justify-center hover:bg-white/10 transition-colors shrink-0">
+          <ArrowLeft className="h-4 w-4 text-black" />
         </Link>
         <Avatar className="h-9 w-9 border border-[#FAFAFA]/30">
           <AvatarImage src={otherUser?.avatar_url} />
-          <AvatarFallback className="bg-[#0F1115] text-[#FAFAFA] text-xs font-bold">
+          <AvatarFallback className="bg-white text-[#FAFAFA] text-xs font-bold">
             {getInitials(otherUser?.full_name || "?")}
           </AvatarFallback>
         </Avatar>
         <div className="min-w-0 flex-1">
-          <p className="font-heading font-semibold text-sm text-white truncate">{otherUser?.full_name}</p>
+          <p className="font-heading font-semibold text-sm text-black truncate">{otherUser?.full_name}</p>
           {match?.jobs?.title && (
-            <p className="font-data text-[10px] text-[#94A3B8] flex items-center gap-1 truncate">
+            <p className="font-data text-[10px] text-neutral-700 flex items-center gap-1 truncate">
               <Briefcase className="h-3 w-3" />{match.jobs.title}
             </p>
           )}

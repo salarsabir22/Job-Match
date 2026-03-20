@@ -19,19 +19,19 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
   const isMember = !!membership
 
   return (
-    <div className="flex flex-col rounded-2xl overflow-hidden border border-white/8 bg-[#0A0B0E]" style={{ height: "calc(100dvh - 10rem)" }}>
+    <div className="flex flex-col rounded-2xl overflow-hidden border border-black/10 bg-white" style={{ height: "calc(100dvh - 10rem)" }}>
       {/* Channel header */}
-      <div className="flex items-center gap-3 p-4 border-b border-white/8 z-10 shrink-0">
+      <div className="flex items-center gap-3 p-4 border-b border-black/10 z-10 shrink-0">
         <Link href="/community"
-          className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors shrink-0">
-          <ArrowLeft className="h-4 w-4 text-white" />
+          className="w-9 h-9 rounded-full bg-white/5 border border-black/10 flex items-center justify-center hover:bg-white/10 transition-colors shrink-0">
+          <ArrowLeft className="h-4 w-4 text-black" />
         </Link>
         <div className="w-9 h-9 rounded-xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center shrink-0">
           <Hash className="h-4 w-4 text-[#FAFAFA]" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-heading font-semibold text-sm text-white">#{channel.name}</p>
-          <p className="font-data text-[10px] text-[#94A3B8] flex items-center gap-1">
+          <p className="font-heading font-semibold text-sm text-black">#{channel.name}</p>
+          <p className="font-data text-[10px] text-neutral-700 flex items-center gap-1">
             <Users className="h-3 w-3" />{memberCount} members
           </p>
         </div>
@@ -46,8 +46,8 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
             <Users className="h-8 w-8 text-[#FAFAFA]" />
           </div>
           <div>
-            <h3 className="font-heading font-semibold text-lg text-white">Join #{channel.name}</h3>
-            <p className="font-body text-sm text-[#94A3B8] mt-1 max-w-[240px]">
+            <h3 className="font-heading font-semibold text-lg text-black">Join #{channel.name}</h3>
+            <p className="font-body text-sm text-neutral-700 mt-1 max-w-[240px]">
               {channel.description || "Join this channel to start chatting."}
             </p>
           </div>

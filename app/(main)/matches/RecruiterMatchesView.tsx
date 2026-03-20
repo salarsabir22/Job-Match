@@ -85,11 +85,11 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
     const skills = sp?.skills?.slice(0, 3) || []
 
     return (
-      <div className="rounded-xl bg-[#0F1115] border border-white/8 hover:border-[#FAFAFA]/20 transition-all duration-200 overflow-hidden">
+      <div className="rounded-xl bg-white border border-black/10 hover:border-[#FAFAFA]/20 transition-all duration-200 overflow-hidden">
         <div className="p-4 flex items-start gap-3">
-          <Avatar className="h-12 w-12 shrink-0 border border-white/10">
+          <Avatar className="h-12 w-12 shrink-0 border border-black/10">
             <AvatarImage src={profile?.avatar_url} />
-            <AvatarFallback className="bg-[#030304] text-[#FAFAFA] text-sm font-bold">
+            <AvatarFallback className="bg-white text-[#FAFAFA] text-sm font-bold">
               {getInitials(profile?.full_name || "?")}
             </AvatarFallback>
           </Avatar>
@@ -97,16 +97,16 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0">
-                <p className="font-heading font-semibold text-sm text-white truncate">{profile?.full_name}</p>
-                <p className="font-body text-xs text-[#94A3B8] truncate">{match.jobs?.title}</p>
+                <p className="font-heading font-semibold text-sm text-black truncate">{profile?.full_name}</p>
+                <p className="font-body text-xs text-neutral-700 truncate">{match.jobs?.title}</p>
                 {sp?.university && (
-                  <p className="font-data text-[10px] text-[#94A3B8] flex items-center gap-1 mt-0.5">
+                  <p className="font-data text-[10px] text-neutral-700 flex items-center gap-1 mt-0.5">
                     <GraduationCap className="h-3 w-3" />
                     {sp.university}{sp.graduation_year ? ` · ${sp.graduation_year}` : ""}
                   </p>
                 )}
               </div>
-              <p className="font-data text-[9px] text-[#94A3B8] shrink-0">{formatDate(match.created_at)}</p>
+              <p className="font-data text-[9px] text-neutral-700 shrink-0">{formatDate(match.created_at)}</p>
             </div>
 
             {/* Skills */}
@@ -118,7 +118,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
                   </span>
                 ))}
                 {(sp?.skills?.length || 0) > 3 && (
-                  <span className="font-data text-[9px] px-1.5 py-0.5 rounded-full border border-white/10 text-[#94A3B8]">
+                  <span className="font-data text-[9px] px-1.5 py-0.5 rounded-full border border-black/10 text-neutral-700">
                     +{sp.skills.length - 3}
                   </span>
                 )}
@@ -128,7 +128,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
         </div>
 
         {/* Action row */}
-        <div className="px-4 pb-3 flex items-center justify-between gap-3 border-t border-white/5 pt-3">
+        <div className="px-4 pb-3 flex items-center justify-between gap-3 border-t border-black/10 pt-3">
           <div className="flex items-center gap-2">
             {match.is_shortlisted && (
               <span className="font-data text-[9px] tracking-widest uppercase px-2 py-0.5 rounded-full bg-[#D4D4D4]/10 border border-[#D4D4D4]/25 text-[#D4D4D4]">
@@ -150,7 +150,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
                 "h-8 w-8 rounded-lg border flex items-center justify-center transition-all",
                 match.is_shortlisted
                   ? "border-[#D4D4D4]/50 bg-[#D4D4D4]/15 text-[#D4D4D4]"
-                  : "border-white/10 text-[#94A3B8] hover:border-[#D4D4D4]/40 hover:text-[#D4D4D4]"
+                  : "border-black/10 text-neutral-700 hover:border-[#D4D4D4]/40 hover:text-[#D4D4D4]"
               )}
             >
               <Star className="h-3.5 w-3.5" />
@@ -158,19 +158,19 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
             <button
               onClick={() => toggleArchive(match.id, match.is_archived)}
               title={match.is_archived ? "Unarchive" : "Archive"}
-              className="h-8 w-8 rounded-lg border border-white/10 text-[#94A3B8] flex items-center justify-center hover:border-white/20 transition-all"
+              className="h-8 w-8 rounded-lg border border-black/10 text-neutral-700 flex items-center justify-center hover:border-white/20 transition-all"
             >
               <Archive className="h-3.5 w-3.5" />
             </button>
             {convId ? (
               <Link
                 href={`/chat/${convId}`}
-                className="flex items-center gap-1.5 h-8 px-3 rounded-lg bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-xs shadow-[0_0_10px_-3px_rgba(255,255,255,0.5)] hover:shadow-[0_0_15px_-3px_rgba(255,255,255,0.7)] transition-all"
+                className="flex items-center gap-1.5 h-8 px-3 rounded-lg bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-xs shadow-[0_0_10px_-3px_rgba(255,255,255,0.5)] hover:shadow-[0_0_15px_-3px_rgba(255,255,255,0.7)] transition-all"
               >
                 <MessageCircle className="h-3 w-3" />Chat
               </Link>
             ) : (
-              <span className="flex items-center gap-1.5 h-8 px-3 rounded-lg border border-white/8 text-[#94A3B8] font-data text-[9px] tracking-wider uppercase">
+              <span className="flex items-center gap-1.5 h-8 px-3 rounded-lg border border-black/10 text-neutral-700 font-data text-[9px] tracking-wider uppercase">
                 No chat yet
               </span>
             )}
@@ -184,7 +184,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
     return (
       <div className="flex items-center justify-center py-32">
         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
-          <Zap className="h-5 w-5 text-white" />
+          <Zap className="h-5 w-5 text-black" />
         </div>
       </div>
     )
@@ -194,8 +194,8 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="font-heading font-bold text-3xl text-white">Matches</h1>
-        <p className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8] mt-0.5">
+        <h1 className="font-heading font-bold text-3xl text-black">Matches</h1>
+        <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mt-0.5">
           {matches.length} total candidate match{matches.length !== 1 ? "es" : ""}
         </p>
       </div>
@@ -208,9 +208,9 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
           { label: "In Conversation", value: overallStats.inConversation, icon: MessageCircle, color: "#D4D4D4" },
           { label: "Archived", value: overallStats.archived, icon: Archive, color: "#94A3B8" },
         ].map(({ label, value, icon: Icon, color }) => (
-          <div key={label} className="rounded-xl bg-[#0F1115] border border-white/8 p-4">
+          <div key={label} className="rounded-xl bg-white border border-black/10 p-4">
             <div className="flex items-center justify-between mb-2">
-              <p className="font-data text-[9px] tracking-wider uppercase text-[#94A3B8]">{label}</p>
+              <p className="font-data text-[9px] tracking-wider uppercase text-neutral-700">{label}</p>
               <Icon className="h-3.5 w-3.5" style={{ color }} />
             </div>
             <p className="font-heading font-bold text-2xl" style={{ color }}>{value}</p>
@@ -220,10 +220,10 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
 
       {/* Pipeline */}
       {matches.length > 0 && (
-        <div className="rounded-xl bg-[#0F1115] border border-white/8 p-4">
+        <div className="rounded-xl bg-white border border-black/10 p-4">
           <div className="flex items-center gap-2 mb-4">
             <TrendingUp className="h-4 w-4 text-[#FAFAFA]" />
-            <p className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8]">Candidate Pipeline</p>
+            <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700">Candidate Pipeline</p>
           </div>
           <div className="flex items-center gap-2 overflow-x-auto pb-1">
             {[
@@ -235,10 +235,10 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
               <div key={label} className="flex items-center gap-2 shrink-0">
                 <div className="text-center min-w-[60px]">
                   <p className="font-heading font-bold text-xl" style={{ color }}>{value}</p>
-                  <p className="font-data text-[9px] tracking-wider uppercase text-[#94A3B8]">{label}</p>
+                  <p className="font-data text-[9px] tracking-wider uppercase text-neutral-700">{label}</p>
                 </div>
                 {i < arr.length - 1 && (
-                  <ArrowRight className="h-4 w-4 text-[#94A3B8]/30 shrink-0" />
+                  <ArrowRight className="h-4 w-4 text-neutral-700/30 shrink-0" />
                 )}
               </div>
             ))}
@@ -247,7 +247,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
       )}
 
       {/* Tabs */}
-      <div className="flex gap-1 p-1 bg-[#0F1115] border border-white/8 rounded-xl">
+      <div className="flex gap-1 p-1 bg-white border border-black/10 rounded-xl">
         {([
           { key: "all", label: `All (${active.length})` },
           { key: "starred", label: `Shortlisted (${shortlisted.length})` },
@@ -260,7 +260,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
               "flex-1 py-1.5 rounded-lg font-data text-[10px] tracking-wider uppercase transition-all duration-200",
               tab === t.key
                 ? "bg-[#FAFAFA]/20 text-[#FAFAFA] border border-[#FAFAFA]/30"
-                : "text-[#94A3B8] hover:text-white"
+                : "text-neutral-700 hover:text-black"
             )}
           >
             {t.label}
@@ -272,8 +272,8 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
       <div className="space-y-3">
         {!displayed.length ? (
           <div className="text-center py-16 space-y-3">
-            <Heart className="h-10 w-10 text-[#94A3B8] mx-auto" />
-            <p className="font-body text-sm text-[#94A3B8]">
+            <Heart className="h-10 w-10 text-neutral-700 mx-auto" />
+            <p className="font-body text-sm text-neutral-700">
               {tab === "all"
                 ? "No matches yet. Swipe on candidates in the Discover tab to get started."
                 : tab === "starred"

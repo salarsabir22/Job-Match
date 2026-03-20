@@ -15,9 +15,9 @@ export default function AdminChannelsPage() {
   const [description, setDescription] = useState("")
   const [category, setCategory] = useState("general")
 
-  const inputClass = "w-full h-11 px-4 rounded-xl bg-[#030304] border border-white/10 text-white text-sm placeholder:text-white/25 focus:outline-none focus:border-[#FAFAFA]/60 transition-all duration-200"
-  const textareaClass = "w-full px-4 py-3 rounded-xl bg-[#030304] border border-white/10 text-white text-sm placeholder:text-white/25 focus:outline-none focus:border-[#FAFAFA]/60 transition-all duration-200 resize-none"
-  const labelClass = "block font-data text-[11px] tracking-wider uppercase text-[#94A3B8] mb-1.5"
+  const inputClass = "w-full h-11 px-4 rounded-xl bg-white border border-black/10 text-black text-sm placeholder:text-black/25 focus:outline-none focus:border-[#FAFAFA]/60 transition-all duration-200"
+  const textareaClass = "w-full px-4 py-3 rounded-xl bg-white border border-black/10 text-black text-sm placeholder:text-black/25 focus:outline-none focus:border-[#FAFAFA]/60 transition-all duration-200 resize-none"
+  const labelClass = "block font-data text-[11px] tracking-wider uppercase text-neutral-700 mb-1.5"
 
   useEffect(() => { loadChannels() }, [])
 
@@ -54,33 +54,33 @@ export default function AdminChannelsPage() {
   }
 
   return (
-    <div className="space-y-5 p-4 max-w-4xl bg-[#030304] min-h-screen">
+    <div className="space-y-5 p-4 max-w-4xl bg-white min-h-screen">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-heading font-bold text-2xl text-white">Community Channels</h1>
-          <p className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8] mt-0.5">{channels.length} channels</p>
+          <h1 className="font-heading font-bold text-2xl text-black">Community Channels</h1>
+          <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mt-0.5">{channels.length} channels</p>
         </div>
         <button onClick={() => setOpen(true)}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-xs shadow-[0_0_15px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_25px_-5px_rgba(255,255,255,0.7)] transition-all duration-300">
+          className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-xs shadow-[0_0_15px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_25px_-5px_rgba(255,255,255,0.7)] transition-all duration-300">
           <Plus className="h-3.5 w-3.5" />New Channel
         </button>
       </div>
 
       {/* Modal */}
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="w-full max-w-md bg-[#0F1115] border border-white/8 rounded-2xl p-6 shadow-[0_0_50px_-10px_rgba(255,255,255,0.15)]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white/70 backdrop-blur-sm">
+          <div className="w-full max-w-md bg-white border border-black/10 rounded-2xl p-6 shadow-[0_0_50px_-10px_rgba(255,255,255,0.15)]">
             <div className="flex items-center justify-between mb-5">
-              <h2 className="font-heading font-semibold text-lg text-white">Create Channel</h2>
-              <button onClick={() => setOpen(false)} className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors">
-                <X className="h-4 w-4 text-[#94A3B8]" />
+              <h2 className="font-heading font-semibold text-lg text-black">Create Channel</h2>
+              <button onClick={() => setOpen(false)} className="w-8 h-8 rounded-full bg-white/5 border border-black/10 flex items-center justify-center hover:bg-white/10 transition-colors">
+                <X className="h-4 w-4 text-neutral-700" />
               </button>
             </div>
             <form onSubmit={createChannel} className="space-y-4">
               <div>
                 <label className={labelClass}>Channel Name</label>
                 <input className={inputClass} placeholder="e.g. data-science" value={name} onChange={(e) => setName(e.target.value)} required />
-                <p className="font-data text-[10px] text-[#94A3B8] mt-1">Spaces will be replaced with hyphens</p>
+                <p className="font-data text-[10px] text-neutral-700 mt-1">Spaces will be replaced with hyphens</p>
               </div>
               <div>
                 <label className={labelClass}>Description</label>
@@ -91,7 +91,7 @@ export default function AdminChannelsPage() {
                 <input className={inputClass} placeholder="e.g. tech, career, networking" value={category} onChange={(e) => setCategory(e.target.value)} />
               </div>
               <button type="submit" disabled={creating}
-                className="w-full h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2">
+                className="w-full h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2">
                 {creating ? <Loader2 className="h-4 w-4 animate-spin" /> : "Create Channel"}
               </button>
             </form>
@@ -102,27 +102,27 @@ export default function AdminChannelsPage() {
       {loading ? (
         <div className="flex justify-center py-12">
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
-            <Zap className="h-5 w-5 text-white" />
+            <Zap className="h-5 w-5 text-black" />
           </div>
         </div>
       ) : (
         <div className="space-y-2">
           {channels.map((ch) => (
-            <div key={ch.id} className="flex items-center gap-3 p-4 rounded-xl bg-[#0F1115] border border-white/8">
+            <div key={ch.id} className="flex items-center gap-3 p-4 rounded-xl bg-white border border-black/10">
               <div className="h-10 w-10 rounded-xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center shrink-0">
                 <Hash className="h-5 w-5 text-[#FAFAFA]" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <p className="font-heading font-semibold text-sm text-white">#{ch.name}</p>
+                  <p className="font-heading font-semibold text-sm text-black">#{ch.name}</p>
                   {ch.category && (
-                    <span className="font-data text-[9px] tracking-widest uppercase px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[#94A3B8]">
+                    <span className="font-data text-[9px] tracking-widest uppercase px-1.5 py-0.5 rounded-full bg-white/5 border border-black/10 text-neutral-700">
                       {ch.category}
                     </span>
                   )}
                 </div>
-                {ch.description && <p className="font-body text-xs text-[#94A3B8] truncate">{ch.description}</p>}
-                <p className="font-data text-[10px] text-[#94A3B8] flex items-center gap-1 mt-0.5">
+                {ch.description && <p className="font-body text-xs text-neutral-700 truncate">{ch.description}</p>}
+                <p className="font-data text-[10px] text-neutral-700 flex items-center gap-1 mt-0.5">
                   <Users className="h-3 w-3" />{ch.channel_members?.length || 0} members
                 </p>
               </div>

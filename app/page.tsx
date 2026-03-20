@@ -52,7 +52,7 @@ function PrimaryButton({
   return (
     <Link
       href={href}
-      className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-sm tracking-wide shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:scale-105 hover:shadow-[0_0_35px_-5px_rgba(255,255,255,0.7)] transition-all duration-300 ${className}`}
+      className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm tracking-wide shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:scale-105 hover:shadow-[0_0_35px_-5px_rgba(255,255,255,0.7)] transition-all duration-300 ${className}`}
     >
       {children}
     </Link>
@@ -71,7 +71,7 @@ function OutlineButton({
   return (
     <Link
       href={href}
-      className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-white/20 text-white font-body font-semibold text-sm tracking-wide hover:border-white/60 hover:bg-white/5 transition-all duration-300 ${className}`}
+      className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-white/20 text-black font-body font-semibold text-sm tracking-wide hover:border-black/100 hover:bg-white/5 transition-all duration-300 ${className}`}
     >
       {children}
     </Link>
@@ -99,14 +99,14 @@ function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "glass border-b border-white/5 py-3" : "py-5"
+        scrolled ? "glass border-b border-black/10 py-3" : "py-5"
       }`}
     >
       <nav className="max-w-7xl mx-auto px-5 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 group">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.6)]">
-            <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
+            <Zap className="w-4 h-4 text-black" strokeWidth={2.5} />
           </div>
           <span className="font-heading font-bold text-lg tracking-tight">
             Job<span className="gradient-text">Match</span>
@@ -119,7 +119,7 @@ function Navbar() {
             <li key={l.label}>
               <a
                 href={l.href}
-                className="font-data text-xs tracking-wider uppercase text-[#94A3B8] hover:text-white transition-colors duration-200"
+                className="font-data text-xs tracking-wider uppercase text-neutral-700 hover:text-black transition-colors duration-200"
               >
                 {l.label}
               </a>
@@ -131,7 +131,7 @@ function Navbar() {
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/login"
-            className="font-body text-sm text-[#94A3B8] hover:text-white transition-colors duration-200 px-4 py-2"
+            className="font-body text-sm text-neutral-700 hover:text-black transition-colors duration-200 px-4 py-2"
           >
             Log In
           </Link>
@@ -140,7 +140,7 @@ function Navbar() {
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden p-2 text-[#94A3B8] hover:text-white transition-colors"
+          className="md:hidden p-2 text-neutral-700 hover:text-black transition-colors"
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
         >
@@ -150,18 +150,18 @@ function Navbar() {
 
       {/* Mobile drawer */}
       {open && (
-        <div className="md:hidden glass border-t border-white/5 px-5 py-6 flex flex-col gap-5">
+        <div className="md:hidden glass border-t border-black/10 px-5 py-6 flex flex-col gap-5">
           {links.map((l) => (
             <a
               key={l.label}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="font-data text-xs tracking-widest uppercase text-[#94A3B8] hover:text-white transition-colors"
+              className="font-data text-xs tracking-widest uppercase text-neutral-700 hover:text-black transition-colors"
             >
               {l.label}
             </a>
           ))}
-          <div className="flex flex-col gap-3 pt-2 border-t border-white/10">
+          <div className="flex flex-col gap-3 pt-2 border-t border-black/10">
             <Link
               href="/login"
               className="text-center font-body text-sm border border-white/20 rounded-full py-3 hover:bg-white/5 transition-all"
@@ -199,7 +199,7 @@ function HeroOrb() {
 
       {/* Core sphere */}
       <div className="relative z-10 w-[110px] h-[110px] md:w-[160px] md:h-[160px] rounded-full bg-gradient-to-br from-[#525252] via-[#FAFAFA] to-[#D4D4D4] shadow-[0_0_60px_-5px_rgba(255,255,255,0.8)] animate-float flex items-center justify-center">
-        <Zap className="w-10 h-10 md:w-16 md:h-16 text-white drop-shadow-lg" strokeWidth={1.5} />
+        <Zap className="w-10 h-10 md:w-16 md:h-16 text-black drop-shadow-lg" strokeWidth={1.5} />
       </div>
 
       {/* Orbit dots */}
@@ -234,8 +234,8 @@ function StatCard({
         <Icon className="w-4 h-4 text-[#FAFAFA]" />
       </div>
       <div>
-        <p className="font-data font-medium text-sm text-white leading-none">{value}</p>
-        <p className="font-body text-[11px] text-[#94A3B8] mt-0.5">{label}</p>
+        <p className="font-data font-medium text-sm text-black leading-none">{value}</p>
+        <p className="font-body text-[11px] text-neutral-700 mt-0.5">{label}</p>
       </div>
     </div>
   )
@@ -265,10 +265,10 @@ function Hero() {
               <span className="gradient-text">Dream Career</span>
             </h1>
 
-            <p className="font-body text-[#94A3B8] text-base md:text-lg leading-relaxed max-w-md mb-10">
+            <p className="font-body text-neutral-700 text-base md:text-lg leading-relaxed max-w-md mb-10">
               The first Tinder-style job platform where students and recruiters connect through
               mutual interest. No cold emails. No ghosting. Just{" "}
-              <span className="text-white font-medium">real matches</span>.
+              <span className="text-black font-medium">real matches</span>.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
@@ -286,7 +286,7 @@ function Hero() {
                 {["#525252", "#FAFAFA", "#D4D4D4", "#525252", "#FAFAFA"].map((c, i) => (
                   <div
                     key={i}
-                    className="w-8 h-8 rounded-full border-2 border-[#030304] flex items-center justify-center text-[10px] font-bold text-white"
+                    className="w-8 h-8 rounded-full border-2 border-[#030304] flex items-center justify-center text-[10px] font-bold text-black"
                     style={{ background: c, zIndex: 5 - i }}
                   >
                     {["A", "B", "C", "D", "E"][i]}
@@ -299,7 +299,7 @@ function Hero() {
                     <Star key={i} className="w-3 h-3 fill-[#D4D4D4] text-[#D4D4D4]" />
                   ))}
                 </div>
-                <p className="font-body text-[11px] text-[#94A3B8]">Loved by 10k+ students</p>
+                <p className="font-body text-[11px] text-neutral-700">Loved by 10k+ students</p>
               </div>
             </div>
           </div>
@@ -340,12 +340,12 @@ const STATS = [
 
 function StatsBar() {
   return (
-    <div className="border-y border-white/8 bg-[#0F1115] py-5 overflow-hidden">
+    <div className="border-y border-black/10 bg-white py-5 overflow-hidden">
       <div className="flex animate-ticker" style={{ width: "max-content" }}>
         {[...STATS, ...STATS].map((s, i) => (
-          <div key={i} className="flex items-center gap-3 px-10 border-r border-white/8 last:border-r-0 flex-shrink-0">
+          <div key={i} className="flex items-center gap-3 px-10 border-r border-black/10 last:border-r-0 flex-shrink-0">
             <span className="font-heading font-bold text-2xl gradient-text">{s.value}</span>
-            <span className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8] whitespace-nowrap">
+            <span className="font-data text-[11px] tracking-wider uppercase text-neutral-700 whitespace-nowrap">
               {s.label}
             </span>
           </div>
@@ -385,7 +385,7 @@ const STEPS = [
 
 function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-28 bg-[#030304] relative">
+    <section id="how-it-works" className="py-28 bg-white relative">
       <div className="absolute top-0 left-1/3 w-[400px] h-[400px] bg-[#525252] opacity-[0.04] blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-5">
@@ -395,7 +395,7 @@ function HowItWorks() {
             Three steps to your{" "}
             <span className="gradient-text">next opportunity</span>
           </h2>
-          <p className="font-body text-[#94A3B8] text-lg max-w-xl mx-auto">
+          <p className="font-body text-neutral-700 text-lg max-w-xl mx-auto">
             Designed like your favorite app. Built for your career.
           </p>
         </div>
@@ -417,12 +417,12 @@ function HowItWorks() {
                 >
                   {/* Node */}
                   <div className="relative z-10 flex-shrink-0 w-14 h-14 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)]">
-                    <Icon className="w-6 h-6 text-white" />
+                    <Icon className="w-6 h-6 text-black" />
                   </div>
 
                   {/* Card */}
                   <div
-                    className={`flex-1 max-w-md group bg-[#0F1115] border border-white/8 rounded-2xl p-7 hover:-translate-y-1 hover:border-[#FAFAFA]/40 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.2)] transition-all duration-300 ${
+                    className={`flex-1 max-w-md group bg-white border border-black/10 rounded-2xl p-7 hover:-translate-y-1 hover:border-[#FAFAFA]/40 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.2)] transition-all duration-300 ${
                       isEven ? "md:mr-auto" : "md:ml-auto"
                     }`}
                   >
@@ -434,7 +434,7 @@ function HowItWorks() {
                       Step {step.n}
                     </span>
                     <h3 className="font-heading font-semibold text-xl mt-2 mb-3">{step.title}</h3>
-                    <p className="font-body text-[#94A3B8] text-sm leading-relaxed mb-5">
+                    <p className="font-body text-neutral-700 text-sm leading-relaxed mb-5">
                       {step.desc}
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3">
@@ -504,7 +504,7 @@ const FEATURES = [
 
 function Features() {
   return (
-    <section id="features" className="py-28 bg-[#0F1115] relative">
+    <section id="features" className="py-28 bg-white relative">
       <div className="absolute top-1/2 right-0 w-[350px] h-[350px] bg-[#D4D4D4] opacity-[0.03] blur-[100px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-5">
@@ -514,7 +514,7 @@ function Features() {
             Everything you need,{" "}
             <span className="gradient-text">nothing you don&apos;t</span>
           </h2>
-          <p className="font-body text-[#94A3B8] text-lg max-w-xl mx-auto">
+          <p className="font-body text-neutral-700 text-lg max-w-xl mx-auto">
             An MVP built for speed. No fluff, no bloat—just the tools that matter.
           </p>
         </div>
@@ -525,7 +525,7 @@ function Features() {
             return (
               <div
                 key={f.title}
-                className="group relative bg-[#030304] border border-white/8 rounded-2xl p-7 overflow-hidden hover:-translate-y-1.5 hover:border-[#FAFAFA]/30 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.15)] transition-all duration-300"
+                className="group relative bg-white border border-black/10 rounded-2xl p-7 overflow-hidden hover:-translate-y-1.5 hover:border-[#FAFAFA]/30 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.15)] transition-all duration-300"
               >
                 {/* Watermark icon */}
                 <Icon
@@ -544,7 +544,7 @@ function Features() {
                 </div>
 
                 <h3 className="font-heading font-semibold text-lg mb-2">{f.title}</h3>
-                <p className="font-body text-[#94A3B8] text-sm leading-relaxed">{f.desc}</p>
+                <p className="font-body text-neutral-700 text-sm leading-relaxed">{f.desc}</p>
               </div>
             )
           })}
@@ -572,7 +572,7 @@ const RECRUITER_PERKS = [
 
 function AudienceSplit() {
   return (
-    <section className="py-28 bg-[#030304]" id="recruiters">
+    <section className="py-28 bg-white" id="recruiters">
       <div className="max-w-7xl mx-auto px-5">
         <div className="text-center mb-16">
           <OrangeBadge>Who It&apos;s For</OrangeBadge>
@@ -584,7 +584,7 @@ function AudienceSplit() {
 
         <div className="grid md:grid-cols-2 gap-6">
           {/* Students */}
-          <div className="relative group bg-[#0F1115] border border-white/8 rounded-2xl p-8 overflow-hidden hover:border-[#FAFAFA]/30 hover:shadow-[0_0_50px_-10px_rgba(255,255,255,0.15)] transition-all duration-300">
+          <div className="relative group bg-white border border-black/10 rounded-2xl p-8 overflow-hidden hover:border-[#FAFAFA]/30 hover:shadow-[0_0_50px_-10px_rgba(255,255,255,0.15)] transition-all duration-300">
             <div className="absolute top-0 right-0 w-48 h-48 bg-[#FAFAFA] opacity-[0.04] blur-[60px] rounded-full pointer-events-none" />
 
             <div className="flex items-center gap-3 mb-6">
@@ -603,7 +603,7 @@ function AudienceSplit() {
               {STUDENT_PERKS.map((p) => (
                 <li key={p} className="flex items-start gap-3">
                   <CheckCircle2 className="w-4 h-4 text-[#FAFAFA] mt-0.5 flex-shrink-0" />
-                  <span className="font-body text-[#94A3B8] text-sm">{p}</span>
+                  <span className="font-body text-neutral-700 text-sm">{p}</span>
                 </li>
               ))}
             </ul>
@@ -614,7 +614,7 @@ function AudienceSplit() {
           </div>
 
           {/* Recruiters */}
-          <div className="relative group bg-[#0F1115] border border-white/8 rounded-2xl p-8 overflow-hidden hover:border-[#D4D4D4]/30 hover:shadow-[0_0_50px_-10px_rgba(255,214,0,0.1)] transition-all duration-300">
+          <div className="relative group bg-white border border-black/10 rounded-2xl p-8 overflow-hidden hover:border-[#D4D4D4]/30 hover:shadow-[0_0_50px_-10px_rgba(255,214,0,0.1)] transition-all duration-300">
             <div className="absolute top-0 right-0 w-48 h-48 bg-[#D4D4D4] opacity-[0.03] blur-[60px] rounded-full pointer-events-none" />
 
             <div className="flex items-center gap-3 mb-6">
@@ -633,7 +633,7 @@ function AudienceSplit() {
               {RECRUITER_PERKS.map((p) => (
                 <li key={p} className="flex items-start gap-3">
                   <CheckCircle2 className="w-4 h-4 text-[#D4D4D4] mt-0.5 flex-shrink-0" />
-                  <span className="font-body text-[#94A3B8] text-sm">{p}</span>
+                  <span className="font-body text-neutral-700 text-sm">{p}</span>
                 </li>
               ))}
             </ul>
@@ -663,7 +663,7 @@ const CHANNELS = [
 
 function Community() {
   return (
-    <section id="community" className="py-28 bg-[#0F1115] relative overflow-hidden">
+    <section id="community" className="py-28 bg-white relative overflow-hidden">
       <div className="absolute bottom-0 left-1/4 w-[400px] h-[300px] bg-[#FAFAFA] opacity-[0.04] blur-[100px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-5">
@@ -675,7 +675,7 @@ function Community() {
               Your tribe is{" "}
               <span className="gradient-text">already here</span>
             </h2>
-            <p className="font-body text-[#94A3B8] text-base leading-relaxed mb-8">
+            <p className="font-body text-neutral-700 text-base leading-relaxed mb-8">
               Join interest-based channels where students share opportunities, industry insights,
               and career advice. Get warm introductions before you even start swiping.
             </p>
@@ -689,7 +689,7 @@ function Community() {
                   <div className="w-8 h-8 rounded-lg bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center flex-shrink-0">
                     <item.icon className="w-4 h-4 text-[#FAFAFA]" />
                   </div>
-                  <span className="font-body text-sm text-[#94A3B8]">{item.text}</span>
+                  <span className="font-body text-sm text-neutral-700">{item.text}</span>
                 </li>
               ))}
             </ul>
@@ -703,7 +703,7 @@ function Community() {
             {CHANNELS.map((ch) => (
               <div
                 key={ch.name}
-                className="group flex items-center gap-4 bg-[#030304] border border-white/8 rounded-xl p-4 hover:-translate-y-1 hover:border-[#FAFAFA]/30 hover:shadow-[0_0_30px_-10px_rgba(255,255,255,0.2)] transition-all duration-300 cursor-pointer"
+                className="group flex items-center gap-4 bg-white border border-black/10 rounded-xl p-4 hover:-translate-y-1 hover:border-[#FAFAFA]/30 hover:shadow-[0_0_30px_-10px_rgba(255,255,255,0.2)] transition-all duration-300 cursor-pointer"
               >
                 <div
                   className="w-10 h-10 rounded-lg flex items-center justify-center text-lg flex-shrink-0"
@@ -713,12 +713,12 @@ function Community() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-heading font-medium text-sm truncate">{ch.name}</p>
-                  <p className="font-data text-[11px] text-[#94A3B8]">
+                  <p className="font-data text-[11px] text-neutral-700">
                     {ch.members.toLocaleString()} members
                   </p>
                 </div>
                 <ChevronRight
-                  className="w-4 h-4 text-white/20 group-hover:text-[#FAFAFA] transition-colors"
+                  className="w-4 h-4 text-black/20 group-hover:text-[#FAFAFA] transition-colors"
                 />
               </div>
             ))}
@@ -759,7 +759,7 @@ const TESTIMONIALS = [
 
 function Testimonials() {
   return (
-    <section className="py-28 bg-[#030304] relative">
+    <section className="py-28 bg-white relative">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#FAFAFA] opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-5">
@@ -775,7 +775,7 @@ function Testimonials() {
           {TESTIMONIALS.map((t) => (
             <div
               key={t.name}
-              className="glass-dark rounded-2xl p-7 border border-white/8 hover:border-white/15 hover:-translate-y-1 transition-all duration-300"
+              className="glass-dark rounded-2xl p-7 border border-black/10 hover:border-white/15 hover:-translate-y-1 transition-all duration-300"
             >
               {/* Stars */}
               <div className="flex gap-1 mb-5">
@@ -784,20 +784,20 @@ function Testimonials() {
                 ))}
               </div>
 
-              <p className="font-body text-[#94A3B8] text-sm leading-relaxed mb-6 italic">
+              <p className="font-body text-neutral-700 text-sm leading-relaxed mb-6 italic">
                 &ldquo;{t.quote}&rdquo;
               </p>
 
-              <div className="flex items-center gap-3 pt-5 border-t border-white/8">
+              <div className="flex items-center gap-3 pt-5 border-t border-black/10">
                 <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0"
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-black flex-shrink-0"
                   style={{ background: `linear-gradient(135deg, ${t.color}, #030304)` }}
                 >
                   {t.initials}
                 </div>
                 <div>
                   <p className="font-heading font-medium text-sm">{t.name}</p>
-                  <p className="font-data text-[11px] text-[#94A3B8]">{t.role}</p>
+                  <p className="font-data text-[11px] text-neutral-700">{t.role}</p>
                 </div>
               </div>
             </div>
@@ -818,12 +818,12 @@ const TRUST = [
 
 function TrustStrip() {
   return (
-    <div className="border-y border-white/8 bg-[#0F1115] py-6">
+    <div className="border-y border-black/10 bg-white py-6">
       <div className="max-w-7xl mx-auto px-5 flex flex-wrap justify-center gap-8 md:gap-12">
         {TRUST.map((t) => (
           <div key={t.label} className="flex items-center gap-2.5">
             <t.icon className="w-4 h-4 text-[#FAFAFA]" />
-            <span className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8]">
+            <span className="font-data text-[11px] tracking-wider uppercase text-neutral-700">
               {t.label}
             </span>
           </div>
@@ -836,7 +836,7 @@ function TrustStrip() {
 /* ─── CTA Section ────────────────────────────────────────────────── */
 function CTASection() {
   return (
-    <section className="py-28 relative overflow-hidden bg-[#030304]">
+    <section className="py-28 relative overflow-hidden bg-white">
       <div className="absolute inset-0 bg-grid-pattern pointer-events-none" />
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div className="w-[600px] h-[300px] bg-[#FAFAFA] opacity-[0.07] blur-[100px] rounded-full" />
@@ -848,7 +848,7 @@ function CTASection() {
           Your next opportunity is one{" "}
           <span className="gradient-text">swipe away</span>
         </h2>
-        <p className="font-body text-[#94A3B8] text-lg leading-relaxed mb-10 max-w-xl mx-auto">
+        <p className="font-body text-neutral-700 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
           Join 10,000+ students and 500+ companies already building careers through mutual
           matching. Free forever for students.
         </p>
@@ -862,7 +862,7 @@ function CTASection() {
           </OutlineButton>
         </div>
 
-        <p className="font-body text-[#94A3B8] text-sm mt-6">
+        <p className="font-body text-neutral-700 text-sm mt-6">
           No credit card required &middot; Free for students &middot; Cancel anytime
         </p>
       </div>
@@ -893,19 +893,19 @@ function Footer() {
   ]
 
   return (
-    <footer className="bg-[#0F1115] border-t border-white/8">
+    <footer className="bg-white border-t border-black/10">
       <div className="max-w-7xl mx-auto px-5 py-16 grid grid-cols-2 md:grid-cols-3 gap-10">
         {/* Brand */}
         <div className="col-span-2 md:col-span-1">
           <Link href="/" className="flex items-center gap-2.5 mb-4">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_12px_-2px_rgba(255,255,255,0.5)]">
-              <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
+              <Zap className="w-4 h-4 text-black" strokeWidth={2.5} />
             </div>
             <span className="font-heading font-bold text-lg">
               Job<span className="gradient-text">Match</span>
             </span>
           </Link>
-          <p className="font-body text-[#94A3B8] text-sm leading-relaxed max-w-[180px]">
+          <p className="font-body text-neutral-700 text-sm leading-relaxed max-w-[180px]">
             Mutual swipe-based hiring for the next generation.
           </p>
         </div>
@@ -913,7 +913,7 @@ function Footer() {
         {/* Link columns */}
         {cols.map((col) => (
           <div key={col.title}>
-            <h4 className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8] mb-5">
+            <h4 className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mb-5">
               {col.title}
             </h4>
             <ul className="space-y-3">
@@ -921,7 +921,7 @@ function Footer() {
                 <li key={l.label}>
                   <Link
                     href={l.href}
-                    className="font-body text-sm text-[#94A3B8] hover:text-white transition-colors duration-200"
+                    className="font-body text-sm text-neutral-700 hover:text-black transition-colors duration-200"
                   >
                     {l.label}
                   </Link>
@@ -932,9 +932,9 @@ function Footer() {
         ))}
       </div>
 
-      <div className="border-t border-white/8 py-6">
+      <div className="border-t border-black/10 py-6">
         <div className="max-w-7xl mx-auto px-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="font-data text-[11px] tracking-wide text-[#94A3B8]">
+          <p className="font-data text-[11px] tracking-wide text-neutral-700">
             © {new Date().getFullYear()} JobMatch. All rights reserved.
           </p>
         </div>

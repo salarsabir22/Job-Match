@@ -56,8 +56,8 @@ export default async function CommunityPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-heading font-bold text-3xl text-white">Community</h1>
-          <p className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8] mt-0.5">
+          <h1 className="font-heading font-bold text-3xl text-black">Community</h1>
+          <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mt-0.5">
             {channels?.length || 0} channels · {totalMembers} members
           </p>
         </div>
@@ -81,13 +81,13 @@ export default async function CommunityPage() {
             { label: "Members", value: totalMembers, icon: Users, color: "#D4D4D4" },
             { label: "Joined", value: joinedCount, icon: CheckCircle, color: "#D4D4D4" },
           ].map(({ label, value, icon: Icon, color }) => (
-            <div key={label} className="rounded-xl bg-[#0F1115] border border-white/8 p-3 flex items-center gap-2.5">
+            <div key={label} className="rounded-xl bg-white border border-black/10 p-3 flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${color}15`, border: `1px solid ${color}25` }}>
                 <Icon className="h-3.5 w-3.5" style={{ color }} />
               </div>
               <div>
                 <p className="font-heading font-bold text-lg leading-none" style={{ color }}>{value}</p>
-                <p className="font-data text-[9px] tracking-wider uppercase text-[#94A3B8] mt-0.5">{label}</p>
+                <p className="font-data text-[9px] tracking-wider uppercase text-neutral-700 mt-0.5">{label}</p>
               </div>
             </div>
           ))}
@@ -103,10 +103,10 @@ export default async function CommunityPage() {
               <span className="font-data text-[10px] tracking-widest uppercase text-[#FAFAFA]">Most Active</span>
             </div>
             <div className="flex items-center gap-2 flex-1 min-w-0">
-              <Hash className="h-4 w-4 text-white shrink-0" />
-              <p className="font-heading font-semibold text-white truncate">#{topChannel.name}</p>
+              <Hash className="h-4 w-4 text-black shrink-0" />
+              <p className="font-heading font-semibold text-black truncate">#{topChannel.name}</p>
             </div>
-            <div className="flex items-center gap-1 font-data text-[10px] text-[#94A3B8] shrink-0">
+            <div className="flex items-center gap-1 font-data text-[10px] text-neutral-700 shrink-0">
               <Users className="h-3 w-3" />{topChannel.channel_members?.length || 0} members
             </div>
           </div>
@@ -126,10 +126,10 @@ export default async function CommunityPage() {
                   {category}
                 </h2>
                 {meta.description && (
-                  <p className="font-body text-xs text-[#94A3B8]">{meta.description}</p>
+                  <p className="font-body text-xs text-neutral-700">{meta.description}</p>
                 )}
               </div>
-              <span className="font-data text-[10px] text-[#94A3B8]">{chans.length} channel{chans.length !== 1 ? "s" : ""}</span>
+              <span className="font-data text-[10px] text-neutral-700">{chans.length} channel{chans.length !== 1 ? "s" : ""}</span>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
@@ -140,7 +140,7 @@ export default async function CommunityPage() {
 
                 return (
                   <Link key={channel.id} href={`/community/${channel.id}`}>
-                    <div className="flex items-start gap-3 p-5 rounded-2xl bg-[#0F1115] border border-white/8 hover:border-[#FAFAFA]/30 hover:shadow-[0_0_20px_-8px_rgba(255,255,255,0.2)] transition-all duration-300 h-full cursor-pointer relative overflow-hidden">
+                    <div className="flex items-start gap-3 p-5 rounded-2xl bg-white border border-black/10 hover:border-[#FAFAFA]/30 hover:shadow-[0_0_20px_-8px_rgba(255,255,255,0.2)] transition-all duration-300 h-full cursor-pointer relative overflow-hidden">
                       {/* Accent glow */}
                       {isJoined && (
                         <div className="absolute top-0 right-0 w-1 h-full opacity-60" style={{ background: accent }} />
@@ -155,7 +155,7 @@ export default async function CommunityPage() {
 
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <p className="font-heading font-semibold text-sm text-white">#{channel.name}</p>
+                          <p className="font-heading font-semibold text-sm text-black">#{channel.name}</p>
                           {isJoined && (
                             <span className="font-data text-[9px] tracking-widest uppercase px-1.5 py-0.5 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-[#FAFAFA]">
                               Joined
@@ -169,11 +169,11 @@ export default async function CommunityPage() {
                         </div>
 
                         {channel.description && (
-                          <p className="font-body text-xs text-[#94A3B8] mt-1 line-clamp-2">{channel.description}</p>
+                          <p className="font-body text-xs text-neutral-700 mt-1 line-clamp-2">{channel.description}</p>
                         )}
 
                         <div className="flex items-center justify-between mt-2">
-                          <div className="flex items-center gap-1 font-data text-[10px] text-[#94A3B8]">
+                          <div className="flex items-center gap-1 font-data text-[10px] text-neutral-700">
                             <Users className="h-3 w-3" />{memberCount} member{memberCount !== 1 ? "s" : ""}
                           </div>
                           {!isJoined && (
@@ -199,8 +199,8 @@ export default async function CommunityPage() {
             <MessageCircle className="h-8 w-8 text-[#FAFAFA]" />
           </div>
           <div>
-            <p className="font-heading font-semibold text-white mb-1">No channels yet</p>
-            <p className="font-body text-sm text-[#94A3B8] max-w-xs mx-auto">
+            <p className="font-heading font-semibold text-black mb-1">No channels yet</p>
+            <p className="font-body text-sm text-neutral-700 max-w-xs mx-auto">
               Community channels haven&apos;t been set up yet. Ask an admin to create some channels to get started.
             </p>
           </div>

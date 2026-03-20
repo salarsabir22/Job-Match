@@ -20,10 +20,10 @@ export default async function AdminRecruitersPage() {
   const pending = recruiters?.filter(r => !r.is_approved).length || 0
 
   return (
-    <div className="space-y-5 p-4 max-w-4xl bg-[#030304] min-h-screen">
+    <div className="space-y-5 p-4 max-w-4xl bg-white min-h-screen">
       <div>
-        <h1 className="font-heading font-bold text-2xl text-white">Recruiter Approvals</h1>
-        <p className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8] mt-0.5">{pending} pending</p>
+        <h1 className="font-heading font-bold text-2xl text-black">Recruiter Approvals</h1>
+        <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mt-0.5">{pending} pending</p>
       </div>
 
       {pending > 0 && (
@@ -40,23 +40,23 @@ export default async function AdminRecruitersPage() {
             <div className="w-14 h-14 rounded-2xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center mx-auto mb-4">
               <Building2 className="h-7 w-7 text-[#FAFAFA]" />
             </div>
-            <p className="font-body text-[#94A3B8] text-sm">No recruiter profiles yet</p>
+            <p className="font-body text-neutral-700 text-sm">No recruiter profiles yet</p>
           </div>
         ) : recruiters.map((recruiter) => (
-          <div key={recruiter.id} className="rounded-xl bg-[#0F1115] border border-white/8 p-4 space-y-3">
+          <div key={recruiter.id} className="rounded-xl bg-white border border-black/10 p-4 space-y-3">
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-center gap-3">
                 <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shrink-0 shadow-[0_0_12px_-3px_rgba(255,255,255,0.4)]">
                   {recruiter.logo_url ? (
                     <img src={recruiter.logo_url} className="h-full w-full rounded-xl object-cover" alt="" />
                   ) : (
-                    <Building2 className="h-6 w-6 text-white" />
+                    <Building2 className="h-6 w-6 text-black" />
                   )}
                 </div>
                 <div>
-                  <p className="font-heading font-semibold text-white">{recruiter.company_name}</p>
-                  <p className="font-body text-sm text-[#94A3B8]">{(recruiter.profiles as any)?.full_name}</p>
-                  <p className="font-data text-[10px] text-[#94A3B8]">Joined {formatDate((recruiter.profiles as any)?.created_at)}</p>
+                  <p className="font-heading font-semibold text-black">{recruiter.company_name}</p>
+                  <p className="font-body text-sm text-neutral-700">{(recruiter.profiles as any)?.full_name}</p>
+                  <p className="font-data text-[10px] text-neutral-700">Joined {formatDate((recruiter.profiles as any)?.created_at)}</p>
                 </div>
               </div>
               <span className={`flex-shrink-0 font-data text-[9px] tracking-widest uppercase px-2 py-1 rounded-full border ${
@@ -68,7 +68,7 @@ export default async function AdminRecruitersPage() {
               </span>
             </div>
             {recruiter.description && (
-              <p className="font-body text-sm text-[#94A3B8]">{recruiter.description}</p>
+              <p className="font-body text-sm text-neutral-700">{recruiter.description}</p>
             )}
             <ApproveButton recruiterId={recruiter.id} isApproved={recruiter.is_approved} />
           </div>

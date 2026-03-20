@@ -44,6 +44,19 @@ Get-ChildItem -Path $root -Recurse -Include $ext | Where-Object {
   $n = $n -replace 'bg-violet-50', 'bg-neutral-100'
   $n = $n -replace 'focus:border-red-500', 'focus:border-neutral-500'
   $n = $n -replace 'border-red-500 text-red-500', 'border-neutral-500 text-neutral-500'
+  # Light mode target: black text on white background
+  $n = $n -replace 'bg-\[#030304\]', 'bg-white'
+  $n = $n -replace 'bg-\[#0F1115\]', 'bg-white'
+  $n = $n -replace 'bg-\[#08090C\]', 'bg-white'
+  $n = $n -replace 'bg-\[#0A0B0E\]', 'bg-white'
+  $n = $n -replace 'bg-black', 'bg-white'
+  $n = $n -replace 'text-white', 'text-black'
+  $n = $n -replace 'text-\[#CBD5E1\]', 'text-neutral-800'
+  $n = $n -replace 'text-\[#94A3B8\]', 'text-neutral-700'
+  $n = $n -replace 'border-white/8', 'border-black/10'
+  $n = $n -replace 'border-white/10', 'border-black/10'
+  $n = $n -replace 'border-white/6', 'border-black/10'
+  $n = $n -replace 'border-white/5', 'border-black/10'
   if ($c -ne $n) {
     [IO.File]::WriteAllText($path, $n)
     Write-Host $path

@@ -10,9 +10,9 @@ import { cn } from "@/lib/utils"
 
 const SKILL_SUGGESTIONS = ["JavaScript", "TypeScript", "React", "Python", "Node.js", "SQL", "Java", "AWS", "Docker", "Git", "Machine Learning", "Figma"]
 
-const inputClass = "w-full h-11 px-4 rounded-xl bg-[#030304] border border-white/10 text-white text-sm placeholder:text-white/25 focus:outline-none focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)] transition-all duration-200"
-const textareaClass = "w-full px-4 py-3 rounded-xl bg-[#030304] border border-white/10 text-white text-sm placeholder:text-white/25 focus:outline-none focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)] transition-all duration-200 resize-none"
-const labelClass = "block font-data text-[11px] tracking-wider uppercase text-[#94A3B8] mb-1.5"
+const inputClass = "w-full h-11 px-4 rounded-xl bg-white border border-black/10 text-black text-sm placeholder:text-black/25 focus:outline-none focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)] transition-all duration-200"
+const textareaClass = "w-full px-4 py-3 rounded-xl bg-white border border-black/10 text-black text-sm placeholder:text-black/25 focus:outline-none focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)] transition-all duration-200 resize-none"
+const labelClass = "block font-data text-[11px] tracking-wider uppercase text-neutral-700 mb-1.5"
 
 export default function NewJobPage() {
   const router = useRouter()
@@ -57,10 +57,10 @@ export default function NewJobPage() {
     <div className="space-y-6 max-w-2xl">
       <div className="flex items-center gap-3">
         <Link href="/jobs"
-          className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors">
-          <ArrowLeft className="h-4 w-4 text-white" />
+          className="w-9 h-9 rounded-full bg-white/5 border border-black/10 flex items-center justify-center hover:bg-white/10 transition-colors">
+          <ArrowLeft className="h-4 w-4 text-black" />
         </Link>
-        <h1 className="font-heading font-bold text-3xl text-white">Post a Job</h1>
+        <h1 className="font-heading font-bold text-3xl text-black">Post a Job</h1>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5 pb-4">
@@ -72,11 +72,11 @@ export default function NewJobPage() {
         <div>
           <label className={labelClass}>Job Type <span className="text-neutral-500">*</span></label>
           <select className={inputClass} value={jobType} onChange={(e) => setJobType(e.target.value)} required>
-            <option value="" className="bg-[#030304]">Select type</option>
-            <option value="internship" className="bg-[#030304]">Internship</option>
-            <option value="full_time" className="bg-[#030304]">Full-time</option>
-            <option value="part_time" className="bg-[#030304]">Part-time</option>
-            <option value="contract" className="bg-[#030304]">Contract</option>
+            <option value="" className="bg-white">Select type</option>
+            <option value="internship" className="bg-white">Internship</option>
+            <option value="full_time" className="bg-white">Full-time</option>
+            <option value="part_time" className="bg-white">Part-time</option>
+            <option value="contract" className="bg-white">Contract</option>
           </select>
         </div>
 
@@ -92,7 +92,7 @@ export default function NewJobPage() {
           </div>
           <button type="button" onClick={() => setIsRemote(!isRemote)}
             className={cn("flex flex-col items-center gap-1 px-3 py-2 rounded-xl border-2 font-data text-[10px] tracking-wider uppercase transition-all duration-200",
-              isRemote ? "border-[#FAFAFA] bg-[#FAFAFA]/15 text-[#FAFAFA]" : "border-white/10 text-[#94A3B8] hover:border-white/20")}>
+              isRemote ? "border-[#FAFAFA] bg-[#FAFAFA]/15 text-[#FAFAFA]" : "border-black/10 text-neutral-700 hover:border-white/20")}>
             <Wifi className="h-4 w-4" />Remote
           </button>
         </div>
@@ -111,7 +111,7 @@ export default function NewJobPage() {
           <div className="flex flex-wrap gap-1">
             {SKILL_SUGGESTIONS.filter(s => !requiredSkills.includes(s)).slice(0, 5).map(s => (
               <button key={s} type="button" onClick={() => addSkill(s, requiredSkills, setRequiredSkills, () => {})}
-                className="font-data text-[10px] tracking-wider px-2.5 py-1 rounded-full border border-dashed border-white/15 text-[#94A3B8] hover:border-[#FAFAFA]/50 hover:text-[#FAFAFA] transition-colors">
+                className="font-data text-[10px] tracking-wider px-2.5 py-1 rounded-full border border-dashed border-white/15 text-neutral-700 hover:border-[#FAFAFA]/50 hover:text-[#FAFAFA] transition-colors">
                 + {s}
               </button>
             ))}
@@ -132,13 +132,13 @@ export default function NewJobPage() {
             <input className={inputClass} placeholder="Add skill..." value={nthSkillInput} onChange={(e) => setNthSkillInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addSkill(nthSkillInput, niceToHaveSkills, setNiceToHaveSkills, () => setNthSkillInput("")))} />
             <button type="button" onClick={() => addSkill(nthSkillInput, niceToHaveSkills, setNiceToHaveSkills, () => setNthSkillInput(""))}
-              className="h-11 w-11 rounded-xl bg-white/5 border border-white/15 text-[#94A3B8] hover:bg-white/10 transition-colors flex-shrink-0 flex items-center justify-center">
+              className="h-11 w-11 rounded-xl bg-white/5 border border-white/15 text-neutral-700 hover:bg-white/10 transition-colors flex-shrink-0 flex items-center justify-center">
               <Plus className="h-4 w-4" />
             </button>
           </div>
           <div className="flex flex-wrap gap-1.5">
             {niceToHaveSkills.map(s => (
-              <span key={s} className="flex items-center gap-1 font-data text-[10px] tracking-wider px-2.5 py-1 rounded-full border border-white/12 text-[#94A3B8]">
+              <span key={s} className="flex items-center gap-1 font-data text-[10px] tracking-wider px-2.5 py-1 rounded-full border border-white/12 text-neutral-700">
                 {s}<button type="button" onClick={() => setNiceToHaveSkills(niceToHaveSkills.filter(x => x !== s))}><X className="h-3 w-3" /></button>
               </span>
             ))}
@@ -146,7 +146,7 @@ export default function NewJobPage() {
         </div>
 
         <button type="submit" disabled={loading}
-          className="w-full h-12 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2">
+          className="w-full h-12 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2">
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Post Job"}
         </button>
       </form>

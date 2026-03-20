@@ -3,27 +3,27 @@ import { Zap, Shield, Users, Briefcase } from "lucide-react"
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-[#030304] flex flex-col lg:flex-row relative overflow-hidden">
+    <div className="min-h-screen bg-white flex flex-col lg:flex-row relative overflow-hidden">
       {/* Background effects */}
       <div className="absolute inset-0 bg-grid-pattern pointer-events-none" />
       <div className="absolute top-1/4 left-1/4 w-[600px] h-[400px] bg-[#FAFAFA] opacity-[0.04] blur-[140px] rounded-full pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[300px] bg-[#525252] opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
 
       {/* Left panel (desktop only) */}
-      <div className="hidden lg:flex lg:w-[420px] xl:w-[480px] shrink-0 flex-col justify-between p-12 border-r border-white/6 relative z-10">
+      <div className="hidden lg:flex lg:w-[420px] xl:w-[480px] shrink-0 flex-col justify-between p-12 border-r border-black/10 relative z-10">
         <div>
           <Link href="/" className="flex items-center gap-2.5 mb-14">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_20px_-4px_rgba(255,255,255,0.6)]">
-              <Zap className="w-4.5 h-4.5 text-white" strokeWidth={2.5} />
+              <Zap className="w-4.5 h-4.5 text-black" strokeWidth={2.5} />
             </div>
-            <span className="font-heading font-bold text-xl text-white tracking-tight">
+            <span className="font-heading font-bold text-xl text-black tracking-tight">
               Job<span className="gradient-text">Match</span>
             </span>
           </Link>
 
           <div className="space-y-8">
             <div>
-              <h2 className="font-heading font-bold text-3xl text-white leading-tight mb-3">
+              <h2 className="font-heading font-bold text-3xl text-black leading-tight mb-3">
                 Your next opportunity<br />
                 <span className="gradient-text">starts here.</span>
               </h2>
@@ -43,7 +43,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                     <Icon className="h-4 w-4 text-[#FAFAFA]" />
                   </div>
                   <div>
-                    <p className="font-body font-semibold text-sm text-white">{title}</p>
+                    <p className="font-body font-semibold text-sm text-black">{title}</p>
                     <p className="font-body text-xs text-[#4A5568] mt-0.5">{desc}</p>
                   </div>
                 </div>
@@ -53,16 +53,16 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         </div>
 
         {/* Trust badge */}
-        <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/3 border border-white/6">
+        <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white/3 border border-black/10">
           <div className="flex -space-x-2">
             {["#525252", "#FAFAFA", "#D4D4D4"].map((c, i) => (
-              <div key={i} className="w-7 h-7 rounded-full border-2 border-[#030304] flex items-center justify-center text-xs font-bold text-white" style={{ backgroundColor: c }}>
+              <div key={i} className="w-7 h-7 rounded-full border-2 border-[#030304] flex items-center justify-center text-xs font-bold text-black" style={{ backgroundColor: c }}>
                 {["J", "M", "S"][i]}
               </div>
             ))}
           </div>
           <div>
-            <p className="font-body text-xs font-semibold text-white">Join thousands of students</p>
+            <p className="font-body text-xs font-semibold text-black">Join thousands of students</p>
             <p className="font-body text-[10px] text-[#4A5568]">Finding jobs through JobMatch every week</p>
           </div>
         </div>
@@ -73,9 +73,9 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         {/* Mobile logo */}
         <Link href="/" className="flex items-center gap-2.5 mb-6 lg:hidden">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.6)]">
-            <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
+            <Zap className="w-4 h-4 text-black" strokeWidth={2.5} />
           </div>
-          <span className="font-heading font-bold text-lg text-white tracking-tight">
+          <span className="font-heading font-bold text-lg text-black tracking-tight">
             Job<span className="gradient-text">Match</span>
           </span>
         </Link>

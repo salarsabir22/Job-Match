@@ -66,14 +66,14 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
   return (
     <>
       {/* ── Desktop Sidebar ──────────────────────────────────────── */}
-      <aside className="hidden lg:flex flex-col fixed left-0 top-0 h-full w-64 bg-[#08090C] border-r border-white/6 z-40">
+      <aside className="hidden lg:flex flex-col fixed left-0 top-0 h-full w-64 bg-white border-r border-black/10 z-40">
         {/* Logo */}
-        <div className="h-14 flex items-center px-6 border-b border-white/6 shrink-0">
+        <div className="h-14 flex items-center px-6 border-b border-black/10 shrink-0">
           <Link href="/" className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.6)]">
-              <Zap className="h-4 w-4 text-white" strokeWidth={2.5} />
+              <Zap className="h-4 w-4 text-black" strokeWidth={2.5} />
             </div>
-            <span className="font-heading font-bold text-lg text-white">
+            <span className="font-heading font-bold text-lg text-black">
               Job<span className="gradient-text">Match</span>
             </span>
           </Link>
@@ -83,7 +83,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
         <div className="px-5 pt-5 pb-2">
           <div className="flex items-center gap-2">
             <div className={cn("w-1.5 h-1.5 rounded-full shrink-0", roleDot)} />
-            <p className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8]">
+            <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700">
               {roleLabel} Dashboard
             </p>
           </div>
@@ -101,7 +101,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
                   "group flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200",
                   active
                     ? "bg-[#FAFAFA]/12 text-[#FAFAFA] border border-[#FAFAFA]/20"
-                    : "text-[#94A3B8] hover:text-white hover:bg-white/4 border border-transparent"
+                    : "text-neutral-700 hover:text-black hover:bg-white/4 border border-transparent"
                 )}
               >
                 <div className={cn(
@@ -111,7 +111,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
                     : "bg-white/4 group-hover:bg-white/8"
                 )}>
                   <Icon
-                    className={cn("h-4 w-4", active ? "text-[#FAFAFA]" : "text-[#94A3B8] group-hover:text-white")}
+                    className={cn("h-4 w-4", active ? "text-[#FAFAFA]" : "text-neutral-700 group-hover:text-black")}
                     strokeWidth={active ? 2.5 : 1.8}
                   />
                 </div>
@@ -119,7 +119,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
                   <p className={cn("font-body text-sm font-medium leading-none", active ? "text-[#FAFAFA]" : "text-inherit")}>
                     {label}
                   </p>
-                  <p className="font-data text-[10px] text-[#94A3B8] mt-0.5 leading-none">{desc}</p>
+                  <p className="font-data text-[10px] text-neutral-700 mt-0.5 leading-none">{desc}</p>
                 </div>
                 {active && <ChevronRight className="h-3.5 w-3.5 text-[#FAFAFA]/60 shrink-0" />}
               </Link>
@@ -128,24 +128,24 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
         </nav>
 
         {/* User profile + signout */}
-        <div className="p-3 border-t border-white/6 space-y-1">
-          <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/[0.025] border border-white/6">
+        <div className="p-3 border-t border-black/10 space-y-1">
+          <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/[0.025] border border-black/10">
             {avatarUrl ? (
-              <img src={avatarUrl} alt="" className="w-8 h-8 rounded-full object-cover border border-white/10 shrink-0" />
+              <img src={avatarUrl} alt="" className="w-8 h-8 rounded-full object-cover border border-black/10 shrink-0" />
             ) : (
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center text-white font-bold text-sm shrink-0">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center text-black font-bold text-sm shrink-0">
                 {initials}
               </div>
             )}
             <div className="flex-1 min-w-0">
-              <p className="font-body text-sm font-medium text-white truncate leading-none">{displayName}</p>
-              <p className="font-data text-[10px] text-[#94A3B8] truncate mt-0.5">{email ?? ""}</p>
+              <p className="font-body text-sm font-medium text-black truncate leading-none">{displayName}</p>
+              <p className="font-data text-[10px] text-neutral-700 truncate mt-0.5">{email ?? ""}</p>
             </div>
           </div>
 
           <button
             onClick={handleSignOut}
-            className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-[#94A3B8] hover:text-neutral-500 hover:bg-red-400/6 font-body text-sm transition-all duration-200"
+            className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-neutral-700 hover:text-neutral-500 hover:bg-red-400/6 font-body text-sm transition-all duration-200"
           >
             <LogOut className="h-4 w-4 shrink-0" strokeWidth={1.8} />
             Sign out
@@ -154,12 +154,12 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
       </aside>
 
       {/* Mobile Top Header */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-[#08090C]/90 backdrop-blur-md border-b border-white/6 h-14 flex items-center justify-between px-4">
+      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-black/10 h-14 flex items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_10px_-2px_rgba(255,255,255,0.6)]">
-            <Zap className="h-3.5 w-3.5 text-white" strokeWidth={2.5} />
+            <Zap className="h-3.5 w-3.5 text-black" strokeWidth={2.5} />
           </div>
-          <span className="font-heading font-bold text-base text-white">
+          <span className="font-heading font-bold text-base text-black">
             Job<span className="gradient-text">Match</span>
           </span>
         </Link>
@@ -167,7 +167,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
           <NotificationBell />
           <button
             onClick={handleSignOut}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[#94A3B8] hover:text-neutral-500 hover:bg-red-400/10 font-body text-xs font-medium transition-all duration-200 border border-white/8"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-neutral-700 hover:text-neutral-500 hover:bg-red-400/10 font-body text-xs font-medium transition-all duration-200 border border-black/10"
           >
             <LogOut className="h-3.5 w-3.5" />
             Logout
@@ -176,7 +176,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
       </header>
 
       {/* ── Mobile Bottom Nav ─────────────────────────────────────── */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#08090C]/95 backdrop-blur-md border-t border-white/6">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-black/10">
         <div className="flex">
           {links.map(({ href, icon: Icon, label }) => {
             const active = isActive(href)
@@ -186,7 +186,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
                 href={href}
                 className={cn(
                   "flex-1 flex flex-col items-center gap-1 py-3 px-1 font-data text-[9px] tracking-wider uppercase transition-all duration-200",
-                  active ? "text-[#FAFAFA]" : "text-[#94A3B8]"
+                  active ? "text-[#FAFAFA]" : "text-neutral-700"
                 )}
               >
                 <Icon

@@ -45,15 +45,15 @@ function PhoneFrame({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative mx-auto" style={{ width: 272, height: 556 }}>
       {/* Outer shell */}
-      <div className="absolute inset-0 rounded-[44px] bg-gradient-to-b from-[#1C1F26] to-[#0D0F13] border border-white/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.95),0_0_0_1px_rgba(255,255,255,0.05),inset_0_1px_0_rgba(255,255,255,0.08)]" />
+      <div className="absolute inset-0 rounded-[44px] bg-gradient-to-b from-[#1C1F26] to-[#0D0F13] border border-black/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.95),0_0_0_1px_rgba(255,255,255,0.05),inset_0_1px_0_rgba(255,255,255,0.08)]" />
       {/* Side buttons */}
       <div className="absolute -right-[3px] top-24 w-[3px] h-8 rounded-r-sm bg-[#2A2D35]" />
       <div className="absolute -left-[3px] top-20 w-[3px] h-6 rounded-l-sm bg-[#2A2D35]" />
       <div className="absolute -left-[3px] top-28 w-[3px] h-10 rounded-l-sm bg-[#2A2D35]" />
       {/* Dynamic island */}
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-6 rounded-full bg-[#030304] z-20 flex items-center justify-center gap-1.5 border border-white/5">
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-6 rounded-full bg-white z-20 flex items-center justify-center gap-1.5 border border-black/10">
         <div className="w-1.5 h-1.5 rounded-full bg-[#1C2128]" />
-        <div className="w-3 h-3 rounded-full bg-[#0D0F13] border border-white/6 flex items-center justify-center">
+        <div className="w-3 h-3 rounded-full bg-[#0D0F13] border border-black/10 flex items-center justify-center">
           <div className="w-1.5 h-1.5 rounded-full bg-[#1C2128]" />
         </div>
       </div>
@@ -102,7 +102,7 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
       {/* Top bar */}
       <div className="flex items-center justify-between px-5 pt-10 pb-3">
         <div>
-          <p className="font-heading font-bold text-sm text-white">Discover</p>
+          <p className="font-heading font-bold text-sm text-black">Discover</p>
           <p className="font-body text-[10px] text-[#4A5568]">Jobs picked for you</p>
         </div>
         <div className="flex items-center gap-2">
@@ -111,7 +111,7 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
               <Bell className="h-3.5 w-3.5 text-[#FAFAFA]" />
             </div>
             <div className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-red-500 border border-[#07090C] flex items-center justify-center">
-              <span className="font-data text-[7px] text-white font-bold">3</span>
+              <span className="font-data text-[7px] text-black font-bold">3</span>
             </div>
           </div>
         </div>
@@ -120,20 +120,20 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
       {/* Card stack */}
       <div className="flex-1 relative mx-4 mb-3">
         {/* Back card (peeking) */}
-        <div className="absolute inset-x-3 top-2 bottom-0 rounded-3xl border border-white/6 overflow-hidden"
+        <div className="absolute inset-x-3 top-2 bottom-0 rounded-3xl border border-black/10 overflow-hidden"
           style={{ background: `linear-gradient(135deg, ${back.accentBg}, #0D0F13)`, transform: "scale(0.95) translateY(6px)", zIndex: 1 }}>
           <div className="p-4 pt-5">
-            <div className="w-9 h-9 rounded-2xl border border-white/10 flex items-center justify-center mb-2"
+            <div className="w-9 h-9 rounded-2xl border border-black/10 flex items-center justify-center mb-2"
               style={{ background: back.accentBg }}>
               <Briefcase className="h-4 w-4 text-[#64748B]" />
             </div>
-            <p className="font-heading font-semibold text-sm text-white/60">{back.title}</p>
+            <p className="font-heading font-semibold text-sm text-black/60">{back.title}</p>
             <p className="font-body text-[10px] text-[#334155]">{back.company}</p>
           </div>
         </div>
 
         {/* Front card */}
-        <div className="absolute inset-0 rounded-3xl border border-white/10 overflow-hidden flex flex-col"
+        <div className="absolute inset-0 rounded-3xl border border-black/10 overflow-hidden flex flex-col"
           style={{ background: `linear-gradient(145deg, ${card.accentBg} 0%, #0D0F13 55%)`, boxShadow: `0 24px 48px -10px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06), 0 0 40px -15px ${card.accent}40`, zIndex: 2 }}>
 
           {/* Card top accent bar */}
@@ -143,12 +143,12 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
             {/* Company row */}
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center gap-2.5">
-                <div className="w-11 h-11 rounded-2xl border border-white/10 flex items-center justify-center shrink-0"
+                <div className="w-11 h-11 rounded-2xl border border-black/10 flex items-center justify-center shrink-0"
                   style={{ background: `linear-gradient(135deg, ${card.accentBg}, #0D0F13)`, boxShadow: `0 0 20px -5px ${card.accent}50` }}>
                   <Briefcase className="h-5 w-5" style={{ color: card.accent === "#000000" ? "#94A3B8" : card.accent }} />
                 </div>
                 <div>
-                  <p className="font-heading font-bold text-sm text-white leading-tight">{card.company}</p>
+                  <p className="font-heading font-bold text-sm text-black leading-tight">{card.company}</p>
                   <p className="font-body text-[10px] text-[#64748B]">{card.type}</p>
                 </div>
               </div>
@@ -159,7 +159,7 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
             </div>
 
             {/* Role + salary */}
-            <p className="font-heading font-bold text-xl text-white mb-0.5 leading-tight">{card.title}</p>
+            <p className="font-heading font-bold text-xl text-black mb-0.5 leading-tight">{card.title}</p>
             <p className="font-body text-sm font-semibold mb-3" style={{ color: card.accent === "#000000" ? "#94A3B8" : card.accent }}>{card.salary}</p>
 
             {/* Skills */}
@@ -187,13 +187,13 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
           </div>
 
           {/* Swipe buttons */}
-          <div className="flex items-center justify-center gap-5 px-4 py-3 border-t border-white/6">
+          <div className="flex items-center justify-center gap-5 px-4 py-3 border-t border-black/10">
             <button className="w-11 h-11 rounded-full flex items-center justify-center border border-neutral-500/30 bg-red-500/10 shadow-[0_0_12px_-4px_rgba(255,255,255,0.4)]">
               <X className="h-4.5 w-4.5 text-neutral-500" style={{ width: 18, height: 18 }} />
             </button>
             <button className="w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_24px_-4px_rgba(255,255,255,0.7)]"
               style={{ background: `linear-gradient(135deg, #525252, #FAFAFA)` }}>
-              <Heart className="h-6 w-6 text-white fill-white" />
+              <Heart className="h-6 w-6 text-black fill-white" />
             </button>
             <button className="w-11 h-11 rounded-full flex items-center justify-center border border-neutral-500/30 bg-neutral-500/10 shadow-[0_0_12px_-4px_rgba(255,255,255,0.4)]">
               <Star className="h-4.5 w-4.5 text-neutral-400" style={{ width: 18, height: 18 }} />
@@ -237,41 +237,41 @@ function StudentMatchScreen() {
         {/* Avatars */}
         <div className="flex items-center gap-0 mb-5">
           <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] border-[3px] border-[#07090C] flex items-center justify-center shadow-[0_0_20px_-4px_rgba(255,255,255,0.6)] z-10">
-            <GraduationCap className="h-8 w-8 text-white" />
+            <GraduationCap className="h-8 w-8 text-black" />
           </div>
           <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] border-2 border-[#07090C] flex items-center justify-center -mx-1 z-20 shadow-[0_0_16px_-4px_rgba(255,255,255,0.8)]">
-            <Heart className="h-4 w-4 text-white fill-white" />
+            <Heart className="h-4 w-4 text-black fill-white" />
           </div>
           <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#635BFF] to-[#4338CA] border-[3px] border-[#07090C] flex items-center justify-center shadow-[0_0_20px_-4px_rgba(99,91,255,0.5)] z-10">
-            <Building2 className="h-8 w-8 text-white" />
+            <Building2 className="h-8 w-8 text-black" />
           </div>
         </div>
 
         <div className="font-data text-[10px] tracking-[0.2em] uppercase text-[#FAFAFA] mb-1.5 bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 rounded-full px-3 py-0.5">
           New Match
         </div>
-        <h3 className="font-heading font-bold text-2xl text-white mb-1">It&apos;s a Match!</h3>
+        <h3 className="font-heading font-bold text-2xl text-black mb-1">It&apos;s a Match!</h3>
         <p className="font-body text-xs text-[#4A5568] text-center mb-1">
-          <span className="text-white font-medium">You</span> and <span className="text-[#635BFF] font-medium">Stripe</span> both liked each other
+          <span className="text-black font-medium">You</span> and <span className="text-[#635BFF] font-medium">Stripe</span> both liked each other
         </p>
 
         {/* Job preview */}
-        <div className="w-full bg-white/4 border border-white/8 rounded-2xl p-3 mb-5 mt-3 flex items-center gap-3">
+        <div className="w-full bg-white/4 border border-black/10 rounded-2xl p-3 mb-5 mt-3 flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-[#635BFF]/20 flex items-center justify-center shrink-0">
             <Briefcase className="h-4 w-4 text-[#635BFF]" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="font-body text-xs font-semibold text-white">Frontend Engineer</p>
+            <p className="font-body text-xs font-semibold text-black">Frontend Engineer</p>
             <p className="font-body text-[10px] text-[#4A5568]">Stripe · $120–150k</p>
           </div>
           <span className="font-data text-[9px] text-neutral-400 bg-neutral-500/10 border border-neutral-500/20 rounded-full px-2 py-0.5">95%</span>
         </div>
 
-        <button className="w-full h-10 rounded-2xl text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] mb-2.5"
+        <button className="w-full h-10 rounded-2xl text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] mb-2.5"
           style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)" }}>
           💬 Send a Message
         </button>
-        <button className="w-full h-10 rounded-2xl border border-white/8 text-[#64748B] font-body text-sm">
+        <button className="w-full h-10 rounded-2xl border border-black/10 text-[#64748B] font-body text-sm">
           Keep Swiping
         </button>
       </div>
@@ -289,12 +289,12 @@ function StudentChatScreen() {
   ]
   return (
     <div className="h-full flex flex-col bg-[#07090C]">
-      <div className="flex items-center gap-3 px-4 pt-10 pb-3 border-b border-white/6">
+      <div className="flex items-center gap-3 px-4 pt-10 pb-3 border-b border-black/10">
         <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-[#635BFF] to-[#4338CA] flex items-center justify-center shrink-0">
-          <Building2 className="h-4.5 w-4.5 text-white" style={{ width: 18, height: 18 }} />
+          <Building2 className="h-4.5 w-4.5 text-black" style={{ width: 18, height: 18 }} />
         </div>
         <div className="flex-1">
-          <p className="font-body text-xs font-bold text-white">Sarah · Stripe Recruiter</p>
+          <p className="font-body text-xs font-bold text-black">Sarah · Stripe Recruiter</p>
           <div className="flex items-center gap-1">
             <div className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
             <span className="font-data text-[9px] text-neutral-400">Online now</span>
@@ -309,14 +309,14 @@ function StudentChatScreen() {
           <div key={i} className={cn("flex items-end gap-2", m.from === "me" ? "justify-end" : "justify-start")}>
             {m.from === "them" && (
               <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#635BFF] to-[#4338CA] flex items-center justify-center shrink-0 mb-0.5">
-                <Building2 className="h-3 w-3 text-white" />
+                <Building2 className="h-3 w-3 text-black" />
               </div>
             )}
             <div className={cn(
               "max-w-[78%] px-3 py-2 font-body text-[11px] leading-relaxed",
               m.from === "me"
-                ? "rounded-2xl rounded-br-sm text-white shadow-[0_4px_12px_-3px_rgba(255,255,255,0.3)]"
-                : "rounded-2xl rounded-bl-sm bg-white/6 text-[#94A3B8]"
+                ? "rounded-2xl rounded-br-sm text-black shadow-[0_4px_12px_-3px_rgba(255,255,255,0.3)]"
+                : "rounded-2xl rounded-bl-sm bg-white/6 text-neutral-700"
             )} style={m.from === "me" ? { background: "linear-gradient(135deg, #525252, #FAFAFA)" } : {}}>
               {m.text}
             </div>
@@ -324,11 +324,11 @@ function StudentChatScreen() {
         ))}
       </div>
       <div className="px-3 pb-8 pt-2">
-        <div className="flex items-center gap-2 bg-white/5 border border-white/8 rounded-2xl px-3 py-2.5">
+        <div className="flex items-center gap-2 bg-white/5 border border-black/10 rounded-2xl px-3 py-2.5">
           <span className="font-body text-[11px] text-[#1E293B] flex-1">Message Sarah…</span>
           <div className="w-7 h-7 rounded-xl flex items-center justify-center shadow-[0_0_10px_-2px_rgba(255,255,255,0.4)]"
             style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)" }}>
-            <Send className="h-3.5 w-3.5 text-white" />
+            <Send className="h-3.5 w-3.5 text-black" />
           </div>
         </div>
       </div>
@@ -343,13 +343,13 @@ function StudentProfileScreen() {
         <div className="absolute inset-x-0 top-8 flex items-center justify-center">
           <div className="w-16 h-16 rounded-2xl border-[3px] border-[#07090C] flex items-center justify-center shadow-[0_0_20px_-5px_rgba(255,255,255,0.6)]"
             style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)" }}>
-            <GraduationCap className="h-8 w-8 text-white" />
+            <GraduationCap className="h-8 w-8 text-black" />
           </div>
         </div>
       </div>
       <div className="flex-1 px-4 pt-2 pb-4 flex flex-col overflow-hidden">
         <div className="text-center mb-3">
-          <p className="font-heading font-bold text-sm text-white">Alex Johnson</p>
+          <p className="font-heading font-bold text-sm text-black">Alex Johnson</p>
           <p className="font-body text-[10px] text-[#4A5568]">B.Sc. Computer Science · MIT · 2026</p>
           <div className="flex items-center justify-center gap-1.5 mt-2">
             {["React", "Python", "Node.js", "+4"].map(s => (
@@ -359,7 +359,7 @@ function StudentProfileScreen() {
         </div>
         <div className="grid grid-cols-3 gap-2 mb-3">
           {[{ l: "Matches", v: "12", c: "text-[#FAFAFA]" }, { l: "Views", v: "84", c: "text-neutral-400" }, { l: "Score", v: "94%", c: "text-neutral-400" }].map(({ l, v, c }) => (
-            <div key={l} className="bg-white/4 border border-white/6 rounded-2xl p-2 text-center">
+            <div key={l} className="bg-white/4 border border-black/10 rounded-2xl p-2 text-center">
               <p className={cn("font-heading font-bold text-base", c)}>{v}</p>
               <p className="font-data text-[9px] text-[#4A5568]">{l}</p>
             </div>
@@ -372,7 +372,7 @@ function StudentProfileScreen() {
             { icon: MessageCircle, text: "New message from Notion", t: "1h ago", c: "text-neutral-400", bg: "bg-neutral-500/10" },
             { icon: TrendingUp, text: "Profile views +23% this week", t: "Today", c: "text-neutral-400", bg: "bg-neutral-500/10" },
           ].map(({ icon: Icon, text, t, c, bg }) => (
-            <div key={text} className="flex items-center gap-2.5 p-2 rounded-xl bg-white/3 border border-white/5">
+            <div key={text} className="flex items-center gap-2.5 p-2 rounded-xl bg-white/3 border border-black/10">
               <div className={cn("w-6 h-6 rounded-lg flex items-center justify-center shrink-0", bg)}>
                 <Icon className={cn("h-3 w-3", c)} />
               </div>
@@ -417,7 +417,7 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
     <div className="h-full flex flex-col bg-[#07090C]">
       <div className="flex items-center justify-between px-5 pt-10 pb-3">
         <div>
-          <p className="font-heading font-bold text-sm text-white">Find Talent</p>
+          <p className="font-heading font-bold text-sm text-black">Find Talent</p>
           <p className="font-body text-[10px] text-[#4A5568]">Candidates matching your roles</p>
         </div>
         <div className="flex items-center gap-1 bg-neutral-500/10 border border-neutral-500/20 rounded-full px-2.5 py-1">
@@ -428,28 +428,28 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
 
       <div className="flex-1 relative mx-4 mb-3">
         {/* Back card */}
-        <div className="absolute inset-x-3 top-2 bottom-0 rounded-3xl border border-white/6 bg-[#0D0F13] overflow-hidden"
+        <div className="absolute inset-x-3 top-2 bottom-0 rounded-3xl border border-black/10 bg-[#0D0F13] overflow-hidden"
           style={{ transform: "scale(0.95) translateY(6px)", zIndex: 1 }}>
           <div className="h-16 bg-gradient-to-br from-[#1E293B] to-[#0D0F13]" />
           <div className="px-3 -mt-6">
             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#334155] to-[#1E293B] border-2 border-[#0D0F13] flex items-center justify-center">
-              <span className="font-heading font-bold text-base text-white/40">{back.name[0]}</span>
+              <span className="font-heading font-bold text-base text-black/40">{back.name[0]}</span>
             </div>
-            <p className="font-heading font-semibold text-sm text-white/40 mt-2">{back.name}</p>
+            <p className="font-heading font-semibold text-sm text-black/40 mt-2">{back.name}</p>
             <p className="font-body text-[10px] text-[#1E293B]">{back.university}</p>
           </div>
         </div>
 
         {/* Front card */}
-        <div className="absolute inset-0 rounded-3xl border border-white/10 overflow-hidden flex flex-col"
+        <div className="absolute inset-0 rounded-3xl border border-black/10 overflow-hidden flex flex-col"
           style={{ background: "#0D0F13", boxShadow: `0 24px 48px -10px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06), 0 0 40px -20px ${card.accent}40`, zIndex: 2 }}>
 
           {/* Cover */}
           <div className="relative h-[90px] shrink-0" style={{ background: `linear-gradient(135deg, ${card.accent}20, #0D0F13)` }}>
             <div className="absolute inset-x-0 bottom-0 h-px" style={{ background: `linear-gradient(90deg, ${card.accent}40, transparent)` }} />
             {/* School badge */}
-            <div className="absolute top-3 right-3 bg-black/40 border border-white/8 rounded-xl px-2 py-1 flex items-center gap-1.5 backdrop-blur-sm">
-              <GraduationCap className="h-3 w-3 text-[#94A3B8]" />
+            <div className="absolute top-3 right-3 bg-white/40 border border-black/10 rounded-xl px-2 py-1 flex items-center gap-1.5 backdrop-blur-sm">
+              <GraduationCap className="h-3 w-3 text-neutral-700" />
               <span className="font-data text-[9px] text-[#64748B]">{card.university}</span>
             </div>
           </div>
@@ -458,11 +458,11 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
           <div className="px-4 -mt-7 mb-2 flex items-end gap-3">
             <div className="w-14 h-14 rounded-2xl border-[3px] border-[#0D0F13] flex items-center justify-center shrink-0 shadow-[0_8px_20px_-6px_rgba(0,0,0,0.6)]"
               style={{ background: `linear-gradient(135deg, ${card.accent}60, ${card.accent}20)` }}>
-              <span className="font-heading font-bold text-xl text-white">{card.name[0]}</span>
+              <span className="font-heading font-bold text-xl text-black">{card.name[0]}</span>
             </div>
             <div className="mb-1 flex-1">
               <div className="flex items-center gap-2">
-                <p className="font-heading font-bold text-sm text-white">{card.name}</p>
+                <p className="font-heading font-bold text-sm text-black">{card.name}</p>
                 <div className="flex items-center gap-1 rounded-full px-1.5 py-0.5"
                   style={{ background: `${card.accent}15`, border: `1px solid ${card.accent}30` }}>
                   <div className="w-1 h-1 rounded-full" style={{ background: card.accent }} />
@@ -475,9 +475,9 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
 
           <div className="px-4 flex-1 flex flex-col">
             {/* Highlight */}
-            <div className="bg-white/3 border border-white/6 rounded-xl px-3 py-2 mb-3 flex items-start gap-2">
+            <div className="bg-white/3 border border-black/10 rounded-xl px-3 py-2 mb-3 flex items-start gap-2">
               <Star className="h-3 w-3 shrink-0 mt-0.5" style={{ color: card.accent }} />
-              <p className="font-body text-[10px] text-[#94A3B8] leading-relaxed">{card.highlight}</p>
+              <p className="font-body text-[10px] text-neutral-700 leading-relaxed">{card.highlight}</p>
             </div>
 
             {/* Skills */}
@@ -493,8 +493,8 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
             {/* Stats row */}
             <div className="grid grid-cols-3 gap-2 mb-auto">
               {[{ l: "GPA", v: card.gpa }, { l: "Projects", v: card.projects.toString() }, { l: "Match", v: `${card.match}%` }].map(({ l, v }) => (
-                <div key={l} className="bg-white/3 border border-white/6 rounded-xl p-2 text-center">
-                  <p className="font-heading font-bold text-sm text-white">{v}</p>
+                <div key={l} className="bg-white/3 border border-black/10 rounded-xl p-2 text-center">
+                  <p className="font-heading font-bold text-sm text-black">{v}</p>
                   <p className="font-data text-[9px] text-[#334155]">{l}</p>
                 </div>
               ))}
@@ -502,13 +502,13 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
           </div>
 
           {/* Swipe buttons */}
-          <div className="flex items-center justify-center gap-5 px-4 py-3 border-t border-white/6 mt-3">
+          <div className="flex items-center justify-center gap-5 px-4 py-3 border-t border-black/10 mt-3">
             <button className="w-11 h-11 rounded-full flex items-center justify-center border border-neutral-500/30 bg-red-500/10">
               <X className="h-[18px] w-[18px] text-neutral-500" />
             </button>
             <button className="w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_24px_-4px_rgba(255,255,255,0.7)]"
               style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)" }}>
-              <Heart className="h-6 w-6 text-white fill-white" />
+              <Heart className="h-6 w-6 text-black fill-white" />
             </button>
             <button className="w-11 h-11 rounded-full flex items-center justify-center border border-neutral-500/30 bg-neutral-500/10">
               <Star className="h-[18px] w-[18px] text-neutral-400" />
@@ -541,43 +541,43 @@ function RecruiterMatchScreen() {
         <div className="flex items-center gap-0 mb-4">
           <div className="w-16 h-16 rounded-2xl border-[3px] border-[#07090C] flex items-center justify-center shadow-[0_0_20px_-4px_rgba(34,197,94,0.4)] z-10"
             style={{ background: "linear-gradient(135deg, rgba(34,197,94,0.6), rgba(34,197,94,0.2))" }}>
-            <span className="font-heading font-bold text-xl text-white">A</span>
+            <span className="font-heading font-bold text-xl text-black">A</span>
           </div>
           <div className="w-9 h-9 rounded-full border-2 border-[#07090C] flex items-center justify-center -mx-1 z-20"
             style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)", boxShadow: "0 0 16px -4px rgba(255,255,255,0.8)" }}>
-            <Heart className="h-4 w-4 text-white fill-white" />
+            <Heart className="h-4 w-4 text-black fill-white" />
           </div>
           <div className="w-16 h-16 rounded-2xl border-[3px] border-[#07090C] flex items-center justify-center z-10"
             style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)", boxShadow: "0 0 20px -4px rgba(255,255,255,0.5)" }}>
-            <Building2 className="h-8 w-8 text-white" />
+            <Building2 className="h-8 w-8 text-black" />
           </div>
         </div>
 
         <div className="font-data text-[10px] tracking-[0.2em] uppercase text-neutral-400 mb-1.5 bg-neutral-500/10 border border-neutral-500/20 rounded-full px-3 py-0.5">
           Candidate Match
         </div>
-        <h3 className="font-heading font-bold text-2xl text-white mb-1">You got a Match!</h3>
+        <h3 className="font-heading font-bold text-2xl text-black mb-1">You got a Match!</h3>
         <p className="font-body text-xs text-[#4A5568] text-center mb-4">
           <span className="text-neutral-400 font-medium">Alex Chen</span> also liked your job posting
         </p>
 
         {/* Candidate preview */}
-        <div className="w-full bg-white/4 border border-white/8 rounded-2xl p-3 mb-5 flex items-center gap-3">
+        <div className="w-full bg-white/4 border border-black/10 rounded-2xl p-3 mb-5 flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-neutral-500/20 flex items-center justify-center shrink-0">
             <span className="font-heading font-bold text-sm text-neutral-400">A</span>
           </div>
           <div className="flex-1">
-            <p className="font-body text-xs font-semibold text-white">Alex Chen · MIT</p>
+            <p className="font-body text-xs font-semibold text-black">Alex Chen · MIT</p>
             <p className="font-body text-[10px] text-[#4A5568]">React · TypeScript · Node.js</p>
           </div>
           <span className="font-data text-[9px] text-neutral-400 bg-neutral-500/10 border border-neutral-500/20 rounded-full px-2 py-0.5">97%</span>
         </div>
 
-        <button className="w-full h-10 rounded-2xl text-white font-body font-semibold text-sm mb-2.5"
+        <button className="w-full h-10 rounded-2xl text-black font-body font-semibold text-sm mb-2.5"
           style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)" }}>
           💬 Start Interview
         </button>
-        <button className="w-full h-10 rounded-2xl border border-white/8 text-[#64748B] font-body text-sm">
+        <button className="w-full h-10 rounded-2xl border border-black/10 text-[#64748B] font-body text-sm">
           View Full Profile
         </button>
       </div>
@@ -595,14 +595,14 @@ function RecruiterPipelineScreen() {
   return (
     <div className="h-full flex flex-col bg-[#07090C]">
       <div className="px-5 pt-10 pb-3">
-        <p className="font-heading font-bold text-sm text-white">Your Pipeline</p>
+        <p className="font-heading font-bold text-sm text-black">Your Pipeline</p>
         <p className="font-body text-[10px] text-[#4A5568]">Frontend Engineer · 34 matches</p>
       </div>
 
       {/* Stats row */}
       <div className="grid grid-cols-3 gap-2 px-4 mb-3">
-        {[{ l: "Total", v: "34", c: "text-white" }, { l: "Interviews", v: "6", c: "text-[#FAFAFA]" }, { l: "Hired", v: "2", c: "text-neutral-400" }].map(({ l, v, c }) => (
-          <div key={l} className="bg-white/4 border border-white/6 rounded-2xl py-2.5 text-center">
+        {[{ l: "Total", v: "34", c: "text-black" }, { l: "Interviews", v: "6", c: "text-[#FAFAFA]" }, { l: "Hired", v: "2", c: "text-neutral-400" }].map(({ l, v, c }) => (
+          <div key={l} className="bg-white/4 border border-black/10 rounded-2xl py-2.5 text-center">
             <p className={cn("font-heading font-bold text-lg", c)}>{v}</p>
             <p className="font-data text-[9px] text-[#334155]">{l}</p>
           </div>
@@ -612,12 +612,12 @@ function RecruiterPipelineScreen() {
       <div className="px-4 flex-1 space-y-2 overflow-hidden">
         <p className="font-data text-[9px] tracking-wider uppercase text-[#334155]">Candidates</p>
         {candidates.map((c) => (
-          <div key={c.name} className="flex items-center gap-2.5 p-2.5 bg-white/3 border border-white/6 rounded-2xl">
-            <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center shrink-0 font-heading font-bold text-sm text-[#94A3B8]">
+          <div key={c.name} className="flex items-center gap-2.5 p-2.5 bg-white/3 border border-black/10 rounded-2xl">
+            <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center shrink-0 font-heading font-bold text-sm text-neutral-700">
               {c.name[0]}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-body text-xs font-semibold text-white truncate">{c.name}</p>
+              <p className="font-body text-xs font-semibold text-black truncate">{c.name}</p>
               <p className="font-body text-[10px] text-[#4A5568] truncate">{c.uni} · {c.role}</p>
             </div>
             <div className="text-right shrink-0">
@@ -651,12 +651,12 @@ function RecruiterChatScreen() {
   ]
   return (
     <div className="h-full flex flex-col bg-[#07090C]">
-      <div className="flex items-center gap-3 px-4 pt-10 pb-3 border-b border-white/6">
+      <div className="flex items-center gap-3 px-4 pt-10 pb-3 border-b border-black/10">
         <div className="w-9 h-9 rounded-2xl bg-neutral-500/20 border border-neutral-500/20 flex items-center justify-center shrink-0">
           <span className="font-heading font-bold text-sm text-neutral-400">A</span>
         </div>
         <div className="flex-1">
-          <p className="font-body text-xs font-bold text-white">Alex Chen · MIT</p>
+          <p className="font-body text-xs font-bold text-black">Alex Chen · MIT</p>
           <div className="flex items-center gap-1">
             <div className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
             <span className="font-data text-[9px] text-neutral-400">97% match · Online</span>
@@ -678,8 +678,8 @@ function RecruiterChatScreen() {
             <div className={cn(
               "max-w-[78%] px-3 py-2 font-body text-[11px] leading-relaxed",
               m.from === "me"
-                ? "rounded-2xl rounded-br-sm text-white"
-                : "rounded-2xl rounded-bl-sm bg-white/6 text-[#94A3B8]"
+                ? "rounded-2xl rounded-br-sm text-black"
+                : "rounded-2xl rounded-bl-sm bg-white/6 text-neutral-700"
             )} style={m.from === "me" ? { background: "linear-gradient(135deg, #525252, #FAFAFA)" } : {}}>
               {m.text}
             </div>
@@ -687,11 +687,11 @@ function RecruiterChatScreen() {
         ))}
       </div>
       <div className="px-3 pb-8 pt-2">
-        <div className="flex items-center gap-2 bg-white/5 border border-white/8 rounded-2xl px-3 py-2.5">
+        <div className="flex items-center gap-2 bg-white/5 border border-black/10 rounded-2xl px-3 py-2.5">
           <span className="font-body text-[11px] text-[#1E293B] flex-1">Message Alex…</span>
           <div className="w-7 h-7 rounded-xl flex items-center justify-center"
             style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)" }}>
-            <Send className="h-3.5 w-3.5 text-white" />
+            <Send className="h-3.5 w-3.5 text-black" />
           </div>
         </div>
       </div>
@@ -774,7 +774,7 @@ function ProductDemo({ role }: { role: UserRole | null }) {
           <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: isRecruiter ? "#D4D4D4" : "#FAFAFA" }} />
           <span className="font-data text-[10px] tracking-widest uppercase" style={{ color: isRecruiter ? "#D4D4D4" : "#FAFAFA" }}>{screen.tag}</span>
         </div>
-        <p className="font-heading font-semibold text-sm text-white">{screen.label}</p>
+        <p className="font-heading font-semibold text-sm text-black">{screen.label}</p>
       </div>
 
       {/* Phone */}
@@ -817,7 +817,7 @@ function ProductDemo({ role }: { role: UserRole | null }) {
           <div key={text} className={cn(
             "flex items-center gap-2.5 px-3 py-2 rounded-xl border transition-all duration-300",
             i === screenIdx
-              ? "border-white/8"
+              ? "border-black/10"
               : "border-transparent"
           )} style={i === screenIdx ? { background: isRecruiter ? "rgba(34,197,94,0.06)" : "rgba(255,255,255,0.06)" } : {}}>
             <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 transition-all duration-300"
@@ -836,8 +836,8 @@ function ProductDemo({ role }: { role: UserRole | null }) {
 /* ─────────────────────────────────────────────
    Micro helpers
 ───────────────────────────────────────────── */
-const inputClass = "w-full h-11 px-4 rounded-xl bg-black/60 border border-white/10 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.25)] transition-all duration-200"
-const textareaClass = "w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.25)] transition-all duration-200 resize-none"
+const inputClass = "w-full h-11 px-4 rounded-xl bg-white/60 border border-black/10 text-black text-sm placeholder:text-black/20 focus:outline-none focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.25)] transition-all duration-200"
+const textareaClass = "w-full px-4 py-3 rounded-xl bg-white/60 border border-black/10 text-black text-sm placeholder:text-black/20 focus:outline-none focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.25)] transition-all duration-200 resize-none"
 const labelClass = "block font-data text-[11px] tracking-wider uppercase text-[#64748B] mb-1.5"
 
 function HelpText({ children }: { children: React.ReactNode }) {
@@ -997,27 +997,27 @@ export default function OnboardingPage() {
 
   if (!role) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#030304] gap-3">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-white gap-3">
         <Loader2 className="h-8 w-8 animate-spin text-[#FAFAFA]" />
-        <p className="font-body text-sm text-[#94A3B8]">Loading your profile…</p>
+        <p className="font-body text-sm text-neutral-700">Loading your profile…</p>
       </div>
     )
   }
 
   return (
-    <div className="h-screen bg-[#030304] flex flex-col relative overflow-hidden">
+    <div className="h-screen bg-white flex flex-col relative overflow-hidden">
       {/* Background glows */}
       <div className="absolute inset-0 bg-grid-pattern pointer-events-none opacity-50" />
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#FAFAFA] opacity-[0.03] blur-[160px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#525252] opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
 
       {/* ── Top bar ── */}
-      <header className="relative z-10 flex items-center justify-between px-6 py-4 border-b border-white/6">
+      <header className="relative z-10 flex items-center justify-between px-6 py-4 border-b border-black/10">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)]">
-            <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
+            <Zap className="w-4 h-4 text-black" strokeWidth={2.5} />
           </div>
-          <span className="font-heading font-bold text-base text-white tracking-tight">
+          <span className="font-heading font-bold text-base text-black tracking-tight">
             Job<span className="gradient-text">Match</span>
           </span>
         </div>
@@ -1037,7 +1037,7 @@ export default function OnboardingPage() {
         <div className="flex items-center gap-2 text-right">
           <div className="hidden sm:block">
             <p className="font-data text-[10px] tracking-wider text-[#4A5568]">STEP {step + 1} OF {totalSteps}</p>
-            <p className="font-body text-xs text-[#94A3B8] font-medium">{currentStep.title}</p>
+            <p className="font-body text-xs text-neutral-700 font-medium">{currentStep.title}</p>
           </div>
           <div className="w-8 h-8 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/25 flex items-center justify-center">
             <span className="font-data text-[11px] font-bold text-[#FAFAFA]">{progress}%</span>
@@ -1076,15 +1076,15 @@ export default function OnboardingPage() {
           {/* Card */}
           <div className="bg-[#0B0D10] border border-white/7 rounded-2xl shadow-[0_20px_60px_-20px_rgba(0,0,0,0.7)]">
             {/* Card header */}
-            <div className="flex items-start gap-3 px-6 py-5 border-b border-white/6">
+            <div className="flex items-start gap-3 px-6 py-5 border-b border-black/10">
               <div className="w-10 h-10 rounded-xl bg-[#FAFAFA]/12 border border-[#FAFAFA]/25 flex items-center justify-center shrink-0">
                 {role === "student" ? <GraduationCap className="h-5 w-5 text-[#FAFAFA]" /> : <Building2 className="h-5 w-5 text-[#FAFAFA]" />}
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <h2 className="font-heading font-semibold text-lg text-white">{currentStep.title}</h2>
+                  <h2 className="font-heading font-semibold text-lg text-black">{currentStep.title}</h2>
                   {!currentStep.required && (
-                    <span className="font-data text-[9px] tracking-widest uppercase text-[#334155] bg-white/4 px-2 py-0.5 rounded-full border border-white/6">
+                    <span className="font-data text-[9px] tracking-widest uppercase text-[#334155] bg-white/4 px-2 py-0.5 rounded-full border border-black/10">
                       Optional
                     </span>
                   )}
@@ -1103,13 +1103,13 @@ export default function OnboardingPage() {
                     <label className={labelClass}>Profile Photo</label>
                     <div className="flex items-center gap-4">
                       <div className="relative shrink-0">
-                        <div className="h-20 w-20 rounded-2xl overflow-hidden bg-black/60 border-2 border-[#FAFAFA]/20 flex items-center justify-center">
+                        <div className="h-20 w-20 rounded-2xl overflow-hidden bg-white/60 border-2 border-[#FAFAFA]/20 flex items-center justify-center">
                           {avatarPreview
                             ? <img src={avatarPreview} alt="Avatar" className="h-full w-full object-cover" />
                             : <ImageIcon className="h-7 w-7 text-[#1E293B]" />}
                         </div>
                         <label className="absolute -bottom-1.5 -right-1.5 h-7 w-7 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] flex items-center justify-center cursor-pointer shadow-[0_0_10px_-2px_rgba(255,255,255,0.5)] hover:scale-110 transition-transform">
-                          <Plus className="h-3.5 w-3.5 text-white" />
+                          <Plus className="h-3.5 w-3.5 text-black" />
                           <input type="file" accept="image/*" className="hidden" onChange={(e) => {
                             const f = e.target.files?.[0]
                             if (f) { setAvatarFile(f); setAvatarPreview(URL.createObjectURL(f)) }
@@ -1117,7 +1117,7 @@ export default function OnboardingPage() {
                         </label>
                       </div>
                       <div>
-                        <p className="font-body text-sm text-white font-medium">Add a profile photo</p>
+                        <p className="font-body text-sm text-black font-medium">Add a profile photo</p>
                         <p className="font-body text-xs text-[#334155] mt-0.5">JPG, PNG or GIF · Max 5MB</p>
                         <p className="font-body text-[11px] text-[#FAFAFA]/60 mt-1">3× more views with a photo</p>
                       </div>
@@ -1157,9 +1157,9 @@ export default function OnboardingPage() {
                   <div>
                     <label className={labelClass}>Expected Graduation Year</label>
                     <select className={inputClass} value={graduationYear} onChange={(e) => setGraduationYear(e.target.value)}>
-                      <option value="" className="bg-[#030304]">Select year…</option>
+                      <option value="" className="bg-white">Select year…</option>
                       {[2024, 2025, 2026, 2027, 2028, 2029, 2030].map(y => (
-                        <option key={y} value={String(y)} className="bg-[#030304]">{y}</option>
+                        <option key={y} value={String(y)} className="bg-white">{y}</option>
                       ))}
                     </select>
                   </div>
@@ -1190,7 +1190,7 @@ export default function OnboardingPage() {
                     <div className="flex flex-wrap gap-1.5 mt-2">
                       {SKILL_SUGGESTIONS.filter(s => !skills.includes(s)).slice(0, 8).map(s => (
                         <button key={s} type="button" onClick={() => addSkill(s)}
-                          className="text-xs px-2.5 py-1 rounded-full border border-dashed border-white/10 text-[#334155] hover:border-[#FAFAFA]/40 hover:text-[#FAFAFA] transition-all">
+                          className="text-xs px-2.5 py-1 rounded-full border border-dashed border-black/10 text-[#334155] hover:border-[#FAFAFA]/40 hover:text-[#FAFAFA] transition-all">
                           + {s}
                         </button>
                       ))}
@@ -1200,7 +1200,7 @@ export default function OnboardingPage() {
                         {skills.map(s => (
                           <span key={s} className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-[#FAFAFA]/12 border border-[#FAFAFA]/25 text-[#FAFAFA]">
                             {s}
-                            <button onClick={() => setSkills(skills.filter(sk => sk !== s))} className="hover:text-white transition-colors ml-0.5">
+                            <button onClick={() => setSkills(skills.filter(sk => sk !== s))} className="hover:text-black transition-colors ml-0.5">
                               <X className="h-3 w-3" />
                             </button>
                           </span>
@@ -1219,7 +1219,7 @@ export default function OnboardingPage() {
                           className={cn("text-xs px-2.5 py-1 rounded-full border transition-all duration-200",
                             preferredCategories.includes(c)
                               ? "bg-[#FAFAFA]/18 border-[#FAFAFA]/50 text-[#FAFAFA]"
-                              : "border-white/8 text-[#334155] hover:border-white/18 hover:text-[#94A3B8]"
+                              : "border-black/10 text-[#334155] hover:border-white/18 hover:text-neutral-700"
                           )}>
                           {c}
                         </button>
@@ -1250,13 +1250,13 @@ export default function OnboardingPage() {
                     <label className={labelClass}>Resume / CV (PDF)</label>
                     <label className={cn(
                       "flex items-center gap-3 p-4 border-2 border-dashed rounded-xl cursor-pointer transition-all",
-                      resumeFile ? "border-[#FAFAFA]/40 bg-[#FAFAFA]/5" : "border-white/8 hover:border-[#FAFAFA]/25 hover:bg-[#FAFAFA]/3"
+                      resumeFile ? "border-[#FAFAFA]/40 bg-[#FAFAFA]/5" : "border-black/10 hover:border-[#FAFAFA]/25 hover:bg-[#FAFAFA]/3"
                     )}>
                       <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", resumeFile ? "bg-[#FAFAFA]/18" : "bg-white/4")}>
                         <FileText className={cn("h-5 w-5", resumeFile ? "text-[#FAFAFA]" : "text-[#334155]")} />
                       </div>
                       {resumeFile
-                        ? <div><p className="font-body text-sm text-white font-medium">{resumeFile.name}</p><p className="font-body text-xs text-[#4A5568]">Click to replace</p></div>
+                        ? <div><p className="font-body text-sm text-black font-medium">{resumeFile.name}</p><p className="font-body text-xs text-[#4A5568]">Click to replace</p></div>
                         : <div><p className="font-body text-sm text-[#4A5568]">Click to upload your CV</p><p className="font-body text-xs text-[#334155]">PDF only · Max 10MB</p></div>}
                       <input type="file" accept=".pdf" className="hidden" onChange={(e) => setResumeFile(e.target.files?.[0] || null)} />
                     </label>
@@ -1266,13 +1266,13 @@ export default function OnboardingPage() {
                     <label className={labelClass}>Profile video (optional)</label>
                     <label className={cn(
                       "flex items-center gap-3 p-4 border-2 border-dashed rounded-xl cursor-pointer transition-all",
-                      profileVideoFile ? "border-[#FAFAFA]/40 bg-[#FAFAFA]/5" : "border-white/8 hover:border-[#FAFAFA]/25 hover:bg-[#FAFAFA]/3"
+                      profileVideoFile ? "border-[#FAFAFA]/40 bg-[#FAFAFA]/5" : "border-black/10 hover:border-[#FAFAFA]/25 hover:bg-[#FAFAFA]/3"
                     )}>
                       <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", profileVideoFile ? "bg-[#FAFAFA]/18" : "bg-white/4")}>
                         <Video className={cn("h-5 w-5", profileVideoFile ? "text-[#FAFAFA]" : "text-[#334155]")} />
                       </div>
                       {profileVideoFile
-                        ? <div><p className="font-body text-sm text-white font-medium">{profileVideoFile.name}</p><p className="font-body text-xs text-[#4A5568]">Click to replace</p></div>
+                        ? <div><p className="font-body text-sm text-black font-medium">{profileVideoFile.name}</p><p className="font-body text-xs text-[#4A5568]">Click to replace</p></div>
                         : <div><p className="font-body text-sm text-[#4A5568]">Upload a short intro video</p><p className="font-body text-xs text-[#334155]">MP4, WebM · Max 50MB · or record from Profile later</p></div>}
                       <input type="file" accept="video/mp4,video/webm,video/quicktime" className="hidden" onChange={(e) => setProfileVideoFile(e.target.files?.[0] || null)} />
                     </label>
@@ -1342,13 +1342,13 @@ export default function OnboardingPage() {
                     <label className={labelClass}>Profile video (optional)</label>
                     <label className={cn(
                       "flex items-center gap-3 p-4 border-2 border-dashed rounded-xl cursor-pointer transition-all",
-                      profileVideoFile ? "border-[#FAFAFA]/40 bg-[#FAFAFA]/5" : "border-white/8 hover:border-[#FAFAFA]/25 hover:bg-[#FAFAFA]/3"
+                      profileVideoFile ? "border-[#FAFAFA]/40 bg-[#FAFAFA]/5" : "border-black/10 hover:border-[#FAFAFA]/25 hover:bg-[#FAFAFA]/3"
                     )}>
                       <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", profileVideoFile ? "bg-[#FAFAFA]/18" : "bg-white/4")}>
                         <Video className={cn("h-5 w-5", profileVideoFile ? "text-[#FAFAFA]" : "text-[#334155]")} />
                       </div>
                       {profileVideoFile
-                        ? <div><p className="font-body text-sm text-white font-medium">{profileVideoFile.name}</p><p className="font-body text-xs text-[#4A5568]">Click to replace</p></div>
+                        ? <div><p className="font-body text-sm text-black font-medium">{profileVideoFile.name}</p><p className="font-body text-xs text-[#4A5568]">Click to replace</p></div>
                         : <div><p className="font-body text-sm text-[#4A5568]">Upload a short intro video</p><p className="font-body text-xs text-[#334155]">MP4, WebM · Max 50MB</p></div>}
                       <input type="file" accept="video/mp4,video/webm,video/quicktime" className="hidden" onChange={(e) => setProfileVideoFile(e.target.files?.[0] || null)} />
                     </label>
@@ -1377,7 +1377,7 @@ export default function OnboardingPage() {
               <div className="flex gap-3 pt-1">
                 {step > 0 && (
                   <button type="button" onClick={() => { setStep(step - 1); setStepError(null) }}
-                    className="h-11 px-5 rounded-xl border border-white/10 text-[#64748B] font-body font-medium text-sm hover:border-white/20 hover:text-white transition-all duration-200">
+                    className="h-11 px-5 rounded-xl border border-black/10 text-[#64748B] font-body font-medium text-sm hover:border-white/20 hover:text-black transition-all duration-200">
                     ← Back
                   </button>
                 )}
@@ -1391,13 +1391,13 @@ export default function OnboardingPage() {
                       </button>
                     )}
                     <button type="button" onClick={() => { if (canProceed()) setStep(step + 1) }}
-                      className="flex-1 h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.35)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.5)] transition-all duration-300">
+                      className="flex-1 h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.35)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.5)] transition-all duration-300">
                       Continue →
                     </button>
                   </>
                 ) : (
                   <button type="button" onClick={handleComplete} disabled={loading || uploading}
-                    className="flex-1 h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.35)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.5)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-40 disabled:pointer-events-none flex items-center justify-center gap-2">
+                    className="flex-1 h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.35)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.5)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-40 disabled:pointer-events-none flex items-center justify-center gap-2">
                     {loading || uploading
                       ? <><Loader2 className="h-4 w-4 animate-spin" />{uploading ? "Uploading…" : "Saving…"}</>
                       : <><Zap className="h-4 w-4" /> Complete Setup</>}
@@ -1419,7 +1419,7 @@ export default function OnboardingPage() {
         </div>
 
         {/* ──────── RIGHT: Product demo (50%, desktop only) ──────── */}
-        <div className="hidden lg:flex lg:w-1/2 border-l border-white/6 bg-[#060809] relative overflow-hidden">
+        <div className="hidden lg:flex lg:w-1/2 border-l border-black/10 bg-[#060809] relative overflow-hidden">
           <div className="absolute inset-0 bg-grid-pattern opacity-20 pointer-events-none" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#FAFAFA] opacity-[0.04] blur-[140px] rounded-full pointer-events-none" />
           <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] bg-[#525252] opacity-[0.03] blur-[100px] rounded-full pointer-events-none" />

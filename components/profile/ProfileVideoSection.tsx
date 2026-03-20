@@ -132,14 +132,14 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
 
   return (
     <>
-      <div className="rounded-2xl bg-[#0F1115] border border-white/8 overflow-hidden">
-        <div className="flex items-center gap-2 p-4 border-b border-white/6">
+      <div className="rounded-2xl bg-white border border-black/10 overflow-hidden">
+        <div className="flex items-center gap-2 p-4 border-b border-black/10">
           <Video className="h-4 w-4 text-[#FAFAFA]" />
-          <h3 className="font-data text-[11px] tracking-widest uppercase text-[#94A3B8]">Profile Video</h3>
+          <h3 className="font-data text-[11px] tracking-widest uppercase text-neutral-700">Profile Video</h3>
         </div>
         <div className="p-4 space-y-4">
           {profileVideoUrl ? (
-            <div className="relative rounded-xl overflow-hidden bg-black aspect-video max-h-[280px]">
+            <div className="relative rounded-xl overflow-hidden bg-white aspect-video max-h-[280px]">
               <video
                 src={profileVideoUrl}
                 controls
@@ -151,7 +151,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={uploading}
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-body backdrop-blur-sm"
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-black text-xs font-body backdrop-blur-sm"
                 >
                   {uploading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Upload className="h-3 w-3" />}
                   Replace
@@ -179,7 +179,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
               <div className="w-12 h-12 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
                 <Video className="h-6 w-6 text-[#FAFAFA]" />
               </div>
-              <p className="font-body text-sm text-[#94A3B8] text-center">
+              <p className="font-body text-sm text-neutral-700 text-center">
                 Add a short intro video so recruiters can get to know you
               </p>
               <div className="flex flex-wrap items-center justify-center gap-2">
@@ -198,7 +198,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
                   type="button"
                   onClick={() => setShowRecordModal(true)}
                   disabled={uploading}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white font-body text-sm font-medium hover:bg-white/10 transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-black/10 text-black font-body text-sm font-medium hover:bg-white/10 transition-colors"
                 >
                   <Mic className="h-4 w-4" /> Record video
                 </button>
@@ -207,7 +207,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
           )}
 
           {!profileVideoUrl && (
-            <p className="font-data text-[10px] text-[#94A3B8]">
+            <p className="font-data text-[10px] text-neutral-700">
               Max {MAX_FILE_MB}MB · MP4, WebM or MOV · Up to 2 min recommended
             </p>
           )}
@@ -218,25 +218,25 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
 
       {/* Record modal */}
       {showRecordModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="rounded-2xl bg-[#0F1115] border border-white/10 w-full max-w-md overflow-hidden shadow-xl">
-            <div className="p-4 border-b border-white/8 flex items-center justify-between">
-              <h3 className="font-heading font-semibold text-white">Record your video</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white/70 backdrop-blur-sm">
+          <div className="rounded-2xl bg-white border border-black/10 w-full max-w-md overflow-hidden shadow-xl">
+            <div className="p-4 border-b border-black/10 flex items-center justify-between">
+              <h3 className="font-heading font-semibold text-black">Record your video</h3>
               <button
                 type="button"
                 onClick={() => { stopRecording(); setShowRecordModal(false) }}
-                className="p-2 rounded-lg hover:bg-white/10 text-[#94A3B8]"
+                className="p-2 rounded-lg hover:bg-white/10 text-neutral-700"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
             <div className="p-4 space-y-4">
-              <p className="font-body text-sm text-[#94A3B8]">
+              <p className="font-body text-sm text-neutral-700">
                 {recording ? "Recording… (max 2 min). Click Stop when done." : "Allow camera and microphone, then click Start to record."}
               </p>
 
               {/* Live preview + post-record preview */}
-              <div className="rounded-xl overflow-hidden bg-black border border-white/10 aspect-video">
+              <div className="rounded-xl overflow-hidden bg-white border border-black/10 aspect-video">
                 {previewUrl ? (
                   <video
                     src={previewUrl}
@@ -259,7 +259,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
                   <button
                     type="button"
                     onClick={startRecording}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold"
+                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold"
                   >
                     Start recording
                   </button>
@@ -275,7 +275,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
                 <button
                   type="button"
                   onClick={() => setShowRecordModal(false)}
-                  className="px-4 py-3 rounded-xl border border-white/10 text-[#94A3B8] font-body"
+                  className="px-4 py-3 rounded-xl border border-black/10 text-neutral-700 font-body"
                 >
                   Cancel
                 </button>

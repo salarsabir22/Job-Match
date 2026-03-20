@@ -17,8 +17,8 @@ export default async function SavedJobsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-heading font-bold text-3xl text-white">Saved Jobs</h1>
-        <p className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8] mt-0.5">{saved?.length || 0} saved</p>
+        <h1 className="font-heading font-bold text-3xl text-black">Saved Jobs</h1>
+        <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mt-0.5">{saved?.length || 0} saved</p>
       </div>
 
       {!saved?.length ? (
@@ -27,8 +27,8 @@ export default async function SavedJobsPage() {
             <Bookmark className="h-8 w-8 text-[#D4D4D4]" />
           </div>
           <div>
-            <h3 className="font-heading font-semibold text-lg text-white">No saved jobs</h3>
-            <p className="font-body text-sm text-[#94A3B8] mt-1 max-w-[220px]">Bookmark jobs while swiping to review them later</p>
+            <h3 className="font-heading font-semibold text-lg text-black">No saved jobs</h3>
+            <p className="font-body text-sm text-neutral-700 mt-1 max-w-[220px]">Bookmark jobs while swiping to review them later</p>
           </div>
         </div>
       ) : (
@@ -37,22 +37,22 @@ export default async function SavedJobsPage() {
             const job = swipe.jobs
             const company = job?.recruiter_profiles
             return (
-              <div key={swipe.id} className="rounded-xl bg-[#0F1115] border border-white/8 p-4 space-y-3">
+              <div key={swipe.id} className="rounded-xl bg-white border border-black/10 p-4 space-y-3">
                 <div className="flex items-start gap-3">
                   <div className="h-11 w-11 rounded-xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shrink-0 shadow-[0_0_10px_-3px_rgba(255,255,255,0.4)]">
                     {company?.logo_url ? (
                       <img src={company.logo_url} className="h-full w-full rounded-xl object-cover" alt="" />
                     ) : (
-                      <Building2 className="h-5 w-5 text-white" />
+                      <Building2 className="h-5 w-5 text-black" />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-heading font-semibold text-sm text-white truncate">{job?.title}</p>
-                    <p className="font-body text-xs text-[#94A3B8]">{company?.company_name}</p>
+                    <p className="font-heading font-semibold text-sm text-black truncate">{job?.title}</p>
+                    <p className="font-body text-xs text-neutral-700">{company?.company_name}</p>
                   </div>
                   <Bookmark className="h-4 w-4 text-[#D4D4D4] shrink-0" fill="currentColor" />
                 </div>
-                <div className="flex flex-wrap gap-3 font-data text-[10px] tracking-wider text-[#94A3B8]">
+                <div className="flex flex-wrap gap-3 font-data text-[10px] tracking-wider text-neutral-700">
                   <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" />{job?.job_type?.replace("_", " ")}</span>
                   {job?.is_remote ? (
                     <span className="flex items-center gap-1"><Wifi className="h-3.5 w-3.5 text-[#FAFAFA]" />Remote</span>

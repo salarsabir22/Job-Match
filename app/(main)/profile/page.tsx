@@ -28,12 +28,12 @@ function QuickActions({ isStudent }: { isStudent: boolean }) {
   ]
   const links = isStudent ? studentLinks : recruiterLinks
   return (
-    <div className="rounded-2xl bg-[#0F1115] border border-white/8 p-5">
-      <p className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8] mb-3">Quick Actions</p>
+    <div className="rounded-2xl bg-white border border-black/10 p-5">
+      <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mb-3">Quick Actions</p>
       <div className="grid grid-cols-2 gap-2">
         {links.map(({ label, href, icon: Icon }) => (
           <Link key={href} href={href}
-            className="flex items-center gap-2 px-3 py-2.5 rounded-xl border border-white/8 text-[#94A3B8] hover:border-[#FAFAFA]/30 hover:text-white transition-all duration-200">
+            className="flex items-center gap-2 px-3 py-2.5 rounded-xl border border-black/10 text-neutral-700 hover:border-[#FAFAFA]/30 hover:text-black transition-all duration-200">
             <Icon className="h-3.5 w-3.5 text-[#FAFAFA]" />
             <span className="font-body text-xs">{label}</span>
           </Link>
@@ -120,14 +120,14 @@ export default async function ProfilePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-heading font-bold text-3xl text-white">Profile</h1>
-          <p className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8] mt-0.5">
+          <h1 className="font-heading font-bold text-3xl text-black">Profile</h1>
+          <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mt-0.5">
             {profile?.full_name || user.email}
           </p>
         </div>
         <Link
           href="/onboarding"
-          className="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/12 text-[#94A3B8] text-sm font-body hover:border-[#FAFAFA]/40 hover:text-white transition-all duration-200"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/12 text-neutral-700 text-sm font-body hover:border-[#FAFAFA]/40 hover:text-black transition-all duration-200"
         >
           <Edit className="h-4 w-4" />Edit Profile
         </Link>
@@ -135,11 +135,11 @@ export default async function ProfilePage() {
 
       {/* Profile completeness banner */}
       {completeness < 100 && (
-        <div className="rounded-xl bg-[#0F1115] border border-white/8 p-4 space-y-3">
+        <div className="rounded-xl bg-white border border-black/10 p-4 space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <BarChart2 className="h-4 w-4" style={{ color: completenessColor }} />
-              <p className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8]">Profile Completeness</p>
+              <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700">Profile Completeness</p>
             </div>
             <p className="font-heading font-bold text-lg" style={{ color: completenessColor }}>{completeness}%</p>
           </div>
@@ -153,12 +153,12 @@ export default async function ProfilePage() {
             <div className="flex flex-wrap gap-2">
               {missing.slice(0, 4).map(item => (
                 <div key={item} className="flex items-center gap-1.5">
-                  <AlertCircle className="h-3 w-3 text-[#94A3B8]" />
-                  <span className="font-data text-[9px] tracking-wider text-[#94A3B8]">{item}</span>
+                  <AlertCircle className="h-3 w-3 text-neutral-700" />
+                  <span className="font-data text-[9px] tracking-wider text-neutral-700">{item}</span>
                 </div>
               ))}
               {missing.length > 4 && (
-                <span className="font-data text-[9px] text-[#94A3B8]">+{missing.length - 4} more</span>
+                <span className="font-data text-[9px] text-neutral-700">+{missing.length - 4} more</span>
               )}
             </div>
           )}
@@ -184,11 +184,11 @@ export default async function ProfilePage() {
         {/* Left column */}
         <div className="space-y-4">
           {/* Avatar card */}
-          <div className="rounded-2xl bg-[#0F1115] border border-white/8 p-6 flex flex-col items-center gap-4 shadow-[0_0_50px_-10px_rgba(255,255,255,0.08)]">
+          <div className="rounded-2xl bg-white border border-black/10 p-6 flex flex-col items-center gap-4 shadow-[0_0_50px_-10px_rgba(255,255,255,0.08)]">
             {isStudent ? (
               <Avatar className="h-28 w-28 border-2 border-[#FAFAFA]/40 shadow-[0_0_25px_-5px_rgba(255,255,255,0.3)]">
                 <AvatarImage src={profile?.avatar_url || undefined} />
-                <AvatarFallback className="bg-[#0A0B0E] text-[#FAFAFA] text-3xl font-bold">
+                <AvatarFallback className="bg-white text-[#FAFAFA] text-3xl font-bold">
                   {getInitials(profile?.full_name || "?")}
                 </AvatarFallback>
               </Avatar>
@@ -197,20 +197,20 @@ export default async function ProfilePage() {
                 {(recruiterProfile as any)?.logo_url ? (
                   <img src={(recruiterProfile as any).logo_url} className="h-full w-full object-cover" alt="company logo" />
                 ) : (
-                  <Building2 className="h-14 w-14 text-white" />
+                  <Building2 className="h-14 w-14 text-black" />
                 )}
               </div>
             )}
 
             <div className="text-center w-full">
-              <h2 className="font-heading font-bold text-xl text-white">
+              <h2 className="font-heading font-bold text-xl text-black">
                 {isRecruiter ? ((recruiterProfile as any)?.company_name || profile?.full_name) : profile?.full_name}
               </h2>
-              <p className="font-body text-sm text-[#94A3B8] mt-0.5 flex items-center justify-center gap-1">
+              <p className="font-body text-sm text-neutral-700 mt-0.5 flex items-center justify-center gap-1">
                 <Mail className="h-3 w-3" />{user.email}
               </p>
               {isStudent && (studentProfile as any)?.university && (
-                <p className="font-body text-sm text-[#94A3B8] flex items-center justify-center gap-1 mt-1">
+                <p className="font-body text-sm text-neutral-700 flex items-center justify-center gap-1 mt-1">
                   <GraduationCap className="h-3.5 w-3.5" />{(studentProfile as any).university}
                 </p>
               )}
@@ -231,20 +231,20 @@ export default async function ProfilePage() {
           </div>
 
           {/* Activity stats */}
-          <div className="rounded-xl bg-[#0F1115] border border-white/8 p-4">
-            <p className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8] mb-3">Activity</p>
+          <div className="rounded-xl bg-white border border-black/10 p-4">
+            <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mb-3">Activity</p>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Layers className="h-3.5 w-3.5 text-[#94A3B8]" />
-                  <p className="font-body text-sm text-[#94A3B8]">{isStudent ? "Jobs applied" : "Jobs posted"}</p>
+                  <Layers className="h-3.5 w-3.5 text-neutral-700" />
+                  <p className="font-body text-sm text-neutral-700">{isStudent ? "Jobs applied" : "Jobs posted"}</p>
                 </div>
-                <p className="font-heading font-bold text-sm text-white">{activityCount || 0}</p>
+                <p className="font-heading font-bold text-sm text-black">{activityCount || 0}</p>
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Heart className="h-3.5 w-3.5 text-[#FAFAFA]" />
-                  <p className="font-body text-sm text-[#94A3B8]">Matches</p>
+                  <p className="font-body text-sm text-neutral-700">Matches</p>
                 </div>
                 <p className="font-heading font-bold text-sm text-[#FAFAFA]">{matchCount || 0}</p>
               </div>
@@ -252,7 +252,7 @@ export default async function ProfilePage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <BookOpen className="h-3.5 w-3.5 text-[#D4D4D4]" />
-                    <p className="font-body text-sm text-[#94A3B8]">Saved jobs</p>
+                    <p className="font-body text-sm text-neutral-700">Saved jobs</p>
                   </div>
                   <p className="font-heading font-bold text-sm text-[#D4D4D4]">{savedCount || 0}</p>
                 </div>
@@ -261,7 +261,7 @@ export default async function ProfilePage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <TrendingUp className="h-3.5 w-3.5 text-[#D4D4D4]" />
-                    <p className="font-body text-sm text-[#94A3B8]">Match rate</p>
+                    <p className="font-body text-sm text-neutral-700">Match rate</p>
                   </div>
                   <p className="font-heading font-bold text-sm text-[#D4D4D4]">
                     {Math.round(((matchCount || 0) / activityCount) * 100)}%
@@ -273,8 +273,8 @@ export default async function ProfilePage() {
 
           {/* Links (student) */}
           {isStudent && (
-            <div className="rounded-xl bg-[#0F1115] border border-white/8 p-4 space-y-2.5">
-              <p className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8]">Links</p>
+            <div className="rounded-xl bg-white border border-black/10 p-4 space-y-2.5">
+              <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700">Links</p>
               {(studentProfile as any)?.linkedin_url && (
                 <a href={(studentProfile as any).linkedin_url} target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-2 text-sm text-[#FAFAFA] hover:text-[#D4D4D4] font-body transition-colors">
@@ -283,7 +283,7 @@ export default async function ProfilePage() {
               )}
               {(studentProfile as any)?.github_url && (
                 <a href={(studentProfile as any).github_url} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-[#94A3B8] hover:text-white font-body transition-colors">
+                  className="flex items-center gap-2 text-sm text-neutral-700 hover:text-black font-body transition-colors">
                   <Github className="h-4 w-4" />GitHub
                 </a>
               )}
@@ -295,7 +295,7 @@ export default async function ProfilePage() {
               )}
               {!(studentProfile as any)?.linkedin_url && !(studentProfile as any)?.github_url && !(studentProfile as any)?.resume_url && (
                 <div className="space-y-1">
-                  <p className="text-xs text-[#94A3B8]/60 font-body italic">No links added yet.</p>
+                  <p className="text-xs text-neutral-700/60 font-body italic">No links added yet.</p>
                   <Link href="/onboarding" className="text-xs text-[#FAFAFA] font-body hover:underline">Add links →</Link>
                 </div>
               )}
@@ -304,8 +304,8 @@ export default async function ProfilePage() {
 
           {/* Website (recruiter) */}
           {isRecruiter && (recruiterProfile as any)?.website_url && (
-            <div className="rounded-xl bg-[#0F1115] border border-white/8 p-4">
-              <p className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8] mb-2">Company Website</p>
+            <div className="rounded-xl bg-white border border-black/10 p-4">
+              <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mb-2">Company Website</p>
               <a href={(recruiterProfile as any).website_url} target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-[#FAFAFA] hover:text-[#D4D4D4] font-body transition-colors truncate">
                 <Globe className="h-4 w-4 shrink-0" />{(recruiterProfile as any).website_url}
@@ -317,13 +317,13 @@ export default async function ProfilePage() {
         {/* Right column */}
         <div className="space-y-4">
           {/* About */}
-          <div className="rounded-2xl bg-[#0F1115] border border-white/8 p-6">
-            <h3 className="font-data text-[11px] tracking-widest uppercase text-[#94A3B8] mb-3">About</h3>
+          <div className="rounded-2xl bg-white border border-black/10 p-6">
+            <h3 className="font-data text-[11px] tracking-widest uppercase text-neutral-700 mb-3">About</h3>
             {profile?.bio ? (
-              <p className="font-body text-sm text-[#94A3B8] leading-relaxed">{profile.bio}</p>
+              <p className="font-body text-sm text-neutral-700 leading-relaxed">{profile.bio}</p>
             ) : (
               <div className="space-y-2">
-                <p className="font-body text-sm text-[#94A3B8]/50 italic">No bio added yet.</p>
+                <p className="font-body text-sm text-neutral-700/50 italic">No bio added yet.</p>
                 <Link href="/onboarding" className="inline-flex items-center gap-1 text-xs text-[#FAFAFA] font-body hover:text-[#D4D4D4] transition-colors">
                   <Edit className="h-3 w-3" />Add bio →
                 </Link>
@@ -340,25 +340,25 @@ export default async function ProfilePage() {
           {/* Student sections */}
           {isStudent && (
             <>
-              <div className="rounded-2xl bg-[#0F1115] border border-white/8 p-6">
-                <h3 className="font-data text-[11px] tracking-widest uppercase text-[#94A3B8] mb-3">Education</h3>
+              <div className="rounded-2xl bg-white border border-black/10 p-6">
+                <h3 className="font-data text-[11px] tracking-widest uppercase text-neutral-700 mb-3">Education</h3>
                 {(studentProfile as any)?.degree || (studentProfile as any)?.university ? (
                   <div className="space-y-1.5">
                     {(studentProfile as any)?.university && (
-                      <p className="font-heading font-semibold text-white">{(studentProfile as any).university}</p>
+                      <p className="font-heading font-semibold text-black">{(studentProfile as any).university}</p>
                     )}
                     {(studentProfile as any)?.degree && (
-                      <p className="font-body text-sm text-[#94A3B8]">{(studentProfile as any).degree}</p>
+                      <p className="font-body text-sm text-neutral-700">{(studentProfile as any).degree}</p>
                     )}
                     {(studentProfile as any)?.graduation_year && (
-                      <p className="font-body text-sm text-[#94A3B8] flex items-center gap-1">
+                      <p className="font-body text-sm text-neutral-700 flex items-center gap-1">
                         <Calendar className="h-3.5 w-3.5" />Class of {(studentProfile as any).graduation_year}
                       </p>
                     )}
                   </div>
                 ) : (
                   <div className="space-y-1.5">
-                    <p className="font-body text-sm text-[#94A3B8]/50 italic">No education info added.</p>
+                    <p className="font-body text-sm text-neutral-700/50 italic">No education info added.</p>
                     <Link href="/onboarding" className="inline-flex items-center gap-1 text-xs text-[#FAFAFA] font-body hover:text-[#D4D4D4] transition-colors">
                       <GraduationCap className="h-3 w-3" />Add education →
                     </Link>
@@ -366,11 +366,11 @@ export default async function ProfilePage() {
                 )}
               </div>
 
-              <div className="rounded-2xl bg-[#0F1115] border border-white/8 p-6">
+              <div className="rounded-2xl bg-white border border-black/10 p-6">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-data text-[11px] tracking-widest uppercase text-[#94A3B8]">Skills</h3>
+                  <h3 className="font-data text-[11px] tracking-widest uppercase text-neutral-700">Skills</h3>
                   {(studentProfile as any)?.skills?.length > 0 && (
-                    <span className="font-data text-[10px] text-[#94A3B8]">{(studentProfile as any).skills.length} skills</span>
+                    <span className="font-data text-[10px] text-neutral-700">{(studentProfile as any).skills.length} skills</span>
                   )}
                 </div>
                 {(studentProfile as any)?.skills?.length > 0 ? (
@@ -383,7 +383,7 @@ export default async function ProfilePage() {
                   </div>
                 ) : (
                   <div className="space-y-1.5">
-                    <p className="font-body text-sm text-[#94A3B8]/50 italic">No skills added yet.</p>
+                    <p className="font-body text-sm text-neutral-700/50 italic">No skills added yet.</p>
                     <Link href="/onboarding" className="inline-flex items-center gap-1 text-xs text-[#FAFAFA] font-body hover:text-[#D4D4D4] transition-colors">
                       <Tag className="h-3 w-3" />Add skills →
                     </Link>
@@ -392,11 +392,11 @@ export default async function ProfilePage() {
               </div>
 
               {(studentProfile as any)?.preferred_job_categories?.length > 0 && (
-                <div className="rounded-2xl bg-[#0F1115] border border-white/8 p-6">
-                  <h3 className="font-data text-[11px] tracking-widest uppercase text-[#94A3B8] mb-3">Job Interests</h3>
+                <div className="rounded-2xl bg-white border border-black/10 p-6">
+                  <h3 className="font-data text-[11px] tracking-widest uppercase text-neutral-700 mb-3">Job Interests</h3>
                   <div className="flex flex-wrap gap-2">
                     {(studentProfile as any).preferred_job_categories.map((c: string) => (
-                      <span key={c} className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#94A3B8] font-data text-[10px] tracking-wider">
+                      <span key={c} className="px-3 py-1.5 rounded-full bg-white/5 border border-black/10 text-neutral-700 font-data text-[10px] tracking-wider">
                         {c}
                       </span>
                     ))}
@@ -408,17 +408,17 @@ export default async function ProfilePage() {
 
           {/* Recruiter sections */}
           {isRecruiter && (
-            <div className="rounded-2xl bg-[#0F1115] border border-white/8 p-6 space-y-4">
-              <h3 className="font-data text-[11px] tracking-widest uppercase text-[#94A3B8]">Company Info</h3>
+            <div className="rounded-2xl bg-white border border-black/10 p-6 space-y-4">
+              <h3 className="font-data text-[11px] tracking-widest uppercase text-neutral-700">Company Info</h3>
               {(recruiterProfile as any)?.description ? (
-                <p className="font-body text-sm text-[#94A3B8] leading-relaxed">{(recruiterProfile as any).description}</p>
+                <p className="font-body text-sm text-neutral-700 leading-relaxed">{(recruiterProfile as any).description}</p>
               ) : (
-                <p className="font-body text-sm text-[#94A3B8]/50 italic">No company description added.</p>
+                <p className="font-body text-sm text-neutral-700/50 italic">No company description added.</p>
               )}
               {(recruiterProfile as any)?.hiring_focus && (
                 <div>
-                  <p className="font-data text-[10px] tracking-wider uppercase text-[#94A3B8] mb-1">Hiring Focus</p>
-                  <p className="font-body text-sm text-white">{(recruiterProfile as any).hiring_focus}</p>
+                  <p className="font-data text-[10px] tracking-wider uppercase text-neutral-700 mb-1">Hiring Focus</p>
+                  <p className="font-body text-sm text-black">{(recruiterProfile as any).hiring_focus}</p>
                 </div>
               )}
               {!(recruiterProfile as any)?.description && !(recruiterProfile as any)?.hiring_focus && (

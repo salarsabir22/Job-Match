@@ -86,7 +86,7 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
     return (
       <div className="flex items-center justify-center flex-1">
         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
-          <Zap className="h-5 w-5 text-white" />
+          <Zap className="h-5 w-5 text-black" />
         </div>
       </div>
     )
@@ -98,7 +98,7 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
         <div className="py-4 space-y-3">
           {messages.length === 0 && (
             <div className="text-center py-12">
-              <p className="font-body text-sm text-[#94A3B8]">No messages yet. Be the first to say hello!</p>
+              <p className="font-body text-sm text-neutral-700">No messages yet. Be the first to say hello!</p>
             </div>
           )}
 
@@ -110,27 +110,27 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
             return (
               <div key={msg.id} className={`flex gap-2.5 ${isOwn ? "flex-row-reverse" : "flex-row"}`}>
                 {!isOwn && (
-                  <Avatar className="h-8 w-8 shrink-0 mt-1 border border-white/10">
+                  <Avatar className="h-8 w-8 shrink-0 mt-1 border border-black/10">
                     <AvatarImage src={sender?.avatar_url || undefined} />
-                    <AvatarFallback className="bg-[#0F1115] text-[#FAFAFA] text-xs font-bold">
+                    <AvatarFallback className="bg-white text-[#FAFAFA] text-xs font-bold">
                       {getInitials(sender?.full_name || "?")}
                     </AvatarFallback>
                   </Avatar>
                 )}
                 <div className={`max-w-[75%] flex flex-col gap-0.5 ${isOwn ? "items-end" : "items-start"}`}>
                   {!isOwn && showSender && (
-                    <span className="font-data text-[10px] tracking-wider text-[#94A3B8] px-1">
+                    <span className="font-data text-[10px] tracking-wider text-neutral-700 px-1">
                       {sender?.full_name}
                     </span>
                   )}
                   <div className={`px-4 py-2.5 rounded-2xl font-body text-sm leading-relaxed ${
                     isOwn
-                      ? "bg-gradient-to-br from-[#525252] to-[#FAFAFA] text-white rounded-br-sm shadow-[0_0_12px_-5px_rgba(255,255,255,0.4)]"
-                      : "bg-[#0F1115] text-white rounded-bl-sm border border-white/8"
+                      ? "bg-gradient-to-br from-[#525252] to-[#FAFAFA] text-black rounded-br-sm shadow-[0_0_12px_-5px_rgba(255,255,255,0.4)]"
+                      : "bg-white text-black rounded-bl-sm border border-black/10"
                   }`}>
                     {msg.content}
                   </div>
-                  <span className="font-data text-[10px] text-[#94A3B8] px-1">
+                  <span className="font-data text-[10px] text-neutral-700 px-1">
                     {formatTime(msg.created_at)}
                   </span>
                 </div>
@@ -141,17 +141,17 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
         </div>
       </div>
 
-      <form onSubmit={sendMessage} className="flex gap-2 p-4 border-t border-white/8 bg-[#0A0B0E] shrink-0">
+      <form onSubmit={sendMessage} className="flex gap-2 p-4 border-t border-black/10 bg-white shrink-0">
         <input
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Message the channel..."
           disabled={sending}
-          className="flex-1 h-11 px-4 rounded-full bg-[#0F1115] border border-white/10 text-white text-sm placeholder:text-white/25 focus:outline-none focus:border-[#FAFAFA]/50 transition-all duration-200"
+          className="flex-1 h-11 px-4 rounded-full bg-white border border-black/10 text-black text-sm placeholder:text-black/25 focus:outline-none focus:border-[#FAFAFA]/50 transition-all duration-200"
         />
         <button type="submit" disabled={sending || !newMessage.trim()}
           className="w-11 h-11 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)] hover:shadow-[0_0_20px_-3px_rgba(255,255,255,0.7)] transition-all duration-200 disabled:opacity-40 disabled:pointer-events-none shrink-0">
-          {sending ? <Loader2 className="h-4 w-4 text-white animate-spin" /> : <Send className="h-4 w-4 text-white" />}
+          {sending ? <Loader2 className="h-4 w-4 text-black animate-spin" /> : <Send className="h-4 w-4 text-black" />}
         </button>
       </form>
     </div>

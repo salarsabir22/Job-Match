@@ -23,7 +23,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
   }
 
   return (
-    <div className="min-h-screen bg-black flex">
+    <div className="min-h-screen bg-white flex">
       <AppNav
         role={role}
         fullName={fullName}
@@ -34,15 +34,15 @@ export default async function MainLayout({ children }: { children: React.ReactNo
       {/* Main content — offset by sidebar on desktop */}
       <div className="flex-1 lg:ml-64 min-h-screen flex flex-col">
         {/* Desktop top bar */}
-        <div className="hidden lg:flex h-14 shrink-0 items-center border-b border-white/6 bg-black/80 backdrop-blur-sm sticky top-0 z-30 px-8">
+        <div className="hidden lg:flex h-14 shrink-0 items-center border-b border-black/10 bg-white/80 backdrop-blur-sm sticky top-0 z-30 px-8">
           <div className="flex-1" />
           <div className="flex items-center gap-3">
             <NotificationBell />
             <div className="text-right">
-              <p className="font-body text-sm font-medium text-white leading-none">{fullName ?? user?.email?.split("@")[0]}</p>
-              <p className="font-data text-[10px] tracking-wider uppercase text-[#94A3B8] mt-0.5 capitalize">{role}</p>
+              <p className="font-body text-sm font-medium text-black leading-none">{fullName ?? user?.email?.split("@")[0]}</p>
+              <p className="font-data text-[10px] tracking-wider uppercase text-neutral-700 mt-0.5 capitalize">{role}</p>
             </div>
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center text-white font-bold text-sm shadow-[0_0_12px_-2px_rgba(255,255,255,0.5)] shrink-0">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center text-black font-bold text-sm shadow-[0_0_12px_-2px_rgba(255,255,255,0.5)] shrink-0">
               {(fullName ?? user?.email ?? "?").charAt(0).toUpperCase()}
             </div>
           </div>

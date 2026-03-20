@@ -16,7 +16,7 @@ export function JobCard({ job }: JobCardProps) {
   const company = (job as any).recruiter_profiles
 
   return (
-    <div className="rounded-3xl overflow-hidden bg-[#0F1115] border border-white/10 shadow-[0_8px_40px_-8px_rgba(0,0,0,0.6)] w-full select-none">
+    <div className="rounded-3xl overflow-hidden bg-white border border-black/10 shadow-[0_8px_40px_-8px_rgba(0,0,0,0.6)] w-full select-none">
 
       {/* Header */}
       <div className="relative h-44 bg-gradient-to-br from-[#1a0f00] via-[#2a1200] to-[#0a0600] flex items-center justify-center overflow-hidden">
@@ -30,12 +30,12 @@ export function JobCard({ job }: JobCardProps) {
             <img
               src={company.logo_url}
               alt={company.company_name}
-              className="h-20 w-20 rounded-2xl object-cover shadow-[0_0_25px_-5px_rgba(255,255,255,0.4)] border border-white/10"
+              className="h-20 w-20 rounded-2xl object-cover shadow-[0_0_25px_-5px_rgba(255,255,255,0.4)] border border-black/10"
               draggable={false}
             />
           ) : (
             <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_25px_-5px_rgba(255,255,255,0.5)]">
-              <Building2 className="h-10 w-10 text-white" />
+              <Building2 className="h-10 w-10 text-black" />
             </div>
           )}
         </div>
@@ -61,9 +61,9 @@ export function JobCard({ job }: JobCardProps) {
       <div className="p-5 space-y-4">
         {/* Title + company */}
         <div>
-          <h2 className="font-heading font-bold text-xl text-white leading-tight">{job.title}</h2>
+          <h2 className="font-heading font-bold text-xl text-black leading-tight">{job.title}</h2>
           {company?.company_name && (
-            <p className="font-body text-sm text-[#94A3B8] mt-0.5 flex items-center gap-1.5">
+            <p className="font-body text-sm text-neutral-700 mt-0.5 flex items-center gap-1.5">
               <Briefcase className="h-3.5 w-3.5 shrink-0" />
               {company.company_name}
             </p>
@@ -71,7 +71,7 @@ export function JobCard({ job }: JobCardProps) {
         </div>
 
         {/* Meta row */}
-        <div className="flex flex-wrap gap-3 font-data text-[10px] tracking-wider text-[#94A3B8]">
+        <div className="flex flex-wrap gap-3 font-data text-[10px] tracking-wider text-neutral-700">
           {!job.is_remote && job.location && (
             <span className="flex items-center gap-1">
               <MapPin className="h-3.5 w-3.5 shrink-0" />{job.location}
@@ -85,7 +85,7 @@ export function JobCard({ job }: JobCardProps) {
 
         {/* Description */}
         {job.description && (
-          <p className="font-body text-sm text-[#94A3B8] leading-relaxed line-clamp-3">
+          <p className="font-body text-sm text-neutral-700 leading-relaxed line-clamp-3">
             {job.description}
           </p>
         )}
@@ -93,7 +93,7 @@ export function JobCard({ job }: JobCardProps) {
         {/* Skills */}
         {(job.required_skills?.length ?? 0) > 0 && (
           <div className="space-y-2">
-            <p className="font-data text-[9px] tracking-widest uppercase text-[#94A3B8]">Required Skills</p>
+            <p className="font-data text-[9px] tracking-widest uppercase text-neutral-700">Required Skills</p>
             <div className="flex flex-wrap gap-1.5">
               {job.required_skills.slice(0, 5).map((s) => (
                 <span
@@ -104,7 +104,7 @@ export function JobCard({ job }: JobCardProps) {
                 </span>
               ))}
               {job.required_skills.length > 5 && (
-                <span className="font-data text-[9px] tracking-wider px-2.5 py-1 rounded-full border border-white/10 text-[#94A3B8]">
+                <span className="font-data text-[9px] tracking-wider px-2.5 py-1 rounded-full border border-black/10 text-neutral-700">
                   +{job.required_skills.length - 5} more
                 </span>
               )}
@@ -129,8 +129,8 @@ export function JobCard({ job }: JobCardProps) {
 
       {/* Swipe hint at bottom */}
       <div className="px-5 pb-4 flex items-center justify-between">
-        <span className="font-data text-[9px] tracking-wider uppercase text-[#94A3B8]/50">← Pass</span>
-        <span className="font-data text-[9px] tracking-wider uppercase text-[#94A3B8]/50">Apply →</span>
+        <span className="font-data text-[9px] tracking-wider uppercase text-neutral-700/50">← Pass</span>
+        <span className="font-data text-[9px] tracking-wider uppercase text-neutral-700/50">Apply →</span>
       </div>
     </div>
   )

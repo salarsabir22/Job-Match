@@ -95,9 +95,9 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
       <div className="flex items-center justify-center py-32">
         <div className="flex flex-col items-center gap-3">
           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
-            <Zap className="h-6 w-6 text-white" />
+            <Zap className="h-6 w-6 text-black" />
           </div>
-          <p className="font-data text-xs tracking-widest uppercase text-[#94A3B8]">Finding jobs for you...</p>
+          <p className="font-data text-xs tracking-widest uppercase text-neutral-700">Finding jobs for you...</p>
         </div>
       </div>
     )
@@ -110,13 +110,13 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
       {/* Page header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-heading font-bold text-2xl text-white">Discover Jobs</h1>
-          <p className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8] mt-0.5">
+          <h1 className="font-heading font-bold text-2xl text-black">Discover Jobs</h1>
+          <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mt-0.5">
             Swipe right to apply · {remaining > 0 ? `${remaining} jobs waiting` : "All caught up"}
           </p>
         </div>
         <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.6)]">
-          <Sparkles className="h-4 w-4 text-white" />
+          <Sparkles className="h-4 w-4 text-black" />
         </div>
       </div>
 
@@ -127,13 +127,13 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
           { label: "Saved",    value: stats.saved,    icon: Bookmark,     color: "#D4D4D4" },
           { label: "Matches",  value: stats.matches,  icon: CheckCircle2, color: "#D4D4D4" },
         ].map(({ label, value, icon: Icon, color }) => (
-          <div key={label} className="rounded-xl bg-[#0F1115] border border-white/8 p-3 flex items-center gap-2.5">
+          <div key={label} className="rounded-xl bg-white border border-black/10 p-3 flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${color}15`, border: `1px solid ${color}25` }}>
               <Icon className="h-3.5 w-3.5" style={{ color }} />
             </div>
             <div>
               <p className="font-heading font-bold text-lg leading-none" style={{ color }}>{value}</p>
-              <p className="font-data text-[9px] tracking-wider uppercase text-[#94A3B8] mt-0.5">{label}</p>
+              <p className="font-data text-[9px] tracking-wider uppercase text-neutral-700 mt-0.5">{label}</p>
             </div>
           </div>
         ))}
@@ -146,26 +146,26 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
             <CheckCircle className="h-10 w-10 text-[#FAFAFA]" />
           </div>
           <div>
-            <h3 className="font-heading font-bold text-xl text-white">All caught up!</h3>
-            <p className="font-body text-[#94A3B8] text-sm mt-1 max-w-xs">
+            <h3 className="font-heading font-bold text-xl text-black">All caught up!</h3>
+            <p className="font-body text-neutral-700 text-sm mt-1 max-w-xs">
               You&apos;ve reviewed all available jobs. Check back later for new opportunities.
             </p>
           </div>
-          <div className="rounded-xl bg-[#0F1115] border border-white/8 p-5 w-full max-w-sm text-left space-y-3">
-            <p className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8]">Session summary</p>
+          <div className="rounded-xl bg-white border border-black/10 p-5 w-full max-w-sm text-left space-y-3">
+            <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700">Session summary</p>
             {[
               { label: "Jobs applied to", value: stats.applied, color: "#FAFAFA" },
               { label: "Jobs saved",       value: stats.saved,   color: "#D4D4D4" },
               { label: "Total matches",    value: stats.matches, color: "#D4D4D4" },
             ].map(({ label, value, color }) => (
               <div key={label} className="flex items-center justify-between">
-                <p className="font-body text-sm text-[#94A3B8]">{label}</p>
+                <p className="font-body text-sm text-neutral-700">{label}</p>
                 <p className="font-heading font-bold text-sm" style={{ color }}>{value}</p>
               </div>
             ))}
           </div>
           <button onClick={loadJobs}
-            className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300">
+            className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300">
             Refresh Jobs
           </button>
         </div>
@@ -194,19 +194,19 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
             {/* Action buttons */}
             <div className="flex justify-center items-center gap-5">
               <button onClick={() => handleSwipe("left")} disabled={swiping} title="Pass"
-                className="h-14 w-14 rounded-full bg-[#0F1115] border-2 border-neutral-500/30 shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)] flex items-center justify-center hover:bg-red-500/10 hover:border-neutral-500/60 transition-all duration-200 active:scale-90">
+                className="h-14 w-14 rounded-full bg-white border-2 border-neutral-500/30 shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)] flex items-center justify-center hover:bg-red-500/10 hover:border-neutral-500/60 transition-all duration-200 active:scale-90">
                 <X className="h-7 w-7 text-neutral-500" />
               </button>
               <button onClick={() => handleSwipe("saved")} disabled={swiping} title="Save for later"
-                className="h-12 w-12 rounded-full bg-[#0F1115] border-2 border-[#D4D4D4]/30 shadow-[0_0_12px_-5px_rgba(255,214,0,0.3)] flex items-center justify-center hover:bg-[#D4D4D4]/10 hover:border-[#D4D4D4]/60 transition-all duration-200 active:scale-90">
+                className="h-12 w-12 rounded-full bg-white border-2 border-[#D4D4D4]/30 shadow-[0_0_12px_-5px_rgba(255,214,0,0.3)] flex items-center justify-center hover:bg-[#D4D4D4]/10 hover:border-[#D4D4D4]/60 transition-all duration-200 active:scale-90">
                 <Bookmark className="h-5 w-5 text-[#D4D4D4]" />
               </button>
               <button onClick={() => handleSwipe("right")} disabled={swiping} title="Apply"
                 className="h-14 w-14 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] shadow-[0_0_20px_-5px_rgba(255,255,255,0.6)] flex items-center justify-center hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.9)] transition-all duration-200 active:scale-90">
-                <Heart className="h-7 w-7 text-white" fill="white" />
+                <Heart className="h-7 w-7 text-black" fill="white" />
               </button>
             </div>
-            <div className="flex items-center gap-4 font-data text-[9px] tracking-wider uppercase text-[#94A3B8]">
+            <div className="flex items-center gap-4 font-data text-[9px] tracking-wider uppercase text-neutral-700">
               <span className="text-neutral-500">← Pass</span>
               <span className="text-[#D4D4D4]">↑ Save</span>
               <span className="text-[#FAFAFA]">→ Apply</span>
@@ -216,7 +216,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
           {/* Right: job detail panel */}
           <div className="space-y-4">
             {/* Job detail */}
-            <div className="rounded-2xl bg-[#0F1115] border border-white/8 overflow-hidden">
+            <div className="rounded-2xl bg-white border border-black/10 overflow-hidden">
               {/* Header */}
               <div className="h-36 bg-gradient-to-br from-[#1a0f00] via-[#2a1200] to-[#0a0600] relative overflow-hidden flex items-end px-6 pb-4">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#FAFAFA]/20 via-[#525252]/10 to-transparent pointer-events-none" />
@@ -224,16 +224,16 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
                 <div className="flex items-end gap-4 relative z-10">
                   {company?.logo_url ? (
                     <img src={company.logo_url} alt={company.company_name}
-                      className="h-14 w-14 rounded-xl object-cover border border-white/10 shadow-[0_0_20px_-5px_rgba(255,255,255,0.4)] shrink-0" />
+                      className="h-14 w-14 rounded-xl object-cover border border-black/10 shadow-[0_0_20px_-5px_rgba(255,255,255,0.4)] shrink-0" />
                   ) : (
                     <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shrink-0 shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)]">
-                      <Building2 className="h-7 w-7 text-white" />
+                      <Building2 className="h-7 w-7 text-black" />
                     </div>
                   )}
                   <div>
-                    <h2 className="font-heading font-bold text-xl text-white leading-tight">{currentJob.title}</h2>
+                    <h2 className="font-heading font-bold text-xl text-black leading-tight">{currentJob.title}</h2>
                     {company?.company_name && (
-                      <p className="font-body text-sm text-[#94A3B8] mt-0.5 flex items-center gap-1.5">
+                      <p className="font-body text-sm text-neutral-700 mt-0.5 flex items-center gap-1.5">
                         <Briefcase className="h-3.5 w-3.5 shrink-0" />
                         {company.company_name}
                       </p>
@@ -254,7 +254,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
                       <Wifi className="h-3 w-3" /> Remote
                     </span>
                   ) : currentJob.location ? (
-                    <span className="font-data text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#94A3B8] flex items-center gap-1">
+                    <span className="font-data text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-full bg-white/5 border border-black/10 text-neutral-700 flex items-center gap-1">
                       <MapPin className="h-3 w-3" /> {currentJob.location}
                     </span>
                   ) : null}
@@ -263,15 +263,15 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
                 {/* Description */}
                 {currentJob.description && (
                   <div>
-                    <p className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8] mb-2">About the role</p>
-                    <p className="font-body text-sm text-[#CBD5E1] leading-relaxed">{currentJob.description}</p>
+                    <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mb-2">About the role</p>
+                    <p className="font-body text-sm text-neutral-800 leading-relaxed">{currentJob.description}</p>
                   </div>
                 )}
 
                 {/* Required skills */}
                 {(currentJob.required_skills?.length ?? 0) > 0 && (
                   <div>
-                    <p className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8] mb-2">Required skills</p>
+                    <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mb-2">Required skills</p>
                     <div className="flex flex-wrap gap-2">
                       {currentJob.required_skills.map((s) => (
                         <span key={s} className="font-data text-[10px] tracking-wide px-2.5 py-1 rounded-md bg-[#FAFAFA]/10 border border-[#FAFAFA]/25 text-[#FAFAFA]">
@@ -285,10 +285,10 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
                 {/* Nice to have */}
                 {(currentJob.nice_to_have_skills?.length ?? 0) > 0 && (
                   <div>
-                    <p className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8] mb-2">Nice to have</p>
+                    <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mb-2">Nice to have</p>
                     <div className="flex flex-wrap gap-2">
                       {currentJob.nice_to_have_skills.map((s) => (
-                        <span key={s} className="font-data text-[10px] tracking-wide px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-[#94A3B8]">
+                        <span key={s} className="font-data text-[10px] tracking-wide px-2.5 py-1 rounded-md bg-white/5 border border-black/10 text-neutral-700">
                           {s}
                         </span>
                       ))}
@@ -299,8 +299,8 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
                 {/* Company description */}
                 {company?.description && (
                   <div>
-                    <p className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8] mb-2">About {company.company_name}</p>
-                    <p className="font-body text-sm text-[#94A3B8] leading-relaxed">{company.description}</p>
+                    <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mb-2">About {company.company_name}</p>
+                    <p className="font-body text-sm text-neutral-700 leading-relaxed">{company.description}</p>
                   </div>
                 )}
 
@@ -314,7 +314,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
                 )}
 
                 {/* Action buttons in detail panel */}
-                <div className="flex gap-3 pt-2 border-t border-white/6">
+                <div className="flex gap-3 pt-2 border-t border-black/10">
                   <button onClick={() => handleSwipe("left")} disabled={swiping}
                     className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-red-500/8 border border-neutral-500/20 text-neutral-500 hover:bg-red-500/15 transition-all font-body text-sm font-medium">
                     <X className="h-4 w-4" /> Pass
@@ -324,7 +324,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
                     <Bookmark className="h-4 w-4" /> Save
                   </button>
                   <button onClick={() => handleSwipe("right")} disabled={swiping}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white hover:opacity-90 transition-all font-body text-sm font-semibold shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)]">
+                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black hover:opacity-90 transition-all font-body text-sm font-semibold shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)]">
                     <Heart className="h-4 w-4" fill="currentColor" /> Apply Now
                   </button>
                 </div>
@@ -333,25 +333,25 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
 
             {/* Up next queue */}
             {jobs.slice(currentIndex + 1, currentIndex + 4).length > 0 && (
-              <div className="rounded-2xl bg-[#0F1115] border border-white/8 p-4 space-y-3">
-                <p className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8]">Up Next</p>
+              <div className="rounded-2xl bg-white border border-black/10 p-4 space-y-3">
+                <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700">Up Next</p>
                 <div className="space-y-2">
                   {jobs.slice(currentIndex + 1, currentIndex + 4).map((job, i) => {
                     const co = (job as any).recruiter_profiles
                     return (
-                      <div key={job.id} className="flex items-center gap-3 p-2.5 rounded-xl bg-[#0A0B0E] border border-white/5 opacity-70">
+                      <div key={job.id} className="flex items-center gap-3 p-2.5 rounded-xl bg-white border border-black/10 opacity-70">
                         {co?.logo_url ? (
-                          <img src={co.logo_url} alt="" className="h-8 w-8 rounded-lg object-cover border border-white/10 shrink-0" />
+                          <img src={co.logo_url} alt="" className="h-8 w-8 rounded-lg object-cover border border-black/10 shrink-0" />
                         ) : (
                           <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-[#525252]/60 to-[#FAFAFA]/60 flex items-center justify-center shrink-0">
-                            <Building2 className="h-4 w-4 text-white/70" />
+                            <Building2 className="h-4 w-4 text-black/70" />
                           </div>
                         )}
                         <div className="flex-1 min-w-0">
-                          <p className="font-body text-sm font-medium text-white truncate">{job.title}</p>
-                          <p className="font-data text-[10px] text-[#94A3B8] truncate">{co?.company_name ?? "Company"}</p>
+                          <p className="font-body text-sm font-medium text-black truncate">{job.title}</p>
+                          <p className="font-data text-[10px] text-neutral-700 truncate">{co?.company_name ?? "Company"}</p>
                         </div>
-                        <span className="font-data text-[9px] text-[#94A3B8] shrink-0">#{i + 2}</span>
+                        <span className="font-data text-[9px] text-neutral-700 shrink-0">#{i + 2}</span>
                       </div>
                     )
                   })}
@@ -360,8 +360,8 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
             )}
 
             {/* Tips */}
-            <div className="rounded-2xl bg-[#0F1115] border border-white/8 p-4 space-y-2">
-              <p className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8]">How matching works</p>
+            <div className="rounded-2xl bg-white border border-black/10 p-4 space-y-2">
+              <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700">How matching works</p>
               {[
                 { color: "#FAFAFA", text: "Swipe right to apply — the recruiter sees your profile immediately" },
                 { color: "#D4D4D4", text: "A match happens when the recruiter also likes your profile" },
@@ -369,7 +369,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
               ].map(({ color, text }, i) => (
                 <div key={i} className="flex items-start gap-2.5">
                   <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: color }} />
-                  <p className="font-body text-xs text-[#94A3B8]">{text}</p>
+                  <p className="font-body text-xs text-neutral-700">{text}</p>
                 </div>
               ))}
             </div>

@@ -84,11 +84,11 @@ export default function NotificationsPage() {
     <div className="space-y-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="font-heading font-bold text-2xl text-white flex items-center gap-2">
+          <h1 className="font-heading font-bold text-2xl text-black flex items-center gap-2">
             <Bell className="h-5 w-5 text-[#FAFAFA]" />
             Notifications
           </h1>
-          <p className="font-data text-[11px] tracking-widest uppercase text-[#94A3B8] mt-1">
+          <p className="font-data text-[11px] tracking-widest uppercase text-neutral-700 mt-1">
             {unreadCount > 0 ? `${unreadCount} unread` : "All caught up"}
           </p>
         </div>
@@ -99,11 +99,11 @@ export default function NotificationsPage() {
           <Loader2 className="h-8 w-8 animate-spin text-[#FAFAFA]" />
         </div>
       ) : items.length === 0 ? (
-        <div className="rounded-2xl bg-[#0F1115] border border-white/8 p-6 text-center">
-          <p className="font-body text-sm text-[#94A3B8]">No notifications yet.</p>
+        <div className="rounded-2xl bg-white border border-black/10 p-6 text-center">
+          <p className="font-body text-sm text-neutral-700">No notifications yet.</p>
         </div>
       ) : (
-        <div className="rounded-2xl bg-[#0F1115] border border-white/8 overflow-hidden">
+        <div className="rounded-2xl bg-white border border-black/10 overflow-hidden">
           <div className="divide-y divide-white/8">
             {items.map((n) => (
               <button
@@ -113,13 +113,13 @@ export default function NotificationsPage() {
                 className="w-full text-left px-5 py-4 hover:bg-white/5 transition-colors flex items-start justify-between gap-4"
               >
                 <div className="min-w-0">
-                  <p className="font-body text-sm text-white truncate">{n.title}</p>
+                  <p className="font-body text-sm text-black truncate">{n.title}</p>
                   {n.body && (
-                    <p className="font-body text-xs text-[#CBD5E1] mt-1 leading-relaxed line-clamp-2">
+                    <p className="font-body text-xs text-neutral-800 mt-1 leading-relaxed line-clamp-2">
                       {n.body}
                     </p>
                   )}
-                  <p className="font-data text-[10px] text-[#94A3B8] mt-2">
+                  <p className="font-data text-[10px] text-neutral-700 mt-2">
                     {formatTime(n.created_at)}
                   </p>
                 </div>
@@ -127,7 +127,7 @@ export default function NotificationsPage() {
                   {!n.is_read ? (
                     <CheckCircle className="h-4 w-4 text-[#FAFAFA]" />
                   ) : (
-                    <XCircle className="h-4 w-4 text-[#94A3B8]" />
+                    <XCircle className="h-4 w-4 text-neutral-700" />
                   )}
                 </div>
               </button>

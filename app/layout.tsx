@@ -45,7 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body
-        className={`${geist.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased bg-black text-white`}
+        className={`${geist.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased bg-white text-black`}
       >
         <Providers>{children}</Providers>
         <SpeedInsights />

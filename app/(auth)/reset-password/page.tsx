@@ -83,14 +83,14 @@ export default function ResetPasswordPage() {
   }
 
   const inputBase =
-    "w-full h-11 px-4 rounded-xl bg-[#030304] border text-white text-sm placeholder:text-white/25 focus:outline-none transition-all duration-200"
+    "w-full h-11 px-4 rounded-xl bg-white border text-black text-sm placeholder:text-black/25 focus:outline-none transition-all duration-200"
 
   /* ── Loading session check ── */
   if (!sessionReady && !sessionError) {
     return (
-      <div className="bg-[#0F1115] border border-white/8 rounded-2xl p-8 text-center shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
+      <div className="bg-white border border-black/10 rounded-2xl p-8 text-center shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
         <Loader2 className="h-8 w-8 animate-spin text-[#FAFAFA] mx-auto mb-3" />
-        <p className="font-body text-sm text-[#94A3B8]">Verifying your reset link…</p>
+        <p className="font-body text-sm text-neutral-700">Verifying your reset link…</p>
       </div>
     )
   }
@@ -98,22 +98,22 @@ export default function ResetPasswordPage() {
   /* ── Invalid / expired link ── */
   if (sessionError) {
     return (
-      <div className="bg-[#0F1115] border border-white/8 rounded-2xl p-8 text-center shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
+      <div className="bg-white border border-black/10 rounded-2xl p-8 text-center shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
         <div className="w-14 h-14 rounded-2xl bg-red-500/12 border border-neutral-500/25 flex items-center justify-center mx-auto mb-4">
           <AlertCircle className="h-7 w-7 text-neutral-500" />
         </div>
-        <h2 className="font-heading font-bold text-xl text-white mb-2">Link expired or invalid</h2>
-        <p className="font-body text-[#94A3B8] text-sm mb-2">
-          This password reset link has expired or already been used. Links are valid for <span className="text-white font-medium">1 hour</span>.
+        <h2 className="font-heading font-bold text-xl text-black mb-2">Link expired or invalid</h2>
+        <p className="font-body text-neutral-700 text-sm mb-2">
+          This password reset link has expired or already been used. Links are valid for <span className="text-black font-medium">1 hour</span>.
         </p>
         <p className="font-body text-xs text-[#64748B] mb-6">Request a new link and use it right away.</p>
         <Link
           href="/forgot-password"
-          className="inline-flex items-center justify-center gap-2 w-full h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300 mb-3"
+          className="inline-flex items-center justify-center gap-2 w-full h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300 mb-3"
         >
           Request a new link
         </Link>
-        <Link href="/login" className="inline-flex items-center gap-1.5 font-body text-sm text-[#64748B] hover:text-[#94A3B8] transition-colors">
+        <Link href="/login" className="inline-flex items-center gap-1.5 font-body text-sm text-[#64748B] hover:text-neutral-700 transition-colors">
           <ArrowLeft className="h-3.5 w-3.5" />
           Back to sign in
         </Link>
@@ -124,14 +124,14 @@ export default function ResetPasswordPage() {
   /* ── Success ── */
   if (done) {
     return (
-      <div className="bg-[#0F1115] border border-white/8 rounded-2xl p-8 text-center shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
+      <div className="bg-white border border-black/10 rounded-2xl p-8 text-center shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
         <div className="w-16 h-16 rounded-2xl bg-neutral-500/12 border border-neutral-500/25 flex items-center justify-center mx-auto mb-4">
           <ShieldCheck className="h-8 w-8 text-neutral-400" />
         </div>
-        <h2 className="font-heading font-bold text-xl text-white mb-2">Password updated!</h2>
-        <p className="font-body text-[#94A3B8] text-sm mb-1">Your password has been changed successfully.</p>
+        <h2 className="font-heading font-bold text-xl text-black mb-2">Password updated!</h2>
+        <p className="font-body text-neutral-700 text-sm mb-1">Your password has been changed successfully.</p>
         <p className="font-body text-xs text-[#64748B] mb-6">Redirecting you to sign in…</p>
-        <div className="flex items-center justify-center gap-2 text-[#94A3B8]">
+        <div className="flex items-center justify-center gap-2 text-neutral-700">
           <Loader2 className="h-4 w-4 animate-spin text-[#FAFAFA]" />
           <span className="font-body text-sm">Taking you to login</span>
         </div>
@@ -141,14 +141,14 @@ export default function ResetPasswordPage() {
 
   /* ── Form ── */
   return (
-    <div className="bg-[#0F1115] border border-white/8 rounded-2xl p-8 shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
+    <div className="bg-white border border-black/10 rounded-2xl p-8 shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
       {/* Header */}
       <div className="text-center mb-7">
         <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_-5px_rgba(255,255,255,0.6)]">
-          <Zap className="w-7 h-7 text-white" />
+          <Zap className="w-7 h-7 text-black" />
         </div>
-        <h1 className="font-heading font-bold text-2xl text-white">Choose a new password</h1>
-        <p className="font-body text-[#94A3B8] text-sm mt-1.5">
+        <h1 className="font-heading font-bold text-2xl text-black">Choose a new password</h1>
+        <p className="font-body text-neutral-700 text-sm mt-1.5">
           Make it strong — you won&apos;t be able to reuse your old one
         </p>
       </div>
@@ -164,7 +164,7 @@ export default function ResetPasswordPage() {
       <form onSubmit={handleReset} noValidate className="space-y-4">
         {/* New password */}
         <div className="space-y-1.5">
-          <label className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8]">
+          <label className="font-data text-[11px] tracking-wider uppercase text-neutral-700">
             New Password
           </label>
           <div className="relative">
@@ -175,10 +175,10 @@ export default function ResetPasswordPage() {
               onChange={(e) => { setPassword(e.target.value); setError(null) }}
               autoComplete="new-password"
               autoFocus
-              className={`${inputBase} pr-11 border-white/10 focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)]`}
+              className={`${inputBase} pr-11 border-black/10 focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)]`}
             />
             <button type="button" onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-white transition-colors p-1">
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-black transition-colors p-1">
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
           </div>
@@ -210,8 +210,8 @@ export default function ResetPasswordPage() {
               const ok = check(password)
               return (
                 <div key={label} className="flex items-center gap-2">
-                  <CheckCircle2 className={cn("h-3 w-3 shrink-0 transition-colors", ok ? "text-neutral-400" : "text-white/15")} />
-                  <span className={cn("font-body text-[11px] transition-colors", ok ? "text-[#64748B]" : "text-white/20")}>{label}</span>
+                  <CheckCircle2 className={cn("h-3 w-3 shrink-0 transition-colors", ok ? "text-neutral-400" : "text-black/15")} />
+                  <span className={cn("font-body text-[11px] transition-colors", ok ? "text-[#64748B]" : "text-black/20")}>{label}</span>
                 </div>
               )
             })}
@@ -220,7 +220,7 @@ export default function ResetPasswordPage() {
 
         {/* Confirm password */}
         <div className="space-y-1.5">
-          <label className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8]">
+          <label className="font-data text-[11px] tracking-wider uppercase text-neutral-700">
             Confirm New Password
           </label>
           <div className="relative">
@@ -236,11 +236,11 @@ export default function ResetPasswordPage() {
                   ? confirm === password
                     ? "border-neutral-500/50 focus:border-neutral-500/70"
                     : "border-neutral-500/50 focus:border-neutral-500/70"
-                  : "border-white/10 focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)]"
+                  : "border-black/10 focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)]"
               )}
             />
             <button type="button" onClick={() => setShowConfirm(!showConfirm)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-white transition-colors p-1">
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748B] hover:text-black transition-colors p-1">
               {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
           </div>
@@ -256,7 +256,7 @@ export default function ResetPasswordPage() {
         <button
           type="submit"
           disabled={loading || password !== confirm || password.length < 8}
-          className="w-full h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-40 disabled:pointer-events-none flex items-center justify-center gap-2"
+          className="w-full h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-40 disabled:pointer-events-none flex items-center justify-center gap-2"
         >
           {loading
             ? <><Loader2 className="h-4 w-4 animate-spin" /> Updating password…</>
@@ -266,7 +266,7 @@ export default function ResetPasswordPage() {
       </form>
 
       <div className="text-center mt-5">
-        <Link href="/login" className="inline-flex items-center gap-1.5 font-body text-sm text-[#64748B] hover:text-[#94A3B8] transition-colors">
+        <Link href="/login" className="inline-flex items-center gap-1.5 font-body text-sm text-[#64748B] hover:text-neutral-700 transition-colors">
           <ArrowLeft className="h-3.5 w-3.5" />
           Back to sign in
         </Link>

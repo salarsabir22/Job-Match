@@ -156,35 +156,35 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
   }
 
   return (
-    <div className="rounded-xl border border-white/8 bg-[#0F1115] p-4 space-y-4">
+    <div className="rounded-xl border border-black/10 bg-white p-4 space-y-4">
       <div>
-        <h3 className="font-heading font-semibold text-lg text-white">Interested Candidates</h3>
-        <p className="font-data text-[10px] tracking-wider uppercase text-[#94A3B8] mt-0.5">
+        <h3 className="font-heading font-semibold text-lg text-black">Interested Candidates</h3>
+        <p className="font-data text-[10px] tracking-wider uppercase text-neutral-700 mt-0.5">
           Candidates who swiped right on this job
         </p>
       </div>
 
       {loading ? (
-        <p className="font-body text-sm text-[#94A3B8]">Loading candidates...</p>
+        <p className="font-body text-sm text-neutral-700">Loading candidates...</p>
       ) : items.length === 0 ? (
-        <p className="font-body text-sm text-[#94A3B8]">No interested candidates yet.</p>
+        <p className="font-body text-sm text-neutral-700">No interested candidates yet.</p>
       ) : (
         <div className="space-y-3">
           {items.map((item) => (
-            <div key={item.id} className="rounded-xl border border-white/8 bg-[#0A0B0E] p-4">
+            <div key={item.id} className="rounded-xl border border-black/10 bg-white p-4">
               <div className="flex items-start gap-3">
-                <Avatar className="h-11 w-11 border border-white/10">
+                <Avatar className="h-11 w-11 border border-black/10">
                   <AvatarImage src={item.avatar_url || undefined} />
-                  <AvatarFallback className="bg-[#030304] text-[#FAFAFA] text-xs font-bold">
+                  <AvatarFallback className="bg-white text-[#FAFAFA] text-xs font-bold">
                     {getInitials(item.full_name || "?")}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <p className="font-heading text-sm text-white truncate">{item.full_name || "Candidate"}</p>
+                      <p className="font-heading text-sm text-black truncate">{item.full_name || "Candidate"}</p>
                       {item.university && (
-                        <p className="font-data text-[10px] text-[#94A3B8] mt-0.5 flex items-center gap-1">
+                        <p className="font-data text-[10px] text-neutral-700 mt-0.5 flex items-center gap-1">
                           <GraduationCap className="h-3 w-3" />
                           {item.university}
                           {item.degree ? ` · ${item.degree}` : ""}
@@ -192,9 +192,9 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
                         </p>
                       )}
                     </div>
-                    <p className="font-data text-[10px] text-[#94A3B8] shrink-0">{formatDate(item.applied_at)}</p>
+                    <p className="font-data text-[10px] text-neutral-700 shrink-0">{formatDate(item.applied_at)}</p>
                   </div>
-                  {item.bio && <p className="font-body text-xs text-[#CBD5E1] mt-2 line-clamp-2">{item.bio}</p>}
+                  {item.bio && <p className="font-body text-xs text-neutral-800 mt-2 line-clamp-2">{item.bio}</p>}
 
                   {item.skills.length > 0 && (
                     <div className="flex flex-wrap gap-1 mt-2">
@@ -221,12 +221,12 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
                       </a>
                     )}
                     {item.github_url && (
-                      <a href={item.github_url} target="_blank" rel="noreferrer" className="text-white">
+                      <a href={item.github_url} target="_blank" rel="noreferrer" className="text-black">
                         <Github className="h-3.5 w-3.5" />
                       </a>
                     )}
                     {item.portfolio_url && (
-                      <a href={item.portfolio_url} target="_blank" rel="noreferrer" className="text-[#94A3B8]">
+                      <a href={item.portfolio_url} target="_blank" rel="noreferrer" className="text-neutral-700">
                         <Link2 className="h-3.5 w-3.5" />
                       </a>
                     )}
@@ -234,12 +234,12 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 mt-4 pt-3 border-t border-white/6">
+              <div className="flex items-center gap-2 mt-4 pt-3 border-t border-black/10">
                 <button
                   type="button"
                   disabled={busyId === item.id}
                   onClick={() => void setDecision(item.id, "right")}
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body text-xs font-semibold disabled:opacity-60"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-black font-body text-xs font-semibold disabled:opacity-60"
                 >
                   <Check className="h-3.5 w-3.5" /> Shortlist
                 </button>
@@ -254,7 +254,7 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
               </div>
 
               {item.decision && (
-                <p className="font-data text-[9px] tracking-widest uppercase mt-2 text-[#94A3B8]">
+                <p className="font-data text-[9px] tracking-widest uppercase mt-2 text-neutral-700">
                   Status: {item.decision === "right" ? "Shortlisted" : "Rejected"}
                 </p>
               )}
