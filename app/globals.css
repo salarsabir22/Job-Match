@@ -64,13 +64,13 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-jetbrains-mono);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-inter);
 }
 
 /* ─── Base ───────────────────────────────────────────────────────── */
 body {
-  font-family: var(--font-geist-sans, Arial, sans-serif);
+  font-family: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
   background: var(--void);
   color: var(--foreground);
   -webkit-tap-highlight-color: transparent;
@@ -84,13 +84,13 @@ body {
 
 /* ─── Typography Utilities ───────────────────────────────────────── */
 .font-heading {
-  font-family: var(--font-space-grotesk), 'Space Grotesk', system-ui, sans-serif;
+  font-family: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 .font-body {
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 .font-data {
-  font-family: var(--font-jetbrains-mono), 'JetBrains Mono', monospace;
+  font-family: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
 /* ─── Accent text (no gradients) ───────────────────────────────── */
