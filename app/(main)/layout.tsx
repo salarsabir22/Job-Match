@@ -49,7 +49,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
           <div className="flex items-center gap-3">
             <Link
               href="/notifications"
-              className="relative h-8 w-8 rounded-lg border border-white/10 text-[#94A3B8] hover:text-[#F7931A] hover:border-[#F7931A]/40 transition-all flex items-center justify-center"
+              className="relative z-40 pointer-events-auto h-8 w-8 rounded-lg border border-white/10 text-[#94A3B8] hover:text-[#F7931A] hover:border-[#F7931A]/40 transition-all flex items-center justify-center"
               title="Notifications"
             >
               <Bell className="h-4 w-4" />

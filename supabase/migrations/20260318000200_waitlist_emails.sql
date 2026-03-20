@@ -1,17 +1,13 @@
--- Waitlist emails table (public submission)
+-- 1) Allow recruiters to read job_swipes for their own jobs
+DROP POLICY IF EXISTS "js_select_recruiter_own_job" ON job_swipes;
 
-CREATE TABLE IF NOT EXISTS public.waitlist_emails (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  email text NOT NULL UNIQUE,
-  created_at timestamptz DEFAULT now()
+CREATE POLICY "js_select_recruiter_own_job" ON job_swipes
+FOR SELECT
+USING (
+  EXISTS (
+    SELECT 1
+    FROM jobs
+    WHERE jobs.id = job_swipes.job_id
+      AND jobs.recruiter_id = auth.uid()
+  )
 );
-
-ALTER TABLE public.waitlist_emails ENABLE ROW LEVEL SECURITY;
-
--- Allow anonymous users (anon key) to insert waitlist emails
-CREATE POLICY "waitlist_insert_anon" ON public.waitlist_emails
-FOR INSERT TO anon
-WITH CHECK (true);
-
--- Allow anyone to read nothing by default (no SELECT policy)
-
