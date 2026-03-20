@@ -38,14 +38,14 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor: "#F7931A",
+  themeColor: "#000000",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body
-        className={`${geist.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased bg-[#030304] text-white`}
+        className={`${geist.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased bg-black text-white`}
       >
         <Providers>{children}</Providers>
         <SpeedInsights />

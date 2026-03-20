@@ -175,7 +175,7 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
               <div className="flex items-start gap-3">
                 <Avatar className="h-11 w-11 border border-white/10">
                   <AvatarImage src={item.avatar_url || undefined} />
-                  <AvatarFallback className="bg-[#030304] text-[#F7931A] text-xs font-bold">
+                  <AvatarFallback className="bg-[#030304] text-[#FAFAFA] text-xs font-bold">
                     {getInitials(item.full_name || "?")}
                   </AvatarFallback>
                 </Avatar>
@@ -201,7 +201,7 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
                       {item.skills.slice(0, 4).map((skill) => (
                         <span
                           key={skill}
-                          className="font-data text-[9px] tracking-wider px-1.5 py-0.5 rounded-full bg-[#F7931A]/10 border border-[#F7931A]/20 text-[#F7931A]"
+                          className="font-data text-[9px] tracking-wider px-1.5 py-0.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-[#FAFAFA]"
                         >
                           {skill}
                         </span>
@@ -211,12 +211,12 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
 
                   <div className="flex items-center gap-2 mt-3">
                     {item.resume_url && (
-                      <a href={item.resume_url} target="_blank" rel="noreferrer" className="text-[#F7931A]">
+                      <a href={item.resume_url} target="_blank" rel="noreferrer" className="text-[#FAFAFA]">
                         <FileText className="h-3.5 w-3.5" />
                       </a>
                     )}
                     {item.linkedin_url && (
-                      <a href={item.linkedin_url} target="_blank" rel="noreferrer" className="text-[#60A5FA]">
+                      <a href={item.linkedin_url} target="_blank" rel="noreferrer" className="text-[#A3A3A3]">
                         <Linkedin className="h-3.5 w-3.5" />
                       </a>
                     )}
@@ -239,7 +239,7 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
                   type="button"
                   disabled={busyId === item.id}
                   onClick={() => void setDecision(item.id, "right")}
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-gradient-to-r from-[#EA580C] to-[#F7931A] text-white font-body text-xs font-semibold disabled:opacity-60"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body text-xs font-semibold disabled:opacity-60"
                 >
                   <Check className="h-3.5 w-3.5" /> Shortlist
                 </button>
@@ -247,7 +247,7 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
                   type="button"
                   disabled={busyId === item.id}
                   onClick={() => void setDecision(item.id, "left")}
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg border border-red-500/30 text-red-400 bg-red-500/8 font-body text-xs font-medium disabled:opacity-60"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg border border-neutral-500/30 text-neutral-500 bg-red-500/8 font-body text-xs font-medium disabled:opacity-60"
                 >
                   <X className="h-3.5 w-3.5" /> Reject
                 </button>

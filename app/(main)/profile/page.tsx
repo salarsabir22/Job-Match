@@ -33,8 +33,8 @@ function QuickActions({ isStudent }: { isStudent: boolean }) {
       <div className="grid grid-cols-2 gap-2">
         {links.map(({ label, href, icon: Icon }) => (
           <Link key={href} href={href}
-            className="flex items-center gap-2 px-3 py-2.5 rounded-xl border border-white/8 text-[#94A3B8] hover:border-[#F7931A]/30 hover:text-white transition-all duration-200">
-            <Icon className="h-3.5 w-3.5 text-[#F7931A]" />
+            className="flex items-center gap-2 px-3 py-2.5 rounded-xl border border-white/8 text-[#94A3B8] hover:border-[#FAFAFA]/30 hover:text-white transition-all duration-200">
+            <Icon className="h-3.5 w-3.5 text-[#FAFAFA]" />
             <span className="font-body text-xs">{label}</span>
           </Link>
         ))}
@@ -113,7 +113,7 @@ export default async function ProfilePage() {
     ? computeStudentCompleteness(profile, studentProfile)
     : computeRecruiterCompleteness(profile, recruiterProfile)
 
-  const completenessColor = completeness >= 80 ? "#22c55e" : completeness >= 50 ? "#FFD600" : "#F7931A"
+  const completenessColor = completeness >= 80 ? "#D4D4D4" : completeness >= 50 ? "#D4D4D4" : "#FAFAFA"
 
   return (
     <div className="space-y-6">
@@ -127,7 +127,7 @@ export default async function ProfilePage() {
         </div>
         <Link
           href="/onboarding"
-          className="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/12 text-[#94A3B8] text-sm font-body hover:border-[#F7931A]/40 hover:text-white transition-all duration-200"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/12 text-[#94A3B8] text-sm font-body hover:border-[#FAFAFA]/40 hover:text-white transition-all duration-200"
         >
           <Edit className="h-4 w-4" />Edit Profile
         </Link>
@@ -164,7 +164,7 @@ export default async function ProfilePage() {
           )}
           <Link
             href="/onboarding"
-            className="inline-flex items-center gap-1.5 font-body text-xs text-[#F7931A] hover:text-[#FFD600] transition-colors"
+            className="inline-flex items-center gap-1.5 font-body text-xs text-[#FAFAFA] hover:text-[#D4D4D4] transition-colors"
           >
             Complete your profile →
           </Link>
@@ -172,9 +172,9 @@ export default async function ProfilePage() {
       )}
 
       {completeness === 100 && (
-        <div className="flex items-center gap-3 p-3 rounded-xl bg-green-500/8 border border-green-500/20">
-          <CheckCircle className="h-4 w-4 text-green-400 shrink-0" />
-          <p className="font-body text-sm text-green-400">Your profile is 100% complete — you&apos;re getting maximum visibility!</p>
+        <div className="flex items-center gap-3 p-3 rounded-xl bg-neutral-500/8 border border-neutral-500/20">
+          <CheckCircle className="h-4 w-4 text-neutral-400 shrink-0" />
+          <p className="font-body text-sm text-neutral-400">Your profile is 100% complete — you&apos;re getting maximum visibility!</p>
         </div>
       )}
 
@@ -184,16 +184,16 @@ export default async function ProfilePage() {
         {/* Left column */}
         <div className="space-y-4">
           {/* Avatar card */}
-          <div className="rounded-2xl bg-[#0F1115] border border-white/8 p-6 flex flex-col items-center gap-4 shadow-[0_0_50px_-10px_rgba(247,147,26,0.08)]">
+          <div className="rounded-2xl bg-[#0F1115] border border-white/8 p-6 flex flex-col items-center gap-4 shadow-[0_0_50px_-10px_rgba(255,255,255,0.08)]">
             {isStudent ? (
-              <Avatar className="h-28 w-28 border-2 border-[#F7931A]/40 shadow-[0_0_25px_-5px_rgba(247,147,26,0.3)]">
+              <Avatar className="h-28 w-28 border-2 border-[#FAFAFA]/40 shadow-[0_0_25px_-5px_rgba(255,255,255,0.3)]">
                 <AvatarImage src={profile?.avatar_url || undefined} />
-                <AvatarFallback className="bg-[#0A0B0E] text-[#F7931A] text-3xl font-bold">
+                <AvatarFallback className="bg-[#0A0B0E] text-[#FAFAFA] text-3xl font-bold">
                   {getInitials(profile?.full_name || "?")}
                 </AvatarFallback>
               </Avatar>
             ) : (
-              <div className="h-28 w-28 rounded-3xl overflow-hidden border-2 border-[#FFD600]/40 shadow-[0_0_25px_-5px_rgba(255,214,0,0.2)] bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center">
+              <div className="h-28 w-28 rounded-3xl overflow-hidden border-2 border-[#D4D4D4]/40 shadow-[0_0_25px_-5px_rgba(255,214,0,0.2)] bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center">
                 {(recruiterProfile as any)?.logo_url ? (
                   <img src={(recruiterProfile as any).logo_url} className="h-full w-full object-cover" alt="company logo" />
                 ) : (
@@ -217,11 +217,11 @@ export default async function ProfilePage() {
               {isRecruiter && (
                 <div className="mt-2">
                   {(recruiterProfile as any)?.is_approved ? (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-green-500/15 border border-green-500/30 text-green-400 font-data text-[10px] tracking-wider uppercase">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-neutral-500/15 border border-neutral-500/30 text-neutral-400 font-data text-[10px] tracking-wider uppercase">
                       <CheckCircle className="h-3 w-3" />Verified Recruiter
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#FFD600]/10 border border-[#FFD600]/25 text-[#FFD600] font-data text-[10px] tracking-wider uppercase">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#D4D4D4]/10 border border-[#D4D4D4]/25 text-[#D4D4D4] font-data text-[10px] tracking-wider uppercase">
                       <Clock className="h-3 w-3" />Pending Approval
                     </span>
                   )}
@@ -243,27 +243,27 @@ export default async function ProfilePage() {
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Heart className="h-3.5 w-3.5 text-[#F7931A]" />
+                  <Heart className="h-3.5 w-3.5 text-[#FAFAFA]" />
                   <p className="font-body text-sm text-[#94A3B8]">Matches</p>
                 </div>
-                <p className="font-heading font-bold text-sm text-[#F7931A]">{matchCount || 0}</p>
+                <p className="font-heading font-bold text-sm text-[#FAFAFA]">{matchCount || 0}</p>
               </div>
               {isStudent && (
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <BookOpen className="h-3.5 w-3.5 text-[#FFD600]" />
+                    <BookOpen className="h-3.5 w-3.5 text-[#D4D4D4]" />
                     <p className="font-body text-sm text-[#94A3B8]">Saved jobs</p>
                   </div>
-                  <p className="font-heading font-bold text-sm text-[#FFD600]">{savedCount || 0}</p>
+                  <p className="font-heading font-bold text-sm text-[#D4D4D4]">{savedCount || 0}</p>
                 </div>
               )}
               {isStudent && activityCount && activityCount > 0 ? (
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <TrendingUp className="h-3.5 w-3.5 text-[#22c55e]" />
+                    <TrendingUp className="h-3.5 w-3.5 text-[#D4D4D4]" />
                     <p className="font-body text-sm text-[#94A3B8]">Match rate</p>
                   </div>
-                  <p className="font-heading font-bold text-sm text-[#22c55e]">
+                  <p className="font-heading font-bold text-sm text-[#D4D4D4]">
                     {Math.round(((matchCount || 0) / activityCount) * 100)}%
                   </p>
                 </div>
@@ -277,7 +277,7 @@ export default async function ProfilePage() {
               <p className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8]">Links</p>
               {(studentProfile as any)?.linkedin_url && (
                 <a href={(studentProfile as any).linkedin_url} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-[#F7931A] hover:text-[#FFD600] font-body transition-colors">
+                  className="flex items-center gap-2 text-sm text-[#FAFAFA] hover:text-[#D4D4D4] font-body transition-colors">
                   <Linkedin className="h-4 w-4" />LinkedIn Profile
                 </a>
               )}
@@ -289,14 +289,14 @@ export default async function ProfilePage() {
               )}
               {(studentProfile as any)?.resume_url && (
                 <a href={(studentProfile as any).resume_url} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-[#F7931A] hover:text-[#FFD600] font-body transition-colors">
+                  className="flex items-center gap-2 text-sm text-[#FAFAFA] hover:text-[#D4D4D4] font-body transition-colors">
                   <FileText className="h-4 w-4" />View Resume
                 </a>
               )}
               {!(studentProfile as any)?.linkedin_url && !(studentProfile as any)?.github_url && !(studentProfile as any)?.resume_url && (
                 <div className="space-y-1">
                   <p className="text-xs text-[#94A3B8]/60 font-body italic">No links added yet.</p>
-                  <Link href="/onboarding" className="text-xs text-[#F7931A] font-body hover:underline">Add links →</Link>
+                  <Link href="/onboarding" className="text-xs text-[#FAFAFA] font-body hover:underline">Add links →</Link>
                 </div>
               )}
             </div>
@@ -307,7 +307,7 @@ export default async function ProfilePage() {
             <div className="rounded-xl bg-[#0F1115] border border-white/8 p-4">
               <p className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8] mb-2">Company Website</p>
               <a href={(recruiterProfile as any).website_url} target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-[#F7931A] hover:text-[#FFD600] font-body transition-colors truncate">
+                className="flex items-center gap-2 text-sm text-[#FAFAFA] hover:text-[#D4D4D4] font-body transition-colors truncate">
                 <Globe className="h-4 w-4 shrink-0" />{(recruiterProfile as any).website_url}
               </a>
             </div>
@@ -324,7 +324,7 @@ export default async function ProfilePage() {
             ) : (
               <div className="space-y-2">
                 <p className="font-body text-sm text-[#94A3B8]/50 italic">No bio added yet.</p>
-                <Link href="/onboarding" className="inline-flex items-center gap-1 text-xs text-[#F7931A] font-body hover:text-[#FFD600] transition-colors">
+                <Link href="/onboarding" className="inline-flex items-center gap-1 text-xs text-[#FAFAFA] font-body hover:text-[#D4D4D4] transition-colors">
                   <Edit className="h-3 w-3" />Add bio →
                 </Link>
               </div>
@@ -359,7 +359,7 @@ export default async function ProfilePage() {
                 ) : (
                   <div className="space-y-1.5">
                     <p className="font-body text-sm text-[#94A3B8]/50 italic">No education info added.</p>
-                    <Link href="/onboarding" className="inline-flex items-center gap-1 text-xs text-[#F7931A] font-body hover:text-[#FFD600] transition-colors">
+                    <Link href="/onboarding" className="inline-flex items-center gap-1 text-xs text-[#FAFAFA] font-body hover:text-[#D4D4D4] transition-colors">
                       <GraduationCap className="h-3 w-3" />Add education →
                     </Link>
                   </div>
@@ -376,7 +376,7 @@ export default async function ProfilePage() {
                 {(studentProfile as any)?.skills?.length > 0 ? (
                   <div className="flex flex-wrap gap-2">
                     {(studentProfile as any).skills.map((s: string) => (
-                      <span key={s} className="px-3 py-1.5 rounded-full bg-[#F7931A]/15 border border-[#F7931A]/30 text-[#F7931A] font-data text-[10px] tracking-wider">
+                      <span key={s} className="px-3 py-1.5 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-[#FAFAFA] font-data text-[10px] tracking-wider">
                         {s}
                       </span>
                     ))}
@@ -384,7 +384,7 @@ export default async function ProfilePage() {
                 ) : (
                   <div className="space-y-1.5">
                     <p className="font-body text-sm text-[#94A3B8]/50 italic">No skills added yet.</p>
-                    <Link href="/onboarding" className="inline-flex items-center gap-1 text-xs text-[#F7931A] font-body hover:text-[#FFD600] transition-colors">
+                    <Link href="/onboarding" className="inline-flex items-center gap-1 text-xs text-[#FAFAFA] font-body hover:text-[#D4D4D4] transition-colors">
                       <Tag className="h-3 w-3" />Add skills →
                     </Link>
                   </div>
@@ -422,7 +422,7 @@ export default async function ProfilePage() {
                 </div>
               )}
               {!(recruiterProfile as any)?.description && !(recruiterProfile as any)?.hiring_focus && (
-                <Link href="/onboarding" className="inline-flex items-center gap-1 text-xs text-[#F7931A] font-body hover:text-[#FFD600] transition-colors">
+                <Link href="/onboarding" className="inline-flex items-center gap-1 text-xs text-[#FAFAFA] font-body hover:text-[#D4D4D4] transition-colors">
                   <Building2 className="h-3 w-3" />Complete company details →
                 </Link>
               )}

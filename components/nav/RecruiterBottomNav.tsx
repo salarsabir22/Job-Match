@@ -29,12 +29,12 @@ export function RecruiterBottomNav() {
               className={cn(
                 "flex-1 flex flex-col items-center gap-1 py-3 px-1 font-data text-[9px] tracking-wider uppercase transition-all duration-200",
                 active
-                  ? "text-[#F7931A]"
+                  ? "text-[#FAFAFA]"
                   : "text-[#94A3B8] hover:text-white"
               )}
             >
               <Icon
-                className={cn("h-5 w-5 transition-all", active && "drop-shadow-[0_0_6px_rgba(247,147,26,0.8)]")}
+                className={cn("h-5 w-5 transition-all", active && "drop-shadow-[0_0_6px_rgba(255,255,255,0.8)]")}
                 strokeWidth={active ? 2.5 : 1.8}
               />
               {label}

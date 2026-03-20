@@ -85,11 +85,11 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
     const skills = sp?.skills?.slice(0, 3) || []
 
     return (
-      <div className="rounded-xl bg-[#0F1115] border border-white/8 hover:border-[#F7931A]/20 transition-all duration-200 overflow-hidden">
+      <div className="rounded-xl bg-[#0F1115] border border-white/8 hover:border-[#FAFAFA]/20 transition-all duration-200 overflow-hidden">
         <div className="p-4 flex items-start gap-3">
           <Avatar className="h-12 w-12 shrink-0 border border-white/10">
             <AvatarImage src={profile?.avatar_url} />
-            <AvatarFallback className="bg-[#030304] text-[#F7931A] text-sm font-bold">
+            <AvatarFallback className="bg-[#030304] text-[#FAFAFA] text-sm font-bold">
               {getInitials(profile?.full_name || "?")}
             </AvatarFallback>
           </Avatar>
@@ -113,7 +113,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
             {skills.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-2">
                 {skills.map((s: string) => (
-                  <span key={s} className="font-data text-[9px] tracking-wider px-1.5 py-0.5 rounded-full bg-[#F7931A]/10 border border-[#F7931A]/20 text-[#F7931A]">
+                  <span key={s} className="font-data text-[9px] tracking-wider px-1.5 py-0.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-[#FAFAFA]">
                     {s}
                   </span>
                 ))}
@@ -131,12 +131,12 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
         <div className="px-4 pb-3 flex items-center justify-between gap-3 border-t border-white/5 pt-3">
           <div className="flex items-center gap-2">
             {match.is_shortlisted && (
-              <span className="font-data text-[9px] tracking-widest uppercase px-2 py-0.5 rounded-full bg-[#FFD600]/10 border border-[#FFD600]/25 text-[#FFD600]">
+              <span className="font-data text-[9px] tracking-widest uppercase px-2 py-0.5 rounded-full bg-[#D4D4D4]/10 border border-[#D4D4D4]/25 text-[#D4D4D4]">
                 ★ Shortlisted
               </span>
             )}
             {convId && (
-              <span className="font-data text-[9px] tracking-widest uppercase px-2 py-0.5 rounded-full bg-green-500/10 border border-green-500/25 text-green-400">
+              <span className="font-data text-[9px] tracking-widest uppercase px-2 py-0.5 rounded-full bg-neutral-500/10 border border-neutral-500/25 text-neutral-400">
                 In chat
               </span>
             )}
@@ -149,8 +149,8 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
               className={cn(
                 "h-8 w-8 rounded-lg border flex items-center justify-center transition-all",
                 match.is_shortlisted
-                  ? "border-[#FFD600]/50 bg-[#FFD600]/15 text-[#FFD600]"
-                  : "border-white/10 text-[#94A3B8] hover:border-[#FFD600]/40 hover:text-[#FFD600]"
+                  ? "border-[#D4D4D4]/50 bg-[#D4D4D4]/15 text-[#D4D4D4]"
+                  : "border-white/10 text-[#94A3B8] hover:border-[#D4D4D4]/40 hover:text-[#D4D4D4]"
               )}
             >
               <Star className="h-3.5 w-3.5" />
@@ -165,7 +165,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
             {convId ? (
               <Link
                 href={`/chat/${convId}`}
-                className="flex items-center gap-1.5 h-8 px-3 rounded-lg bg-gradient-to-r from-[#EA580C] to-[#F7931A] text-white font-body font-semibold text-xs shadow-[0_0_10px_-3px_rgba(247,147,26,0.5)] hover:shadow-[0_0_15px_-3px_rgba(247,147,26,0.7)] transition-all"
+                className="flex items-center gap-1.5 h-8 px-3 rounded-lg bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-xs shadow-[0_0_10px_-3px_rgba(255,255,255,0.5)] hover:shadow-[0_0_15px_-3px_rgba(255,255,255,0.7)] transition-all"
               >
                 <MessageCircle className="h-3 w-3" />Chat
               </Link>
@@ -183,7 +183,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-32">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(247,147,26,0.6)]">
+        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
           <Zap className="h-5 w-5 text-white" />
         </div>
       </div>
@@ -203,9 +203,9 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
       {/* Analytics stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {[
-          { label: "Total Matches", value: overallStats.totalMatches, icon: Heart, color: "#F7931A" },
-          { label: "Shortlisted", value: overallStats.shortlisted, icon: Star, color: "#FFD600" },
-          { label: "In Conversation", value: overallStats.inConversation, icon: MessageCircle, color: "#22c55e" },
+          { label: "Total Matches", value: overallStats.totalMatches, icon: Heart, color: "#FAFAFA" },
+          { label: "Shortlisted", value: overallStats.shortlisted, icon: Star, color: "#D4D4D4" },
+          { label: "In Conversation", value: overallStats.inConversation, icon: MessageCircle, color: "#D4D4D4" },
           { label: "Archived", value: overallStats.archived, icon: Archive, color: "#94A3B8" },
         ].map(({ label, value, icon: Icon, color }) => (
           <div key={label} className="rounded-xl bg-[#0F1115] border border-white/8 p-4">
@@ -222,15 +222,15 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
       {matches.length > 0 && (
         <div className="rounded-xl bg-[#0F1115] border border-white/8 p-4">
           <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="h-4 w-4 text-[#F7931A]" />
+            <TrendingUp className="h-4 w-4 text-[#FAFAFA]" />
             <p className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8]">Candidate Pipeline</p>
           </div>
           <div className="flex items-center gap-2 overflow-x-auto pb-1">
             {[
-              { label: "Matched", value: matches.length, color: "#F7931A" },
-              { label: "Active", value: active.length, color: "#FFD600" },
-              { label: "Shortlisted", value: shortlisted.length, color: "#22c55e" },
-              { label: "In Chat", value: overallStats.inConversation, color: "#60a5fa" },
+              { label: "Matched", value: matches.length, color: "#FAFAFA" },
+              { label: "Active", value: active.length, color: "#D4D4D4" },
+              { label: "Shortlisted", value: shortlisted.length, color: "#D4D4D4" },
+              { label: "In Chat", value: overallStats.inConversation, color: "#A3A3A3" },
             ].map(({ label, value, color }, i, arr) => (
               <div key={label} className="flex items-center gap-2 shrink-0">
                 <div className="text-center min-w-[60px]">
@@ -259,7 +259,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
             className={cn(
               "flex-1 py-1.5 rounded-lg font-data text-[10px] tracking-wider uppercase transition-all duration-200",
               tab === t.key
-                ? "bg-[#F7931A]/20 text-[#F7931A] border border-[#F7931A]/30"
+                ? "bg-[#FAFAFA]/20 text-[#FAFAFA] border border-[#FAFAFA]/30"
                 : "text-[#94A3B8] hover:text-white"
             )}
           >

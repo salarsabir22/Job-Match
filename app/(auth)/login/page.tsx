@@ -73,10 +73,10 @@ export default function LoginPage() {
   const inputBase = "w-full h-11 px-4 rounded-xl bg-[#030304] border text-white text-sm placeholder:text-white/25 focus:outline-none transition-all duration-200"
 
   return (
-    <div className="bg-[#0F1115] border border-white/8 rounded-2xl p-8 shadow-[0_0_50px_-10px_rgba(247,147,26,0.1)]">
+    <div className="bg-[#0F1115] border border-white/8 rounded-2xl p-8 shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
       {/* Header */}
       <div className="text-center mb-7">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_-5px_rgba(247,147,26,0.6)]">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_-5px_rgba(255,255,255,0.6)]">
           <Zap className="w-7 h-7 text-white" />
         </div>
         <h1 className="font-heading font-bold text-2xl text-white">Welcome back</h1>
@@ -85,17 +85,17 @@ export default function LoginPage() {
 
       {/* Global error */}
       {error && (
-        <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/10 border border-red-500/25 mb-5">
-          <AlertCircle className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
-          <p className="font-body text-sm text-red-300">{error}</p>
+        <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/10 border border-neutral-500/25 mb-5">
+          <AlertCircle className="h-4 w-4 text-neutral-500 shrink-0 mt-0.5" />
+          <p className="font-body text-sm text-neutral-400">{error}</p>
         </div>
       )}
 
       {/* Success */}
       {success && (
-        <div className="flex items-center gap-2.5 p-3.5 rounded-xl bg-green-500/10 border border-green-500/25 mb-5">
-          <CheckCircle2 className="h-4 w-4 text-green-400 shrink-0" />
-          <p className="font-body text-sm text-green-300">Signed in! Redirecting you now…</p>
+        <div className="flex items-center gap-2.5 p-3.5 rounded-xl bg-neutral-500/10 border border-neutral-500/25 mb-5">
+          <CheckCircle2 className="h-4 w-4 text-neutral-400 shrink-0" />
+          <p className="font-body text-sm text-neutral-300">Signed in! Redirecting you now…</p>
         </div>
       )}
 
@@ -122,10 +122,10 @@ export default function LoginPage() {
             value={email}
             onChange={(e) => { setEmail(e.target.value); setFieldErrors(p => ({ ...p, email: undefined })); setError(null) }}
             autoComplete="email"
-            className={`${inputBase} ${fieldErrors.email ? "border-red-500/60 focus:border-red-500" : "border-white/10 focus:border-[#F7931A]/60 focus:shadow-[0_0_15px_-5px_rgba(247,147,26,0.3)]"}`}
+            className={`${inputBase} ${fieldErrors.email ? "border-neutral-500/60 focus:border-neutral-500" : "border-white/10 focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)]"}`}
           />
           {fieldErrors.email && (
-            <p className="flex items-center gap-1.5 text-xs text-red-400 font-body mt-1">
+            <p className="flex items-center gap-1.5 text-xs text-neutral-500 font-body mt-1">
               <AlertCircle className="h-3 w-3 shrink-0" />{fieldErrors.email}
             </p>
           )}
@@ -135,7 +135,7 @@ export default function LoginPage() {
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
             <label className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8]">Password</label>
-            <Link href="/forgot-password" className="font-body text-xs text-[#F7931A] hover:text-[#FFD600] transition-colors inline-flex items-center gap-1">
+            <Link href="/forgot-password" className="font-body text-xs text-[#FAFAFA] hover:text-[#D4D4D4] transition-colors inline-flex items-center gap-1">
               <KeyRound className="h-3 w-3" />
               Forgot password?
             </Link>
@@ -147,7 +147,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => { setPassword(e.target.value); setFieldErrors(p => ({ ...p, password: undefined })); setError(null) }}
               autoComplete="current-password"
-              className={`${inputBase} pr-11 ${fieldErrors.password ? "border-red-500/60 focus:border-red-500" : "border-white/10 focus:border-[#F7931A]/60 focus:shadow-[0_0_15px_-5px_rgba(247,147,26,0.3)]"}`}
+              className={`${inputBase} pr-11 ${fieldErrors.password ? "border-neutral-500/60 focus:border-neutral-500" : "border-white/10 focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)]"}`}
             />
             <button type="button" onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-white transition-colors p-1">
@@ -155,21 +155,21 @@ export default function LoginPage() {
             </button>
           </div>
           {fieldErrors.password && (
-            <p className="flex items-center gap-1.5 text-xs text-red-400 font-body mt-1">
+            <p className="flex items-center gap-1.5 text-xs text-neutral-500 font-body mt-1">
               <AlertCircle className="h-3 w-3 shrink-0" />{fieldErrors.password}
             </p>
           )}
         </div>
 
         <button type="submit" disabled={loading || success}
-          className="w-full h-11 rounded-xl bg-gradient-to-r from-[#EA580C] to-[#F7931A] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(234,88,12,0.5)] hover:shadow-[0_0_30px_-5px_rgba(247,147,26,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2">
+          className="w-full h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2">
           {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Signing in…</> : "Sign In"}
         </button>
       </form>
 
       <p className="font-body text-center text-sm text-[#94A3B8] mt-6">
         Don&apos;t have an account?{" "}
-        <Link href="/signup" className="text-[#F7931A] hover:text-[#FFD600] font-medium transition-colors">
+        <Link href="/signup" className="text-[#FAFAFA] hover:text-[#D4D4D4] font-medium transition-colors">
           Create one free
         </Link>
       </p>

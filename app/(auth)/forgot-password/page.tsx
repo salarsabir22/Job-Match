@@ -53,10 +53,10 @@ export default function ForgotPasswordPage() {
   /* ── Success state ── */
   if (sent) {
     return (
-      <div className="bg-[#0F1115] border border-white/8 rounded-2xl p-8 shadow-[0_0_50px_-10px_rgba(247,147,26,0.1)]">
+      <div className="bg-[#0F1115] border border-white/8 rounded-2xl p-8 shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
         <div className="text-center mb-6">
-          <div className="w-16 h-16 rounded-2xl bg-[#F7931A]/12 border border-[#F7931A]/25 flex items-center justify-center mx-auto mb-4">
-            <Mail className="h-8 w-8 text-[#F7931A]" />
+          <div className="w-16 h-16 rounded-2xl bg-[#FAFAFA]/12 border border-[#FAFAFA]/25 flex items-center justify-center mx-auto mb-4">
+            <Mail className="h-8 w-8 text-[#FAFAFA]" />
           </div>
           <h2 className="font-heading font-bold text-xl text-white mb-2">Check your inbox</h2>
           <p className="font-body text-[#94A3B8] text-sm">
@@ -73,8 +73,8 @@ export default function ForgotPasswordPage() {
             { n: "3", text: "Choose a new password on the next page" },
           ].map(({ n, text }) => (
             <div key={n} className="flex items-center gap-3">
-              <div className="w-6 h-6 rounded-full bg-[#F7931A]/15 border border-[#F7931A]/30 flex items-center justify-center shrink-0">
-                <span className="font-data text-[10px] font-bold text-[#F7931A]">{n}</span>
+              <div className="w-6 h-6 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center shrink-0">
+                <span className="font-data text-[10px] font-bold text-[#FAFAFA]">{n}</span>
               </div>
               <p className="font-body text-sm text-[#94A3B8]">{text}</p>
             </div>
@@ -98,7 +98,7 @@ export default function ForgotPasswordPage() {
           {resending
             ? <><Loader2 className="h-4 w-4 animate-spin" /> Sending…</>
             : resent
-              ? <><CheckCircle2 className="h-4 w-4 text-green-400" /> <span className="text-green-400">Email resent!</span></>
+              ? <><CheckCircle2 className="h-4 w-4 text-neutral-400" /> <span className="text-neutral-400">Email resent!</span></>
               : <><RefreshCw className="h-4 w-4" /> Resend reset email</>
           }
         </button>
@@ -115,10 +115,10 @@ export default function ForgotPasswordPage() {
 
   /* ── Form state ── */
   return (
-    <div className="bg-[#0F1115] border border-white/8 rounded-2xl p-8 shadow-[0_0_50px_-10px_rgba(247,147,26,0.1)]">
+    <div className="bg-[#0F1115] border border-white/8 rounded-2xl p-8 shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
       {/* Header */}
       <div className="text-center mb-7">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_-5px_rgba(247,147,26,0.6)]">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_-5px_rgba(255,255,255,0.6)]">
           <Zap className="w-7 h-7 text-white" />
         </div>
         <h1 className="font-heading font-bold text-2xl text-white">Reset your password</h1>
@@ -129,9 +129,9 @@ export default function ForgotPasswordPage() {
 
       {/* Error */}
       {error && (
-        <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/10 border border-red-500/25 mb-5">
-          <AlertCircle className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
-          <p className="font-body text-sm text-red-300">{error}</p>
+        <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/10 border border-neutral-500/25 mb-5">
+          <AlertCircle className="h-4 w-4 text-neutral-500 shrink-0 mt-0.5" />
+          <p className="font-body text-sm text-neutral-400">{error}</p>
         </div>
       )}
 
@@ -147,7 +147,7 @@ export default function ForgotPasswordPage() {
             onChange={(e) => { setEmail(e.target.value); setError(null) }}
             autoComplete="email"
             autoFocus
-            className={`${inputBase} border-white/10 focus:border-[#F7931A]/60 focus:shadow-[0_0_15px_-5px_rgba(247,147,26,0.3)] ${error ? "border-red-500/50" : ""}`}
+            className={`${inputBase} border-white/10 focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)] ${error ? "border-neutral-500/50" : ""}`}
           />
           <p className="font-body text-[11px] text-[#4A5568]">
             We&apos;ll only send email to accounts that exist
@@ -157,7 +157,7 @@ export default function ForgotPasswordPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full h-11 rounded-xl bg-gradient-to-r from-[#EA580C] to-[#F7931A] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(234,88,12,0.5)] hover:shadow-[0_0_30px_-5px_rgba(247,147,26,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2"
+          className="w-full h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2"
         >
           {loading
             ? <><Loader2 className="h-4 w-4 animate-spin" /> Sending link…</>

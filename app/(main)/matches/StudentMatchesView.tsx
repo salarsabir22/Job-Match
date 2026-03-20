@@ -46,10 +46,10 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
       {/* Analytics stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {[
-          { label: "Applied", value: appliedCount, icon: Zap, color: "#F7931A" },
-          { label: "Matches", value: matches.length, icon: Heart, color: "#EA580C" },
-          { label: "Match Rate", value: `${matchRate}%`, icon: Target, color: "#FFD600" },
-          { label: "Active Chats", value: withChat, icon: MessageCircle, color: "#22c55e" },
+          { label: "Applied", value: appliedCount, icon: Zap, color: "#FAFAFA" },
+          { label: "Matches", value: matches.length, icon: Heart, color: "#525252" },
+          { label: "Match Rate", value: `${matchRate}%`, icon: Target, color: "#D4D4D4" },
+          { label: "Active Chats", value: withChat, icon: MessageCircle, color: "#D4D4D4" },
         ].map(({ label, value, icon: Icon, color }) => (
           <div key={label} className="rounded-xl bg-[#0F1115] border border-white/8 p-4">
             <div className="flex items-center justify-between mb-2">
@@ -65,15 +65,15 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
       {appliedCount > 0 && (
         <div className="rounded-xl bg-[#0F1115] border border-white/8 p-5">
           <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="h-4 w-4 text-[#F7931A]" />
+            <TrendingUp className="h-4 w-4 text-[#FAFAFA]" />
             <p className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8]">Your Job Search Funnel</p>
           </div>
           <div className="flex items-center gap-2 overflow-x-auto pb-1">
             {[
               { label: "Applied", value: appliedCount, color: "#94A3B8" },
-              { label: "Saved", value: savedCount, color: "#FFD600" },
-              { label: "Matched", value: matches.length, color: "#F7931A" },
-              { label: "In Chat", value: withChat, color: "#22c55e" },
+              { label: "Saved", value: savedCount, color: "#D4D4D4" },
+              { label: "Matched", value: matches.length, color: "#FAFAFA" },
+              { label: "In Chat", value: withChat, color: "#D4D4D4" },
             ].map(({ label, value, color }, i, arr) => (
               <div key={label} className="flex items-center gap-2 shrink-0">
                 <div className="text-center">
@@ -91,8 +91,8 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
 
       {!matches.length ? (
         <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
-          <div className="w-20 h-20 rounded-3xl bg-[#F7931A]/15 border border-[#F7931A]/30 flex items-center justify-center">
-            <Heart className="h-10 w-10 text-[#F7931A]" />
+          <div className="w-20 h-20 rounded-3xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
+            <Heart className="h-10 w-10 text-[#FAFAFA]" />
           </div>
           <div>
             <h3 className="font-heading font-semibold text-xl text-white">No matches yet</h3>
@@ -105,9 +105,9 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
           <div className="w-full max-w-sm rounded-xl bg-[#0F1115] border border-white/8 p-5 text-left space-y-3">
             <p className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8]">Next steps to get matched</p>
             {[
-              { icon: Zap, color: "#F7931A", text: "Complete your profile — recruiters see your bio and skills" },
-              { icon: Target, color: "#FFD600", text: "Add your university and degree to stand out" },
-              { icon: TrendingUp, color: "#22c55e", text: "Upload a resume to boost your match rate significantly" },
+              { icon: Zap, color: "#FAFAFA", text: "Complete your profile — recruiters see your bio and skills" },
+              { icon: Target, color: "#D4D4D4", text: "Add your university and degree to stand out" },
+              { icon: TrendingUp, color: "#D4D4D4", text: "Upload a resume to boost your match rate significantly" },
             ].map(({ icon: Icon, color, text }, i) => (
               <div key={i} className="flex items-start gap-2.5">
                 <Icon className="h-3.5 w-3.5 shrink-0 mt-0.5" style={{ color }} />
@@ -116,7 +116,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
             ))}
             <Link
               href="/onboarding"
-              className="inline-flex items-center gap-1.5 font-body text-xs text-[#F7931A] hover:text-[#FFD600] transition-colors mt-1"
+              className="inline-flex items-center gap-1.5 font-body text-xs text-[#FAFAFA] hover:text-[#D4D4D4] transition-colors mt-1"
             >
               Complete Profile <ArrowRight className="h-3 w-3" />
             </Link>
@@ -124,7 +124,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
 
           <Link
             href="/discover"
-            className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#F7931A] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(234,88,12,0.5)] hover:shadow-[0_0_30px_-5px_rgba(247,147,26,0.7)] transition-all duration-300"
+            className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300"
           >
             <Zap className="h-4 w-4" />Discover Jobs
           </Link>
@@ -141,8 +141,8 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
               const convId = Array.isArray(match.conversations) ? match.conversations?.[0]?.id : match.conversations?.id
               return (
                 <Link key={match.id} href={convId ? `/chat/${convId}` : "#"}>
-                  <div className="flex items-start gap-4 p-5 rounded-2xl bg-[#0F1115] border border-white/8 hover:border-[#F7931A]/30 hover:shadow-[0_0_25px_-8px_rgba(247,147,26,0.2)] transition-all duration-300 h-full cursor-pointer">
-                    <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center shrink-0 shadow-[0_0_15px_-3px_rgba(247,147,26,0.5)]">
+                  <div className="flex items-start gap-4 p-5 rounded-2xl bg-[#0F1115] border border-white/8 hover:border-[#FAFAFA]/30 hover:shadow-[0_0_25px_-8px_rgba(255,255,255,0.2)] transition-all duration-300 h-full cursor-pointer">
+                    <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shrink-0 shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)]">
                       {company?.logo_url ? (
                         <img src={company.logo_url} className="h-full w-full rounded-2xl object-cover" alt="" />
                       ) : (
@@ -157,11 +157,11 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
                         <p className="font-data text-[10px] text-[#94A3B8]">{formatDate(match.created_at)}</p>
                       </div>
                       <div className="flex items-center gap-2 mt-3">
-                        <span className="font-data text-[9px] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#F7931A]/15 border border-[#F7931A]/30 text-[#F7931A]">
+                        <span className="font-data text-[9px] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-[#FAFAFA]">
                           ✓ Matched
                         </span>
                         {convId ? (
-                          <span className="flex items-center gap-1 font-data text-[9px] tracking-widest uppercase px-2.5 py-1 rounded-full bg-green-500/15 border border-green-500/30 text-green-400">
+                          <span className="flex items-center gap-1 font-data text-[9px] tracking-widest uppercase px-2.5 py-1 rounded-full bg-neutral-500/15 border border-neutral-500/30 text-neutral-400">
                             <MessageCircle className="h-3 w-3" />Chat open
                           </span>
                         ) : (

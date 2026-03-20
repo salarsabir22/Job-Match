@@ -21,8 +21,8 @@ export function JobCard({ job }: JobCardProps) {
       {/* Header */}
       <div className="relative h-44 bg-gradient-to-br from-[#1a0f00] via-[#2a1200] to-[#0a0600] flex items-center justify-center overflow-hidden">
         {/* Ambient glow */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#F7931A]/20 via-[#EA580C]/10 to-transparent pointer-events-none" />
-        <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-[#F7931A]/10 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#FAFAFA]/20 via-[#525252]/10 to-transparent pointer-events-none" />
+        <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-[#FAFAFA]/10 rounded-full blur-2xl pointer-events-none" />
 
         {/* Logo */}
         <div className="relative z-10">
@@ -30,11 +30,11 @@ export function JobCard({ job }: JobCardProps) {
             <img
               src={company.logo_url}
               alt={company.company_name}
-              className="h-20 w-20 rounded-2xl object-cover shadow-[0_0_25px_-5px_rgba(247,147,26,0.4)] border border-white/10"
+              className="h-20 w-20 rounded-2xl object-cover shadow-[0_0_25px_-5px_rgba(255,255,255,0.4)] border border-white/10"
               draggable={false}
             />
           ) : (
-            <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center shadow-[0_0_25px_-5px_rgba(247,147,26,0.5)]">
+            <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_25px_-5px_rgba(255,255,255,0.5)]">
               <Building2 className="h-10 w-10 text-white" />
             </div>
           )}
@@ -42,7 +42,7 @@ export function JobCard({ job }: JobCardProps) {
 
         {/* Job type badge */}
         <div className="absolute bottom-3 right-4">
-          <span className="font-data text-[9px] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#F7931A]/20 border border-[#F7931A]/40 text-[#F7931A]">
+          <span className="font-data text-[9px] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#FAFAFA]/20 border border-[#FAFAFA]/40 text-[#FAFAFA]">
             {JOB_TYPE_LABEL[job.job_type] ?? job.job_type}
           </span>
         </div>
@@ -50,7 +50,7 @@ export function JobCard({ job }: JobCardProps) {
         {/* Remote badge */}
         {job.is_remote && (
           <div className="absolute bottom-3 left-4">
-            <span className="font-data text-[9px] tracking-widest uppercase px-2.5 py-1 rounded-full bg-green-500/15 border border-green-500/30 text-green-400 flex items-center gap-1">
+            <span className="font-data text-[9px] tracking-widest uppercase px-2.5 py-1 rounded-full bg-neutral-500/15 border border-neutral-500/30 text-neutral-400 flex items-center gap-1">
               <Wifi className="h-2.5 w-2.5" />Remote
             </span>
           </div>
@@ -98,7 +98,7 @@ export function JobCard({ job }: JobCardProps) {
               {job.required_skills.slice(0, 5).map((s) => (
                 <span
                   key={s}
-                  className="font-data text-[9px] tracking-wider px-2.5 py-1 rounded-full bg-[#F7931A]/10 border border-[#F7931A]/25 text-[#F7931A]"
+                  className="font-data text-[9px] tracking-wider px-2.5 py-1 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/25 text-[#FAFAFA]"
                 >
                   {s}
                 </span>
@@ -118,7 +118,7 @@ export function JobCard({ job }: JobCardProps) {
             href={company.website_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 font-body text-xs text-[#F7931A] hover:text-[#FFD600] transition-colors"
+            className="inline-flex items-center gap-1 font-body text-xs text-[#FAFAFA] hover:text-[#D4D4D4] transition-colors"
             onClick={(e) => e.stopPropagation()}
           >
             <ExternalLink className="h-3 w-3" />

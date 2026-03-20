@@ -33,9 +33,9 @@ export default async function ChatPage({ params }: { params: Promise<{ matchId: 
           className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors shrink-0">
           <ArrowLeft className="h-4 w-4 text-white" />
         </Link>
-        <Avatar className="h-9 w-9 border border-[#F7931A]/30">
+        <Avatar className="h-9 w-9 border border-[#FAFAFA]/30">
           <AvatarImage src={otherUser?.avatar_url} />
-          <AvatarFallback className="bg-[#0F1115] text-[#F7931A] text-xs font-bold">
+          <AvatarFallback className="bg-[#0F1115] text-[#FAFAFA] text-xs font-bold">
             {getInitials(otherUser?.full_name || "?")}
           </AvatarFallback>
         </Avatar>
@@ -47,7 +47,7 @@ export default async function ChatPage({ params }: { params: Promise<{ matchId: 
             </p>
           )}
         </div>
-        <div className="w-2 h-2 rounded-full bg-[#F7931A] shadow-[0_0_6px_2px_rgba(247,147,26,0.6)] shrink-0" />
+        <div className="w-2 h-2 rounded-full bg-[#FAFAFA] shadow-[0_0_6px_2px_rgba(255,255,255,0.6)] shrink-0" />
       </div>
 
       <ChatWindow conversationId={conversation.id} currentUserId={user.id} otherUser={otherUser} />

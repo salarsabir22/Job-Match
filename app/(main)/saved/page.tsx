@@ -23,8 +23,8 @@ export default async function SavedJobsPage() {
 
       {!saved?.length ? (
         <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
-          <div className="w-16 h-16 rounded-2xl bg-[#FFD600]/10 border border-[#FFD600]/25 flex items-center justify-center">
-            <Bookmark className="h-8 w-8 text-[#FFD600]" />
+          <div className="w-16 h-16 rounded-2xl bg-[#D4D4D4]/10 border border-[#D4D4D4]/25 flex items-center justify-center">
+            <Bookmark className="h-8 w-8 text-[#D4D4D4]" />
           </div>
           <div>
             <h3 className="font-heading font-semibold text-lg text-white">No saved jobs</h3>
@@ -39,7 +39,7 @@ export default async function SavedJobsPage() {
             return (
               <div key={swipe.id} className="rounded-xl bg-[#0F1115] border border-white/8 p-4 space-y-3">
                 <div className="flex items-start gap-3">
-                  <div className="h-11 w-11 rounded-xl bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center shrink-0 shadow-[0_0_10px_-3px_rgba(247,147,26,0.4)]">
+                  <div className="h-11 w-11 rounded-xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shrink-0 shadow-[0_0_10px_-3px_rgba(255,255,255,0.4)]">
                     {company?.logo_url ? (
                       <img src={company.logo_url} className="h-full w-full rounded-xl object-cover" alt="" />
                     ) : (
@@ -50,12 +50,12 @@ export default async function SavedJobsPage() {
                     <p className="font-heading font-semibold text-sm text-white truncate">{job?.title}</p>
                     <p className="font-body text-xs text-[#94A3B8]">{company?.company_name}</p>
                   </div>
-                  <Bookmark className="h-4 w-4 text-[#FFD600] shrink-0" fill="currentColor" />
+                  <Bookmark className="h-4 w-4 text-[#D4D4D4] shrink-0" fill="currentColor" />
                 </div>
                 <div className="flex flex-wrap gap-3 font-data text-[10px] tracking-wider text-[#94A3B8]">
                   <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" />{job?.job_type?.replace("_", " ")}</span>
                   {job?.is_remote ? (
-                    <span className="flex items-center gap-1"><Wifi className="h-3.5 w-3.5 text-[#F7931A]" />Remote</span>
+                    <span className="flex items-center gap-1"><Wifi className="h-3.5 w-3.5 text-[#FAFAFA]" />Remote</span>
                   ) : job?.location ? (
                     <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" />{job.location}</span>
                   ) : null}
@@ -63,7 +63,7 @@ export default async function SavedJobsPage() {
                 {job?.required_skills?.length > 0 && (
                   <div className="flex flex-wrap gap-1">
                     {job.required_skills.slice(0, 4).map((s: string) => (
-                      <span key={s} className="font-data text-[9px] tracking-wider px-2 py-0.5 rounded-full bg-[#F7931A]/10 border border-[#F7931A]/20 text-[#F7931A]">{s}</span>
+                      <span key={s} className="font-data text-[9px] tracking-wider px-2 py-0.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-[#FAFAFA]">{s}</span>
                     ))}
                   </div>
                 )}

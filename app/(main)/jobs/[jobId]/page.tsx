@@ -34,11 +34,11 @@ export default async function JobDetailPage({ params }: { params: Promise<{ jobI
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <div className="rounded-xl bg-violet-50 p-4 text-center">
+        <div className="rounded-xl bg-neutral-100 p-4 text-center">
           <p className="text-2xl font-bold text-primary">{swipeCount || 0}</p>
           <p className="text-xs text-muted-foreground mt-0.5">Interested Students</p>
         </div>
-        <div className="rounded-xl bg-green-50 p-4 text-center">
+        <div className="rounded-xl bg-neutral-100 p-4 text-center">
           <p className="text-2xl font-bold text-success">{matchCount || 0}</p>
           <p className="text-xs text-muted-foreground mt-0.5">Matches</p>
         </div>

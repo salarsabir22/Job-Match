@@ -107,8 +107,8 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
         </div>
         <div className="flex items-center gap-2">
           <div className="relative">
-            <div className="w-8 h-8 rounded-xl bg-[#F7931A]/15 border border-[#F7931A]/25 flex items-center justify-center">
-              <Bell className="h-3.5 w-3.5 text-[#F7931A]" />
+            <div className="w-8 h-8 rounded-xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/25 flex items-center justify-center">
+              <Bell className="h-3.5 w-3.5 text-[#FAFAFA]" />
             </div>
             <div className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-red-500 border border-[#07090C] flex items-center justify-center">
               <span className="font-data text-[7px] text-white font-bold">3</span>
@@ -152,9 +152,9 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
                   <p className="font-body text-[10px] text-[#64748B]">{card.type}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-1 bg-green-500/12 border border-green-500/25 rounded-full px-2 py-0.5">
-                <div className="w-1 h-1 rounded-full bg-green-400" />
-                <span className="font-data text-[9px] text-green-400 font-bold">{card.match}%</span>
+              <div className="flex items-center gap-1 bg-neutral-500/12 border border-neutral-500/25 rounded-full px-2 py-0.5">
+                <div className="w-1 h-1 rounded-full bg-neutral-400" />
+                <span className="font-data text-[9px] text-neutral-400 font-bold">{card.match}%</span>
               </div>
             </div>
 
@@ -179,7 +179,7 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
             <div className="space-y-1.5 flex-1">
               {card.perks.map(p => (
                 <div key={p} className="flex items-center gap-2">
-                  <CheckCircle2 className="h-3 w-3 text-green-400 shrink-0" />
+                  <CheckCircle2 className="h-3 w-3 text-neutral-400 shrink-0" />
                   <span className="font-body text-[11px] text-[#64748B]">{p}</span>
                 </div>
               ))}
@@ -188,15 +188,15 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
 
           {/* Swipe buttons */}
           <div className="flex items-center justify-center gap-5 px-4 py-3 border-t border-white/6">
-            <button className="w-11 h-11 rounded-full flex items-center justify-center border border-red-500/30 bg-red-500/10 shadow-[0_0_12px_-4px_rgba(239,68,68,0.4)]">
-              <X className="h-4.5 w-4.5 text-red-400" style={{ width: 18, height: 18 }} />
+            <button className="w-11 h-11 rounded-full flex items-center justify-center border border-neutral-500/30 bg-red-500/10 shadow-[0_0_12px_-4px_rgba(255,255,255,0.4)]">
+              <X className="h-4.5 w-4.5 text-neutral-500" style={{ width: 18, height: 18 }} />
             </button>
-            <button className="w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_24px_-4px_rgba(247,147,26,0.7)]"
-              style={{ background: `linear-gradient(135deg, #EA580C, #F7931A)` }}>
+            <button className="w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_24px_-4px_rgba(255,255,255,0.7)]"
+              style={{ background: `linear-gradient(135deg, #525252, #FAFAFA)` }}>
               <Heart className="h-6 w-6 text-white fill-white" />
             </button>
-            <button className="w-11 h-11 rounded-full flex items-center justify-center border border-blue-500/30 bg-blue-500/10 shadow-[0_0_12px_-4px_rgba(59,130,246,0.4)]">
-              <Star className="h-4.5 w-4.5 text-blue-400" style={{ width: 18, height: 18 }} />
+            <button className="w-11 h-11 rounded-full flex items-center justify-center border border-neutral-500/30 bg-neutral-500/10 shadow-[0_0_12px_-4px_rgba(255,255,255,0.4)]">
+              <Star className="h-4.5 w-4.5 text-neutral-400" style={{ width: 18, height: 18 }} />
             </button>
           </div>
         </div>
@@ -205,17 +205,17 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
       {/* Bottom hint */}
       <div className="flex items-center justify-center gap-4 pb-8 pt-1">
         <div className="flex items-center gap-1.5 text-[#334155]">
-          <X className="h-3 w-3 text-red-400/50" />
+          <X className="h-3 w-3 text-neutral-500/50" />
           <span className="font-body text-[10px]">Pass</span>
         </div>
         <div className="w-1 h-1 rounded-full bg-white/10" />
         <div className="flex items-center gap-1.5 text-[#334155]">
-          <Heart className="h-3 w-3 text-[#F7931A]/50" />
+          <Heart className="h-3 w-3 text-[#FAFAFA]/50" />
           <span className="font-body text-[10px]">Like</span>
         </div>
         <div className="w-1 h-1 rounded-full bg-white/10" />
         <div className="flex items-center gap-1.5 text-[#334155]">
-          <Star className="h-3 w-3 text-blue-400/50" />
+          <Star className="h-3 w-3 text-neutral-400/50" />
           <span className="font-body text-[10px]">Super</span>
         </div>
       </div>
@@ -228,18 +228,18 @@ function StudentMatchScreen() {
     <div className="h-full flex flex-col bg-[#07090C] relative overflow-hidden">
       {/* Burst rings */}
       {[80, 130, 190].map((size, i) => (
-        <div key={i} className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#F7931A] opacity-[0.08] animate-ping"
+        <div key={i} className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#FAFAFA] opacity-[0.08] animate-ping"
           style={{ width: size, height: size, animationDelay: `${i * 0.4}s`, animationDuration: "2.5s" }} />
       ))}
-      <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-[#F7931A]/12 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-[#FAFAFA]/12 to-transparent" />
 
       <div className="flex-1 flex flex-col items-center justify-center px-5 relative z-10">
         {/* Avatars */}
         <div className="flex items-center gap-0 mb-5">
-          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#EA580C] to-[#F7931A] border-[3px] border-[#07090C] flex items-center justify-center shadow-[0_0_20px_-4px_rgba(247,147,26,0.6)] z-10">
+          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] border-[3px] border-[#07090C] flex items-center justify-center shadow-[0_0_20px_-4px_rgba(255,255,255,0.6)] z-10">
             <GraduationCap className="h-8 w-8 text-white" />
           </div>
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#EA580C] to-[#F7931A] border-2 border-[#07090C] flex items-center justify-center -mx-1 z-20 shadow-[0_0_16px_-4px_rgba(247,147,26,0.8)]">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] border-2 border-[#07090C] flex items-center justify-center -mx-1 z-20 shadow-[0_0_16px_-4px_rgba(255,255,255,0.8)]">
             <Heart className="h-4 w-4 text-white fill-white" />
           </div>
           <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#635BFF] to-[#4338CA] border-[3px] border-[#07090C] flex items-center justify-center shadow-[0_0_20px_-4px_rgba(99,91,255,0.5)] z-10">
@@ -247,7 +247,7 @@ function StudentMatchScreen() {
           </div>
         </div>
 
-        <div className="font-data text-[10px] tracking-[0.2em] uppercase text-[#F7931A] mb-1.5 bg-[#F7931A]/10 border border-[#F7931A]/20 rounded-full px-3 py-0.5">
+        <div className="font-data text-[10px] tracking-[0.2em] uppercase text-[#FAFAFA] mb-1.5 bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 rounded-full px-3 py-0.5">
           New Match
         </div>
         <h3 className="font-heading font-bold text-2xl text-white mb-1">It&apos;s a Match!</h3>
@@ -264,11 +264,11 @@ function StudentMatchScreen() {
             <p className="font-body text-xs font-semibold text-white">Frontend Engineer</p>
             <p className="font-body text-[10px] text-[#4A5568]">Stripe · $120–150k</p>
           </div>
-          <span className="font-data text-[9px] text-green-400 bg-green-500/10 border border-green-500/20 rounded-full px-2 py-0.5">95%</span>
+          <span className="font-data text-[9px] text-neutral-400 bg-neutral-500/10 border border-neutral-500/20 rounded-full px-2 py-0.5">95%</span>
         </div>
 
-        <button className="w-full h-10 rounded-2xl text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(247,147,26,0.5)] mb-2.5"
-          style={{ background: "linear-gradient(135deg, #EA580C, #F7931A)" }}>
+        <button className="w-full h-10 rounded-2xl text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] mb-2.5"
+          style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)" }}>
           💬 Send a Message
         </button>
         <button className="w-full h-10 rounded-2xl border border-white/8 text-[#64748B] font-body text-sm">
@@ -296,12 +296,12 @@ function StudentChatScreen() {
         <div className="flex-1">
           <p className="font-body text-xs font-bold text-white">Sarah · Stripe Recruiter</p>
           <div className="flex items-center gap-1">
-            <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
-            <span className="font-data text-[9px] text-green-400">Online now</span>
+            <div className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
+            <span className="font-data text-[9px] text-neutral-400">Online now</span>
           </div>
         </div>
-        <div className="w-7 h-7 rounded-xl bg-[#F7931A]/10 border border-[#F7931A]/20 flex items-center justify-center">
-          <Briefcase className="h-3.5 w-3.5 text-[#F7931A]" />
+        <div className="w-7 h-7 rounded-xl bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 flex items-center justify-center">
+          <Briefcase className="h-3.5 w-3.5 text-[#FAFAFA]" />
         </div>
       </div>
       <div className="flex-1 px-3 py-3 space-y-2 overflow-hidden flex flex-col justify-end">
@@ -315,9 +315,9 @@ function StudentChatScreen() {
             <div className={cn(
               "max-w-[78%] px-3 py-2 font-body text-[11px] leading-relaxed",
               m.from === "me"
-                ? "rounded-2xl rounded-br-sm text-white shadow-[0_4px_12px_-3px_rgba(247,147,26,0.3)]"
+                ? "rounded-2xl rounded-br-sm text-white shadow-[0_4px_12px_-3px_rgba(255,255,255,0.3)]"
                 : "rounded-2xl rounded-bl-sm bg-white/6 text-[#94A3B8]"
-            )} style={m.from === "me" ? { background: "linear-gradient(135deg, #EA580C, #F7931A)" } : {}}>
+            )} style={m.from === "me" ? { background: "linear-gradient(135deg, #525252, #FAFAFA)" } : {}}>
               {m.text}
             </div>
           </div>
@@ -326,8 +326,8 @@ function StudentChatScreen() {
       <div className="px-3 pb-8 pt-2">
         <div className="flex items-center gap-2 bg-white/5 border border-white/8 rounded-2xl px-3 py-2.5">
           <span className="font-body text-[11px] text-[#1E293B] flex-1">Message Sarah…</span>
-          <div className="w-7 h-7 rounded-xl flex items-center justify-center shadow-[0_0_10px_-2px_rgba(247,147,26,0.4)]"
-            style={{ background: "linear-gradient(135deg, #EA580C, #F7931A)" }}>
+          <div className="w-7 h-7 rounded-xl flex items-center justify-center shadow-[0_0_10px_-2px_rgba(255,255,255,0.4)]"
+            style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)" }}>
             <Send className="h-3.5 w-3.5 text-white" />
           </div>
         </div>
@@ -339,10 +339,10 @@ function StudentChatScreen() {
 function StudentProfileScreen() {
   return (
     <div className="h-full flex flex-col bg-[#07090C]">
-      <div className="h-28 relative" style={{ background: "linear-gradient(135deg, rgba(234,88,12,0.25), rgba(247,147,26,0.08))" }}>
+      <div className="h-28 relative" style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.08))" }}>
         <div className="absolute inset-x-0 top-8 flex items-center justify-center">
-          <div className="w-16 h-16 rounded-2xl border-[3px] border-[#07090C] flex items-center justify-center shadow-[0_0_20px_-5px_rgba(247,147,26,0.6)]"
-            style={{ background: "linear-gradient(135deg, #EA580C, #F7931A)" }}>
+          <div className="w-16 h-16 rounded-2xl border-[3px] border-[#07090C] flex items-center justify-center shadow-[0_0_20px_-5px_rgba(255,255,255,0.6)]"
+            style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)" }}>
             <GraduationCap className="h-8 w-8 text-white" />
           </div>
         </div>
@@ -353,12 +353,12 @@ function StudentProfileScreen() {
           <p className="font-body text-[10px] text-[#4A5568]">B.Sc. Computer Science · MIT · 2026</p>
           <div className="flex items-center justify-center gap-1.5 mt-2">
             {["React", "Python", "Node.js", "+4"].map(s => (
-              <span key={s} className="font-data text-[9px] px-1.5 py-0.5 rounded-full bg-[#F7931A]/10 border border-[#F7931A]/20 text-[#F7931A]">{s}</span>
+              <span key={s} className="font-data text-[9px] px-1.5 py-0.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-[#FAFAFA]">{s}</span>
             ))}
           </div>
         </div>
         <div className="grid grid-cols-3 gap-2 mb-3">
-          {[{ l: "Matches", v: "12", c: "text-[#F7931A]" }, { l: "Views", v: "84", c: "text-blue-400" }, { l: "Score", v: "94%", c: "text-green-400" }].map(({ l, v, c }) => (
+          {[{ l: "Matches", v: "12", c: "text-[#FAFAFA]" }, { l: "Views", v: "84", c: "text-neutral-400" }, { l: "Score", v: "94%", c: "text-neutral-400" }].map(({ l, v, c }) => (
             <div key={l} className="bg-white/4 border border-white/6 rounded-2xl p-2 text-center">
               <p className={cn("font-heading font-bold text-base", c)}>{v}</p>
               <p className="font-data text-[9px] text-[#4A5568]">{l}</p>
@@ -368,9 +368,9 @@ function StudentProfileScreen() {
         <p className="font-data text-[9px] tracking-wider uppercase text-[#334155] mb-2">Activity</p>
         <div className="space-y-1.5">
           {[
-            { icon: Heart, text: "Stripe liked your profile", t: "2m ago", c: "text-[#F7931A]", bg: "bg-[#F7931A]/10" },
-            { icon: MessageCircle, text: "New message from Notion", t: "1h ago", c: "text-blue-400", bg: "bg-blue-500/10" },
-            { icon: TrendingUp, text: "Profile views +23% this week", t: "Today", c: "text-green-400", bg: "bg-green-500/10" },
+            { icon: Heart, text: "Stripe liked your profile", t: "2m ago", c: "text-[#FAFAFA]", bg: "bg-[#FAFAFA]/10" },
+            { icon: MessageCircle, text: "New message from Notion", t: "1h ago", c: "text-neutral-400", bg: "bg-neutral-500/10" },
+            { icon: TrendingUp, text: "Profile views +23% this week", t: "Today", c: "text-neutral-400", bg: "bg-neutral-500/10" },
           ].map(({ icon: Icon, text, t, c, bg }) => (
             <div key={text} className="flex items-center gap-2.5 p-2 rounded-xl bg-white/3 border border-white/5">
               <div className={cn("w-6 h-6 rounded-lg flex items-center justify-center shrink-0", bg)}>
@@ -393,13 +393,13 @@ const RECRUITER_CANDIDATES = [
   {
     name: "Alex Chen", university: "MIT", degree: "B.Sc. CS", grad: "2026",
     match: 97, skills: ["React", "TypeScript", "Node.js"],
-    gpa: "3.9", projects: 12, accent: "#22C55E",
+    gpa: "3.9", projects: 12, accent: "#D4D4D4",
     highlight: "Built a 10k user SaaS during sophomore year",
   },
   {
     name: "Sara Kim", university: "Stanford", degree: "M.Sc. Data Science", grad: "2025",
     match: 93, skills: ["Python", "ML", "SQL"],
-    gpa: "4.0", projects: 8, accent: "#3B82F6",
+    gpa: "4.0", projects: 8, accent: "#A3A3A3",
     highlight: "Published ML research in NeurIPS 2024",
   },
   {
@@ -420,9 +420,9 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
           <p className="font-heading font-bold text-sm text-white">Find Talent</p>
           <p className="font-body text-[10px] text-[#4A5568]">Candidates matching your roles</p>
         </div>
-        <div className="flex items-center gap-1 bg-green-500/10 border border-green-500/20 rounded-full px-2.5 py-1">
-          <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-          <span className="font-data text-[9px] text-green-400">34 new</span>
+        <div className="flex items-center gap-1 bg-neutral-500/10 border border-neutral-500/20 rounded-full px-2.5 py-1">
+          <div className="w-1.5 h-1.5 rounded-full bg-neutral-400 animate-pulse" />
+          <span className="font-data text-[9px] text-neutral-400">34 new</span>
         </div>
       </div>
 
@@ -503,15 +503,15 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
 
           {/* Swipe buttons */}
           <div className="flex items-center justify-center gap-5 px-4 py-3 border-t border-white/6 mt-3">
-            <button className="w-11 h-11 rounded-full flex items-center justify-center border border-red-500/30 bg-red-500/10">
-              <X className="h-[18px] w-[18px] text-red-400" />
+            <button className="w-11 h-11 rounded-full flex items-center justify-center border border-neutral-500/30 bg-red-500/10">
+              <X className="h-[18px] w-[18px] text-neutral-500" />
             </button>
-            <button className="w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_24px_-4px_rgba(247,147,26,0.7)]"
-              style={{ background: "linear-gradient(135deg, #EA580C, #F7931A)" }}>
+            <button className="w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_24px_-4px_rgba(255,255,255,0.7)]"
+              style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)" }}>
               <Heart className="h-6 w-6 text-white fill-white" />
             </button>
-            <button className="w-11 h-11 rounded-full flex items-center justify-center border border-blue-500/30 bg-blue-500/10">
-              <Star className="h-[18px] w-[18px] text-blue-400" />
+            <button className="w-11 h-11 rounded-full flex items-center justify-center border border-neutral-500/30 bg-neutral-500/10">
+              <Star className="h-[18px] w-[18px] text-neutral-400" />
             </button>
           </div>
         </div>
@@ -520,7 +520,7 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
       <div className="flex items-center justify-center gap-4 pb-8 pt-1">
         <span className="font-body text-[10px] text-[#1E293B]">Pass</span>
         <div className="w-1 h-1 rounded-full bg-white/8" />
-        <span className="font-body text-[10px] text-[#F7931A]/40">Interested</span>
+        <span className="font-body text-[10px] text-[#FAFAFA]/40">Interested</span>
         <div className="w-1 h-1 rounded-full bg-white/8" />
         <span className="font-body text-[10px] text-[#1E293B]">Super like</span>
       </div>
@@ -532,10 +532,10 @@ function RecruiterMatchScreen() {
   return (
     <div className="h-full flex flex-col bg-[#07090C] relative overflow-hidden">
       {[80, 130, 190].map((size, i) => (
-        <div key={i} className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-green-500 opacity-[0.06] animate-ping"
+        <div key={i} className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-neutral-500 opacity-[0.06] animate-ping"
           style={{ width: size, height: size, animationDelay: `${i * 0.5}s`, animationDuration: "2.5s" }} />
       ))}
-      <div className="absolute inset-0 bg-gradient-to-b from-green-500/8 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-neutral-500/8 via-transparent to-transparent" />
 
       <div className="flex-1 flex flex-col items-center justify-center px-5 relative z-10">
         <div className="flex items-center gap-0 mb-4">
@@ -544,37 +544,37 @@ function RecruiterMatchScreen() {
             <span className="font-heading font-bold text-xl text-white">A</span>
           </div>
           <div className="w-9 h-9 rounded-full border-2 border-[#07090C] flex items-center justify-center -mx-1 z-20"
-            style={{ background: "linear-gradient(135deg, #EA580C, #F7931A)", boxShadow: "0 0 16px -4px rgba(247,147,26,0.8)" }}>
+            style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)", boxShadow: "0 0 16px -4px rgba(255,255,255,0.8)" }}>
             <Heart className="h-4 w-4 text-white fill-white" />
           </div>
           <div className="w-16 h-16 rounded-2xl border-[3px] border-[#07090C] flex items-center justify-center z-10"
-            style={{ background: "linear-gradient(135deg, #EA580C, #F7931A)", boxShadow: "0 0 20px -4px rgba(247,147,26,0.5)" }}>
+            style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)", boxShadow: "0 0 20px -4px rgba(255,255,255,0.5)" }}>
             <Building2 className="h-8 w-8 text-white" />
           </div>
         </div>
 
-        <div className="font-data text-[10px] tracking-[0.2em] uppercase text-green-400 mb-1.5 bg-green-500/10 border border-green-500/20 rounded-full px-3 py-0.5">
+        <div className="font-data text-[10px] tracking-[0.2em] uppercase text-neutral-400 mb-1.5 bg-neutral-500/10 border border-neutral-500/20 rounded-full px-3 py-0.5">
           Candidate Match
         </div>
         <h3 className="font-heading font-bold text-2xl text-white mb-1">You got a Match!</h3>
         <p className="font-body text-xs text-[#4A5568] text-center mb-4">
-          <span className="text-green-400 font-medium">Alex Chen</span> also liked your job posting
+          <span className="text-neutral-400 font-medium">Alex Chen</span> also liked your job posting
         </p>
 
         {/* Candidate preview */}
         <div className="w-full bg-white/4 border border-white/8 rounded-2xl p-3 mb-5 flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-green-500/20 flex items-center justify-center shrink-0">
-            <span className="font-heading font-bold text-sm text-green-400">A</span>
+          <div className="w-9 h-9 rounded-xl bg-neutral-500/20 flex items-center justify-center shrink-0">
+            <span className="font-heading font-bold text-sm text-neutral-400">A</span>
           </div>
           <div className="flex-1">
             <p className="font-body text-xs font-semibold text-white">Alex Chen · MIT</p>
             <p className="font-body text-[10px] text-[#4A5568]">React · TypeScript · Node.js</p>
           </div>
-          <span className="font-data text-[9px] text-green-400 bg-green-500/10 border border-green-500/20 rounded-full px-2 py-0.5">97%</span>
+          <span className="font-data text-[9px] text-neutral-400 bg-neutral-500/10 border border-neutral-500/20 rounded-full px-2 py-0.5">97%</span>
         </div>
 
         <button className="w-full h-10 rounded-2xl text-white font-body font-semibold text-sm mb-2.5"
-          style={{ background: "linear-gradient(135deg, #EA580C, #F7931A)" }}>
+          style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)" }}>
           💬 Start Interview
         </button>
         <button className="w-full h-10 rounded-2xl border border-white/8 text-[#64748B] font-body text-sm">
@@ -587,10 +587,10 @@ function RecruiterMatchScreen() {
 
 function RecruiterPipelineScreen() {
   const candidates = [
-    { name: "Alex Chen", role: "Frontend Eng", match: 97, status: "Matched", dot: "bg-green-400", uni: "MIT" },
-    { name: "Sara Kim",  role: "Data Analyst",  match: 93, status: "Interview", dot: "bg-[#F7931A]", uni: "Stanford" },
+    { name: "Alex Chen", role: "Frontend Eng", match: 97, status: "Matched", dot: "bg-neutral-400", uni: "MIT" },
+    { name: "Sara Kim",  role: "Data Analyst",  match: 93, status: "Interview", dot: "bg-[#FAFAFA]", uni: "Stanford" },
     { name: "Jake Moore", role: "Backend Eng", match: 89, status: "Reviewing", dot: "bg-blue-400", uni: "UC Berkeley" },
-    { name: "Priya Patel", role: "PM Intern",  match: 84, status: "New",       dot: "bg-purple-400", uni: "CMU" },
+    { name: "Priya Patel", role: "PM Intern",  match: 84, status: "New",       dot: "bg-neutral-400", uni: "CMU" },
   ]
   return (
     <div className="h-full flex flex-col bg-[#07090C]">
@@ -601,7 +601,7 @@ function RecruiterPipelineScreen() {
 
       {/* Stats row */}
       <div className="grid grid-cols-3 gap-2 px-4 mb-3">
-        {[{ l: "Total", v: "34", c: "text-white" }, { l: "Interviews", v: "6", c: "text-[#F7931A]" }, { l: "Hired", v: "2", c: "text-green-400" }].map(({ l, v, c }) => (
+        {[{ l: "Total", v: "34", c: "text-white" }, { l: "Interviews", v: "6", c: "text-[#FAFAFA]" }, { l: "Hired", v: "2", c: "text-neutral-400" }].map(({ l, v, c }) => (
           <div key={l} className="bg-white/4 border border-white/6 rounded-2xl py-2.5 text-center">
             <p className={cn("font-heading font-bold text-lg", c)}>{v}</p>
             <p className="font-data text-[9px] text-[#334155]">{l}</p>
@@ -621,7 +621,7 @@ function RecruiterPipelineScreen() {
               <p className="font-body text-[10px] text-[#4A5568] truncate">{c.uni} · {c.role}</p>
             </div>
             <div className="text-right shrink-0">
-              <p className="font-data text-[10px] text-[#F7931A] font-bold">{c.match}%</p>
+              <p className="font-data text-[10px] text-[#FAFAFA] font-bold">{c.match}%</p>
               <div className="flex items-center gap-1 justify-end">
                 <div className={cn("w-1.5 h-1.5 rounded-full", c.dot)} />
                 <span className="font-data text-[9px] text-[#334155]">{c.status}</span>
@@ -632,8 +632,8 @@ function RecruiterPipelineScreen() {
         ))}
       </div>
       <div className="pb-8 pt-2 px-4">
-        <button className="w-full h-9 rounded-2xl border border-[#F7931A]/25 text-[#F7931A] font-body text-xs"
-          style={{ background: "rgba(247,147,26,0.06)" }}>
+        <button className="w-full h-9 rounded-2xl border border-[#FAFAFA]/25 text-[#FAFAFA] font-body text-xs"
+          style={{ background: "rgba(255,255,255,0.06)" }}>
           + Post Another Job
         </button>
       </div>
@@ -652,27 +652,27 @@ function RecruiterChatScreen() {
   return (
     <div className="h-full flex flex-col bg-[#07090C]">
       <div className="flex items-center gap-3 px-4 pt-10 pb-3 border-b border-white/6">
-        <div className="w-9 h-9 rounded-2xl bg-green-500/20 border border-green-500/20 flex items-center justify-center shrink-0">
-          <span className="font-heading font-bold text-sm text-green-400">A</span>
+        <div className="w-9 h-9 rounded-2xl bg-neutral-500/20 border border-neutral-500/20 flex items-center justify-center shrink-0">
+          <span className="font-heading font-bold text-sm text-neutral-400">A</span>
         </div>
         <div className="flex-1">
           <p className="font-body text-xs font-bold text-white">Alex Chen · MIT</p>
           <div className="flex items-center gap-1">
-            <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
-            <span className="font-data text-[9px] text-green-400">97% match · Online</span>
+            <div className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
+            <span className="font-data text-[9px] text-neutral-400">97% match · Online</span>
           </div>
         </div>
-        <div className="flex items-center gap-1 bg-[#F7931A]/10 border border-[#F7931A]/20 rounded-xl px-2 py-1">
-          <Star className="h-3 w-3 text-[#F7931A]" />
-          <span className="font-data text-[9px] text-[#F7931A]">Top</span>
+        <div className="flex items-center gap-1 bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 rounded-xl px-2 py-1">
+          <Star className="h-3 w-3 text-[#FAFAFA]" />
+          <span className="font-data text-[9px] text-[#FAFAFA]">Top</span>
         </div>
       </div>
       <div className="flex-1 px-3 py-3 space-y-2 overflow-hidden flex flex-col justify-end">
         {msgs.map((m, i) => (
           <div key={i} className={cn("flex items-end gap-2", m.from === "me" ? "justify-end" : "justify-start")}>
             {m.from === "them" && (
-              <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center shrink-0 mb-0.5">
-                <span className="font-heading font-bold text-[9px] text-green-400">A</span>
+              <div className="w-5 h-5 rounded-full bg-neutral-500/20 flex items-center justify-center shrink-0 mb-0.5">
+                <span className="font-heading font-bold text-[9px] text-neutral-400">A</span>
               </div>
             )}
             <div className={cn(
@@ -680,7 +680,7 @@ function RecruiterChatScreen() {
               m.from === "me"
                 ? "rounded-2xl rounded-br-sm text-white"
                 : "rounded-2xl rounded-bl-sm bg-white/6 text-[#94A3B8]"
-            )} style={m.from === "me" ? { background: "linear-gradient(135deg, #EA580C, #F7931A)" } : {}}>
+            )} style={m.from === "me" ? { background: "linear-gradient(135deg, #525252, #FAFAFA)" } : {}}>
               {m.text}
             </div>
           </div>
@@ -690,7 +690,7 @@ function RecruiterChatScreen() {
         <div className="flex items-center gap-2 bg-white/5 border border-white/8 rounded-2xl px-3 py-2.5">
           <span className="font-body text-[11px] text-[#1E293B] flex-1">Message Alex…</span>
           <div className="w-7 h-7 rounded-xl flex items-center justify-center"
-            style={{ background: "linear-gradient(135deg, #EA580C, #F7931A)" }}>
+            style={{ background: "linear-gradient(135deg, #525252, #FAFAFA)" }}>
             <Send className="h-3.5 w-3.5 text-white" />
           </div>
         </div>
@@ -765,14 +765,14 @@ function ProductDemo({ role }: { role: UserRole | null }) {
     <div className="h-full flex flex-col items-center justify-center gap-4 relative py-6 px-4 overflow-hidden">
       {/* Ambient glow behind phone */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full blur-[80px] opacity-20 pointer-events-none"
-        style={{ background: isRecruiter ? "radial-gradient(circle, #22C55E, transparent)" : "radial-gradient(circle, #F7931A, transparent)" }} />
+        style={{ background: isRecruiter ? "radial-gradient(circle, #D4D4D4, transparent)" : "radial-gradient(circle, #FAFAFA, transparent)" }} />
 
       {/* Screen label */}
       <div className="text-center space-y-1 relative z-10">
         <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 border"
-          style={{ background: isRecruiter ? "rgba(34,197,94,0.08)" : "rgba(247,147,26,0.08)", borderColor: isRecruiter ? "rgba(34,197,94,0.2)" : "rgba(247,147,26,0.2)" }}>
-          <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: isRecruiter ? "#22C55E" : "#F7931A" }} />
-          <span className="font-data text-[10px] tracking-widest uppercase" style={{ color: isRecruiter ? "#22C55E" : "#F7931A" }}>{screen.tag}</span>
+          style={{ background: isRecruiter ? "rgba(34,197,94,0.08)" : "rgba(255,255,255,0.08)", borderColor: isRecruiter ? "rgba(34,197,94,0.2)" : "rgba(255,255,255,0.2)" }}>
+          <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: isRecruiter ? "#D4D4D4" : "#FAFAFA" }} />
+          <span className="font-data text-[10px] tracking-widest uppercase" style={{ color: isRecruiter ? "#D4D4D4" : "#FAFAFA" }}>{screen.tag}</span>
         </div>
         <p className="font-heading font-semibold text-sm text-white">{screen.label}</p>
       </div>
@@ -806,7 +806,7 @@ function ProductDemo({ role }: { role: UserRole | null }) {
             style={{
               width: i === screenIdx ? 20 : 6,
               height: 6,
-              background: i === screenIdx ? (isRecruiter ? "#22C55E" : "#F7931A") : "rgba(255,255,255,0.12)",
+              background: i === screenIdx ? (isRecruiter ? "#D4D4D4" : "#FAFAFA") : "rgba(255,255,255,0.12)",
             }} />
         ))}
       </div>
@@ -819,13 +819,13 @@ function ProductDemo({ role }: { role: UserRole | null }) {
             i === screenIdx
               ? "border-white/8"
               : "border-transparent"
-          )} style={i === screenIdx ? { background: isRecruiter ? "rgba(34,197,94,0.06)" : "rgba(247,147,26,0.06)" } : {}}>
+          )} style={i === screenIdx ? { background: isRecruiter ? "rgba(34,197,94,0.06)" : "rgba(255,255,255,0.06)" } : {}}>
             <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 transition-all duration-300"
-              style={i === screenIdx ? { background: isRecruiter ? "rgba(34,197,94,0.15)" : "rgba(247,147,26,0.15)" } : { background: "rgba(255,255,255,0.03)" }}>
-              <Icon className="h-3 w-3" style={{ color: i === screenIdx ? (isRecruiter ? "#22C55E" : "#F7931A") : "#334155" }} />
+              style={i === screenIdx ? { background: isRecruiter ? "rgba(34,197,94,0.15)" : "rgba(255,255,255,0.15)" } : { background: "rgba(255,255,255,0.03)" }}>
+              <Icon className="h-3 w-3" style={{ color: i === screenIdx ? (isRecruiter ? "#D4D4D4" : "#FAFAFA") : "#334155" }} />
             </div>
             <span className="font-body text-xs transition-colors duration-300" style={{ color: i === screenIdx ? "#94A3B8" : "#334155" }}>{text}</span>
-            {i === screenIdx && <CheckCircle2 className="h-3.5 w-3.5 ml-auto shrink-0" style={{ color: isRecruiter ? "#22C55E" : "#F7931A" }} />}
+            {i === screenIdx && <CheckCircle2 className="h-3.5 w-3.5 ml-auto shrink-0" style={{ color: isRecruiter ? "#D4D4D4" : "#FAFAFA" }} />}
           </div>
         ))}
       </div>
@@ -836,8 +836,8 @@ function ProductDemo({ role }: { role: UserRole | null }) {
 /* ─────────────────────────────────────────────
    Micro helpers
 ───────────────────────────────────────────── */
-const inputClass = "w-full h-11 px-4 rounded-xl bg-black/60 border border-white/10 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-[#F7931A]/60 focus:shadow-[0_0_15px_-5px_rgba(247,147,26,0.25)] transition-all duration-200"
-const textareaClass = "w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-[#F7931A]/60 focus:shadow-[0_0_15px_-5px_rgba(247,147,26,0.25)] transition-all duration-200 resize-none"
+const inputClass = "w-full h-11 px-4 rounded-xl bg-black/60 border border-white/10 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.25)] transition-all duration-200"
+const textareaClass = "w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.25)] transition-all duration-200 resize-none"
 const labelClass = "block font-data text-[11px] tracking-wider uppercase text-[#64748B] mb-1.5"
 
 function HelpText({ children }: { children: React.ReactNode }) {
@@ -998,7 +998,7 @@ export default function OnboardingPage() {
   if (!role) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-[#030304] gap-3">
-        <Loader2 className="h-8 w-8 animate-spin text-[#F7931A]" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#FAFAFA]" />
         <p className="font-body text-sm text-[#94A3B8]">Loading your profile…</p>
       </div>
     )
@@ -1008,13 +1008,13 @@ export default function OnboardingPage() {
     <div className="h-screen bg-[#030304] flex flex-col relative overflow-hidden">
       {/* Background glows */}
       <div className="absolute inset-0 bg-grid-pattern pointer-events-none opacity-50" />
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#F7931A] opacity-[0.03] blur-[160px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#EA580C] opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#FAFAFA] opacity-[0.03] blur-[160px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#525252] opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
 
       {/* ── Top bar ── */}
       <header className="relative z-10 flex items-center justify-between px-6 py-4 border-b border-white/6">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(247,147,26,0.5)]">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)]">
             <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
           </div>
           <span className="font-heading font-bold text-base text-white tracking-tight">
@@ -1027,8 +1027,8 @@ export default function OnboardingPage() {
           {steps.map((_, i) => (
             <div key={i} className={cn(
               "h-1.5 rounded-full transition-all duration-400",
-              i < step ? "w-4 bg-[#F7931A]"
-                : i === step ? "w-6 bg-[#F7931A]"
+              i < step ? "w-4 bg-[#FAFAFA]"
+                : i === step ? "w-6 bg-[#FAFAFA]"
                   : "w-1.5 bg-white/12"
             )} />
           ))}
@@ -1039,8 +1039,8 @@ export default function OnboardingPage() {
             <p className="font-data text-[10px] tracking-wider text-[#4A5568]">STEP {step + 1} OF {totalSteps}</p>
             <p className="font-body text-xs text-[#94A3B8] font-medium">{currentStep.title}</p>
           </div>
-          <div className="w-8 h-8 rounded-full bg-[#F7931A]/10 border border-[#F7931A]/25 flex items-center justify-center">
-            <span className="font-data text-[11px] font-bold text-[#F7931A]">{progress}%</span>
+          <div className="w-8 h-8 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/25 flex items-center justify-center">
+            <span className="font-data text-[11px] font-bold text-[#FAFAFA]">{progress}%</span>
           </div>
         </div>
       </header>
@@ -1057,14 +1057,14 @@ export default function OnboardingPage() {
               <div key={i} className="flex items-center gap-1.5 shrink-0">
                 <div className={cn(
                   "flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-data tracking-wider transition-all",
-                  i < step ? "text-[#F7931A]/70"
-                    : i === step ? "bg-[#F7931A]/12 border border-[#F7931A]/35 text-[#F7931A]"
+                  i < step ? "text-[#FAFAFA]/70"
+                    : i === step ? "bg-[#FAFAFA]/12 border border-[#FAFAFA]/35 text-[#FAFAFA]"
                       : "text-[#334155]"
                 )}>
                   {i < step
-                    ? <CheckCircle2 className="h-3 w-3 text-[#F7931A]" />
+                    ? <CheckCircle2 className="h-3 w-3 text-[#FAFAFA]" />
                     : i === step
-                      ? <span className="h-1.5 w-1.5 rounded-full bg-[#F7931A] animate-pulse" />
+                      ? <span className="h-1.5 w-1.5 rounded-full bg-[#FAFAFA] animate-pulse" />
                       : <span className="h-1.5 w-1.5 rounded-full bg-white/10" />}
                   {s.title}
                 </div>
@@ -1077,8 +1077,8 @@ export default function OnboardingPage() {
           <div className="bg-[#0B0D10] border border-white/7 rounded-2xl shadow-[0_20px_60px_-20px_rgba(0,0,0,0.7)]">
             {/* Card header */}
             <div className="flex items-start gap-3 px-6 py-5 border-b border-white/6">
-              <div className="w-10 h-10 rounded-xl bg-[#F7931A]/12 border border-[#F7931A]/25 flex items-center justify-center shrink-0">
-                {role === "student" ? <GraduationCap className="h-5 w-5 text-[#F7931A]" /> : <Building2 className="h-5 w-5 text-[#F7931A]" />}
+              <div className="w-10 h-10 rounded-xl bg-[#FAFAFA]/12 border border-[#FAFAFA]/25 flex items-center justify-center shrink-0">
+                {role === "student" ? <GraduationCap className="h-5 w-5 text-[#FAFAFA]" /> : <Building2 className="h-5 w-5 text-[#FAFAFA]" />}
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
@@ -1103,12 +1103,12 @@ export default function OnboardingPage() {
                     <label className={labelClass}>Profile Photo</label>
                     <div className="flex items-center gap-4">
                       <div className="relative shrink-0">
-                        <div className="h-20 w-20 rounded-2xl overflow-hidden bg-black/60 border-2 border-[#F7931A]/20 flex items-center justify-center">
+                        <div className="h-20 w-20 rounded-2xl overflow-hidden bg-black/60 border-2 border-[#FAFAFA]/20 flex items-center justify-center">
                           {avatarPreview
                             ? <img src={avatarPreview} alt="Avatar" className="h-full w-full object-cover" />
                             : <ImageIcon className="h-7 w-7 text-[#1E293B]" />}
                         </div>
-                        <label className="absolute -bottom-1.5 -right-1.5 h-7 w-7 rounded-full bg-gradient-to-r from-[#EA580C] to-[#F7931A] flex items-center justify-center cursor-pointer shadow-[0_0_10px_-2px_rgba(247,147,26,0.5)] hover:scale-110 transition-transform">
+                        <label className="absolute -bottom-1.5 -right-1.5 h-7 w-7 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] flex items-center justify-center cursor-pointer shadow-[0_0_10px_-2px_rgba(255,255,255,0.5)] hover:scale-110 transition-transform">
                           <Plus className="h-3.5 w-3.5 text-white" />
                           <input type="file" accept="image/*" className="hidden" onChange={(e) => {
                             const f = e.target.files?.[0]
@@ -1119,7 +1119,7 @@ export default function OnboardingPage() {
                       <div>
                         <p className="font-body text-sm text-white font-medium">Add a profile photo</p>
                         <p className="font-body text-xs text-[#334155] mt-0.5">JPG, PNG or GIF · Max 5MB</p>
-                        <p className="font-body text-[11px] text-[#F7931A]/60 mt-1">3× more views with a photo</p>
+                        <p className="font-body text-[11px] text-[#FAFAFA]/60 mt-1">3× more views with a photo</p>
                       </div>
                     </div>
                   </div>
@@ -1183,14 +1183,14 @@ export default function OnboardingPage() {
                         onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addSkill(skillInput) } }}
                       />
                       <button type="button" onClick={() => addSkill(skillInput)} disabled={!skillInput.trim()}
-                        className="h-11 w-11 rounded-xl bg-[#F7931A]/15 border border-[#F7931A]/30 text-[#F7931A] hover:bg-[#F7931A]/25 transition-colors flex-shrink-0 flex items-center justify-center disabled:opacity-40">
+                        className="h-11 w-11 rounded-xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-[#FAFAFA] hover:bg-[#FAFAFA]/25 transition-colors flex-shrink-0 flex items-center justify-center disabled:opacity-40">
                         <Plus className="h-4 w-4" />
                       </button>
                     </div>
                     <div className="flex flex-wrap gap-1.5 mt-2">
                       {SKILL_SUGGESTIONS.filter(s => !skills.includes(s)).slice(0, 8).map(s => (
                         <button key={s} type="button" onClick={() => addSkill(s)}
-                          className="text-xs px-2.5 py-1 rounded-full border border-dashed border-white/10 text-[#334155] hover:border-[#F7931A]/40 hover:text-[#F7931A] transition-all">
+                          className="text-xs px-2.5 py-1 rounded-full border border-dashed border-white/10 text-[#334155] hover:border-[#FAFAFA]/40 hover:text-[#FAFAFA] transition-all">
                           + {s}
                         </button>
                       ))}
@@ -1198,7 +1198,7 @@ export default function OnboardingPage() {
                     {skills.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 mt-2.5">
                         {skills.map(s => (
-                          <span key={s} className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-[#F7931A]/12 border border-[#F7931A]/25 text-[#F7931A]">
+                          <span key={s} className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-[#FAFAFA]/12 border border-[#FAFAFA]/25 text-[#FAFAFA]">
                             {s}
                             <button onClick={() => setSkills(skills.filter(sk => sk !== s))} className="hover:text-white transition-colors ml-0.5">
                               <X className="h-3 w-3" />
@@ -1218,7 +1218,7 @@ export default function OnboardingPage() {
                           onClick={() => setPreferredCategories(prev => prev.includes(c) ? prev.filter(x => x !== c) : [...prev, c])}
                           className={cn("text-xs px-2.5 py-1 rounded-full border transition-all duration-200",
                             preferredCategories.includes(c)
-                              ? "bg-[#F7931A]/18 border-[#F7931A]/50 text-[#F7931A]"
+                              ? "bg-[#FAFAFA]/18 border-[#FAFAFA]/50 text-[#FAFAFA]"
                               : "border-white/8 text-[#334155] hover:border-white/18 hover:text-[#94A3B8]"
                           )}>
                           {c}
@@ -1250,10 +1250,10 @@ export default function OnboardingPage() {
                     <label className={labelClass}>Resume / CV (PDF)</label>
                     <label className={cn(
                       "flex items-center gap-3 p-4 border-2 border-dashed rounded-xl cursor-pointer transition-all",
-                      resumeFile ? "border-[#F7931A]/40 bg-[#F7931A]/5" : "border-white/8 hover:border-[#F7931A]/25 hover:bg-[#F7931A]/3"
+                      resumeFile ? "border-[#FAFAFA]/40 bg-[#FAFAFA]/5" : "border-white/8 hover:border-[#FAFAFA]/25 hover:bg-[#FAFAFA]/3"
                     )}>
-                      <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", resumeFile ? "bg-[#F7931A]/18" : "bg-white/4")}>
-                        <FileText className={cn("h-5 w-5", resumeFile ? "text-[#F7931A]" : "text-[#334155]")} />
+                      <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", resumeFile ? "bg-[#FAFAFA]/18" : "bg-white/4")}>
+                        <FileText className={cn("h-5 w-5", resumeFile ? "text-[#FAFAFA]" : "text-[#334155]")} />
                       </div>
                       {resumeFile
                         ? <div><p className="font-body text-sm text-white font-medium">{resumeFile.name}</p><p className="font-body text-xs text-[#4A5568]">Click to replace</p></div>
@@ -1266,10 +1266,10 @@ export default function OnboardingPage() {
                     <label className={labelClass}>Profile video (optional)</label>
                     <label className={cn(
                       "flex items-center gap-3 p-4 border-2 border-dashed rounded-xl cursor-pointer transition-all",
-                      profileVideoFile ? "border-[#F7931A]/40 bg-[#F7931A]/5" : "border-white/8 hover:border-[#F7931A]/25 hover:bg-[#F7931A]/3"
+                      profileVideoFile ? "border-[#FAFAFA]/40 bg-[#FAFAFA]/5" : "border-white/8 hover:border-[#FAFAFA]/25 hover:bg-[#FAFAFA]/3"
                     )}>
-                      <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", profileVideoFile ? "bg-[#F7931A]/18" : "bg-white/4")}>
-                        <Video className={cn("h-5 w-5", profileVideoFile ? "text-[#F7931A]" : "text-[#334155]")} />
+                      <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", profileVideoFile ? "bg-[#FAFAFA]/18" : "bg-white/4")}>
+                        <Video className={cn("h-5 w-5", profileVideoFile ? "text-[#FAFAFA]" : "text-[#334155]")} />
                       </div>
                       {profileVideoFile
                         ? <div><p className="font-body text-sm text-white font-medium">{profileVideoFile.name}</p><p className="font-body text-xs text-[#4A5568]">Click to replace</p></div>
@@ -1284,7 +1284,7 @@ export default function OnboardingPage() {
               {role === "recruiter" && step === 0 && (
                 <div className="space-y-4">
                   <div>
-                    <label className={labelClass}>Company Name <span className="text-red-400/80">*</span></label>
+                    <label className={labelClass}>Company Name <span className="text-neutral-500/80">*</span></label>
                     <input className={inputClass} placeholder="e.g. Acme Corp" value={companyName}
                       onChange={(e) => { setCompanyName(e.target.value); setStepError(null) }} />
                     <HelpText>Displayed on all your job postings</HelpText>
@@ -1342,10 +1342,10 @@ export default function OnboardingPage() {
                     <label className={labelClass}>Profile video (optional)</label>
                     <label className={cn(
                       "flex items-center gap-3 p-4 border-2 border-dashed rounded-xl cursor-pointer transition-all",
-                      profileVideoFile ? "border-[#F7931A]/40 bg-[#F7931A]/5" : "border-white/8 hover:border-[#F7931A]/25 hover:bg-[#F7931A]/3"
+                      profileVideoFile ? "border-[#FAFAFA]/40 bg-[#FAFAFA]/5" : "border-white/8 hover:border-[#FAFAFA]/25 hover:bg-[#FAFAFA]/3"
                     )}>
-                      <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", profileVideoFile ? "bg-[#F7931A]/18" : "bg-white/4")}>
-                        <Video className={cn("h-5 w-5", profileVideoFile ? "text-[#F7931A]" : "text-[#334155]")} />
+                      <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", profileVideoFile ? "bg-[#FAFAFA]/18" : "bg-white/4")}>
+                        <Video className={cn("h-5 w-5", profileVideoFile ? "text-[#FAFAFA]" : "text-[#334155]")} />
                       </div>
                       {profileVideoFile
                         ? <div><p className="font-body text-sm text-white font-medium">{profileVideoFile.name}</p><p className="font-body text-xs text-[#4A5568]">Click to replace</p></div>
@@ -1353,10 +1353,10 @@ export default function OnboardingPage() {
                       <input type="file" accept="video/mp4,video/webm,video/quicktime" className="hidden" onChange={(e) => setProfileVideoFile(e.target.files?.[0] || null)} />
                     </label>
                   </div>
-                  <div className="flex items-start gap-2.5 p-4 rounded-xl bg-[#F7931A]/6 border border-[#F7931A]/15">
-                    <Info className="h-4 w-4 text-[#F7931A] shrink-0 mt-0.5" />
+                  <div className="flex items-start gap-2.5 p-4 rounded-xl bg-[#FAFAFA]/6 border border-[#FAFAFA]/15">
+                    <Info className="h-4 w-4 text-[#FAFAFA] shrink-0 mt-0.5" />
                     <div>
-                      <p className="font-data text-[10px] tracking-wider uppercase text-[#F7931A] mb-1">Pending Admin Approval</p>
+                      <p className="font-data text-[10px] tracking-wider uppercase text-[#FAFAFA] mb-1">Pending Admin Approval</p>
                       <p className="font-body text-xs text-[#4A5568] leading-relaxed">
                         Your recruiter account will be reviewed before going live. Usually within 24 hours — you&apos;ll receive an email. You can explore the platform in the meantime.
                       </p>
@@ -1367,9 +1367,9 @@ export default function OnboardingPage() {
 
               {/* Error */}
               {stepError && (
-                <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/8 border border-red-500/20">
-                  <AlertCircle className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
-                  <p className="font-body text-sm text-red-300">{stepError}</p>
+                <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/8 border border-neutral-500/20">
+                  <AlertCircle className="h-4 w-4 text-neutral-500 shrink-0 mt-0.5" />
+                  <p className="font-body text-sm text-neutral-400">{stepError}</p>
                 </div>
               )}
 
@@ -1391,13 +1391,13 @@ export default function OnboardingPage() {
                       </button>
                     )}
                     <button type="button" onClick={() => { if (canProceed()) setStep(step + 1) }}
-                      className="flex-1 h-11 rounded-xl bg-gradient-to-r from-[#EA580C] to-[#F7931A] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(234,88,12,0.35)] hover:shadow-[0_0_30px_-5px_rgba(247,147,26,0.5)] transition-all duration-300">
+                      className="flex-1 h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.35)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.5)] transition-all duration-300">
                       Continue →
                     </button>
                   </>
                 ) : (
                   <button type="button" onClick={handleComplete} disabled={loading || uploading}
-                    className="flex-1 h-11 rounded-xl bg-gradient-to-r from-[#EA580C] to-[#F7931A] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(234,88,12,0.35)] hover:shadow-[0_0_30px_-5px_rgba(247,147,26,0.5)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-40 disabled:pointer-events-none flex items-center justify-center gap-2">
+                    className="flex-1 h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.35)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.5)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-40 disabled:pointer-events-none flex items-center justify-center gap-2">
                     {loading || uploading
                       ? <><Loader2 className="h-4 w-4 animate-spin" />{uploading ? "Uploading…" : "Saving…"}</>
                       : <><Zap className="h-4 w-4" /> Complete Setup</>}
@@ -1421,8 +1421,8 @@ export default function OnboardingPage() {
         {/* ──────── RIGHT: Product demo (50%, desktop only) ──────── */}
         <div className="hidden lg:flex lg:w-1/2 border-l border-white/6 bg-[#060809] relative overflow-hidden">
           <div className="absolute inset-0 bg-grid-pattern opacity-20 pointer-events-none" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#F7931A] opacity-[0.04] blur-[140px] rounded-full pointer-events-none" />
-          <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] bg-[#EA580C] opacity-[0.03] blur-[100px] rounded-full pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#FAFAFA] opacity-[0.04] blur-[140px] rounded-full pointer-events-none" />
+          <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] bg-[#525252] opacity-[0.03] blur-[100px] rounded-full pointer-events-none" />
           <div className="relative w-full h-full">
             <ProductDemo role={role} />
           </div>

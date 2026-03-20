@@ -13,11 +13,11 @@ export function CandidateCard({ profile, studentProfile }: CandidateCardProps) {
     <div className="rounded-3xl overflow-hidden bg-[#0F1115] border border-white/10 shadow-[0_8px_40px_-8px_rgba(0,0,0,0.6)] w-full select-none">
       {/* Header */}
       <div className="relative h-40 bg-gradient-to-br from-[#0a0f1a] via-[#0d1626] to-[#06080f] flex flex-col items-center justify-end pb-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#3B82F6]/20 via-[#6366F1]/10 to-transparent pointer-events-none" />
-        <div className="absolute top-3 right-3 w-20 h-20 rounded-full bg-[#3B82F6]/8 blur-xl" />
-        <Avatar className="h-16 w-16 border-[3px] border-[#3B82F6]/40 shadow-[0_0_20px_-5px_rgba(59,130,246,0.5)] relative z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#A3A3A3]/20 via-[#737373]/10 to-transparent pointer-events-none" />
+        <div className="absolute top-3 right-3 w-20 h-20 rounded-full bg-[#A3A3A3]/8 blur-xl" />
+        <Avatar className="h-16 w-16 border-[3px] border-[#A3A3A3]/40 shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] relative z-10">
           <AvatarImage src={profile.avatar_url || undefined} />
-          <AvatarFallback className="text-base font-bold bg-gradient-to-br from-[#3B82F6] to-[#6366F1] text-white">
+          <AvatarFallback className="text-base font-bold bg-gradient-to-br from-[#A3A3A3] to-[#737373] text-white">
             {getInitials(profile.full_name || "?")}
           </AvatarFallback>
         </Avatar>
@@ -49,7 +49,7 @@ export function CandidateCard({ profile, studentProfile }: CandidateCardProps) {
         {studentProfile.skills?.length > 0 && (
           <div className="flex flex-wrap gap-1.5">
             {studentProfile.skills.slice(0, 5).map((s: string) => (
-              <span key={s} className="font-data text-[9px] tracking-wide px-2 py-1 rounded-md bg-[#3B82F6]/10 border border-[#3B82F6]/20 text-[#3B82F6]">
+              <span key={s} className="font-data text-[9px] tracking-wide px-2 py-1 rounded-md bg-[#A3A3A3]/10 border border-[#A3A3A3]/20 text-[#A3A3A3]">
                 {s}
               </span>
             ))}
@@ -64,7 +64,7 @@ export function CandidateCard({ profile, studentProfile }: CandidateCardProps) {
         <div className="flex gap-3 pt-0.5">
           {studentProfile.linkedin_url && (
             <a href={studentProfile.linkedin_url} target="_blank" rel="noopener noreferrer"
-              className="text-[#94A3B8] hover:text-[#3B82F6] transition-colors"
+              className="text-[#94A3B8] hover:text-[#A3A3A3] transition-colors"
               onClick={(e) => e.stopPropagation()}>
               <Linkedin className="h-3.5 w-3.5" />
             </a>
@@ -78,7 +78,7 @@ export function CandidateCard({ profile, studentProfile }: CandidateCardProps) {
           )}
           {studentProfile.portfolio_url && (
             <a href={studentProfile.portfolio_url} target="_blank" rel="noopener noreferrer"
-              className="text-[#94A3B8] hover:text-[#F7931A] transition-colors"
+              className="text-[#94A3B8] hover:text-[#FAFAFA] transition-colors"
               onClick={(e) => e.stopPropagation()}>
               <Link2 className="h-3.5 w-3.5" />
             </a>

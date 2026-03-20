@@ -42,10 +42,10 @@ export function WaitlistForm() {
   return (
     <div className="min-h-screen bg-[#030304] text-white flex items-center">
       <div className="w-full px-4 py-10 max-w-3xl mx-auto">
-        <div className="rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-sm shadow-[0_0_50px_-25px_rgba(247,147,26,0.5)] overflow-hidden">
+        <div className="rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-sm shadow-[0_0_50px_-25px_rgba(255,255,255,0.5)] overflow-hidden">
           <div className="p-6 sm:p-10 space-y-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center shadow-[0_0_20px_-8px_rgba(247,147,26,0.8)]">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_20px_-8px_rgba(255,255,255,0.8)]">
                 <Zap className="h-5 w-5 text-white" />
               </div>
               <div>
@@ -67,19 +67,19 @@ export function WaitlistForm() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="w-full pl-11 pr-4 py-3 rounded-xl border border-white/10 bg-white/[0.03] text-white placeholder:text-[#94A3B8] outline-none focus:border-[#F7931A]/60"
+                    className="w-full pl-11 pr-4 py-3 rounded-xl border border-white/10 bg-white/[0.03] text-white placeholder:text-[#94A3B8] outline-none focus:border-[#FAFAFA]/60"
                     type="email"
                     autoComplete="email"
                   />
                 </div>
               </div>
 
-              {error && <p className="text-red-400 text-sm font-body">{error}</p>}
+              {error && <p className="text-neutral-500 text-sm font-body">{error}</p>}
 
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#F7931A] text-white font-body font-semibold text-sm tracking-wide shadow-[0_0_20px_-5px_rgba(234,88,12,0.5)] hover:scale-[1.01] transition-all duration-200 disabled:opacity-60 disabled:hover:scale-100"
+                className="w-full inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-sm tracking-wide shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:scale-[1.01] transition-all duration-200 disabled:opacity-60 disabled:hover:scale-100"
               >
                 {submitting ? "Submitting..." : "Join waitlist"}
               </button>

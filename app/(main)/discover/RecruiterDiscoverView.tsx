@@ -112,7 +112,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
     return (
       <div className="flex items-center justify-center py-32">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(247,147,26,0.6)]">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
             <Zap className="h-6 w-6 text-white" />
           </div>
           <p className="font-data text-xs tracking-widest uppercase text-[#94A3B8]">Finding candidates...</p>
@@ -130,14 +130,14 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
           <p className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8] mt-0.5">Find your next hire</p>
         </div>
         <div className="flex flex-col items-center gap-4 text-center py-24 rounded-2xl bg-[#0F1115] border border-white/8">
-          <div className="w-16 h-16 rounded-2xl bg-[#F7931A]/15 border border-[#F7931A]/30 flex items-center justify-center">
-            <Briefcase className="h-8 w-8 text-[#F7931A]" />
+          <div className="w-16 h-16 rounded-2xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
+            <Briefcase className="h-8 w-8 text-[#FAFAFA]" />
           </div>
           <div>
             <h3 className="font-heading font-semibold text-lg text-white">No active jobs</h3>
             <p className="font-body text-sm text-[#94A3B8] mt-1">Post a job first to start discovering candidates</p>
           </div>
-          <a href="/jobs" className="px-5 py-2.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#F7931A] text-white font-body font-semibold text-sm">
+          <a href="/jobs" className="px-5 py-2.5 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-sm">
             Post a Job
           </a>
         </div>
@@ -164,7 +164,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
           <select
             value={selectedJobId}
             onChange={(e) => { setSelectedJobId(e.target.value); loadCandidates(e.target.value) }}
-            className="appearance-none pl-4 pr-10 py-2.5 rounded-xl bg-[#0F1115] border border-white/10 text-white text-sm focus:outline-none focus:border-[#F7931A]/50 transition-colors font-body min-w-[200px]"
+            className="appearance-none pl-4 pr-10 py-2.5 rounded-xl bg-[#0F1115] border border-white/10 text-white text-sm focus:outline-none focus:border-[#FAFAFA]/50 transition-colors font-body min-w-[200px]"
           >
             {jobs.map((j) => <option key={j.id} value={j.id} className="bg-[#0F1115]">{j.title}</option>)}
           </select>
@@ -175,9 +175,9 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
       {/* Stats bar */}
       <div className="grid grid-cols-3 gap-2">
         {[
-          { label: "Liked",  value: stats.liked,  color: "#F7931A", bg: "#F7931A" },
+          { label: "Liked",  value: stats.liked,  color: "#FAFAFA", bg: "#FAFAFA" },
           { label: "Passed", value: stats.passed, color: "#94A3B8", bg: "#94A3B8" },
-          { label: "Reviewed", value: stats.total, color: "#22c55e", bg: "#22c55e" },
+          { label: "Reviewed", value: stats.total, color: "#D4D4D4", bg: "#D4D4D4" },
         ].map(({ label, value, color, bg }) => (
           <div key={label} className="rounded-xl bg-[#0F1115] border border-white/8 p-3 flex items-center gap-2.5">
             <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${bg}15` }}>
@@ -191,8 +191,8 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
       {/* All reviewed */}
       {currentIndex >= candidates.length ? (
         <div className="flex flex-col items-center gap-5 text-center py-20 rounded-2xl bg-[#0F1115] border border-white/8">
-          <div className="w-20 h-20 rounded-3xl bg-[#F7931A]/15 border border-[#F7931A]/30 flex items-center justify-center">
-            <CheckCircle className="h-10 w-10 text-[#F7931A]" />
+          <div className="w-20 h-20 rounded-3xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
+            <CheckCircle className="h-10 w-10 text-[#FAFAFA]" />
           </div>
           <div>
             <h3 className="font-heading font-bold text-xl text-white">All caught up!</h3>
@@ -202,7 +202,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
           </div>
           <div className="grid grid-cols-2 gap-3 text-left w-full max-w-xs">
             <div className="rounded-xl bg-[#0A0B0E] border border-white/6 p-3 text-center">
-              <p className="font-heading font-bold text-xl text-[#F7931A]">{stats.liked}</p>
+              <p className="font-heading font-bold text-xl text-[#FAFAFA]">{stats.liked}</p>
               <p className="font-data text-[9px] tracking-wider uppercase text-[#94A3B8] mt-0.5">Liked</p>
             </div>
             <div className="rounded-xl bg-[#0A0B0E] border border-white/6 p-3 text-center">
@@ -212,7 +212,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
           </div>
           <button
             onClick={() => loadCandidates(selectedJobId)}
-            className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#F7931A] text-white font-body font-semibold text-sm"
+            className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-sm"
           >
             Refresh Candidates
           </button>
@@ -244,22 +244,22 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
               <button
                 onClick={() => handleSwipe("left")}
                 disabled={swiping}
-                className="h-14 w-14 rounded-full bg-[#0F1115] border-2 border-red-500/30 shadow-[0_0_15px_-5px_rgba(239,68,68,0.3)] flex items-center justify-center hover:bg-red-500/10 hover:border-red-500/60 transition-all duration-200 active:scale-90"
+                className="h-14 w-14 rounded-full bg-[#0F1115] border-2 border-neutral-500/30 shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)] flex items-center justify-center hover:bg-red-500/10 hover:border-neutral-500/60 transition-all duration-200 active:scale-90"
               >
-                <X className="h-7 w-7 text-red-400" />
+                <X className="h-7 w-7 text-neutral-500" />
               </button>
               <button
                 onClick={() => handleSwipe("right")}
                 disabled={swiping}
-                className="h-14 w-14 rounded-full bg-gradient-to-br from-[#EA580C] to-[#F7931A] shadow-[0_0_20px_-5px_rgba(247,147,26,0.6)] flex items-center justify-center hover:shadow-[0_0_30px_-5px_rgba(247,147,26,0.9)] transition-all duration-200 active:scale-90"
+                className="h-14 w-14 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] shadow-[0_0_20px_-5px_rgba(255,255,255,0.6)] flex items-center justify-center hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.9)] transition-all duration-200 active:scale-90"
               >
                 <Heart className="h-7 w-7 text-white" fill="white" />
               </button>
             </div>
 
             <div className="flex items-center gap-5 font-data text-[9px] tracking-wider uppercase">
-              <span className="text-red-400">← Pass</span>
-              <span className="text-[#F7931A]">Like →</span>
+              <span className="text-neutral-500">← Pass</span>
+              <span className="text-[#FAFAFA]">Like →</span>
             </div>
           </div>
 
@@ -269,12 +269,12 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
             <div className="rounded-2xl bg-[#0F1115] border border-white/8 overflow-hidden">
               {/* Header gradient */}
               <div className="h-32 bg-gradient-to-br from-[#0a0f1a] via-[#0d1626] to-[#06080f] relative overflow-hidden flex items-end px-6 pb-4">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#3B82F6]/25 via-[#6366F1]/10 to-transparent pointer-events-none" />
-                <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full bg-[#3B82F6]/8 blur-2xl" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#A3A3A3]/25 via-[#737373]/10 to-transparent pointer-events-none" />
+                <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full bg-[#A3A3A3]/8 blur-2xl" />
                 <div className="flex items-end gap-4 relative z-10">
-                  <Avatar className="h-16 w-16 border-[3px] border-[#3B82F6]/40 shadow-[0_0_20px_-5px_rgba(59,130,246,0.5)]">
+                  <Avatar className="h-16 w-16 border-[3px] border-[#A3A3A3]/40 shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)]">
                     <AvatarImage src={currentCandidate.profile.avatar_url || undefined} />
-                    <AvatarFallback className="text-lg font-bold bg-gradient-to-br from-[#3B82F6] to-[#6366F1] text-white">
+                    <AvatarFallback className="text-lg font-bold bg-gradient-to-br from-[#A3A3A3] to-[#737373] text-white">
                       {getInitials(currentCandidate.profile.full_name || "?")}
                     </AvatarFallback>
                   </Avatar>
@@ -321,7 +321,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
                     <p className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8] mb-2">Skills</p>
                     <div className="flex flex-wrap gap-2">
                       {currentCandidate.studentProfile.skills.map((s: string) => (
-                        <span key={s} className="font-data text-[10px] tracking-wide px-2.5 py-1 rounded-md bg-[#3B82F6]/10 border border-[#3B82F6]/20 text-[#3B82F6]">
+                        <span key={s} className="font-data text-[10px] tracking-wide px-2.5 py-1 rounded-md bg-[#A3A3A3]/10 border border-[#A3A3A3]/20 text-[#A3A3A3]">
                           {s}
                         </span>
                       ))}
@@ -334,7 +334,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
                     <p className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8] mb-2">Looking For</p>
                     <div className="flex flex-wrap gap-2">
                       {currentCandidate.studentProfile.preferred_job_categories.map((c: string) => (
-                        <span key={c} className="font-data text-[10px] tracking-wide px-2.5 py-1 rounded-md bg-[#F7931A]/10 border border-[#F7931A]/20 text-[#F7931A]">
+                        <span key={c} className="font-data text-[10px] tracking-wide px-2.5 py-1 rounded-md bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-[#FAFAFA]">
                           {c}
                         </span>
                       ))}
@@ -346,7 +346,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
                 <div className="flex items-center gap-3">
                   {currentCandidate.studentProfile.linkedin_url && (
                     <a href={currentCandidate.studentProfile.linkedin_url} target="_blank" rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#3B82F6]/8 border border-[#3B82F6]/20 text-[#3B82F6] hover:bg-[#3B82F6]/15 transition-colors font-body text-xs">
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#A3A3A3]/8 border border-[#A3A3A3]/20 text-[#A3A3A3] hover:bg-[#A3A3A3]/15 transition-colors font-body text-xs">
                       <Linkedin className="h-3.5 w-3.5" /> LinkedIn
                     </a>
                   )}
@@ -364,7 +364,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
                   )}
                   {currentCandidate.studentProfile.resume_url && (
                     <a href={currentCandidate.studentProfile.resume_url} target="_blank" rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#F7931A]/8 border border-[#F7931A]/20 text-[#F7931A] hover:bg-[#F7931A]/15 transition-colors font-body text-xs">
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#FAFAFA]/8 border border-[#FAFAFA]/20 text-[#FAFAFA] hover:bg-[#FAFAFA]/15 transition-colors font-body text-xs">
                       <FileText className="h-3.5 w-3.5" /> Resume
                     </a>
                   )}
@@ -375,14 +375,14 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
                   <button
                     onClick={() => handleSwipe("left")}
                     disabled={swiping}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-red-500/8 border border-red-500/20 text-red-400 hover:bg-red-500/15 transition-all font-body text-sm font-medium"
+                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-red-500/8 border border-neutral-500/20 text-neutral-500 hover:bg-red-500/15 transition-all font-body text-sm font-medium"
                   >
                     <X className="h-4 w-4" /> Pass
                   </button>
                   <button
                     onClick={() => handleSwipe("right")}
                     disabled={swiping}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-[#EA580C] to-[#F7931A] text-white hover:opacity-90 transition-all font-body text-sm font-semibold shadow-[0_0_20px_-5px_rgba(247,147,26,0.5)]"
+                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white hover:opacity-90 transition-all font-body text-sm font-semibold shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)]"
                   >
                     <Heart className="h-4 w-4" fill="currentColor" /> Like Candidate
                   </button>
@@ -399,7 +399,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
                     <div key={profile.id} className="flex items-center gap-3 p-2.5 rounded-xl bg-[#0A0B0E] border border-white/5 opacity-70">
                       <Avatar className="h-8 w-8 shrink-0">
                         <AvatarImage src={profile.avatar_url || undefined} />
-                        <AvatarFallback className="text-xs bg-gradient-to-br from-[#3B82F6] to-[#6366F1] text-white">
+                        <AvatarFallback className="text-xs bg-gradient-to-br from-[#A3A3A3] to-[#737373] text-white">
                           {getInitials(profile.full_name || "?")}
                         </AvatarFallback>
                       </Avatar>
@@ -418,9 +418,9 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
             <div className="rounded-2xl bg-[#0F1115] border border-white/8 p-4 space-y-2">
               <p className="font-data text-[10px] tracking-widest uppercase text-[#94A3B8]">How it works</p>
               {[
-                { color: "#F7931A", text: "Like a candidate to express interest in their profile" },
-                { color: "#22c55e", text: "A mutual match happens when they also apply to your job" },
-                { color: "#3B82F6", text: "Matches unlock a private chat to coordinate interviews" },
+                { color: "#FAFAFA", text: "Like a candidate to express interest in their profile" },
+                { color: "#D4D4D4", text: "A mutual match happens when they also apply to your job" },
+                { color: "#A3A3A3", text: "Matches unlock a private chat to coordinate interviews" },
               ].map(({ color, text }, i) => (
                 <div key={i} className="flex items-start gap-2.5">
                   <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: color }} />

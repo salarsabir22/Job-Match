@@ -30,10 +30,10 @@ import {
 /* ─── Shared primitives ──────────────────────────────────────────── */
 function OrangeBadge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#F7931A]/30 bg-[#F7931A]/10 font-data text-xs tracking-widest uppercase text-[#F7931A]">
+    <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#FAFAFA]/30 bg-[#FAFAFA]/10 font-data text-xs tracking-widest uppercase text-[#FAFAFA]">
       <span className="relative flex h-2 w-2">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F7931A] opacity-60" />
-        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F7931A]" />
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FAFAFA] opacity-60" />
+        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FAFAFA]" />
       </span>
       {children}
     </span>
@@ -52,7 +52,7 @@ function PrimaryButton({
   return (
     <Link
       href={href}
-      className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#F7931A] text-white font-body font-semibold text-sm tracking-wide shadow-[0_0_20px_-5px_rgba(234,88,12,0.5)] hover:scale-105 hover:shadow-[0_0_35px_-5px_rgba(247,147,26,0.7)] transition-all duration-300 ${className}`}
+      className={`inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-sm tracking-wide shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:scale-105 hover:shadow-[0_0_35px_-5px_rgba(255,255,255,0.7)] transition-all duration-300 ${className}`}
     >
       {children}
     </Link>
@@ -105,7 +105,7 @@ function Navbar() {
       <nav className="max-w-7xl mx-auto px-5 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(247,147,26,0.6)]">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.6)]">
             <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
           </div>
           <span className="font-heading font-bold text-lg tracking-tight">
@@ -183,32 +183,32 @@ function HeroOrb() {
   return (
     <div className="relative flex items-center justify-center w-[280px] h-[280px] md:w-[420px] md:h-[420px]">
       {/* Ambient background glow */}
-      <div className="absolute inset-0 rounded-full bg-[#F7931A] opacity-5 blur-[80px] animate-glow-pulse" />
+      <div className="absolute inset-0 rounded-full bg-[#FAFAFA] opacity-5 blur-[80px] animate-glow-pulse" />
 
       {/* Outer orbit ring */}
       <div
-        className="absolute inset-0 rounded-full border border-[#F7931A]/15 animate-orbit-cw"
+        className="absolute inset-0 rounded-full border border-[#FAFAFA]/15 animate-orbit-cw"
         style={{ borderStyle: "dashed" }}
       />
 
       {/* Middle orbit ring */}
       <div
-        className="absolute rounded-full border border-[#FFD600]/20 animate-orbit-ccw"
+        className="absolute rounded-full border border-[#D4D4D4]/20 animate-orbit-ccw"
         style={{ inset: "14%", borderStyle: "dashed" }}
       />
 
       {/* Core sphere */}
-      <div className="relative z-10 w-[110px] h-[110px] md:w-[160px] md:h-[160px] rounded-full bg-gradient-to-br from-[#EA580C] via-[#F7931A] to-[#FFD600] shadow-[0_0_60px_-5px_rgba(247,147,26,0.8)] animate-float flex items-center justify-center">
+      <div className="relative z-10 w-[110px] h-[110px] md:w-[160px] md:h-[160px] rounded-full bg-gradient-to-br from-[#525252] via-[#FAFAFA] to-[#D4D4D4] shadow-[0_0_60px_-5px_rgba(255,255,255,0.8)] animate-float flex items-center justify-center">
         <Zap className="w-10 h-10 md:w-16 md:h-16 text-white drop-shadow-lg" strokeWidth={1.5} />
       </div>
 
       {/* Orbit dots */}
       <div className="absolute inset-0 animate-orbit-cw">
-        <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-[#F7931A] shadow-[0_0_10px_2px_rgba(247,147,26,0.8)]" />
-        <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 rounded-full bg-[#FFD600] shadow-[0_0_10px_2px_rgba(255,214,0,0.8)]" />
+        <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-[#FAFAFA] shadow-[0_0_10px_2px_rgba(255,255,255,0.8)]" />
+        <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 rounded-full bg-[#D4D4D4] shadow-[0_0_10px_2px_rgba(255,214,0,0.8)]" />
       </div>
       <div className="absolute animate-orbit-ccw" style={{ inset: "14%" }}>
-        <span className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#EA580C] shadow-[0_0_8px_2px_rgba(234,88,12,0.8)]" />
+        <span className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#525252] shadow-[0_0_8px_2px_rgba(255,255,255,0.8)]" />
       </div>
     </div>
   )
@@ -228,10 +228,10 @@ function StatCard({
 }) {
   return (
     <div
-      className={`glass-dark rounded-2xl px-4 py-3 flex items-center gap-3 shadow-[0_0_25px_-8px_rgba(247,147,26,0.25)] ${className}`}
+      className={`glass-dark rounded-2xl px-4 py-3 flex items-center gap-3 shadow-[0_0_25px_-8px_rgba(255,255,255,0.25)] ${className}`}
     >
-      <div className="w-9 h-9 rounded-lg bg-[#EA580C]/20 border border-[#EA580C]/40 flex items-center justify-center flex-shrink-0">
-        <Icon className="w-4 h-4 text-[#F7931A]" />
+      <div className="w-9 h-9 rounded-lg bg-[#525252]/20 border border-[#525252]/40 flex items-center justify-center flex-shrink-0">
+        <Icon className="w-4 h-4 text-[#FAFAFA]" />
       </div>
       <div>
         <p className="font-data font-medium text-sm text-white leading-none">{value}</p>
@@ -249,8 +249,8 @@ function Hero() {
       <div className="absolute inset-0 bg-grid-pattern pointer-events-none" />
 
       {/* Radial blobs */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#F7931A] opacity-[0.05] blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-[#EA580C] opacity-[0.06] blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#FAFAFA] opacity-[0.05] blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-[#525252] opacity-[0.06] blur-[100px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-5 w-full">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-0">
@@ -283,7 +283,7 @@ function Hero() {
             {/* Social proof */}
             <div className="flex items-center gap-3 mt-8">
               <div className="flex -space-x-2">
-                {["#EA580C", "#F7931A", "#FFD600", "#EA580C", "#F7931A"].map((c, i) => (
+                {["#525252", "#FAFAFA", "#D4D4D4", "#525252", "#FAFAFA"].map((c, i) => (
                   <div
                     key={i}
                     className="w-8 h-8 rounded-full border-2 border-[#030304] flex items-center justify-center text-[10px] font-bold text-white"
@@ -296,7 +296,7 @@ function Hero() {
               <div className="flex flex-col">
                 <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3 h-3 fill-[#FFD600] text-[#FFD600]" />
+                    <Star key={i} className="w-3 h-3 fill-[#D4D4D4] text-[#D4D4D4]" />
                   ))}
                 </div>
                 <p className="font-body text-[11px] text-[#94A3B8]">Loved by 10k+ students</p>
@@ -386,7 +386,7 @@ const STEPS = [
 function HowItWorks() {
   return (
     <section id="how-it-works" className="py-28 bg-[#030304] relative">
-      <div className="absolute top-0 left-1/3 w-[400px] h-[400px] bg-[#EA580C] opacity-[0.04] blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 left-1/3 w-[400px] h-[400px] bg-[#525252] opacity-[0.04] blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-5">
         <div className="text-center mb-20">
@@ -402,7 +402,7 @@ function HowItWorks() {
 
         <div className="relative">
           {/* Vertical timeline line */}
-          <div className="absolute left-[28px] md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#F7931A] via-[#EA580C]/40 to-transparent hidden sm:block" />
+          <div className="absolute left-[28px] md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#FAFAFA] via-[#525252]/40 to-transparent hidden sm:block" />
 
           <div className="flex flex-col gap-16">
             {STEPS.map((step, i) => {
@@ -416,21 +416,21 @@ function HowItWorks() {
                   }`}
                 >
                   {/* Node */}
-                  <div className="relative z-10 flex-shrink-0 w-14 h-14 rounded-full bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center shadow-[0_0_30px_-5px_rgba(247,147,26,0.7)]">
+                  <div className="relative z-10 flex-shrink-0 w-14 h-14 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)]">
                     <Icon className="w-6 h-6 text-white" />
                   </div>
 
                   {/* Card */}
                   <div
-                    className={`flex-1 max-w-md group bg-[#0F1115] border border-white/8 rounded-2xl p-7 hover:-translate-y-1 hover:border-[#F7931A]/40 hover:shadow-[0_0_40px_-10px_rgba(247,147,26,0.2)] transition-all duration-300 ${
+                    className={`flex-1 max-w-md group bg-[#0F1115] border border-white/8 rounded-2xl p-7 hover:-translate-y-1 hover:border-[#FAFAFA]/40 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.2)] transition-all duration-300 ${
                       isEven ? "md:mr-auto" : "md:ml-auto"
                     }`}
                   >
                     {/* Corner accents */}
-                    <span className="absolute top-3 left-3 w-5 h-5 border-t border-l border-[#F7931A]/50 rounded-tl-sm" />
-                    <span className="absolute bottom-3 right-3 w-5 h-5 border-b border-r border-[#F7931A]/50 rounded-br-sm" />
+                    <span className="absolute top-3 left-3 w-5 h-5 border-t border-l border-[#FAFAFA]/50 rounded-tl-sm" />
+                    <span className="absolute bottom-3 right-3 w-5 h-5 border-b border-r border-[#FAFAFA]/50 rounded-br-sm" />
 
-                    <span className="font-data text-[11px] tracking-widest text-[#F7931A] uppercase">
+                    <span className="font-data text-[11px] tracking-widest text-[#FAFAFA] uppercase">
                       Step {step.n}
                     </span>
                     <h3 className="font-heading font-semibold text-xl mt-2 mb-3">{step.title}</h3>
@@ -438,15 +438,15 @@ function HowItWorks() {
                       {step.desc}
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3">
-                      <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#F7931A]/10 border border-[#F7931A]/20">
-                        <GraduationCap className="w-3.5 h-3.5 text-[#F7931A] flex-shrink-0" />
-                        <span className="font-data text-[10px] tracking-wide text-[#F7931A]">
+                      <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#FAFAFA]/10 border border-[#FAFAFA]/20">
+                        <GraduationCap className="w-3.5 h-3.5 text-[#FAFAFA] flex-shrink-0" />
+                        <span className="font-data text-[10px] tracking-wide text-[#FAFAFA]">
                           {step.studentNote}
                         </span>
                       </div>
-                      <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#FFD600]/10 border border-[#FFD600]/20">
-                        <Building2 className="w-3.5 h-3.5 text-[#FFD600] flex-shrink-0" />
-                        <span className="font-data text-[10px] tracking-wide text-[#FFD600]">
+                      <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#D4D4D4]/10 border border-[#D4D4D4]/20">
+                        <Building2 className="w-3.5 h-3.5 text-[#D4D4D4] flex-shrink-0" />
+                        <span className="font-data text-[10px] tracking-wide text-[#D4D4D4]">
                           {step.recruiterNote}
                         </span>
                       </div>
@@ -468,44 +468,44 @@ const FEATURES = [
     icon: Zap,
     title: "Smart Swipe Engine",
     desc: "Swipe through curated job cards or candidate profiles. Mutual interest unlocks the conversation. Zero unsolicited contact.",
-    color: "#F7931A",
+    color: "#FAFAFA",
   },
   {
     icon: MessageCircle,
     title: "Real-time Chat",
     desc: "Powered by Supabase Realtime. Every matched conversation updates instantly—no refresh required.",
-    color: "#EA580C",
+    color: "#525252",
   },
   {
     icon: Users,
     title: "Community Channels",
     desc: "Join interest-based groups—Tech, Design, Finance, and more. Connect with peers and get early access to opportunities.",
-    color: "#FFD600",
+    color: "#D4D4D4",
   },
   {
     icon: BarChart3,
     title: "Recruiter Analytics",
     desc: "Track swipes, match rates, and active conversations per job posting. Make data-driven hiring decisions.",
-    color: "#F7931A",
+    color: "#FAFAFA",
   },
   {
     icon: FileText,
     title: "Resume Upload",
     desc: "Students upload their PDF resume once. It travels with every swipe—visible to matched recruiters on demand.",
-    color: "#EA580C",
+    color: "#525252",
   },
   {
     icon: Bell,
     title: "Live Notifications",
     desc: "Get notified the moment someone swipes right on you. No more refreshing—your next opportunity arrives in real time.",
-    color: "#FFD600",
+    color: "#D4D4D4",
   },
 ]
 
 function Features() {
   return (
     <section id="features" className="py-28 bg-[#0F1115] relative">
-      <div className="absolute top-1/2 right-0 w-[350px] h-[350px] bg-[#FFD600] opacity-[0.03] blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 right-0 w-[350px] h-[350px] bg-[#D4D4D4] opacity-[0.03] blur-[100px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-5">
         <div className="text-center mb-16">
@@ -525,7 +525,7 @@ function Features() {
             return (
               <div
                 key={f.title}
-                className="group relative bg-[#030304] border border-white/8 rounded-2xl p-7 overflow-hidden hover:-translate-y-1.5 hover:border-[#F7931A]/30 hover:shadow-[0_0_40px_-10px_rgba(247,147,26,0.15)] transition-all duration-300"
+                className="group relative bg-[#030304] border border-white/8 rounded-2xl p-7 overflow-hidden hover:-translate-y-1.5 hover:border-[#FAFAFA]/30 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.15)] transition-all duration-300"
               >
                 {/* Watermark icon */}
                 <Icon
@@ -584,15 +584,15 @@ function AudienceSplit() {
 
         <div className="grid md:grid-cols-2 gap-6">
           {/* Students */}
-          <div className="relative group bg-[#0F1115] border border-white/8 rounded-2xl p-8 overflow-hidden hover:border-[#F7931A]/30 hover:shadow-[0_0_50px_-10px_rgba(247,147,26,0.15)] transition-all duration-300">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-[#F7931A] opacity-[0.04] blur-[60px] rounded-full pointer-events-none" />
+          <div className="relative group bg-[#0F1115] border border-white/8 rounded-2xl p-8 overflow-hidden hover:border-[#FAFAFA]/30 hover:shadow-[0_0_50px_-10px_rgba(255,255,255,0.15)] transition-all duration-300">
+            <div className="absolute top-0 right-0 w-48 h-48 bg-[#FAFAFA] opacity-[0.04] blur-[60px] rounded-full pointer-events-none" />
 
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-[#F7931A]/15 border border-[#F7931A]/30 flex items-center justify-center">
-                <GraduationCap className="w-6 h-6 text-[#F7931A]" />
+              <div className="w-12 h-12 rounded-xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
+                <GraduationCap className="w-6 h-6 text-[#FAFAFA]" />
               </div>
               <div>
-                <span className="font-data text-[10px] tracking-widest uppercase text-[#F7931A]">
+                <span className="font-data text-[10px] tracking-widest uppercase text-[#FAFAFA]">
                   For Students
                 </span>
                 <h3 className="font-heading font-semibold text-xl">Launch your career</h3>
@@ -602,7 +602,7 @@ function AudienceSplit() {
             <ul className="space-y-3.5 mb-8">
               {STUDENT_PERKS.map((p) => (
                 <li key={p} className="flex items-start gap-3">
-                  <CheckCircle2 className="w-4 h-4 text-[#F7931A] mt-0.5 flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-[#FAFAFA] mt-0.5 flex-shrink-0" />
                   <span className="font-body text-[#94A3B8] text-sm">{p}</span>
                 </li>
               ))}
@@ -614,15 +614,15 @@ function AudienceSplit() {
           </div>
 
           {/* Recruiters */}
-          <div className="relative group bg-[#0F1115] border border-white/8 rounded-2xl p-8 overflow-hidden hover:border-[#FFD600]/30 hover:shadow-[0_0_50px_-10px_rgba(255,214,0,0.1)] transition-all duration-300">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-[#FFD600] opacity-[0.03] blur-[60px] rounded-full pointer-events-none" />
+          <div className="relative group bg-[#0F1115] border border-white/8 rounded-2xl p-8 overflow-hidden hover:border-[#D4D4D4]/30 hover:shadow-[0_0_50px_-10px_rgba(255,214,0,0.1)] transition-all duration-300">
+            <div className="absolute top-0 right-0 w-48 h-48 bg-[#D4D4D4] opacity-[0.03] blur-[60px] rounded-full pointer-events-none" />
 
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-[#FFD600]/10 border border-[#FFD600]/25 flex items-center justify-center">
-                <Building2 className="w-6 h-6 text-[#FFD600]" />
+              <div className="w-12 h-12 rounded-xl bg-[#D4D4D4]/10 border border-[#D4D4D4]/25 flex items-center justify-center">
+                <Building2 className="w-6 h-6 text-[#D4D4D4]" />
               </div>
               <div>
-                <span className="font-data text-[10px] tracking-widest uppercase text-[#FFD600]">
+                <span className="font-data text-[10px] tracking-widest uppercase text-[#D4D4D4]">
                   For Recruiters
                 </span>
                 <h3 className="font-heading font-semibold text-xl">Find top talent fast</h3>
@@ -632,7 +632,7 @@ function AudienceSplit() {
             <ul className="space-y-3.5 mb-8">
               {RECRUITER_PERKS.map((p) => (
                 <li key={p} className="flex items-start gap-3">
-                  <CheckCircle2 className="w-4 h-4 text-[#FFD600] mt-0.5 flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-[#D4D4D4] mt-0.5 flex-shrink-0" />
                   <span className="font-body text-[#94A3B8] text-sm">{p}</span>
                 </li>
               ))}
@@ -640,7 +640,7 @@ function AudienceSplit() {
 
             <Link
               href="/signup?role=recruiter"
-              className="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-full border-2 border-[#FFD600]/40 text-[#FFD600] font-body font-semibold text-sm tracking-wide hover:bg-[#FFD600]/10 hover:border-[#FFD600]/70 hover:shadow-[0_0_20px_-5px_rgba(255,214,0,0.3)] transition-all duration-300"
+              className="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-full border-2 border-[#D4D4D4]/40 text-[#D4D4D4] font-body font-semibold text-sm tracking-wide hover:bg-[#D4D4D4]/10 hover:border-[#D4D4D4]/70 hover:shadow-[0_0_20px_-5px_rgba(255,214,0,0.3)] transition-all duration-300"
             >
               Join as a Recruiter <ChevronRight className="w-4 h-4" />
             </Link>
@@ -653,18 +653,18 @@ function AudienceSplit() {
 
 /* ─── Community ──────────────────────────────────────────────────── */
 const CHANNELS = [
-  { name: "Tech & Engineering", members: 2140, icon: "⚡", color: "#F7931A" },
-  { name: "Product & Design", members: 987, icon: "🎨", color: "#FFD600" },
-  { name: "Finance & Fintech", members: 1342, icon: "💹", color: "#EA580C" },
-  { name: "Marketing & Growth", members: 754, icon: "📈", color: "#F7931A" },
-  { name: "Data & AI", members: 1890, icon: "🤖", color: "#FFD600" },
-  { name: "Startups & VC", members: 631, icon: "🚀", color: "#EA580C" },
+  { name: "Tech & Engineering", members: 2140, icon: "⚡", color: "#FAFAFA" },
+  { name: "Product & Design", members: 987, icon: "🎨", color: "#D4D4D4" },
+  { name: "Finance & Fintech", members: 1342, icon: "💹", color: "#525252" },
+  { name: "Marketing & Growth", members: 754, icon: "📈", color: "#FAFAFA" },
+  { name: "Data & AI", members: 1890, icon: "🤖", color: "#D4D4D4" },
+  { name: "Startups & VC", members: 631, icon: "🚀", color: "#525252" },
 ]
 
 function Community() {
   return (
     <section id="community" className="py-28 bg-[#0F1115] relative overflow-hidden">
-      <div className="absolute bottom-0 left-1/4 w-[400px] h-[300px] bg-[#F7931A] opacity-[0.04] blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-[400px] h-[300px] bg-[#FAFAFA] opacity-[0.04] blur-[100px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-5">
         <div className="flex flex-col lg:flex-row items-start gap-16">
@@ -686,8 +686,8 @@ function Community() {
                 { icon: Sparkles, text: "Early access job drops for members" },
               ].map((item) => (
                 <li key={item.text} className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-[#F7931A]/15 border border-[#F7931A]/30 flex items-center justify-center flex-shrink-0">
-                    <item.icon className="w-4 h-4 text-[#F7931A]" />
+                  <div className="w-8 h-8 rounded-lg bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center flex-shrink-0">
+                    <item.icon className="w-4 h-4 text-[#FAFAFA]" />
                   </div>
                   <span className="font-body text-sm text-[#94A3B8]">{item.text}</span>
                 </li>
@@ -703,7 +703,7 @@ function Community() {
             {CHANNELS.map((ch) => (
               <div
                 key={ch.name}
-                className="group flex items-center gap-4 bg-[#030304] border border-white/8 rounded-xl p-4 hover:-translate-y-1 hover:border-[#F7931A]/30 hover:shadow-[0_0_30px_-10px_rgba(247,147,26,0.2)] transition-all duration-300 cursor-pointer"
+                className="group flex items-center gap-4 bg-[#030304] border border-white/8 rounded-xl p-4 hover:-translate-y-1 hover:border-[#FAFAFA]/30 hover:shadow-[0_0_30px_-10px_rgba(255,255,255,0.2)] transition-all duration-300 cursor-pointer"
               >
                 <div
                   className="w-10 h-10 rounded-lg flex items-center justify-center text-lg flex-shrink-0"
@@ -718,7 +718,7 @@ function Community() {
                   </p>
                 </div>
                 <ChevronRight
-                  className="w-4 h-4 text-white/20 group-hover:text-[#F7931A] transition-colors"
+                  className="w-4 h-4 text-white/20 group-hover:text-[#FAFAFA] transition-colors"
                 />
               </div>
             ))}
@@ -737,7 +737,7 @@ const TESTIMONIALS = [
     name: "Ava T.",
     role: "CS Student, Stanford",
     initials: "AT",
-    color: "#F7931A",
+    color: "#FAFAFA",
   },
   {
     quote:
@@ -745,7 +745,7 @@ const TESTIMONIALS = [
     name: "Marcus L.",
     role: "Head of Talent, Fintech Startup",
     initials: "ML",
-    color: "#FFD600",
+    color: "#D4D4D4",
   },
   {
     quote:
@@ -753,14 +753,14 @@ const TESTIMONIALS = [
     name: "Priya S.",
     role: "Product Design Student",
     initials: "PS",
-    color: "#EA580C",
+    color: "#525252",
   },
 ]
 
 function Testimonials() {
   return (
     <section className="py-28 bg-[#030304] relative">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#F7931A] opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#FAFAFA] opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-5">
         <div className="text-center mb-16">
@@ -780,7 +780,7 @@ function Testimonials() {
               {/* Stars */}
               <div className="flex gap-1 mb-5">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-3.5 h-3.5 fill-[#FFD600] text-[#FFD600]" />
+                  <Star key={i} className="w-3.5 h-3.5 fill-[#D4D4D4] text-[#D4D4D4]" />
                 ))}
               </div>
 
@@ -822,7 +822,7 @@ function TrustStrip() {
       <div className="max-w-7xl mx-auto px-5 flex flex-wrap justify-center gap-8 md:gap-12">
         {TRUST.map((t) => (
           <div key={t.label} className="flex items-center gap-2.5">
-            <t.icon className="w-4 h-4 text-[#F7931A]" />
+            <t.icon className="w-4 h-4 text-[#FAFAFA]" />
             <span className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8]">
               {t.label}
             </span>
@@ -839,7 +839,7 @@ function CTASection() {
     <section className="py-28 relative overflow-hidden bg-[#030304]">
       <div className="absolute inset-0 bg-grid-pattern pointer-events-none" />
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[600px] h-[300px] bg-[#F7931A] opacity-[0.07] blur-[100px] rounded-full" />
+        <div className="w-[600px] h-[300px] bg-[#FAFAFA] opacity-[0.07] blur-[100px] rounded-full" />
       </div>
 
       <div className="relative max-w-3xl mx-auto px-5 text-center">
@@ -898,7 +898,7 @@ function Footer() {
         {/* Brand */}
         <div className="col-span-2 md:col-span-1">
           <Link href="/" className="flex items-center gap-2.5 mb-4">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center shadow-[0_0_12px_-2px_rgba(247,147,26,0.5)]">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_12px_-2px_rgba(255,255,255,0.5)]">
               <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
             </div>
             <span className="font-heading font-bold text-lg">

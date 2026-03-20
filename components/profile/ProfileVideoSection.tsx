@@ -134,7 +134,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
     <>
       <div className="rounded-2xl bg-[#0F1115] border border-white/8 overflow-hidden">
         <div className="flex items-center gap-2 p-4 border-b border-white/6">
-          <Video className="h-4 w-4 text-[#F7931A]" />
+          <Video className="h-4 w-4 text-[#FAFAFA]" />
           <h3 className="font-data text-[11px] tracking-widest uppercase text-[#94A3B8]">Profile Video</h3>
         </div>
         <div className="p-4 space-y-4">
@@ -168,7 +168,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
                   type="button"
                   onClick={removeVideo}
                   disabled={uploading}
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-red-500/20 hover:bg-red-500/30 text-red-400 text-xs font-body backdrop-blur-sm"
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-red-500/20 hover:bg-red-500/30 text-neutral-500 text-xs font-body backdrop-blur-sm"
                 >
                   <Trash2 className="h-3 w-3" /> Remove
                 </button>
@@ -176,14 +176,14 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
             </div>
           ) : (
             <div className="rounded-xl border border-dashed border-white/15 bg-white/[0.02] aspect-video max-h-[200px] flex flex-col items-center justify-center gap-3 p-4">
-              <div className="w-12 h-12 rounded-full bg-[#F7931A]/15 border border-[#F7931A]/30 flex items-center justify-center">
-                <Video className="h-6 w-6 text-[#F7931A]" />
+              <div className="w-12 h-12 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
+                <Video className="h-6 w-6 text-[#FAFAFA]" />
               </div>
               <p className="font-body text-sm text-[#94A3B8] text-center">
                 Add a short intro video so recruiters can get to know you
               </p>
               <div className="flex flex-wrap items-center justify-center gap-2">
-                <label className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F7931A]/15 border border-[#F7931A]/30 text-[#F7931A] font-body text-sm font-medium cursor-pointer hover:bg-[#F7931A]/25 transition-colors">
+                <label className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-[#FAFAFA] font-body text-sm font-medium cursor-pointer hover:bg-[#FAFAFA]/25 transition-colors">
                   <Upload className="h-4 w-4" />
                   Upload video
                   <input
@@ -259,7 +259,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
                   <button
                     type="button"
                     onClick={startRecording}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-[#EA580C] to-[#F7931A] text-white font-body font-semibold"
+                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold"
                   >
                     Start recording
                   </button>
@@ -267,7 +267,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
                   <button
                     type="button"
                     onClick={stopRecording}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-red-500/20 border border-red-500/40 text-red-400 font-body font-semibold"
+                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-red-500/20 border border-neutral-500/40 text-neutral-500 font-body font-semibold"
                   >
                     Stop & save
                   </button>

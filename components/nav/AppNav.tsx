@@ -61,7 +61,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
   const initials    = displayName.charAt(0).toUpperCase()
 
   const roleLabel = role === "admin" ? "Admin" : role === "recruiter" ? "Recruiter" : "Student"
-  const roleDot   = role === "admin" ? "bg-[#FFD600]" : role === "recruiter" ? "bg-[#F7931A]" : "bg-[#94A3B8]"
+  const roleDot   = role === "admin" ? "bg-[#D4D4D4]" : role === "recruiter" ? "bg-[#FAFAFA]" : "bg-[#94A3B8]"
 
   return (
     <>
@@ -70,7 +70,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
         {/* Logo */}
         <div className="h-14 flex items-center px-6 border-b border-white/6 shrink-0">
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(247,147,26,0.6)]">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.6)]">
               <Zap className="h-4 w-4 text-white" strokeWidth={2.5} />
             </div>
             <span className="font-heading font-bold text-lg text-white">
@@ -100,28 +100,28 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
                 className={cn(
                   "group flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200",
                   active
-                    ? "bg-[#F7931A]/12 text-[#F7931A] border border-[#F7931A]/20"
+                    ? "bg-[#FAFAFA]/12 text-[#FAFAFA] border border-[#FAFAFA]/20"
                     : "text-[#94A3B8] hover:text-white hover:bg-white/4 border border-transparent"
                 )}
               >
                 <div className={cn(
                   "w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-all duration-200",
                   active
-                    ? "bg-[#F7931A]/20 shadow-[0_0_10px_-3px_rgba(247,147,26,0.5)]"
+                    ? "bg-[#FAFAFA]/20 shadow-[0_0_10px_-3px_rgba(255,255,255,0.5)]"
                     : "bg-white/4 group-hover:bg-white/8"
                 )}>
                   <Icon
-                    className={cn("h-4 w-4", active ? "text-[#F7931A]" : "text-[#94A3B8] group-hover:text-white")}
+                    className={cn("h-4 w-4", active ? "text-[#FAFAFA]" : "text-[#94A3B8] group-hover:text-white")}
                     strokeWidth={active ? 2.5 : 1.8}
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className={cn("font-body text-sm font-medium leading-none", active ? "text-[#F7931A]" : "text-inherit")}>
+                  <p className={cn("font-body text-sm font-medium leading-none", active ? "text-[#FAFAFA]" : "text-inherit")}>
                     {label}
                   </p>
                   <p className="font-data text-[10px] text-[#94A3B8] mt-0.5 leading-none">{desc}</p>
                 </div>
-                {active && <ChevronRight className="h-3.5 w-3.5 text-[#F7931A]/60 shrink-0" />}
+                {active && <ChevronRight className="h-3.5 w-3.5 text-[#FAFAFA]/60 shrink-0" />}
               </Link>
             )
           })}
@@ -133,7 +133,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
             {avatarUrl ? (
               <img src={avatarUrl} alt="" className="w-8 h-8 rounded-full object-cover border border-white/10 shrink-0" />
             ) : (
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center text-white font-bold text-sm shrink-0">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center text-white font-bold text-sm shrink-0">
                 {initials}
               </div>
             )}
@@ -145,7 +145,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
 
           <button
             onClick={handleSignOut}
-            className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-[#94A3B8] hover:text-red-400 hover:bg-red-400/6 font-body text-sm transition-all duration-200"
+            className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-[#94A3B8] hover:text-neutral-500 hover:bg-red-400/6 font-body text-sm transition-all duration-200"
           >
             <LogOut className="h-4 w-4 shrink-0" strokeWidth={1.8} />
             Sign out
@@ -156,7 +156,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
       {/* Mobile Top Header */}
       <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-[#08090C]/90 backdrop-blur-md border-b border-white/6 h-14 flex items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center shadow-[0_0_10px_-2px_rgba(247,147,26,0.6)]">
+          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_10px_-2px_rgba(255,255,255,0.6)]">
             <Zap className="h-3.5 w-3.5 text-white" strokeWidth={2.5} />
           </div>
           <span className="font-heading font-bold text-base text-white">
@@ -167,7 +167,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
           <NotificationBell />
           <button
             onClick={handleSignOut}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[#94A3B8] hover:text-red-400 hover:bg-red-400/10 font-body text-xs font-medium transition-all duration-200 border border-white/8"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[#94A3B8] hover:text-neutral-500 hover:bg-red-400/10 font-body text-xs font-medium transition-all duration-200 border border-white/8"
           >
             <LogOut className="h-3.5 w-3.5" />
             Logout
@@ -186,11 +186,11 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
                 href={href}
                 className={cn(
                   "flex-1 flex flex-col items-center gap-1 py-3 px-1 font-data text-[9px] tracking-wider uppercase transition-all duration-200",
-                  active ? "text-[#F7931A]" : "text-[#94A3B8]"
+                  active ? "text-[#FAFAFA]" : "text-[#94A3B8]"
                 )}
               >
                 <Icon
-                  className={cn("h-5 w-5 transition-all", active && "drop-shadow-[0_0_6px_rgba(247,147,26,0.8)]")}
+                  className={cn("h-5 w-5 transition-all", active && "drop-shadow-[0_0_6px_rgba(255,255,255,0.8)]")}
                   strokeWidth={active ? 2.5 : 1.8}
                 />
                 {label}

@@ -71,7 +71,7 @@ export default async function JobsPage() {
         </div>
         <Link
           href="/jobs/new"
-          className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-[#EA580C] to-[#F7931A] text-white font-body font-semibold text-xs shadow-[0_0_15px_-5px_rgba(234,88,12,0.5)] hover:shadow-[0_0_25px_-5px_rgba(247,147,26,0.7)] transition-all duration-300"
+          className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-xs shadow-[0_0_15px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_25px_-5px_rgba(255,255,255,0.7)] transition-all duration-300"
         >
           <Plus className="h-3.5 w-3.5" />Post Job
         </Link>
@@ -79,10 +79,10 @@ export default async function JobsPage() {
 
       {/* Approval banner */}
       {!isApproved && (
-        <div className="flex items-start gap-3 p-4 rounded-xl bg-[#FFD600]/8 border border-[#FFD600]/25">
-          <AlertCircle className="h-4 w-4 text-[#FFD600] shrink-0 mt-0.5" />
+        <div className="flex items-start gap-3 p-4 rounded-xl bg-[#D4D4D4]/8 border border-[#D4D4D4]/25">
+          <AlertCircle className="h-4 w-4 text-[#D4D4D4] shrink-0 mt-0.5" />
           <div>
-            <p className="font-data text-[10px] tracking-widest uppercase text-[#FFD600] mb-0.5">Pending Admin Approval</p>
+            <p className="font-data text-[10px] tracking-widest uppercase text-[#D4D4D4] mb-0.5">Pending Admin Approval</p>
             <p className="font-body text-xs text-[#94A3B8]">
               Your recruiter account is under review. You can create and manage jobs, but candidates won&apos;t see your postings until an admin approves your account.
             </p>
@@ -95,9 +95,9 @@ export default async function JobsPage() {
         <>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             {[
-              { label: "Active Jobs", value: activeJobs, icon: Briefcase, color: "#F7931A" },
-              { label: "Total Applications", value: totalApplications, icon: TrendingUp, color: "#FFD600" },
-              { label: "Mutual Matches", value: totalMatches, icon: Heart, color: "#EA580C" },
+              { label: "Active Jobs", value: activeJobs, icon: Briefcase, color: "#FAFAFA" },
+              { label: "Total Applications", value: totalApplications, icon: TrendingUp, color: "#D4D4D4" },
+              { label: "Mutual Matches", value: totalMatches, icon: Heart, color: "#525252" },
               { label: "Candidates Viewed", value: totalCandidatesViewed, icon: Eye, color: "#94A3B8" },
             ].map(({ label, value, icon: Icon, color }) => (
               <div key={label} className="rounded-xl bg-[#0F1115] border border-white/8 p-4">
@@ -118,7 +118,7 @@ export default async function JobsPage() {
             <div className="rounded-xl bg-[#0F1115] border border-white/8 p-4">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <BarChart2 className="h-4 w-4 text-[#F7931A]" />
+                  <BarChart2 className="h-4 w-4 text-[#FAFAFA]" />
                   <p className="font-data text-[11px] tracking-wider uppercase text-[#94A3B8]">Recruitment Funnel</p>
                 </div>
                 <p className="font-data text-[10px] text-[#94A3B8]">All-time</p>
@@ -126,8 +126,8 @@ export default async function JobsPage() {
               <div className="space-y-2.5">
                 {[
                   { label: "Candidates Viewed", value: totalCandidatesViewed, max: Math.max(totalCandidatesViewed, 1), color: "#94A3B8" },
-                  { label: "Applications Received", value: totalApplications, max: Math.max(totalCandidatesViewed, 1), color: "#FFD600" },
-                  { label: "Mutual Matches", value: totalMatches, max: Math.max(totalCandidatesViewed, 1), color: "#F7931A" },
+                  { label: "Applications Received", value: totalApplications, max: Math.max(totalCandidatesViewed, 1), color: "#D4D4D4" },
+                  { label: "Mutual Matches", value: totalMatches, max: Math.max(totalCandidatesViewed, 1), color: "#FAFAFA" },
                 ].map(({ label, value, max, color }) => (
                   <div key={label} className="flex items-center gap-3">
                     <p className="font-data text-[9px] tracking-wider uppercase text-[#94A3B8] w-36 shrink-0">{label}</p>
@@ -149,8 +149,8 @@ export default async function JobsPage() {
       {/* Empty state */}
       {!jobs?.length ? (
         <div className="flex flex-col items-center justify-center py-20 text-center space-y-5">
-          <div className="w-16 h-16 rounded-2xl bg-[#F7931A]/15 border border-[#F7931A]/30 flex items-center justify-center">
-            <Briefcase className="h-8 w-8 text-[#F7931A]" />
+          <div className="w-16 h-16 rounded-2xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
+            <Briefcase className="h-8 w-8 text-[#FAFAFA]" />
           </div>
           <div>
             <h3 className="font-heading font-semibold text-lg text-white">No jobs posted yet</h3>
@@ -160,7 +160,7 @@ export default async function JobsPage() {
           </div>
           <Link
             href="/jobs/new"
-            className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#F7931A] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(234,88,12,0.5)] hover:shadow-[0_0_30px_-5px_rgba(247,147,26,0.7)] transition-all duration-300"
+            className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300"
           >
             <Plus className="h-4 w-4" />Post Your First Job
           </Link>
@@ -175,8 +175,8 @@ export default async function JobsPage() {
               "Set realistic requirements — overly specific roles get fewer swipes",
             ].map((tip, i) => (
               <div key={i} className="flex items-start gap-2.5">
-                <div className="w-5 h-5 rounded-full bg-[#F7931A]/15 border border-[#F7931A]/30 flex items-center justify-center shrink-0 mt-0.5">
-                  <span className="font-data text-[9px] text-[#F7931A]">{i + 1}</span>
+                <div className="w-5 h-5 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center shrink-0 mt-0.5">
+                  <span className="font-data text-[9px] text-[#FAFAFA]">{i + 1}</span>
                 </div>
                 <p className="font-body text-xs text-[#94A3B8]">{tip}</p>
               </div>
@@ -193,7 +193,7 @@ export default async function JobsPage() {
             const matchRate = stats.applications > 0 ? Math.round((stats.matches / stats.applications) * 100) : 0
             return (
               <Link key={job.id} href={`/jobs/${job.id}`}>
-                <div className="rounded-xl bg-[#0F1115] border border-white/8 p-5 hover:border-[#F7931A]/30 hover:shadow-[0_0_20px_-8px_rgba(247,147,26,0.2)] transition-all duration-300 cursor-pointer">
+                <div className="rounded-xl bg-[#0F1115] border border-white/8 p-5 hover:border-[#FAFAFA]/30 hover:shadow-[0_0_20px_-8px_rgba(255,255,255,0.2)] transition-all duration-300 cursor-pointer">
                   {/* Top row */}
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
@@ -203,7 +203,7 @@ export default async function JobsPage() {
                           <Calendar className="h-3 w-3" />{job.job_type.replace(/_/g, " ")}
                         </span>
                         {job.is_remote ? (
-                          <span className="flex items-center gap-1 text-[#F7931A]">
+                          <span className="flex items-center gap-1 text-[#FAFAFA]">
                             <Wifi className="h-3 w-3" />Remote
                           </span>
                         ) : job.location ? (
@@ -217,7 +217,7 @@ export default async function JobsPage() {
                     <div className="flex items-center gap-2 shrink-0">
                       <span className={`font-data text-[9px] tracking-widest uppercase px-2 py-1 rounded-full border ${
                         job.is_active
-                          ? "bg-[#F7931A]/15 border-[#F7931A]/30 text-[#F7931A]"
+                          ? "bg-[#FAFAFA]/15 border-[#FAFAFA]/30 text-[#FAFAFA]"
                           : "bg-white/5 border-white/15 text-[#94A3B8]"
                       }`}>
                         {job.is_active ? "Active" : "Paused"}
@@ -230,7 +230,7 @@ export default async function JobsPage() {
                   {job.required_skills?.length > 0 && (
                     <div className="flex flex-wrap gap-1 mt-3">
                       {job.required_skills.slice(0, 5).map((s: string) => (
-                        <span key={s} className="font-data text-[9px] tracking-wider px-2 py-0.5 rounded-full bg-[#F7931A]/10 border border-[#F7931A]/20 text-[#F7931A]">{s}</span>
+                        <span key={s} className="font-data text-[9px] tracking-wider px-2 py-0.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-[#FAFAFA]">{s}</span>
                       ))}
                       {job.required_skills.length > 5 && (
                         <span className="font-data text-[9px] tracking-wider px-2 py-0.5 rounded-full border border-white/10 text-[#94A3B8]">+{job.required_skills.length - 5}</span>
@@ -241,11 +241,11 @@ export default async function JobsPage() {
                   {/* Per-job stats */}
                   <div className="mt-4 pt-3 border-t border-white/5 grid grid-cols-3 gap-4">
                     <div>
-                      <p className="font-heading font-bold text-xl text-[#FFD600]">{stats.applications}</p>
+                      <p className="font-heading font-bold text-xl text-[#D4D4D4]">{stats.applications}</p>
                       <p className="font-data text-[9px] tracking-wider uppercase text-[#94A3B8]">Applications</p>
                     </div>
                     <div>
-                      <p className="font-heading font-bold text-xl text-[#F7931A]">{stats.matches}</p>
+                      <p className="font-heading font-bold text-xl text-[#FAFAFA]">{stats.matches}</p>
                       <p className="font-data text-[9px] tracking-wider uppercase text-[#94A3B8]">Matches</p>
                     </div>
                     <div>

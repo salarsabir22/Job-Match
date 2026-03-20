@@ -26,8 +26,8 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
           className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors shrink-0">
           <ArrowLeft className="h-4 w-4 text-white" />
         </Link>
-        <div className="w-9 h-9 rounded-xl bg-[#F7931A]/15 border border-[#F7931A]/30 flex items-center justify-center shrink-0">
-          <Hash className="h-4 w-4 text-[#F7931A]" />
+        <div className="w-9 h-9 rounded-xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center shrink-0">
+          <Hash className="h-4 w-4 text-[#FAFAFA]" />
         </div>
         <div className="flex-1 min-w-0">
           <p className="font-heading font-semibold text-sm text-white">#{channel.name}</p>
@@ -42,8 +42,8 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
         <ChannelChat channelId={channelId} currentUserId={user.id} />
       ) : (
         <div className="flex flex-col items-center justify-center flex-1 gap-5 p-4 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-[#F7931A]/15 border border-[#F7931A]/30 flex items-center justify-center">
-            <Users className="h-8 w-8 text-[#F7931A]" />
+          <div className="w-16 h-16 rounded-2xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
+            <Users className="h-8 w-8 text-[#FAFAFA]" />
           </div>
           <div>
             <h3 className="font-heading font-semibold text-lg text-white">Join #{channel.name}</h3>

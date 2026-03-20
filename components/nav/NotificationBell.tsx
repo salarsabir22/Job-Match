@@ -99,12 +99,12 @@ export function NotificationBell() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="relative h-8 w-8 rounded-lg border border-white/10 text-[#94A3B8] hover:text-[#F7931A] hover:border-[#F7931A]/40 transition-all flex items-center justify-center"
+        className="relative h-8 w-8 rounded-lg border border-white/10 text-[#94A3B8] hover:text-[#FAFAFA] hover:border-[#FAFAFA]/40 transition-all flex items-center justify-center"
         title="Notifications"
       >
         <Bell className="h-4 w-4" />
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-[#F7931A] text-[#030304] font-data text-[9px] leading-4 text-center">
+          <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-[#FAFAFA] text-[#030304] font-data text-[9px] leading-4 text-center">
             {unreadCount > 99 ? "99+" : unreadCount}
           </span>
         )}
@@ -120,7 +120,7 @@ export function NotificationBell() {
                 setOpen(false)
                 router.push("/notifications")
               }}
-              className="font-data text-[10px] tracking-wider uppercase text-[#F7931A] hover:text-[#FFD600]"
+              className="font-data text-[10px] tracking-wider uppercase text-[#FAFAFA] hover:text-[#D4D4D4]"
             >
               View all
             </button>
@@ -146,7 +146,7 @@ export function NotificationBell() {
                       <p className="font-data text-[9px] text-[#94A3B8] mt-1">{formatTime(n.created_at)}</p>
                     </div>
                     {!n.is_read ? (
-                      <CheckCircle className="h-3.5 w-3.5 text-[#F7931A] shrink-0 mt-0.5" />
+                      <CheckCircle className="h-3.5 w-3.5 text-[#FAFAFA] shrink-0 mt-0.5" />
                     ) : (
                       <XCircle className="h-3.5 w-3.5 text-[#94A3B8] shrink-0 mt-0.5" />
                     )}

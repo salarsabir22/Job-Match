@@ -85,7 +85,7 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center flex-1">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(247,147,26,0.6)]">
+        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
           <Zap className="h-5 w-5 text-white" />
         </div>
       </div>
@@ -112,7 +112,7 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
                 {!isOwn && (
                   <Avatar className="h-8 w-8 shrink-0 mt-1 border border-white/10">
                     <AvatarImage src={sender?.avatar_url || undefined} />
-                    <AvatarFallback className="bg-[#0F1115] text-[#F7931A] text-xs font-bold">
+                    <AvatarFallback className="bg-[#0F1115] text-[#FAFAFA] text-xs font-bold">
                       {getInitials(sender?.full_name || "?")}
                     </AvatarFallback>
                   </Avatar>
@@ -125,7 +125,7 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
                   )}
                   <div className={`px-4 py-2.5 rounded-2xl font-body text-sm leading-relaxed ${
                     isOwn
-                      ? "bg-gradient-to-br from-[#EA580C] to-[#F7931A] text-white rounded-br-sm shadow-[0_0_12px_-5px_rgba(247,147,26,0.4)]"
+                      ? "bg-gradient-to-br from-[#525252] to-[#FAFAFA] text-white rounded-br-sm shadow-[0_0_12px_-5px_rgba(255,255,255,0.4)]"
                       : "bg-[#0F1115] text-white rounded-bl-sm border border-white/8"
                   }`}>
                     {msg.content}
@@ -147,10 +147,10 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Message the channel..."
           disabled={sending}
-          className="flex-1 h-11 px-4 rounded-full bg-[#0F1115] border border-white/10 text-white text-sm placeholder:text-white/25 focus:outline-none focus:border-[#F7931A]/50 transition-all duration-200"
+          className="flex-1 h-11 px-4 rounded-full bg-[#0F1115] border border-white/10 text-white text-sm placeholder:text-white/25 focus:outline-none focus:border-[#FAFAFA]/50 transition-all duration-200"
         />
         <button type="submit" disabled={sending || !newMessage.trim()}
-          className="w-11 h-11 rounded-full bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(247,147,26,0.5)] hover:shadow-[0_0_20px_-3px_rgba(247,147,26,0.7)] transition-all duration-200 disabled:opacity-40 disabled:pointer-events-none shrink-0">
+          className="w-11 h-11 rounded-full bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)] hover:shadow-[0_0_20px_-3px_rgba(255,255,255,0.7)] transition-all duration-200 disabled:opacity-40 disabled:pointer-events-none shrink-0">
           {sending ? <Loader2 className="h-4 w-4 text-white animate-spin" /> : <Send className="h-4 w-4 text-white" />}
         </button>
       </form>

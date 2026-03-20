@@ -31,9 +31,9 @@ function getPasswordStrength(pw: string): PasswordStrength {
   const map: Record<number, PasswordStrength> = {
     0: { score: 0, label: "", color: "" },
     1: { score: 1, label: "Weak", color: "bg-red-500" },
-    2: { score: 2, label: "Fair", color: "bg-yellow-500" },
+    2: { score: 2, label: "Fair", color: "bg-neutral-400" },
     3: { score: 3, label: "Good", color: "bg-blue-500" },
-    4: { score: 4, label: "Strong", color: "bg-green-500" },
+    4: { score: 4, label: "Strong", color: "bg-neutral-1000" },
   }
   return map[score as keyof typeof map]
 }
@@ -134,17 +134,17 @@ export default function SignupPage() {
 
   if (verifyMode) {
     return (
-      <div className="bg-[#0F1115] border border-white/8 rounded-2xl p-8 text-center shadow-[0_0_50px_-10px_rgba(247,147,26,0.1)]">
-        <div className="w-16 h-16 rounded-2xl bg-[#F7931A]/15 border border-[#F7931A]/30 flex items-center justify-center mx-auto mb-5">
-          <Mail className="h-8 w-8 text-[#F7931A]" />
+      <div className="bg-[#0F1115] border border-white/8 rounded-2xl p-8 text-center shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
+        <div className="w-16 h-16 rounded-2xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center mx-auto mb-5">
+          <Mail className="h-8 w-8 text-[#FAFAFA]" />
         </div>
         <h2 className="font-heading font-bold text-xl text-white mb-2">Check your inbox</h2>
         <p className="font-body text-[#94A3B8] text-sm mb-1">
           We sent a confirmation link to
         </p>
         <p className="font-body text-white font-medium text-sm mb-5">{email}</p>
-        <div className="p-3.5 rounded-xl bg-[#F7931A]/10 border border-[#F7931A]/25 mb-5 text-left">
-          <p className="font-data text-[11px] tracking-wider uppercase text-[#F7931A] mb-1">What to do next</p>
+        <div className="p-3.5 rounded-xl bg-[#FAFAFA]/10 border border-[#FAFAFA]/25 mb-5 text-left">
+          <p className="font-data text-[11px] tracking-wider uppercase text-[#FAFAFA] mb-1">What to do next</p>
           <ol className="list-decimal list-inside space-y-1">
             <li className="font-body text-xs text-[#94A3B8]">Open the email from JobMatch</li>
             <li className="font-body text-xs text-[#94A3B8]">Click the &quot;Confirm your email&quot; button</li>
@@ -153,16 +153,16 @@ export default function SignupPage() {
         </div>
         <p className="font-body text-xs text-[#94A3B8]">
           Didn&apos;t receive it? Check spam or{" "}
-          <button onClick={() => setVerifyMode(false)} className="text-[#F7931A] hover:underline">try again</button>
+          <button onClick={() => setVerifyMode(false)} className="text-[#FAFAFA] hover:underline">try again</button>
         </p>
       </div>
     )
   }
 
   return (
-    <div className="bg-[#0F1115] border border-white/8 rounded-2xl p-8 shadow-[0_0_50px_-10px_rgba(247,147,26,0.1)]">
+    <div className="bg-[#0F1115] border border-white/8 rounded-2xl p-8 shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
       <div className="text-center mb-7">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#EA580C] to-[#F7931A] flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_-5px_rgba(247,147,26,0.6)]">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#525252] to-[#FAFAFA] flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_-5px_rgba(255,255,255,0.6)]">
           <Zap className="w-7 h-7 text-white" />
         </div>
         <h1 className="font-heading font-bold text-2xl text-white">Create your account</h1>
@@ -181,14 +181,14 @@ export default function SignupPage() {
                 className={cn(
                   "flex flex-col items-start gap-2 rounded-xl border-2 p-3.5 text-left transition-all duration-200",
                   active
-                    ? "border-[#F7931A] bg-[#F7931A]/10 shadow-[0_0_15px_-5px_rgba(247,147,26,0.35)]"
+                    ? "border-[#FAFAFA] bg-[#FAFAFA]/10 shadow-[0_0_15px_-5px_rgba(255,255,255,0.35)]"
                     : "border-white/10 hover:border-white/20"
                 )}>
-                <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center", active ? "bg-[#F7931A]/20" : "bg-white/5")}>
-                  <Icon className={cn("h-4 w-4", active ? "text-[#F7931A]" : "text-[#94A3B8]")} />
+                <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center", active ? "bg-[#FAFAFA]/20" : "bg-white/5")}>
+                  <Icon className={cn("h-4 w-4", active ? "text-[#FAFAFA]" : "text-[#94A3B8]")} />
                 </div>
                 <div>
-                  <p className={cn("font-body font-semibold text-xs", active ? "text-[#F7931A]" : "text-white")}>{label}</p>
+                  <p className={cn("font-body font-semibold text-xs", active ? "text-[#FAFAFA]" : "text-white")}>{label}</p>
                   <p className="font-body text-[10px] text-[#64748B] mt-0.5 leading-relaxed">{description}</p>
                 </div>
               </button>
@@ -199,12 +199,12 @@ export default function SignupPage() {
 
       {/* Global error */}
       {error && (
-        <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/10 border border-red-500/25 mb-5">
-          <AlertCircle className="h-4 w-4 text-red-400 shrink-0 mt-0.5" />
+        <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/10 border border-neutral-500/25 mb-5">
+          <AlertCircle className="h-4 w-4 text-neutral-500 shrink-0 mt-0.5" />
           <div>
-            <p className="font-body text-sm text-red-300">{error}</p>
+            <p className="font-body text-sm text-neutral-400">{error}</p>
             {error.includes("already exists") && (
-              <Link href="/login" className="font-body text-xs text-[#F7931A] hover:underline mt-1 inline-block">Go to sign in →</Link>
+              <Link href="/login" className="font-body text-xs text-[#FAFAFA] hover:underline mt-1 inline-block">Go to sign in →</Link>
             )}
           </div>
         </div>
@@ -232,9 +232,9 @@ export default function SignupPage() {
             value={fullName}
             onChange={(e) => { setFullName(e.target.value); clearFieldError("fullName") }}
             autoComplete="name"
-            className={`${inputBase} ${fieldErrors.fullName ? "border-red-500/60" : "border-white/10 focus:border-[#F7931A]/60 focus:shadow-[0_0_15px_-5px_rgba(247,147,26,0.3)]"}`}
+            className={`${inputBase} ${fieldErrors.fullName ? "border-neutral-500/60" : "border-white/10 focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)]"}`}
           />
-          {fieldErrors.fullName && <p className="flex items-center gap-1.5 text-xs text-red-400 font-body"><AlertCircle className="h-3 w-3 shrink-0" />{fieldErrors.fullName}</p>}
+          {fieldErrors.fullName && <p className="flex items-center gap-1.5 text-xs text-neutral-500 font-body"><AlertCircle className="h-3 w-3 shrink-0" />{fieldErrors.fullName}</p>}
         </div>
 
         {/* Email */}
@@ -246,9 +246,9 @@ export default function SignupPage() {
             value={email}
             onChange={(e) => { setEmail(e.target.value); clearFieldError("email") }}
             autoComplete="email"
-            className={`${inputBase} ${fieldErrors.email ? "border-red-500/60" : "border-white/10 focus:border-[#F7931A]/60 focus:shadow-[0_0_15px_-5px_rgba(247,147,26,0.3)]"}`}
+            className={`${inputBase} ${fieldErrors.email ? "border-neutral-500/60" : "border-white/10 focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)]"}`}
           />
-          {fieldErrors.email && <p className="flex items-center gap-1.5 text-xs text-red-400 font-body"><AlertCircle className="h-3 w-3 shrink-0" />{fieldErrors.email}</p>}
+          {fieldErrors.email && <p className="flex items-center gap-1.5 text-xs text-neutral-500 font-body"><AlertCircle className="h-3 w-3 shrink-0" />{fieldErrors.email}</p>}
         </div>
 
         {/* Password */}
@@ -261,7 +261,7 @@ export default function SignupPage() {
               value={password}
               onChange={(e) => { setPassword(e.target.value); clearFieldError("password") }}
               autoComplete="new-password"
-              className={`${inputBase} pr-11 ${fieldErrors.password ? "border-red-500/60" : "border-white/10 focus:border-[#F7931A]/60 focus:shadow-[0_0_15px_-5px_rgba(247,147,26,0.3)]"}`}
+              className={`${inputBase} pr-11 ${fieldErrors.password ? "border-neutral-500/60" : "border-white/10 focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)]"}`}
             />
             <button type="button" onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-white transition-colors p-1">
@@ -279,12 +279,12 @@ export default function SignupPage() {
               <div className="flex items-center justify-between">
                 <p className="font-data text-[10px] text-[#94A3B8]">
                   {strength.score < 3 && "Use uppercase, numbers & symbols to strengthen"}
-                  {strength.score >= 3 && <span className="flex items-center gap-1"><CheckCircle2 className="h-3 w-3 text-green-400" /> {strength.label} password</span>}
+                  {strength.score >= 3 && <span className="flex items-center gap-1"><CheckCircle2 className="h-3 w-3 text-neutral-400" /> {strength.label} password</span>}
                 </p>
               </div>
             </div>
           )}
-          {fieldErrors.password && <p className="flex items-center gap-1.5 text-xs text-red-400 font-body"><AlertCircle className="h-3 w-3 shrink-0" />{fieldErrors.password}</p>}
+          {fieldErrors.password && <p className="flex items-center gap-1.5 text-xs text-neutral-500 font-body"><AlertCircle className="h-3 w-3 shrink-0" />{fieldErrors.password}</p>}
         </div>
 
         {/* Recruiter notice */}
@@ -298,14 +298,14 @@ export default function SignupPage() {
         )}
 
         <button type="submit" disabled={loading}
-          className="w-full h-11 rounded-xl bg-gradient-to-r from-[#EA580C] to-[#F7931A] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(234,88,12,0.5)] hover:shadow-[0_0_30px_-5px_rgba(247,147,26,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2">
+          className="w-full h-11 rounded-xl bg-gradient-to-r from-[#525252] to-[#FAFAFA] text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2">
           {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Creating account…</> : "Create Account"}
         </button>
       </form>
 
       <p className="font-body text-center text-sm text-[#94A3B8] mt-5">
         Already have an account?{" "}
-        <Link href="/login" className="text-[#F7931A] hover:text-[#FFD600] font-medium transition-colors">Sign in</Link>
+        <Link href="/login" className="text-[#FAFAFA] hover:text-[#D4D4D4] font-medium transition-colors">Sign in</Link>
       </p>
 
       <p className="font-body text-center text-[10px] text-[#4A5568] mt-4">

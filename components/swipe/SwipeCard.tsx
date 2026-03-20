@@ -200,7 +200,7 @@ export function SwipeCard({
         style={{ opacity: 0 }}
         className="absolute top-5 left-4 z-20 pointer-events-none"
       >
-        <div className="border-[3px] border-[#F7931A] text-[#F7931A] font-black text-lg px-3 py-0.5 rounded-xl -rotate-[22deg] uppercase tracking-wider shadow-[0_0_15px_-3px_rgba(247,147,26,0.5)]">
+        <div className="border-[3px] border-[#FAFAFA] text-[#FAFAFA] font-black text-lg px-3 py-0.5 rounded-xl -rotate-[22deg] uppercase tracking-wider shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)]">
           Apply ✓
         </div>
       </div>
@@ -211,7 +211,7 @@ export function SwipeCard({
         style={{ opacity: 0 }}
         className="absolute top-5 right-4 z-20 pointer-events-none"
       >
-        <div className="border-[3px] border-red-500 text-red-500 font-black text-lg px-3 py-0.5 rounded-xl rotate-[22deg] uppercase tracking-wider shadow-[0_0_15px_-3px_rgba(239,68,68,0.4)]">
+        <div className="border-[3px] border-neutral-500 text-neutral-500 font-black text-lg px-3 py-0.5 rounded-xl rotate-[22deg] uppercase tracking-wider shadow-[0_0_15px_-3px_rgba(255,255,255,0.4)]">
           Pass ✗
         </div>
       </div>
