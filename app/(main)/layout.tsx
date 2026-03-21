@@ -23,7 +23,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
   }
 
   return (
-    <div className="min-h-screen bg-black text-white flex selection:bg-white/10">
+    <div className="min-h-screen bg-white text-black flex selection:bg-black/10">
       <AppNav
         role={role}
         fullName={fullName}
@@ -31,30 +31,28 @@ export default async function MainLayout({ children }: { children: React.ReactNo
         avatarUrl={avatarUrl}
       />
 
-      <div className="flex-1 lg:ml-64 min-h-screen flex flex-col">
-        <div className="hidden lg:flex h-14 shrink-0 items-center border-b border-white/[0.08] bg-black/60 backdrop-blur-md sticky top-0 z-30 px-6">
+      <div className="flex-1 lg:ml-56 min-h-screen flex flex-col bg-white">
+        <div className="hidden lg:flex h-14 shrink-0 items-center border-b border-black/[0.08] bg-white/95 backdrop-blur-md sticky top-0 z-30 px-6">
           <div className="flex-1" />
           <div className="flex items-center gap-3">
             <NotificationBell />
             <div className="text-right">
-              <p className="font-body text-sm font-medium text-white/90 leading-none">
+              <p className="font-body text-sm font-medium text-black leading-none">
                 {fullName ?? user?.email?.split("@")[0]}
               </p>
-              <p className="font-data text-[10px] tracking-[0.15em] uppercase text-white/38 mt-0.5 capitalize">
+              <p className="font-data text-[10px] tracking-[0.15em] uppercase text-neutral-500 mt-0.5 capitalize">
                 {role}
               </p>
             </div>
-            <div className="w-8 h-8 rounded-full bg-white/[0.12] border border-white/[0.12] flex items-center justify-center text-white font-bold text-sm shrink-0">
+            <div className="w-8 h-8 rounded-full bg-neutral-100 border border-black/10 flex items-center justify-center text-black font-bold text-sm shrink-0">
               {(fullName ?? user?.email ?? "?").charAt(0).toUpperCase()}
             </div>
           </div>
         </div>
 
-        <main className="flex-1 pt-16 pb-24 lg:pt-0 lg:pb-0 overflow-y-auto">
-          <div className="px-3 py-4 lg:px-6 lg:py-6 max-w-screen-xl mx-auto w-full">
-            <div className="rounded-2xl border border-white/[0.1] bg-white text-black min-h-[calc(100vh-6rem)] lg:min-h-[calc(100vh-5.5rem)] px-4 py-6 lg:px-8 lg:py-8">
-              {children}
-            </div>
+        <main className="flex-1 pt-16 pb-24 lg:pt-0 lg:pb-0 overflow-y-auto bg-white">
+          <div className="px-3 py-4 lg:px-6 lg:py-6 max-w-screen-xl mx-auto w-full min-h-[calc(100vh-6rem)] lg:min-h-[calc(100vh-3.5rem)]">
+            {children}
           </div>
         </main>
       </div>

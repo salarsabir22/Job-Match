@@ -123,8 +123,8 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
         </div>
       </aside>
 
-      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-xl border-b border-white/[0.06] h-[52px] flex items-center justify-between px-4">
-        <Link href="/" className="text-[15px] font-semibold tracking-[-0.03em] lowercase text-white/90">
+      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-black/[0.08] h-[52px] flex items-center justify-between px-4">
+        <Link href="/" className="text-[15px] font-semibold tracking-[-0.03em] lowercase text-black">
           jobmatch<span className="opacity-40">.</span>
         </Link>
         <div className="flex items-center gap-1">
@@ -132,14 +132,14 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
           <button
             type="button"
             onClick={handleSignOut}
-            className="px-2.5 py-1.5 text-[12px] text-white/50 hover:text-white/85 transition-colors"
+            className="px-2.5 py-1.5 text-[12px] text-neutral-500 hover:text-black transition-colors"
           >
             Out
           </button>
         </div>
       </header>
 
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-xl border-t border-white/[0.06] safe-area-pb">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-black/[0.08] safe-area-pb">
         <div className="flex">
           {links.map(({ href, label }) => {
             const active = isActive(href)
@@ -149,7 +149,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
                 href={href}
                 className={cn(
                   "flex-1 flex flex-col items-center justify-center py-2.5 min-h-[52px] transition-colors",
-                  active ? "text-white" : "text-white/40"
+                  active ? "text-black" : "text-neutral-400"
                 )}
               >
                 <span className="text-[10px] font-medium tracking-[-0.01em] text-center leading-tight px-0.5 max-w-full truncate">
