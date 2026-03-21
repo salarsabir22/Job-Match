@@ -76,13 +76,17 @@ export function WaitlistForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: v }),
       })
-      const data = (await res.json().catch(() => ({}))) as { error?: string }
+      const data = (await res.json().catch(() => ({}))) as {
+        error?: string
+        confirmationEmailSent?: boolean
+      }
 
       if (!res.ok) {
         throw new Error(data.error || "Failed to join waitlist.")
       }
 
       setSubmitting(false)
+      setConfirmationEmailSent(data.confirmationEmailSent === true)
       setSubmitSuccess(true)
     } catch (err: unknown) {
       setSubmitting(false)
@@ -192,71 +196,27 @@ export function WaitlistForm() {
                         ? { duration: 0 }
                         : { type: "spring", stiffness: 320, damping: 26, mass: 0.9 }
                     }
-                    className="flex flex-col items-center gap-4 rounded-2xl border border-white/[0.12] bg-white/[0.06] px-6 py-8 backdrop-blur-sm"
+                    className="flex flex-col items-center gap-5 rounded-2xl border border-white/[0.1] bg-white/[0.04] px-8 py-9 backdrop-blur-sm"
                   >
-                    <motion.div
-                      className="flex size-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-[0_0_24px_-4px_rgba(16,185,129,0.55)]"
-                      initial={reduceMotion ? false : { scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={
-                        reduceMotion
-                          ? { duration: 0 }
-                          : { type: "spring", stiffness: 400, damping: 18, delay: 0.06 }
-                      }
-                      aria-hidden
-                    >
-                      <svg className="size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2}>
-                        <motion.path
-                          d="M6 12l4 4 8-9"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          initial={reduceMotion ? { pathLength: 1 } : { pathLength: 0 }}
-                          animate={{ pathLength: 1 }}
-                          transition={{ duration: reduceMotion ? 0 : 0.45, ease: easeOutExpo, delay: 0.12 }}
-                        />
-                      </svg>
-                    </motion.div>
-                    <div className="text-center">
-                      <p className="text-[16px] font-semibold tracking-[-0.02em] text-white">
-                        You&apos;re on the waitlist
+                    <div className="text-center max-w-[22rem]">
+                      <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/35">
+                        Confirmed
                       </p>
-                      <p className="mt-1.5 text-[13px] text-white/45">
+                      <p className="mt-3 text-[17px] font-semibold tracking-[-0.03em] text-white">
+                        You&apos;re on the list
+                      </p>
+                      <p className="mt-2 text-[14px] leading-relaxed text-white/42">
                         {confirmationEmailSent
-                          ? "We sent a confirmation to your inbox. We&apos;ll email you again when early access opens."
-                          : "You&apos;re all set. We&apos;ll email you when early access opens."}
+                          ? "We sent a confirmation to your inbox. We’ll email you again when early access opens."
+                          : "You’re all set. We’ll email you when early access opens."}
                       </p>
                       <Link
                         href="/waitlist?success=1"
-                        className="mt-4 inline-block text-[12px] font-medium text-white/35 underline-offset-4 hover:text-white/55 hover:underline"
+                        className="mt-6 inline-block text-[13px] font-medium text-white/45 underline-offset-[5px] hover:text-white/70 hover:underline"
                       >
-                        Open confirmation page
+                        View confirmation page
                       </Link>
                     </div>
-                    <motion.div
-                      className="mt-1 flex gap-1"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: reduceMotion ? 0 : 0.35 }}
-                      aria-hidden
-                    >
-                      {[0, 1, 2].map((i) => (
-                        <motion.span
-                          key={i}
-                          className="size-1.5 rounded-full bg-white/35"
-                          animate={
-                            reduceMotion
-                              ? {}
-                              : { opacity: [0.35, 1, 0.35], scale: [1, 1.15, 1] }
-                          }
-                          transition={{
-                            duration: 0.9,
-                            repeat: Infinity,
-                            delay: i * 0.15,
-                            ease: "easeInOut",
-                          }}
-                        />
-                      ))}
-                    </motion.div>
                   </motion.div>
                 ) : (
                   <motion.form

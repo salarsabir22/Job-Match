@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"
-import { Loader2, Zap, Eye, EyeOff, AlertCircle, CheckCircle2, KeyRound } from "lucide-react"
+import { Loader2, Eye, EyeOff } from "lucide-react"
 
 const GoogleIcon = () => (
   <svg className="h-4 w-4" viewBox="0 0 24 24">
@@ -70,74 +70,72 @@ export default function LoginPage() {
     }
   }
 
-  const inputBase = "w-full h-11 px-4 rounded-xl bg-white border text-black text-sm placeholder:text-black/25 focus:outline-none transition-all duration-200"
+  const inputBase =
+    "w-full min-h-[3.25rem] px-5 rounded-full border border-white/[0.15] bg-white/[0.07] text-[15px] text-white placeholder:text-white/30 backdrop-blur-sm focus:outline-none focus:border-white/35 focus:ring-2 focus:ring-white/[0.08] transition-all duration-300"
 
   return (
-    <div className="bg-white border border-black/10 rounded-2xl p-8 shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
+    <div className="rounded-2xl border border-white/[0.12] bg-white/[0.06] px-6 py-8 sm:px-8 sm:py-10 backdrop-blur-sm">
       {/* Header */}
       <div className="text-center mb-7">
-        <div className="w-14 h-14 rounded-2xl bg-neutral-200 flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_-5px_rgba(255,255,255,0.6)]">
-          <Zap className="w-7 h-7 text-black" />
+        <div className="w-14 h-14 rounded-full bg-white/[0.08] border border-white/[0.12] flex items-center justify-center mx-auto mb-4">
+          <Zap className="w-7 h-7 text-white/90" />
         </div>
-        <h1 className="font-heading font-bold text-2xl text-black">Welcome back</h1>
-        <p className="font-body text-neutral-700 text-sm mt-1">Sign in to your JobMatch account</p>
+        <h1 className="text-[18px] sm:text-[19px] font-semibold tracking-[-0.02em] text-white">Welcome back</h1>
+        <p className="font-body text-white/45 text-sm mt-1.5">Sign in to JobMatch</p>
       </div>
 
       {/* Global error */}
       {error && (
-        <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/10 border border-neutral-500/25 mb-5">
-          <AlertCircle className="h-4 w-4 text-neutral-500 shrink-0 mt-0.5" />
-          <p className="font-body text-sm text-neutral-400">{error}</p>
+        <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/15 border border-red-400/25 mb-5">
+          <AlertCircle className="h-4 w-4 text-red-300 shrink-0 mt-0.5" />
+          <p className="font-body text-sm text-red-200/90">{error}</p>
         </div>
       )}
 
       {/* Success */}
       {success && (
-        <div className="flex items-center gap-2.5 p-3.5 rounded-xl bg-neutral-500/10 border border-neutral-500/25 mb-5">
-          <CheckCircle2 className="h-4 w-4 text-neutral-400 shrink-0" />
-          <p className="font-body text-sm text-neutral-300">Signed in! Redirecting you now…</p>
+        <div className="flex items-center gap-2.5 p-3.5 rounded-xl bg-emerald-500/15 border border-emerald-400/25 mb-5">
+          <CheckCircle2 className="h-4 w-4 text-emerald-300 shrink-0" />
+          <p className="font-body text-sm text-white/80">Signed in! Redirecting…</p>
         </div>
       )}
 
       {/* Google */}
       <button onClick={handleGoogleLogin} disabled={googleLoading || loading}
-        className="w-full flex items-center justify-center gap-3 h-11 rounded-xl border border-white/12 bg-white/5 text-black text-sm font-body font-medium hover:bg-white/10 hover:border-white/20 transition-all duration-200 mb-5 disabled:opacity-50">
+        className="w-full flex items-center justify-center gap-3 min-h-[3.25rem] rounded-full border border-white/[0.15] bg-white/[0.05] text-white text-[15px] font-medium hover:bg-white/[0.09] hover:border-white/25 transition-all duration-300 mb-5 disabled:opacity-45">
         {googleLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <GoogleIcon />}
         Continue with Google
       </button>
 
       <div className="relative flex items-center gap-3 mb-5">
-        <div className="flex-1 h-px bg-white/8" />
-        <span className="font-data text-[10px] tracking-widest uppercase text-neutral-700">or email</span>
-        <div className="flex-1 h-px bg-white/8" />
+        <div className="flex-1 h-px bg-white/10" />
+        <span className="font-data text-[10px] tracking-[0.2em] uppercase text-white/38">or email</span>
+        <div className="flex-1 h-px bg-white/10" />
       </div>
 
       <form onSubmit={handleLogin} noValidate className="space-y-4">
         {/* Email */}
         <div className="space-y-1.5">
-          <label className="font-data text-[11px] tracking-wider uppercase text-neutral-700">Email address</label>
+          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-white/38">Email address</label>
           <input
             type="email"
             placeholder="you@example.com"
             value={email}
             onChange={(e) => { setEmail(e.target.value); setFieldErrors(p => ({ ...p, email: undefined })); setError(null) }}
             autoComplete="email"
-            className={`${inputBase} ${fieldErrors.email ? "border-neutral-500/60 focus:border-neutral-500" : "border-black/10 focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)]"}`}
+            className={`${inputBase} ${fieldErrors.email ? "border-red-400/50" : ""}`}
           />
           {fieldErrors.email && (
-            <p className="flex items-center gap-1.5 text-xs text-neutral-500 font-body mt-1">
-              <AlertCircle className="h-3 w-3 shrink-0" />{fieldErrors.email}
-            </p>
+            <p className="text-xs text-red-300/90 font-body mt-1 pl-0.5">{fieldErrors.email}</p>
           )}
         </div>
 
         {/* Password */}
         <div className="space-y-1.5">
-          <div className="flex items-center justify-between">
-            <label className="font-data text-[11px] tracking-wider uppercase text-neutral-700">Password</label>
-            <Link href="/forgot-password" className="font-body text-xs text-neutral-900 hover:text-neutral-600 transition-colors inline-flex items-center gap-1">
-              <KeyRound className="h-3 w-3" />
-              Forgot password?
+          <div className="flex items-center justify-between gap-2">
+            <label className="font-data text-[11px] tracking-[0.2em] uppercase text-white/38">Password</label>
+            <Link href="/forgot-password" className="font-body text-xs text-white/45 hover:text-white/75 transition-colors">
+              Forgot password
             </Link>
           </div>
           <div className="relative">
@@ -147,30 +145,28 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => { setPassword(e.target.value); setFieldErrors(p => ({ ...p, password: undefined })); setError(null) }}
               autoComplete="current-password"
-              className={`${inputBase} pr-11 ${fieldErrors.password ? "border-neutral-500/60 focus:border-neutral-500" : "border-black/10 focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)]"}`}
+              className={`${inputBase} pr-11 ${fieldErrors.password ? "border-red-400/50" : ""}`}
             />
             <button type="button" onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-700 hover:text-black transition-colors p-1">
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors p-1">
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
           </div>
           {fieldErrors.password && (
-            <p className="flex items-center gap-1.5 text-xs text-neutral-500 font-body mt-1">
-              <AlertCircle className="h-3 w-3 shrink-0" />{fieldErrors.password}
-            </p>
+            <p className="text-xs text-red-300/90 font-body mt-1 pl-0.5">{fieldErrors.password}</p>
           )}
         </div>
 
         <button type="submit" disabled={loading || success}
-          className="w-full h-11 rounded-xl bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2">
-          {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Signing in…</> : "Sign In"}
+          className="w-full min-h-[3.25rem] rounded-full bg-white text-black font-semibold text-[15px] tracking-[-0.01em] hover:bg-white/90 transition-all duration-300 disabled:opacity-45 disabled:pointer-events-none flex items-center justify-center gap-2">
+          {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Signing in…</> : "Sign in"}
         </button>
       </form>
 
-      <p className="font-body text-center text-sm text-neutral-700 mt-6">
+      <p className="font-body text-center text-sm text-white/45 mt-6">
         Don&apos;t have an account?{" "}
-        <Link href="/signup" className="text-neutral-900 hover:text-neutral-600 font-medium transition-colors">
-          Create one free
+        <Link href="/signup" className="text-white font-medium hover:text-white/90 transition-colors">
+          Create one
         </Link>
       </p>
     </div>

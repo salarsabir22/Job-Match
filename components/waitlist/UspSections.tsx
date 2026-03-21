@@ -3,7 +3,6 @@
 import type { ReactNode } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { Bell, Heart, MapPin, MessageCircle, Search, Sparkles, X } from "lucide-react"
 import {
   fadeUpSoft,
   slideInLeft,
@@ -77,19 +76,13 @@ function DemoSwipe() {
             <p className="truncate font-mono text-[9px] text-black/38">jobmatch.app/student</p>
           </div>
         </div>
-        <div className="flex shrink-0 items-center gap-1">
-          <span
-            className="inline-flex size-8 items-center justify-center rounded-lg border border-black/[0.08] text-black/50"
-            title="Search"
-          >
-            <Search className="size-3.5" strokeWidth={2} />
+        <div className="flex shrink-0 items-center gap-1.5">
+          <span className="inline-flex h-8 min-w-[2rem] items-center justify-center rounded-lg border border-black/[0.08] px-2 font-mono text-[10px] font-medium tracking-tight text-black/45">
+            ⌘K
           </span>
-          <span
-            className="relative inline-flex size-8 items-center justify-center rounded-lg border border-black/[0.08] text-black/50"
-            title="Alerts"
-          >
-            <Bell className="size-3.5" strokeWidth={2} />
-            <span className="absolute right-1 top-1 size-1.5 rounded-full bg-black" />
+          <span className="relative inline-flex size-8 items-center justify-center rounded-lg border border-black/[0.08] text-[10px] font-semibold text-black/40">
+            ···
+            <span className="absolute right-1 top-1 size-1.5 rounded-full bg-black/70" />
           </span>
         </div>
       </header>
@@ -106,8 +99,8 @@ function DemoSwipe() {
       <div className="flex items-center justify-center gap-1.5 px-2 pb-4 pt-4 sm:gap-2 sm:px-3 sm:pb-5 sm:pt-5">
         {/* Pass — left of stack */}
         <div className="flex w-11 shrink-0 flex-col items-center justify-center gap-1 self-center sm:w-12">
-          <span className="flex size-8 items-center justify-center rounded-full border border-black/12 bg-white text-black/40 shadow-sm sm:size-9">
-            <X className="size-3.5 sm:size-4" strokeWidth={2.25} />
+          <span className="flex size-8 items-center justify-center rounded-full border border-black/12 bg-white text-[15px] font-light leading-none text-black/45 shadow-sm sm:size-9">
+            ×
           </span>
           <span className="text-center text-[7px] font-semibold uppercase tracking-wider text-black/38 sm:text-[8px]">
             Pass
@@ -182,8 +175,8 @@ function DemoSwipe() {
 
         {/* Interested — right of stack */}
         <div className="flex w-11 shrink-0 flex-col items-center justify-center gap-1 self-center sm:w-12">
-          <span className="flex size-8 items-center justify-center rounded-full bg-[#E11D48] text-white shadow-[0_8px_18px_-4px_rgba(225,29,72,0.4)] ring-2 ring-[#E11D48]/15 sm:size-9">
-            <Heart className="size-3.5 fill-white text-white sm:size-4" strokeWidth={1.75} />
+          <span className="flex size-8 items-center justify-center rounded-full bg-[#E11D48] text-[15px] font-medium leading-none text-white shadow-[0_8px_18px_-4px_rgba(225,29,72,0.35)] ring-2 ring-[#E11D48]/12 sm:size-9">
+            ♥
           </span>
           <span className="max-w-[3rem] text-center text-[7px] font-semibold uppercase leading-tight tracking-wide text-[#E11D48] sm:max-w-none sm:text-[8px] sm:tracking-wider">
             Interested
@@ -263,18 +256,18 @@ function DemoPipeline() {
           <div className="usp-demo-pipeline-highlight absolute left-0 top-0 h-full w-[calc((100%-8px)/3)] rounded-lg bg-white shadow-[0_1px_4px_rgba(0,0,0,0.1)]" />
         </div>
         <div className="relative z-10 flex gap-1">
-          <div className="flex min-w-0 flex-1 flex-col items-center gap-1 py-3 text-center">
-            <Sparkles className="size-4 text-black/70" strokeWidth={2} />
+          <div className="flex min-w-0 flex-1 flex-col items-center gap-0.5 py-3 text-center">
+            <span className="text-[9px] font-semibold tabular-nums text-black/35">01</span>
             <span className="text-[10px] font-semibold leading-tight text-black">Interested</span>
             <span className="text-[8px] text-black/45">You swiped</span>
           </div>
-          <div className="flex min-w-0 flex-1 flex-col items-center gap-1 py-3 text-center">
-            <Heart className="size-4 text-black/70" strokeWidth={2} />
+          <div className="flex min-w-0 flex-1 flex-col items-center gap-0.5 py-3 text-center">
+            <span className="text-[9px] font-semibold tabular-nums text-black/35">02</span>
             <span className="text-[10px] font-semibold leading-tight text-black">Matched</span>
             <span className="text-[8px] text-black/45">Recruiter too</span>
           </div>
-          <div className="flex min-w-0 flex-1 flex-col items-center gap-1 py-3 text-center">
-            <MessageCircle className="size-4 text-black/70" strokeWidth={2} />
+          <div className="flex min-w-0 flex-1 flex-col items-center gap-0.5 py-3 text-center">
+            <span className="text-[9px] font-semibold tabular-nums text-black/35">03</span>
             <span className="text-[10px] font-semibold leading-tight text-black">Chat</span>
             <span className="text-[8px] text-black/45">In-app thread</span>
           </div>

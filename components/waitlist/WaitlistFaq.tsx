@@ -53,27 +53,6 @@ export function WaitlistFaq() {
       aria-labelledby="waitlist-faq-heading"
     >
       <div className="relative mx-auto max-w-[1120px] overflow-hidden px-5 py-16 sm:px-10 sm:py-20 md:py-24 lg:px-12">
-        {/* Decorative curves — bottom-left, very subtle */}
-        <div
-          className="pointer-events-none absolute -bottom-8 -left-16 h-48 w-64 text-black/[0.04] sm:-left-8"
-          aria-hidden
-        >
-          <svg viewBox="0 0 200 160" fill="none" className="h-full w-full">
-            <path
-              d="M-20 140C40 100 20 40 80 20s100 20 120 80"
-              stroke="currentColor"
-              strokeWidth="1.2"
-              strokeLinecap="round"
-            />
-            <path
-              d="M0 160c60-50 30-100 100-120s120 40 100 100"
-              stroke="currentColor"
-              strokeWidth="0.9"
-              strokeLinecap="round"
-            />
-          </svg>
-        </div>
-
         <div className="relative grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-0 xl:gap-x-20">
           {/* Left: intro + CTA */}
           <Reveal className="lg:max-w-md lg:pr-4" variants={slideInLeft}>

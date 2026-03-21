@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
-import { Bell, CheckCircle, XCircle } from "lucide-react"
+import { Bell } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { formatTime } from "@/lib/utils"
 import type { Notification } from "@/types"
@@ -99,28 +99,28 @@ export function NotificationBell() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="relative h-8 w-8 rounded-lg border border-black/15 text-neutral-800 hover:text-black hover:border-black/30 transition-all flex items-center justify-center"
+        className="relative h-8 w-8 rounded-lg border border-white/[0.12] text-white/60 hover:text-white hover:border-white/25 transition-all flex items-center justify-center bg-white/[0.04]"
         title="Notifications"
       >
         <Bell className="h-4 w-4" />
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-black text-white font-data text-[9px] leading-4 text-center">
+          <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-white text-black font-data text-[9px] leading-4 text-center font-semibold">
             {unreadCount > 99 ? "99+" : unreadCount}
           </span>
         )}
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-[320px] max-w-[85vw] rounded-xl border border-black/10 bg-white shadow-[0_10px_30px_-10px_rgba(0,0,0,0.7)] overflow-hidden">
-          <div className="px-3 py-2 border-b border-black/10 flex items-center justify-between">
-            <p className="font-body text-sm text-black">Notifications</p>
+        <div className="absolute right-0 mt-2 w-[320px] max-w-[85vw] rounded-xl border border-white/[0.12] bg-zinc-950 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.85)] overflow-hidden">
+          <div className="px-3 py-2 border-b border-white/[0.08] flex items-center justify-between">
+            <p className="font-body text-sm text-white/90">Notifications</p>
             <button
               type="button"
               onClick={() => {
                 setOpen(false)
                 router.push("/notifications")
               }}
-              className="font-data text-[10px] tracking-wider uppercase text-neutral-900 hover:text-neutral-600"
+              className="font-data text-[10px] tracking-[0.15em] uppercase text-white/40 hover:text-white/70"
             >
               View all
             </button>
@@ -128,28 +128,33 @@ export function NotificationBell() {
 
           <div className="max-h-[360px] overflow-y-auto">
             {loading ? (
-              <p className="px-3 py-4 font-body text-xs text-neutral-700">Loading...</p>
+              <p className="px-3 py-4 font-body text-xs text-white/45">Loading…</p>
             ) : items.length === 0 ? (
-              <p className="px-3 py-4 font-body text-xs text-neutral-700">No notifications yet.</p>
+              <p className="px-3 py-4 font-body text-xs text-white/45">No notifications yet.</p>
             ) : (
               items.map((n) => (
                 <button
                   key={n.id}
                   type="button"
                   onClick={() => void openNotification(n)}
-                  className="w-full text-left px-3 py-2.5 border-b border-black/10 last:border-b-0 hover:bg-white/5 transition-colors"
+                  className="w-full text-left px-3 py-2.5 border-b border-white/[0.06] last:border-b-0 hover:bg-white/[0.05] transition-colors"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
-                      <p className="font-body text-xs text-black truncate">{n.title}</p>
-                      {n.body && <p className="font-body text-[11px] text-neutral-800 mt-0.5 line-clamp-2">{n.body}</p>}
-                      <p className="font-data text-[9px] text-neutral-700 mt-1">{formatTime(n.created_at)}</p>
+                      <p className="font-body text-xs text-white/90 truncate">{n.title}</p>
+                      {n.body && (
+                        <p className="font-body text-[11px] text-white/50 mt-0.5 line-clamp-2">{n.body}</p>
+                      )}
+                      <p className="font-data text-[9px] text-white/35 mt-1">{formatTime(n.created_at)}</p>
                     </div>
-                    {!n.is_read ? (
-                      <CheckCircle className="h-3.5 w-3.5 text-neutral-900 shrink-0 mt-0.5" />
-                    ) : (
-                      <XCircle className="h-3.5 w-3.5 text-neutral-700 shrink-0 mt-0.5" />
-                    )}
+                    <span
+                      className={
+                        !n.is_read
+                          ? "mt-1 size-1.5 shrink-0 rounded-full bg-white/90"
+                          : "mt-1 size-1.5 shrink-0 rounded-full bg-white/[0.12]"
+                      }
+                      aria-hidden
+                    />
                   </div>
                 </button>
               ))

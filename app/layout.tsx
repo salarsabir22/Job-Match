@@ -33,7 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} antialiased bg-white text-black font-sans`}
+        className={`${inter.variable} antialiased bg-black text-white font-sans selection:bg-white/10`}
       >
         <Providers>{children}</Providers>
         <SpeedInsights />

@@ -5,10 +5,7 @@ import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"
 import { cn } from "@/lib/utils"
 import type { UserRole } from "@/types"
-import {
-  Loader2, GraduationCap, Building2, Zap, Eye, EyeOff,
-  AlertCircle, CheckCircle2, Info, Mail
-} from "lucide-react"
+import { Loader2, Eye, EyeOff } from "lucide-react"
 
 const GoogleIcon = () => (
   <svg className="h-4 w-4" viewBox="0 0 24 24">
@@ -130,67 +127,63 @@ export default function SignupPage() {
     }
   }
 
-  const inputBase = "w-full h-11 px-4 rounded-xl bg-white border text-black text-sm placeholder:text-black/25 focus:outline-none transition-all duration-200"
+  const inputBase =
+    "w-full min-h-[3.25rem] px-5 rounded-full border border-white/[0.15] bg-white/[0.07] text-[15px] text-white placeholder:text-white/30 backdrop-blur-sm focus:outline-none focus:border-white/35 focus:ring-2 focus:ring-white/[0.08] transition-all duration-300"
 
   if (verifyMode) {
     return (
-      <div className="bg-white border border-black/10 rounded-2xl p-8 text-center shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
-        <div className="w-16 h-16 rounded-2xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center mx-auto mb-5">
-          <Mail className="h-8 w-8 text-neutral-900" />
-        </div>
-        <h2 className="font-heading font-bold text-xl text-black mb-2">Check your inbox</h2>
-        <p className="font-body text-neutral-700 text-sm mb-1">
-          We sent a confirmation link to
-        </p>
-        <p className="font-body text-black font-medium text-sm mb-5">{email}</p>
-        <div className="p-3.5 rounded-xl bg-[#FAFAFA]/10 border border-[#FAFAFA]/25 mb-5 text-left">
-          <p className="font-data text-[11px] tracking-wider uppercase text-neutral-900 mb-1">What to do next</p>
+      <div className="rounded-2xl border border-white/[0.12] bg-white/[0.06] px-6 py-8 sm:px-8 text-center backdrop-blur-sm">
+        <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/35">Verify email</p>
+        <h2 className="mt-4 text-[18px] font-semibold tracking-[-0.03em] text-white mb-2">Check your inbox</h2>
+        <p className="font-body text-white/45 text-sm mb-1">We sent a confirmation link to</p>
+        <p className="font-body text-white font-medium text-sm mb-5">{email}</p>
+        <div className="p-3.5 rounded-xl bg-white/[0.05] border border-white/[0.1] mb-5 text-left">
+          <p className="font-data text-[11px] tracking-[0.2em] uppercase text-white/38 mb-2">Next steps</p>
           <ol className="list-decimal list-inside space-y-1">
-            <li className="font-body text-xs text-neutral-700">Open the email from JobMatch</li>
-            <li className="font-body text-xs text-neutral-700">Click the &quot;Confirm your email&quot; button</li>
-            <li className="font-body text-xs text-neutral-700">You&apos;ll be taken directly to setup your profile</li>
+            <li className="font-body text-xs text-white/50">Open the email from JobMatch</li>
+            <li className="font-body text-xs text-white/50">Click &quot;Confirm your email&quot;</li>
+            <li className="font-body text-xs text-white/50">Complete your profile</li>
           </ol>
         </div>
-        <p className="font-body text-xs text-neutral-700">
+        <p className="font-body text-xs text-white/40">
           Didn&apos;t receive it? Check spam or{" "}
-          <button onClick={() => setVerifyMode(false)} className="text-neutral-900 hover:underline">try again</button>
+          <button type="button" onClick={() => setVerifyMode(false)} className="text-white hover:underline">
+            try again
+          </button>
         </p>
       </div>
     )
   }
 
   return (
-    <div className="bg-white border border-black/10 rounded-2xl p-8 shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
+    <div className="rounded-2xl border border-white/[0.12] bg-white/[0.06] px-6 py-8 sm:px-8 sm:py-10 backdrop-blur-sm">
       <div className="text-center mb-7">
-        <div className="w-14 h-14 rounded-2xl bg-neutral-200 flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_-5px_rgba(255,255,255,0.6)]">
-          <Zap className="w-7 h-7 text-black" />
+        <div className="w-14 h-14 rounded-full bg-white/[0.08] border border-white/[0.12] flex items-center justify-center mx-auto mb-4">
+          <Zap className="w-7 h-7 text-white/90" />
         </div>
-        <h1 className="font-heading font-bold text-2xl text-black">Create your account</h1>
-        <p className="font-body text-neutral-700 text-sm mt-1">It&apos;s free — takes less than a minute</p>
+        <h1 className="text-[18px] sm:text-[19px] font-semibold tracking-[-0.02em] text-white">Create your account</h1>
+        <p className="font-body text-white/45 text-sm mt-1.5">Free — under a minute</p>
       </div>
 
       {/* Role selector */}
       <div className="mb-5">
-        <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mb-2">I am joining as a…</p>
+        <p className="font-data text-[11px] tracking-[0.2em] uppercase text-white/38 mb-2">I am joining as…</p>
         <div className="grid grid-cols-2 gap-3">
           {(["student", "recruiter"] as SignupRole[]).map((r) => {
-            const { icon: Icon, label, description } = ROLE_INFO[r]
+            const { label, description } = ROLE_INFO[r]
             const active = role === r
             return (
               <button key={r} type="button" onClick={() => setRole(r)}
                 className={cn(
-                  "flex flex-col items-start gap-2 rounded-xl border-2 p-3.5 text-left transition-all duration-200",
+                  "rounded-2xl border px-3.5 py-3 text-left transition-all duration-200",
                   active
-                    ? "border-[#FAFAFA] bg-[#FAFAFA]/10 shadow-[0_0_15px_-5px_rgba(255,255,255,0.35)]"
-                    : "border-black/10 hover:border-white/20"
+                    ? "border-white/35 bg-white/[0.1]"
+                    : "border-white/[0.1] bg-white/[0.03] hover:border-white/20"
                 )}>
-                <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center", active ? "bg-[#FAFAFA]/20" : "bg-white/5")}>
-                  <Icon className={cn("h-4 w-4", active ? "text-neutral-900" : "text-neutral-700")} />
-                </div>
-                <div>
-                  <p className={cn("font-body font-semibold text-xs", active ? "text-neutral-900" : "text-black")}>{label}</p>
-                  <p className="font-body text-[10px] text-[#64748B] mt-0.5 leading-relaxed">{description}</p>
-                </div>
+                <p className={cn("text-[13px] font-semibold tracking-[-0.02em]", active ? "text-white" : "text-white/80")}>
+                  {label}
+                </p>
+                <p className="mt-1.5 text-[11px] leading-snug text-white/38">{description}</p>
               </button>
             )
           })}
@@ -199,12 +192,14 @@ export default function SignupPage() {
 
       {/* Global error */}
       {error && (
-        <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/10 border border-neutral-500/25 mb-5">
-          <AlertCircle className="h-4 w-4 text-neutral-500 shrink-0 mt-0.5" />
+        <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/15 border border-red-400/25 mb-5">
+          <AlertCircle className="h-4 w-4 text-red-300 shrink-0 mt-0.5" />
           <div>
-            <p className="font-body text-sm text-neutral-400">{error}</p>
+            <p className="font-body text-sm text-red-200/90">{error}</p>
             {error.includes("already exists") && (
-              <Link href="/login" className="font-body text-xs text-neutral-900 hover:underline mt-1 inline-block">Go to sign in →</Link>
+              <Link href="/login" className="font-body text-xs text-white mt-1 inline-block hover:underline">
+                Go to sign in →
+              </Link>
             )}
           </div>
         </div>
@@ -212,48 +207,52 @@ export default function SignupPage() {
 
       {/* Google */}
       <button onClick={handleGoogleSignup} disabled={googleLoading || loading}
-        className="w-full flex items-center justify-center gap-3 h-11 rounded-xl border border-white/12 bg-white/5 text-black text-sm font-body font-medium hover:bg-white/10 hover:border-white/20 transition-all duration-200 mb-4 disabled:opacity-50">
+        className="w-full flex items-center justify-center gap-3 min-h-[3.25rem] rounded-full border border-white/[0.15] bg-white/[0.05] text-white text-[15px] font-medium hover:bg-white/[0.09] transition-all duration-300 mb-4 disabled:opacity-45">
         {googleLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <GoogleIcon />}
-        Sign up with Google as {role === "student" ? "Student" : "Recruiter"}
+        Google — {role === "student" ? "Student" : "Recruiter"}
       </button>
 
       <div className="relative flex items-center gap-3 mb-4">
-        <div className="flex-1 h-px bg-white/8" />
-        <span className="font-data text-[10px] tracking-widest uppercase text-neutral-700">or with email</span>
-        <div className="flex-1 h-px bg-white/8" />
+        <div className="flex-1 h-px bg-white/10" />
+        <span className="font-data text-[10px] tracking-[0.2em] uppercase text-white/38">or email</span>
+        <div className="flex-1 h-px bg-white/10" />
       </div>
 
       <form onSubmit={handleSignup} noValidate className="space-y-4">
         {/* Name */}
         <div className="space-y-1.5">
-          <label className="font-data text-[11px] tracking-wider uppercase text-neutral-700">Full Name</label>
+          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-white/38">Full name</label>
           <input
             placeholder="Jane Smith"
             value={fullName}
             onChange={(e) => { setFullName(e.target.value); clearFieldError("fullName") }}
             autoComplete="name"
-            className={`${inputBase} ${fieldErrors.fullName ? "border-neutral-500/60" : "border-black/10 focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)]"}`}
+            className={`${inputBase} ${fieldErrors.fullName ? "border-red-400/50" : ""}`}
           />
-          {fieldErrors.fullName && <p className="flex items-center gap-1.5 text-xs text-neutral-500 font-body"><AlertCircle className="h-3 w-3 shrink-0" />{fieldErrors.fullName}</p>}
+          {fieldErrors.fullName && (
+            <p className="text-xs text-red-300/90 font-body pl-0.5">{fieldErrors.fullName}</p>
+          )}
         </div>
 
-        {/* Email */}
         <div className="space-y-1.5">
-          <label className="font-data text-[11px] tracking-wider uppercase text-neutral-700">Email address</label>
+          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-white/38">Email address</label>
           <input
             type="email"
             placeholder="you@example.com"
             value={email}
             onChange={(e) => { setEmail(e.target.value); clearFieldError("email") }}
             autoComplete="email"
-            className={`${inputBase} ${fieldErrors.email ? "border-neutral-500/60" : "border-black/10 focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)]"}`}
+            className={`${inputBase} ${fieldErrors.email ? "border-red-400/50" : ""}`}
           />
-          {fieldErrors.email && <p className="flex items-center gap-1.5 text-xs text-neutral-500 font-body"><AlertCircle className="h-3 w-3 shrink-0" />{fieldErrors.email}</p>}
+          {fieldErrors.email && (
+            <p className="flex items-center gap-1.5 text-xs text-red-300/90 font-body">
+              <AlertCircle className="h-3 w-3 shrink-0" />{fieldErrors.email}
+            </p>
+          )}
         </div>
 
-        {/* Password */}
         <div className="space-y-1.5">
-          <label className="font-data text-[11px] tracking-wider uppercase text-neutral-700">Password</label>
+          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-white/38">Password</label>
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
@@ -261,14 +260,16 @@ export default function SignupPage() {
               value={password}
               onChange={(e) => { setPassword(e.target.value); clearFieldError("password") }}
               autoComplete="new-password"
-              className={`${inputBase} pr-11 ${fieldErrors.password ? "border-neutral-500/60" : "border-black/10 focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)]"}`}
+              className={`${inputBase} pr-11 ${fieldErrors.password ? "border-red-400/50" : ""}`}
             />
-            <button type="button" onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-700 hover:text-black transition-colors p-1">
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors p-1"
+            >
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
           </div>
-          {/* Strength meter */}
           {password.length > 0 && (
             <div className="space-y-1">
               <div className="flex gap-1">
@@ -277,42 +278,55 @@ export default function SignupPage() {
                 ))}
               </div>
               <div className="flex items-center justify-between">
-                <p className="font-data text-[10px] text-neutral-700">
-                  {strength.score < 3 && "Use uppercase, numbers & symbols to strengthen"}
-                  {strength.score >= 3 && <span className="flex items-center gap-1"><CheckCircle2 className="h-3 w-3 text-neutral-400" /> {strength.label} password</span>}
+                <p className="font-data text-[10px] text-white/40">
+                  {strength.score < 3 && "Use uppercase, numbers & symbols"}
+                  {strength.score >= 3 && (
+                    <span className="text-white/55">{strength.label} password</span>
+                  )}
                 </p>
               </div>
             </div>
           )}
-          {fieldErrors.password && <p className="flex items-center gap-1.5 text-xs text-neutral-500 font-body"><AlertCircle className="h-3 w-3 shrink-0" />{fieldErrors.password}</p>}
+          {fieldErrors.password && (
+            <p className="flex items-center gap-1.5 text-xs text-red-300/90 font-body">
+              <AlertCircle className="h-3 w-3 shrink-0" />{fieldErrors.password}
+            </p>
+          )}
         </div>
 
-        {/* Recruiter notice */}
         {role === "recruiter" && (
-          <div className="flex items-start gap-2 p-3 rounded-xl bg-white/4 border border-black/10">
-            <Info className="h-3.5 w-3.5 text-neutral-700 shrink-0 mt-0.5" />
-            <p className="font-body text-[11px] text-neutral-700 leading-relaxed">
-              Recruiter accounts require admin approval before posting jobs. You&apos;ll receive an email once approved.
+          <div className="border-l-2 border-white/15 bg-white/[0.03] pl-3.5 py-2.5 rounded-r-lg">
+            <p className="font-body text-[11px] text-white/42 leading-relaxed">
+              Recruiter accounts are reviewed before you can post jobs.
             </p>
           </div>
         )}
 
-        <button type="submit" disabled={loading}
-          className="w-full h-11 rounded-xl bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2">
-          {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Creating account…</> : "Create Account"}
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full min-h-[3.25rem] rounded-full bg-white text-black font-semibold text-[15px] tracking-[-0.01em] hover:bg-white/90 transition-all duration-300 disabled:opacity-45 disabled:pointer-events-none flex items-center justify-center gap-2"
+        >
+          {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Creating account…</> : "Create account"}
         </button>
       </form>
 
-      <p className="font-body text-center text-sm text-neutral-700 mt-5">
+      <p className="font-body text-center text-sm text-white/45 mt-5">
         Already have an account?{" "}
-        <Link href="/login" className="text-neutral-900 hover:text-neutral-600 font-medium transition-colors">Sign in</Link>
+        <Link href="/login" className="text-white font-medium hover:text-white/90 transition-colors">
+          Sign in
+        </Link>
       </p>
 
-      <p className="font-body text-center text-[10px] text-[#4A5568] mt-4">
-        By creating an account you agree to our{" "}
-        <a href="#" className="hover:text-neutral-700 transition-colors underline">Terms</a>{" "}
+      <p className="font-body text-center text-[10px] text-white/30 mt-4">
+        By signing up you agree to our{" "}
+        <a href="#" className="text-white/45 hover:text-white/65 underline underline-offset-2">
+          Terms
+        </a>{" "}
         and{" "}
-        <a href="#" className="hover:text-neutral-700 transition-colors underline">Privacy Policy</a>
+        <a href="#" className="text-white/45 hover:text-white/65 underline underline-offset-2">
+          Privacy
+        </a>
       </p>
     </div>
   )

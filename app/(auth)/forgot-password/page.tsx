@@ -3,7 +3,10 @@
 import { useState } from "react"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"
-import { Loader2, Zap, AlertCircle, Mail, ArrowLeft, CheckCircle2, RefreshCw } from "lucide-react"
+import { Loader2, CheckCircle2, RefreshCw } from "lucide-react"
+
+const inputBase =
+  "w-full min-h-[3.25rem] px-5 rounded-full border border-white/[0.15] bg-white/[0.07] text-[15px] text-white placeholder:text-white/30 backdrop-blur-sm focus:outline-none focus:border-white/35 focus:ring-2 focus:ring-white/[0.08] transition-all duration-300"
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("")
@@ -14,8 +17,14 @@ export default function ForgotPasswordPage() {
   const [resent, setResent] = useState(false)
 
   const validate = () => {
-    if (!email.trim()) { setError("Please enter your email address"); return false }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setError("Enter a valid email address"); return false }
+    if (!email.trim()) {
+      setError("Please enter your email address")
+      return false
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError("Enter a valid email address")
+      return false
+    }
     return true
   }
 
@@ -47,64 +56,64 @@ export default function ForgotPasswordPage() {
     }
   }
 
-  const inputBase =
-    "w-full h-11 px-4 rounded-xl bg-white border text-black text-sm placeholder:text-black/25 focus:outline-none transition-all duration-200"
-
-  /* ── Success state ── */
   if (sent) {
     return (
-      <div className="bg-white border border-black/10 rounded-2xl p-8 shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
+      <div className="rounded-2xl border border-white/[0.12] bg-white/[0.06] px-6 py-8 sm:px-8 backdrop-blur-sm">
         <div className="text-center mb-6">
-          <div className="w-16 h-16 rounded-2xl bg-[#FAFAFA]/12 border border-[#FAFAFA]/25 flex items-center justify-center mx-auto mb-4">
-            <Mail className="h-8 w-8 text-neutral-900" />
-          </div>
-          <h2 className="font-heading font-bold text-xl text-black mb-2">Check your inbox</h2>
-          <p className="font-body text-neutral-700 text-sm">
-            We sent a password reset link to
-          </p>
-          <p className="font-body text-black font-semibold text-sm mt-1">{email}</p>
+          <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/35">Email sent</p>
+          <h2 className="mt-4 text-[18px] font-semibold tracking-[-0.03em] text-white mb-2">Check your inbox</h2>
+          <p className="font-body text-white/45 text-sm">We sent a reset link to</p>
+          <p className="font-body text-white font-medium text-sm mt-1">{email}</p>
         </div>
 
-        {/* Steps */}
-        <div className="bg-white border border-black/10 rounded-xl p-4 mb-5 space-y-3">
+        <div className="rounded-xl border border-white/[0.1] bg-white/[0.04] p-4 mb-5 space-y-3">
           {[
             { n: "1", text: "Open the email from JobMatch" },
-            { n: "2", text: "Click \"Reset your password\"" },
-            { n: "3", text: "Choose a new password on the next page" },
+            { n: "2", text: "Click “Reset your password”" },
+            { n: "3", text: "Choose a new password" },
           ].map(({ n, text }) => (
             <div key={n} className="flex items-center gap-3">
-              <div className="w-6 h-6 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center shrink-0">
-                <span className="font-data text-[10px] font-bold text-neutral-900">{n}</span>
+              <div className="w-6 h-6 rounded-full bg-white/[0.1] border border-white/[0.15] flex items-center justify-center shrink-0">
+                <span className="font-data text-[10px] font-bold text-white/80">{n}</span>
               </div>
-              <p className="font-body text-sm text-neutral-700">{text}</p>
+              <p className="font-body text-sm text-white/50">{text}</p>
             </div>
           ))}
         </div>
 
-        {/* Spam notice */}
-        <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-white/3 border border-black/10 mb-5">
-          <AlertCircle className="h-4 w-4 text-[#64748B] shrink-0 mt-0.5" />
-          <p className="font-body text-xs text-[#64748B]">
-            The link expires in <span className="text-neutral-700 font-medium">1 hour</span>. If you don&apos;t see the email, check your spam or junk folder.
+        <div className="border-l-2 border-white/15 bg-white/[0.03] pl-3.5 py-2.5 rounded-r-lg mb-5">
+          <p className="font-body text-[12px] leading-snug text-white/42">
+            Link expires in <span className="text-white/70 font-medium">1 hour</span>. Check spam if needed.
           </p>
         </div>
 
-        {/* Resend */}
         <button
+          type="button"
           onClick={() => sendReset(true)}
           disabled={resending || resent}
-          className="w-full flex items-center justify-center gap-2 h-11 rounded-xl border border-black/10 text-neutral-700 font-body text-sm hover:border-white/20 hover:text-black transition-all duration-200 disabled:opacity-50 mb-4"
+          className="w-full min-h-[3.25rem] rounded-full border border-white/[0.2] text-white/80 font-body text-sm hover:bg-white/[0.06] transition-all duration-300 disabled:opacity-45 mb-4 flex items-center justify-center gap-2"
         >
-          {resending
-            ? <><Loader2 className="h-4 w-4 animate-spin" /> Sending…</>
-            : resent
-              ? <><CheckCircle2 className="h-4 w-4 text-neutral-400" /> <span className="text-neutral-400">Email resent!</span></>
-              : <><RefreshCw className="h-4 w-4" /> Resend reset email</>
-          }
+          {resending ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" /> Sending…
+            </>
+          ) : resent ? (
+            <>
+              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+              <span className="text-white/70">Sent again</span>
+            </>
+          ) : (
+            <>
+              <RefreshCw className="h-4 w-4" /> Resend email
+            </>
+          )}
         </button>
 
         <div className="text-center">
-          <Link href="/login" className="inline-flex items-center gap-1.5 font-body text-sm text-[#64748B] hover:text-neutral-700 transition-colors">
+          <Link
+            href="/login"
+            className="inline-flex items-center gap-1.5 font-body text-sm text-white/40 hover:text-white/65 transition-colors"
+          >
             <ArrowLeft className="h-3.5 w-3.5" />
             Back to sign in
           </Link>
@@ -113,66 +122,65 @@ export default function ForgotPasswordPage() {
     )
   }
 
-  /* ── Form state ── */
   return (
-    <div className="bg-white border border-black/10 rounded-2xl p-8 shadow-[0_0_50px_-10px_rgba(255,255,255,0.1)]">
-      {/* Header */}
+    <div className="rounded-2xl border border-white/[0.12] bg-white/[0.06] px-6 py-8 sm:px-8 sm:py-10 backdrop-blur-sm">
       <div className="text-center mb-7">
-        <div className="w-14 h-14 rounded-2xl bg-neutral-200 flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_-5px_rgba(255,255,255,0.6)]">
-          <Zap className="w-7 h-7 text-black" />
-        </div>
-        <h1 className="font-heading font-bold text-2xl text-black">Reset your password</h1>
-        <p className="font-body text-neutral-700 text-sm mt-1.5">
-          Enter your email and we&apos;ll send you a secure reset link
-        </p>
+        <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/35">Password</p>
+        <h1 className="mt-3 text-[20px] sm:text-[21px] font-semibold tracking-[-0.03em] text-white">Reset password</h1>
+        <p className="font-body text-white/42 text-[15px] mt-2">We&apos;ll email you a secure link</p>
       </div>
 
-      {/* Error */}
       {error && (
-        <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/10 border border-neutral-500/25 mb-5">
-          <AlertCircle className="h-4 w-4 text-neutral-500 shrink-0 mt-0.5" />
-          <p className="font-body text-sm text-neutral-400">{error}</p>
+        <div className="border-l-2 border-red-400/50 bg-red-500/[0.08] pl-4 pr-3 py-3 rounded-r-xl mb-5">
+          <p className="font-body text-[14px] leading-snug text-red-100/90">{error}</p>
         </div>
       )}
 
-      <form onSubmit={(e) => { e.preventDefault(); sendReset() }} noValidate className="space-y-4">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          void sendReset()
+        }}
+        noValidate
+        className="space-y-4"
+      >
         <div className="space-y-1.5">
-          <label className="font-data text-[11px] tracking-wider uppercase text-neutral-700">
-            Email address
-          </label>
+          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-white/38">Email address</label>
           <input
             type="email"
             placeholder="you@example.com"
             value={email}
-            onChange={(e) => { setEmail(e.target.value); setError(null) }}
+            onChange={(e) => {
+              setEmail(e.target.value)
+              setError(null)
+            }}
             autoComplete="email"
             autoFocus
-            className={`${inputBase} border-black/10 focus:border-[#FAFAFA]/60 focus:shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)] ${error ? "border-neutral-500/50" : ""}`}
+            className={inputBase}
           />
-          <p className="font-body text-[11px] text-[#4A5568]">
-            We&apos;ll only send email to accounts that exist
-          </p>
+          <p className="font-body text-[11px] text-white/30">Only sent if an account exists</p>
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full h-11 rounded-xl bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2"
+          className="w-full min-h-[3.25rem] rounded-full bg-white text-black font-semibold text-[15px] hover:bg-white/90 transition-all duration-300 disabled:opacity-45 flex items-center justify-center gap-2"
         >
-          {loading
-            ? <><Loader2 className="h-4 w-4 animate-spin" /> Sending link…</>
-            : <><Mail className="h-4 w-4" /> Send Reset Link</>
-          }
+          {loading ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" /> Sending…
+            </>
+          ) : (
+            <>
+              <Mail className="h-4 w-4" /> Send reset link
+            </>
+          )}
         </button>
       </form>
 
       <div className="text-center mt-6">
-        <Link
-          href="/login"
-          className="inline-flex items-center gap-1.5 font-body text-sm text-[#64748B] hover:text-neutral-700 transition-colors"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
-          Back to sign in
+        <Link href="/login" className="font-body text-sm text-white/42 hover:text-white/70 transition-colors">
+          ← Back to sign in
         </Link>
       </div>
     </div>
