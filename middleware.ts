@@ -8,6 +8,8 @@ export async function middleware(request: NextRequest) {
   const publicPaths = ["/", "/login", "/signup", "/auth", "/forgot-password", "/reset-password"]
   const isPublicPath =
     pathname === "/" || publicPaths.some((p) => p !== "/" && pathname.startsWith(p))
+  // Route handlers (e.g. POST /api/waitlist) must not be redirected to /login — that yields 405 on /login
+  const isApiRoute = pathname.startsWith("/api")
 
   // Guard: if env vars are missing, fail open (don't crash the site)
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -47,8 +49,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next({ request })
   }
 
-  // Unauthenticated user hitting a protected route → send to login
-  if (!user && !isPublicPath) {
+  // Unauthenticated user hitting a protected page → send to login (not API routes)
+  if (!user && !isPublicPath && !isApiRoute) {
     return NextResponse.redirect(new URL("/login", request.url))
   }
 
