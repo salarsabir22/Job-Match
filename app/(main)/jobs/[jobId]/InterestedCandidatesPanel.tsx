@@ -5,7 +5,6 @@ import { createClient } from "@/lib/supabase/client"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { getInitials, formatDate } from "@/lib/utils"
 import { useToast } from "@/lib/hooks/use-toast"
-import { Check, X, GraduationCap, FileText, Linkedin, Github, Link2 } from "lucide-react"
 
 interface CandidateItem {
   id: string
@@ -146,122 +145,130 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
 
     setItems((prev) => prev.map((i) => (i.id === studentId ? { ...i, decision: direction } : i)))
     toast({
-      title: direction === "right" ? "Candidate shortlisted" : "Candidate rejected",
+      title: direction === "right" ? "Shortlisted" : "Passed",
       description:
         direction === "right"
-          ? "Candidate is notified to book a 30 min interview."
-          : "Candidate is notified of the decision.",
+          ? "Your interest in this candidate has been saved."
+          : "Your decision has been saved.",
     })
     setBusyId(null)
   }
 
   return (
-    <div className="rounded-xl border border-black/10 bg-white p-4 space-y-4">
+    <section className="rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-sm space-y-4">
       <div>
-        <h3 className="font-heading font-semibold text-lg text-black">Interested Candidates</h3>
-        <p className="font-data text-[10px] tracking-wider uppercase text-neutral-700 mt-0.5">
-          Candidates who swiped right on this job
-        </p>
+        <h2 className="font-heading text-lg font-semibold text-neutral-950">Applicants</h2>
+        <p className="font-body text-sm text-neutral-500 mt-1">Students who applied to this listing.</p>
       </div>
 
       {loading ? (
-        <p className="font-body text-sm text-neutral-700">Loading candidates...</p>
+        <div className="flex items-center gap-3 py-6">
+          <div
+            className="h-6 w-6 rounded-full border-2 border-neutral-200 border-t-neutral-900 animate-spin shrink-0"
+            aria-hidden
+          />
+          <p className="font-body text-sm text-neutral-600">Loading…</p>
+        </div>
       ) : items.length === 0 ? (
-        <p className="font-body text-sm text-neutral-700">No interested candidates yet.</p>
+        <p className="font-body text-sm text-neutral-600 py-2">No applications yet.</p>
       ) : (
-        <div className="space-y-3">
-          {items.map((item) => (
-            <div key={item.id} className="rounded-xl border border-black/10 bg-white p-4">
-              <div className="flex items-start gap-3">
-                <Avatar className="h-11 w-11 border border-black/10">
-                  <AvatarImage src={item.avatar_url || undefined} />
-                  <AvatarFallback className="bg-white text-neutral-900 text-xs font-bold">
-                    {getInitials(item.full_name || "?")}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <p className="font-heading text-sm text-black truncate">{item.full_name || "Candidate"}</p>
-                      {item.university && (
-                        <p className="font-data text-[10px] text-neutral-700 mt-0.5 flex items-center gap-1">
-                          <GraduationCap className="h-3 w-3" />
-                          {item.university}
-                          {item.degree ? ` · ${item.degree}` : ""}
-                          {item.graduation_year ? ` · ${item.graduation_year}` : ""}
+        <ul className="space-y-3 list-none p-0 m-0">
+          {items.map((item) => {
+            const schoolLine = [item.university, item.degree, item.graduation_year].filter(Boolean).join(" · ")
+            const links = [
+              item.resume_url && { href: item.resume_url, label: "Resume" },
+              item.linkedin_url && { href: item.linkedin_url, label: "LinkedIn" },
+              item.github_url && { href: item.github_url, label: "GitHub" },
+              item.portfolio_url && { href: item.portfolio_url, label: "Portfolio" },
+            ].filter(Boolean) as { href: string; label: string }[]
+
+            return (
+              <li key={item.id} className="rounded-2xl border border-neutral-200 p-4 sm:p-5">
+                <div className="flex items-start gap-4">
+                  <Avatar className="h-11 w-11 shrink-0 ring-1 ring-neutral-200">
+                    <AvatarImage src={item.avatar_url || undefined} />
+                    <AvatarFallback className="bg-neutral-100 text-neutral-800 text-xs font-semibold">
+                      {getInitials(item.full_name || "?")}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="font-heading text-sm font-semibold text-neutral-950 truncate">
+                          {item.full_name || "Candidate"}
                         </p>
-                      )}
+                        {schoolLine && (
+                          <p className="font-body text-[11px] text-neutral-500 mt-0.5 truncate">{schoolLine}</p>
+                        )}
+                      </div>
+                      <time className="font-body text-[11px] text-neutral-400 shrink-0 tabular-nums">
+                        {formatDate(item.applied_at)}
+                      </time>
                     </div>
-                    <p className="font-data text-[10px] text-neutral-700 shrink-0">{formatDate(item.applied_at)}</p>
-                  </div>
-                  {item.bio && <p className="font-body text-xs text-neutral-800 mt-2 line-clamp-2">{item.bio}</p>}
+                    {item.bio && (
+                      <p className="font-body text-xs text-neutral-600 mt-2 line-clamp-2 leading-relaxed">{item.bio}</p>
+                    )}
 
-                  {item.skills.length > 0 && (
-                    <div className="flex flex-wrap gap-1 mt-2">
-                      {item.skills.slice(0, 4).map((skill) => (
-                        <span
-                          key={skill}
-                          className="font-data text-[9px] tracking-wider px-1.5 py-0.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-neutral-900"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+                    {item.skills.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mt-3">
+                        {item.skills.slice(0, 4).map((skill) => (
+                          <span
+                            key={skill}
+                            className="rounded-md border border-neutral-200 bg-neutral-50 px-2 py-0.5 font-body text-[11px] text-neutral-700"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    )}
 
-                  <div className="flex items-center gap-2 mt-3">
-                    {item.resume_url && (
-                      <a href={item.resume_url} target="_blank" rel="noreferrer" className="text-neutral-900">
-                        <FileText className="h-3.5 w-3.5" />
-                      </a>
-                    )}
-                    {item.linkedin_url && (
-                      <a href={item.linkedin_url} target="_blank" rel="noreferrer" className="text-[#A3A3A3]">
-                        <Linkedin className="h-3.5 w-3.5" />
-                      </a>
-                    )}
-                    {item.github_url && (
-                      <a href={item.github_url} target="_blank" rel="noreferrer" className="text-black">
-                        <Github className="h-3.5 w-3.5" />
-                      </a>
-                    )}
-                    {item.portfolio_url && (
-                      <a href={item.portfolio_url} target="_blank" rel="noreferrer" className="text-neutral-700">
-                        <Link2 className="h-3.5 w-3.5" />
-                      </a>
+                    {links.length > 0 && (
+                      <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
+                        {links.map(({ href, label }) => (
+                          <a
+                            key={label}
+                            href={href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-body text-xs font-medium text-neutral-950 underline decoration-neutral-300 underline-offset-2 hover:decoration-neutral-950"
+                          >
+                            {label}
+                          </a>
+                        ))}
+                      </div>
                     )}
                   </div>
                 </div>
-              </div>
 
-              <div className="flex items-center gap-2 mt-4 pt-3 border-t border-black/10">
-                <button
-                  type="button"
-                  disabled={busyId === item.id}
-                  onClick={() => void setDecision(item.id, "right")}
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-black text-white font-body text-xs font-semibold disabled:opacity-60"
-                >
-                  <Check className="h-3.5 w-3.5" /> Shortlist
-                </button>
-                <button
-                  type="button"
-                  disabled={busyId === item.id}
-                  onClick={() => void setDecision(item.id, "left")}
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg border border-neutral-500/30 text-neutral-500 bg-red-500/8 font-body text-xs font-medium disabled:opacity-60"
-                >
-                  <X className="h-3.5 w-3.5" /> Reject
-                </button>
-              </div>
+                <div className="flex gap-2 mt-4 pt-4 border-t border-neutral-100">
+                  <button
+                    type="button"
+                    disabled={busyId === item.id}
+                    onClick={() => void setDecision(item.id, "right")}
+                    className="flex-1 rounded-xl bg-neutral-950 py-2.5 font-body text-xs font-medium text-white transition hover:bg-neutral-800 disabled:opacity-50"
+                  >
+                    Shortlist
+                  </button>
+                  <button
+                    type="button"
+                    disabled={busyId === item.id}
+                    onClick={() => void setDecision(item.id, "left")}
+                    className="flex-1 rounded-xl border border-neutral-200 py-2.5 font-body text-xs font-medium text-neutral-600 transition hover:bg-neutral-50 disabled:opacity-50"
+                  >
+                    Pass
+                  </button>
+                </div>
 
-              {item.decision && (
-                <p className="font-data text-[9px] tracking-widest uppercase mt-2 text-neutral-700">
-                  Status: {item.decision === "right" ? "Shortlisted" : "Rejected"}
-                </p>
-              )}
-            </div>
-          ))}
-        </div>
+                {item.decision && (
+                  <p className="font-body text-[11px] text-neutral-500 mt-2">
+                    {item.decision === "right" ? "Shortlisted" : "Passed"}
+                  </p>
+                )}
+              </li>
+            )
+          })}
+        </ul>
       )}
-    </div>
+    </section>
   )
 }

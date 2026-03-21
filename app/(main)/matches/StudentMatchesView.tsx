@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server"
 import Link from "next/link"
-import { Heart, MessageCircle, Building2, Zap, ArrowRight, Target, TrendingUp, Clock } from "lucide-react"
+import { Building2 } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 
 type MatchListItem = {
@@ -45,148 +45,136 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
   }).length
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="font-heading font-bold text-3xl text-black">Matches</h1>
-        <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mt-0.5">
-          {matches.length} mutual match{matches.length !== 1 ? "es" : ""}
+    <div className="space-y-8">
+      <header className="space-y-1">
+        <h1 className="font-heading font-bold text-3xl tracking-tight text-neutral-950">Matches</h1>
+        <p className="font-body text-sm text-neutral-600">
+          {matches.length === 0
+            ? "When a recruiter likes you back, the conversation starts here."
+            : `${matches.length} mutual match${matches.length !== 1 ? "es" : ""} — open a thread to keep momentum.`}
         </p>
-      </div>
+      </header>
 
-      {/* Analytics stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-px rounded-2xl bg-neutral-200/80 overflow-hidden border border-neutral-200/80">
         {[
-          { label: "Applied", value: appliedCount, icon: Zap, color: "#FAFAFA" },
-          { label: "Matches", value: matches.length, icon: Heart, color: "#525252" },
-          { label: "Match Rate", value: `${matchRate}%`, icon: Target, color: "#D4D4D4" },
-          { label: "Active Chats", value: withChat, icon: MessageCircle, color: "#D4D4D4" },
-        ].map(({ label, value, icon: Icon, color }) => (
-          <div key={label} className="rounded-xl bg-white border border-black/10 p-4">
-            <div className="flex items-center justify-between mb-2">
-              <p className="font-data text-[9px] tracking-wider uppercase text-neutral-700">{label}</p>
-              <Icon className="h-3.5 w-3.5" style={{ color }} />
-            </div>
-            <p className="font-heading font-bold text-2xl" style={{ color }}>{value}</p>
+          { label: "Applied", value: appliedCount },
+          { label: "Matches", value: matches.length },
+          { label: "Match rate", value: `${matchRate}%` },
+          { label: "Active chats", value: withChat },
+        ].map(({ label, value }) => (
+          <div key={label} className="bg-white px-4 py-4">
+            <p className="font-heading text-xl font-semibold tabular-nums text-neutral-950 sm:text-2xl">{value}</p>
+            <p className="font-body text-xs text-neutral-500 mt-1">{label}</p>
           </div>
         ))}
       </div>
 
-      {/* Conversion funnel */}
       {appliedCount > 0 && (
-        <div className="rounded-xl bg-white border border-black/10 p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="h-4 w-4 text-neutral-900" />
-            <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700">Your Job Search Funnel</p>
-          </div>
-          <div className="flex items-center gap-2 overflow-x-auto pb-1">
+        <section className="rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-sm">
+          <h2 className="font-heading text-xs font-semibold uppercase tracking-wide text-neutral-400 mb-4">
+            Your pipeline
+          </h2>
+          <div className="flex flex-wrap items-end gap-x-6 gap-y-4">
             {[
-              { label: "Applied", value: appliedCount, color: "#94A3B8" },
-              { label: "Saved", value: savedCount, color: "#D4D4D4" },
-              { label: "Matched", value: matches.length, color: "#FAFAFA" },
-              { label: "In Chat", value: withChat, color: "#D4D4D4" },
-            ].map(({ label, value, color }, i, arr) => (
-              <div key={label} className="flex items-center gap-2 shrink-0">
-                <div className="text-center">
-                  <p className="font-heading font-bold text-xl" style={{ color }}>{value}</p>
-                  <p className="font-data text-[9px] tracking-wider uppercase text-neutral-700">{label}</p>
-                </div>
-                {i < arr.length - 1 && (
-                  <ArrowRight className="h-4 w-4 text-neutral-700/40 shrink-0" />
-                )}
+              { label: "Applied", value: appliedCount },
+              { label: "Saved", value: savedCount },
+              { label: "Matched", value: matches.length },
+              { label: "In chat", value: withChat },
+            ].map(({ label, value }) => (
+              <div key={label} className="min-w-[4.5rem]">
+                <p className="font-heading text-lg font-semibold tabular-nums text-neutral-950">{value}</p>
+                <p className="font-body text-[11px] text-neutral-500 mt-0.5">{label}</p>
               </div>
             ))}
           </div>
-        </div>
+        </section>
       )}
 
       {!matches.length ? (
-        <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
-          <div className="w-20 h-20 rounded-3xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
-            <Heart className="h-10 w-10 text-neutral-900" />
-          </div>
-          <div>
-            <h3 className="font-heading font-semibold text-xl text-black">No matches yet</h3>
-            <p className="font-body text-sm text-neutral-700 mt-1 max-w-xs">
-              Matches appear when a recruiter likes your profile back. Keep swiping on relevant jobs!
-            </p>
-          </div>
-
-          {/* Next steps */}
-          <div className="w-full max-w-sm rounded-xl bg-white border border-black/10 p-5 text-left space-y-3">
-            <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700">Next steps to get matched</p>
-            {[
-              { icon: Zap, color: "#FAFAFA", text: "Complete your profile — recruiters see your bio and skills" },
-              { icon: Target, color: "#D4D4D4", text: "Add your university and degree to stand out" },
-              { icon: TrendingUp, color: "#D4D4D4", text: "Upload a resume to boost your match rate significantly" },
-            ].map(({ icon: Icon, color, text }, i) => (
-              <div key={i} className="flex items-start gap-2.5">
-                <Icon className="h-3.5 w-3.5 shrink-0 mt-0.5" style={{ color }} />
-                <p className="font-body text-xs text-neutral-700">{text}</p>
-              </div>
-            ))}
+        <div className="rounded-2xl border border-neutral-200 bg-neutral-50/50 px-6 py-14 text-center">
+          <h3 className="font-heading text-lg font-semibold text-neutral-950">No matches yet</h3>
+          <p className="font-body text-sm text-neutral-600 mt-2 max-w-md mx-auto">
+            A match happens when you apply and the recruiter returns interest. Strong profiles get there faster.
+          </p>
+          <ol className="mt-8 max-w-md mx-auto text-left list-decimal list-inside space-y-2 font-body text-sm text-neutral-600">
+            <li>Finish your profile — bio, skills, and education.</li>
+            <li>Add a resume or portfolio link if you have one.</li>
+            <li>Apply to roles that fit; quality beats volume.</li>
+          </ol>
+          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/onboarding"
-              className="inline-flex items-center gap-1.5 font-body text-xs text-neutral-900 hover:text-neutral-600 transition-colors mt-1"
+              className="inline-flex justify-center rounded-full border border-neutral-200 bg-white px-6 py-2.5 font-body text-sm font-medium text-neutral-800 transition hover:bg-neutral-50"
             >
-              Complete Profile <ArrowRight className="h-3 w-3" />
+              Complete profile
+            </Link>
+            <Link
+              href="/discover"
+              className="inline-flex justify-center rounded-full bg-neutral-950 px-6 py-2.5 font-body text-sm font-medium text-white transition hover:bg-neutral-800"
+            >
+              Discover jobs
             </Link>
           </div>
-
-          <Link
-            href="/discover"
-            className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300"
-          >
-            <Zap className="h-4 w-4" />Discover Jobs
-          </Link>
         </div>
       ) : (
         <>
-          <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700">
-            {matches.length} match{matches.length !== 1 ? "es" : ""} — click to open a chat
-          </p>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <p className="font-body text-sm text-neutral-500">Select a match to open your chat.</p>
+          <ul className="grid grid-cols-1 lg:grid-cols-2 gap-4 list-none p-0 m-0">
             {matches.map((match) => {
               const job = match.jobs
               const company = job?.recruiter_profiles
-              const convId = Array.isArray(match.conversations) ? match.conversations?.[0]?.id : match.conversations?.id
-              return (
-                <Link key={match.id} href={convId ? `/chat/${convId}` : "#"}>
-                  <div className="flex items-start gap-4 p-5 rounded-2xl bg-white border border-black/10 hover:border-[#FAFAFA]/30 hover:shadow-[0_0_25px_-8px_rgba(255,255,255,0.2)] transition-all duration-300 h-full cursor-pointer">
-                    <div className="h-14 w-14 rounded-2xl bg-neutral-200 flex items-center justify-center shrink-0 shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)]">
-                      {company?.logo_url ? (
-                        <img src={company.logo_url} className="h-full w-full rounded-2xl object-cover" alt="" />
+              const convId = Array.isArray(match.conversations)
+                ? match.conversations?.[0]?.id
+                : match.conversations?.id
+
+              const inner = (
+                <div
+                  className={`flex items-start gap-4 p-5 rounded-2xl border border-neutral-200 bg-white shadow-sm transition h-full ${
+                    convId ? "hover:border-neutral-300 cursor-pointer" : "opacity-95 cursor-default"
+                  }`}
+                >
+                  <div className="h-14 w-14 rounded-xl bg-neutral-100 flex items-center justify-center shrink-0 ring-1 ring-neutral-200/80 overflow-hidden">
+                    {company?.logo_url ? (
+                      <img src={company.logo_url} className="h-full w-full object-cover" alt="" />
+                    ) : (
+                      <Building2 className="h-7 w-7 text-neutral-400" aria-hidden />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0 text-left">
+                    <p className="font-heading font-semibold text-base text-neutral-950 truncate">{job?.title}</p>
+                    <p className="font-body text-sm text-neutral-500 truncate">{company?.company_name}</p>
+                    <p className="font-body text-xs text-neutral-400 mt-1">{formatDate(match.created_at)}</p>
+                    <div className="flex flex-wrap gap-2 mt-3">
+                      <span className="rounded-full bg-neutral-100 px-2.5 py-0.5 font-body text-[11px] font-medium text-neutral-700">
+                        Matched
+                      </span>
+                      {convId ? (
+                        <span className="rounded-full border border-neutral-200 px-2.5 py-0.5 font-body text-[11px] text-neutral-600">
+                          Chat ready
+                        </span>
                       ) : (
-                        <Building2 className="h-7 w-7 text-black" />
+                        <span className="rounded-full border border-neutral-100 px-2.5 py-0.5 font-body text-[11px] text-neutral-500">
+                          Chat pending
+                        </span>
                       )}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-heading font-semibold text-base text-black truncate">{job?.title}</p>
-                      <p className="font-body text-sm text-neutral-700">{company?.company_name}</p>
-                      <div className="flex items-center gap-1.5 mt-0.5">
-                        <Clock className="h-3 w-3 text-neutral-700" />
-                        <p className="font-data text-[10px] text-neutral-700">{formatDate(match.created_at)}</p>
-                      </div>
-                      <div className="flex items-center gap-2 mt-3">
-                        <span className="font-data text-[9px] tracking-widest uppercase px-2.5 py-1 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-neutral-900">
-                          ✓ Matched
-                        </span>
-                        {convId ? (
-                          <span className="flex items-center gap-1 font-data text-[9px] tracking-widest uppercase px-2.5 py-1 rounded-full bg-neutral-500/15 border border-neutral-500/30 text-neutral-400">
-                            <MessageCircle className="h-3 w-3" />Chat open
-                          </span>
-                        ) : (
-                          <span className="font-data text-[9px] tracking-widest uppercase px-2.5 py-1 rounded-full bg-white/5 border border-black/10 text-neutral-700">
-                            Awaiting chat
-                          </span>
-                        )}
-                      </div>
-                    </div>
                   </div>
-                </Link>
+                </div>
+              )
+
+              return (
+                <li key={match.id}>
+                  {convId ? (
+                    <Link href={`/chat/${convId}`} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950/20 rounded-2xl">
+                      {inner}
+                    </Link>
+                  ) : (
+                    inner
+                  )}
+                </li>
               )
             })}
-          </div>
+          </ul>
         </>
       )}
     </div>

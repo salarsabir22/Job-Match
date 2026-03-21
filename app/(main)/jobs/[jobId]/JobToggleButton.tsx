@@ -26,8 +26,13 @@ export function JobToggleButton({ jobId, isActive }: { jobId: string; isActive: 
   }
 
   return (
-    <Button variant={isActive ? "outline" : "gradient"} className="w-full" onClick={toggle} disabled={loading}>
-      {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : isActive ? "Pause Job" : "Activate Job"}
+    <Button
+      variant={isActive ? "outline" : "gradient"}
+      className="h-12 w-full rounded-xl font-body font-medium"
+      onClick={toggle}
+      disabled={loading}
+    >
+      {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : isActive ? "Pause listing" : "Activate listing"}
     </Button>
   )
 }
