@@ -104,3 +104,5 @@ SUPABASE_SERVICE_ROLE_KEY=your-service-role-or-secret-key
 Use either the **publishable** key (`sb_publishable_...`) or the legacy **anon** JWT (`eyJ...`) from [Project Settings → API Keys](https://supabase.com/dashboard/project/_/settings/api-keys). For PostgREST (`/rest/v1`), this app removes non-JWT `Authorization` bearer values so publishable keys work (see `lib/supabase/fetch.ts`).
 
 **Waitlist:** The homepage waitlist form calls **`/api/waitlist`**, which uses **`SUPABASE_SERVICE_ROLE_KEY`** so signups are not blocked by browser RLS or publishable-key quirks. Never expose that key in client code or `NEXT_PUBLIC_*` vars.
+
+**Waitlist confirmation email (optional):** Add **`RESEND_API_KEY`** from [Resend](https://resend.com). Optionally set **`WAITLIST_EMAIL_FROM`** (e.g. `JobMatch <waitlist@yourdomain.com>` — must be a verified sender in Resend). If `RESEND_API_KEY` is omitted, waitlist signup still works; the UI just won’t mention a confirmation email.

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { sendWaitlistConfirmationEmail } from "@/lib/email/waitlist-confirmation"
 import { createAdminClient } from "@/lib/supabase/admin"
 
 function normalizeEmail(raw: unknown): string | null {
@@ -41,7 +42,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Failed to join waitlist." }, { status: 500 })
     }
 
-    return NextResponse.json({ ok: true })
+    const emailResult = await sendWaitlistConfirmationEmail(email)
+    if (!emailResult.ok && emailResult.error !== "RESEND_API_KEY not set") {
+      console.warn("[api/waitlist] confirmation email:", emailResult.error)
+    }
+
+    return NextResponse.json({
+      ok: true,
+      confirmationEmailSent: emailResult.ok,
+    })
   } catch (e) {
     console.error("[api/waitlist]", e)
     const message = e instanceof Error ? e.message : "Server error."

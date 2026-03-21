@@ -3,7 +3,6 @@
 import { useState, type FormEvent } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { AnimatePresence, motion, useAnimation, useReducedMotion } from "framer-motion"
 import { StaggerChild, StaggerMount, easeOutExpo } from "@/components/motion/waitlist-motion"
 import { WaitlistAudienceSections } from "@/components/waitlist/AudienceSections"
@@ -40,13 +39,13 @@ const WAITLIST_FACE_AVATARS: { src: string; alt: string }[] = [
 ]
 
 export function WaitlistForm() {
-  const router = useRouter()
   const reduceMotion = useReducedMotion()
   const formControls = useAnimation()
 
   const [email, setEmail] = useState("")
   const [submitting, setSubmitting] = useState(false)
   const [submitSuccess, setSubmitSuccess] = useState(false)
+  const [confirmationEmailSent, setConfirmationEmailSent] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const runShake = () => {
@@ -70,6 +69,7 @@ export function WaitlistForm() {
     }
 
     setSubmitting(true)
+    setConfirmationEmailSent(false)
     try {
       const res = await fetch("/api/waitlist", {
         method: "POST",
@@ -84,9 +84,6 @@ export function WaitlistForm() {
 
       setSubmitting(false)
       setSubmitSuccess(true)
-      window.setTimeout(() => {
-        router.push("/waitlist?success=1")
-      }, reduceMotion ? 200 : 900)
     } catch (err: unknown) {
       setSubmitting(false)
       const message = err instanceof Error ? err.message : "Failed to join waitlist."
@@ -220,8 +217,20 @@ export function WaitlistForm() {
                       </svg>
                     </motion.div>
                     <div className="text-center">
-                      <p className="text-[16px] font-semibold tracking-[-0.02em] text-white">You&apos;re on the list</p>
-                      <p className="mt-1.5 text-[13px] text-white/45">Taking you to confirmation…</p>
+                      <p className="text-[16px] font-semibold tracking-[-0.02em] text-white">
+                        You&apos;re on the waitlist
+                      </p>
+                      <p className="mt-1.5 text-[13px] text-white/45">
+                        {confirmationEmailSent
+                          ? "We sent a confirmation to your inbox. We&apos;ll email you again when early access opens."
+                          : "You&apos;re all set. We&apos;ll email you when early access opens."}
+                      </p>
+                      <Link
+                        href="/waitlist?success=1"
+                        className="mt-4 inline-block text-[12px] font-medium text-white/35 underline-offset-4 hover:text-white/55 hover:underline"
+                      >
+                        Open confirmation page
+                      </Link>
                     </div>
                     <motion.div
                       className="mt-1 flex gap-1"
