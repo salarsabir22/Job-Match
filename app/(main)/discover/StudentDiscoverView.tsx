@@ -5,10 +5,7 @@ import { createClient } from "@/lib/supabase/client"
 import { SwipeCard } from "@/components/swipe/SwipeCard"
 import { JobCard } from "@/components/swipe/JobCard"
 import { useToast } from "@/lib/hooks/use-toast"
-import {
-  X, Heart, Bookmark, Sparkles, Zap, CheckCircle2,
-  Building2, MapPin, Wifi, ExternalLink, Briefcase, CheckCircle,
-} from "lucide-react"
+import { X, Heart, Bookmark, Building2 } from "lucide-react"
 import type { Job } from "@/types"
 
 interface Stats {
@@ -99,11 +96,12 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-32">
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-12 h-12 rounded-full bg-neutral-200 flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
-            <Zap className="h-6 w-6 text-black" />
-          </div>
-          <p className="font-data text-xs tracking-widest uppercase text-neutral-700">Finding jobs for you...</p>
+        <div className="flex flex-col items-center gap-4">
+          <div
+            className="h-9 w-9 rounded-full border-2 border-neutral-200 border-t-neutral-900 animate-spin"
+            aria-hidden
+          />
+          <p className="font-body text-sm text-neutral-600">Loading roles…</p>
         </div>
       </div>
     )
@@ -111,70 +109,85 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
 
   const company = currentJob?.recruiter_profiles ?? null
 
-  return (
-    <div className="space-y-5">
-      {/* Page header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="font-heading font-bold text-2xl text-black">Discover Jobs</h1>
-          <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mt-0.5">
-            Swipe right to apply · {remaining > 0 ? `${remaining} jobs waiting` : "All caught up"}
-          </p>
-        </div>
-        <div className="w-9 h-9 rounded-full bg-neutral-200 flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.6)]">
-          <Sparkles className="h-4 w-4 text-black" />
-        </div>
-      </div>
+  const noJobsAvailable = jobs.length === 0
 
-      {/* Stats bar */}
-      <div className="grid grid-cols-3 gap-2">
+  return (
+    <div className="space-y-8">
+      <header className="space-y-1">
+        <h1 className="font-heading font-bold text-3xl tracking-tight text-neutral-950">Discover</h1>
+        <p className="font-body text-sm text-neutral-600 max-w-lg">
+          {noJobsAvailable
+            ? "There are no new listings right now. Try again soon."
+            : remaining > 0
+              ? `${remaining} role${remaining === 1 ? "" : "s"} left in this batch — swipe or use the actions below.`
+              : "You're up to date with this batch."}
+        </p>
+      </header>
+
+      {/* Stats — typographic, minimal */}
+      <div className="grid grid-cols-3 gap-px rounded-2xl bg-neutral-200/80 overflow-hidden border border-neutral-200/80">
         {[
-          { label: "Applied",  value: stats.applied,  icon: Heart,        color: "#FAFAFA" },
-          { label: "Saved",    value: stats.saved,    icon: Bookmark,     color: "#D4D4D4" },
-          { label: "Matches",  value: stats.matches,  icon: CheckCircle2, color: "#D4D4D4" },
-        ].map(({ label, value, icon: Icon, color }) => (
-          <div key={label} className="rounded-xl bg-white border border-black/10 p-3 flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${color}15`, border: `1px solid ${color}25` }}>
-              <Icon className="h-3.5 w-3.5" style={{ color }} />
-            </div>
-            <div>
-              <p className="font-heading font-bold text-lg leading-none" style={{ color }}>{value}</p>
-              <p className="font-data text-[9px] tracking-wider uppercase text-neutral-700 mt-0.5">{label}</p>
-            </div>
+          { label: "Applied", value: stats.applied },
+          { label: "Saved", value: stats.saved },
+          { label: "Matches", value: stats.matches },
+        ].map(({ label, value }) => (
+          <div
+            key={label}
+            className="bg-white px-4 py-4 text-center sm:text-left"
+          >
+            <p className="font-heading text-2xl font-semibold tabular-nums text-neutral-950">{value}</p>
+            <p className="font-body text-xs text-neutral-500 mt-1">{label}</p>
           </div>
         ))}
       </div>
 
       {currentIndex >= jobs.length ? (
-        /* ── All caught up ── */
-        <div className="flex flex-col items-center gap-5 text-center py-16">
-          <div className="w-20 h-20 rounded-3xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
-            <CheckCircle className="h-10 w-10 text-neutral-900" />
-          </div>
-          <div>
-            <h3 className="font-heading font-bold text-xl text-black">All caught up!</h3>
-            <p className="font-body text-neutral-700 text-sm mt-1 max-w-xs">
-              You&apos;ve reviewed all available jobs. Check back later for new opportunities.
+        noJobsAvailable ? (
+          <div className="rounded-2xl border border-neutral-200 bg-neutral-50/50 px-8 py-16 text-center">
+            <h3 className="font-heading text-xl font-semibold text-neutral-950">No open roles</h3>
+            <p className="font-body text-sm text-neutral-600 mt-2 max-w-md mx-auto">
+              Nothing new to show yet. We&apos;ll surface listings here as soon as they go live.
             </p>
+            <button
+              type="button"
+              onClick={() => void loadJobs()}
+              className="mt-8 inline-flex items-center justify-center rounded-full bg-neutral-950 px-6 py-2.5 font-body text-sm font-medium text-white transition hover:bg-neutral-800"
+            >
+              Check again
+            </button>
           </div>
-          <div className="rounded-xl bg-white border border-black/10 p-5 w-full max-w-sm text-left space-y-3">
-            <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700">Session summary</p>
-            {[
-              { label: "Jobs applied to", value: stats.applied, color: "#FAFAFA" },
-              { label: "Jobs saved",       value: stats.saved,   color: "#D4D4D4" },
-              { label: "Total matches",    value: stats.matches, color: "#D4D4D4" },
-            ].map(({ label, value, color }) => (
-              <div key={label} className="flex items-center justify-between">
-                <p className="font-body text-sm text-neutral-700">{label}</p>
-                <p className="font-heading font-bold text-sm" style={{ color }}>{value}</p>
+        ) : (
+          <div className="flex flex-col items-center gap-6 text-center py-12 rounded-2xl border border-neutral-200 bg-white">
+            <div className="h-px w-12 bg-neutral-300" aria-hidden />
+            <div>
+              <h3 className="font-heading text-xl font-semibold text-neutral-950">Batch complete</h3>
+              <p className="font-body text-sm text-neutral-600 mt-2 max-w-sm mx-auto">
+                You&apos;ve seen every role in this set. Refresh to pull the latest from the feed.
+              </p>
+            </div>
+            <dl className="grid grid-cols-3 gap-6 w-full max-w-md text-left px-6 sm:px-0">
+              <div>
+                <dt className="font-body text-xs text-neutral-500">Applied</dt>
+                <dd className="font-heading text-lg font-semibold tabular-nums text-neutral-950 mt-0.5">{stats.applied}</dd>
               </div>
-            ))}
+              <div>
+                <dt className="font-body text-xs text-neutral-500">Saved</dt>
+                <dd className="font-heading text-lg font-semibold tabular-nums text-neutral-950 mt-0.5">{stats.saved}</dd>
+              </div>
+              <div>
+                <dt className="font-body text-xs text-neutral-500">Matches</dt>
+                <dd className="font-heading text-lg font-semibold tabular-nums text-neutral-950 mt-0.5">{stats.matches}</dd>
+              </div>
+            </dl>
+            <button
+              type="button"
+              onClick={() => void loadJobs()}
+              className="rounded-full bg-neutral-950 px-6 py-2.5 font-body text-sm font-medium text-white transition hover:bg-neutral-800"
+            >
+              Refresh feed
+            </button>
           </div>
-          <button onClick={loadJobs}
-            className="px-6 py-2.5 rounded-full bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300">
-            Refresh Jobs
-          </button>
-        </div>
+        )
       ) : (
         /* ── Two-column desktop layout ── */
         <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6 items-start">
@@ -197,90 +210,103 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
               </SwipeCard>
             </div>
 
-            {/* Action buttons */}
-            <div className="flex justify-center items-center gap-5">
-              <button onClick={() => handleSwipe("left")} disabled={swiping} title="Pass"
-                className="h-14 w-14 rounded-full bg-white border-2 border-neutral-500/30 shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)] flex items-center justify-center hover:bg-red-500/10 hover:border-neutral-500/60 transition-all duration-200 active:scale-90">
-                <X className="h-7 w-7 text-neutral-500" />
+            <div className="flex justify-center items-center gap-3 sm:gap-4">
+              <button
+                type="button"
+                onClick={() => handleSwipe("left")}
+                disabled={swiping}
+                aria-label="Pass on this role"
+                className="h-12 w-12 sm:h-14 sm:w-14 rounded-full border border-neutral-200 bg-white text-neutral-600 transition hover:border-neutral-300 hover:bg-neutral-50 active:scale-[0.97] disabled:opacity-50"
+              >
+                <X className="h-5 w-5 sm:h-6 sm:w-6 mx-auto" strokeWidth={1.75} />
               </button>
-              <button onClick={() => handleSwipe("saved")} disabled={swiping} title="Save for later"
-                className="h-12 w-12 rounded-full bg-white border-2 border-[#D4D4D4]/30 shadow-[0_0_12px_-5px_rgba(255,214,0,0.3)] flex items-center justify-center hover:bg-[#D4D4D4]/10 hover:border-[#D4D4D4]/60 transition-all duration-200 active:scale-90">
-                <Bookmark className="h-5 w-5 text-[#D4D4D4]" />
+              <button
+                type="button"
+                onClick={() => handleSwipe("saved")}
+                disabled={swiping}
+                aria-label="Save for later"
+                className="h-11 w-11 sm:h-12 sm:w-12 rounded-full border border-neutral-200 bg-white text-neutral-500 transition hover:border-neutral-300 hover:bg-neutral-50 active:scale-[0.97] disabled:opacity-50"
+              >
+                <Bookmark className="h-4 w-4 sm:h-5 sm:w-5 mx-auto" strokeWidth={1.75} />
               </button>
-              <button onClick={() => handleSwipe("right")} disabled={swiping} title="Apply"
-                className="h-14 w-14 rounded-full bg-neutral-200 shadow-[0_0_20px_-5px_rgba(255,255,255,0.6)] flex items-center justify-center hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.9)] transition-all duration-200 active:scale-90">
-                <Heart className="h-7 w-7 text-black" fill="white" />
+              <button
+                type="button"
+                onClick={() => handleSwipe("right")}
+                disabled={swiping}
+                aria-label="Apply to this role"
+                className="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-neutral-950 text-white shadow-sm transition hover:bg-neutral-800 active:scale-[0.97] disabled:opacity-50"
+              >
+                <Heart className="h-5 w-5 sm:h-6 sm:w-6 mx-auto" fill="currentColor" stroke="currentColor" strokeWidth={1.5} />
               </button>
             </div>
-            <div className="flex items-center gap-4 font-data text-[9px] tracking-wider uppercase text-neutral-700">
-              <span className="text-neutral-500">← Pass</span>
-              <span className="text-[#D4D4D4]">↑ Save</span>
-              <span className="text-neutral-900">→ Apply</span>
-            </div>
+            <p className="font-body text-xs text-neutral-500 text-center max-w-[16rem]">
+              Swipe the card or tap: pass · save · apply
+            </p>
           </div>
 
           {/* Right: job detail panel */}
-          <div className="space-y-4">
-            {/* Job detail */}
-            <div className="rounded-2xl bg-white border border-black/10 overflow-hidden">
-              {/* Header */}
-              <div className="h-36 bg-neutral-900 relative overflow-hidden flex items-end px-6 pb-4">
-                <div className="absolute inset-0 bg-black/5 pointer-events-none" />
-                <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full bg-[#FAFAFA]/8 blur-2xl" />
-                <div className="flex items-end gap-4 relative z-10">
+          <div className="space-y-6">
+            <article className="rounded-2xl bg-white border border-neutral-200 overflow-hidden shadow-sm">
+              <div className="h-32 bg-neutral-950 flex items-end px-6 pb-5">
+                <div className="flex items-end gap-4 min-w-0">
                   {company?.logo_url ? (
-                    <img src={company.logo_url} alt={company.company_name}
-                      className="h-14 w-14 rounded-xl object-cover border border-black/10 shadow-[0_0_20px_-5px_rgba(255,255,255,0.4)] shrink-0" />
+                    <img
+                      src={company.logo_url}
+                      alt=""
+                      className="h-14 w-14 rounded-xl object-cover ring-1 ring-white/10 shrink-0"
+                    />
                   ) : (
-                    <div className="h-14 w-14 rounded-xl bg-neutral-200 flex items-center justify-center shrink-0 shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)]">
-                      <Building2 className="h-7 w-7 text-black" />
+                    <div className="h-14 w-14 rounded-xl bg-white/10 flex items-center justify-center shrink-0 ring-1 ring-white/10">
+                      <Building2 className="h-6 w-6 text-white/80" aria-hidden />
                     </div>
                   )}
-                  <div>
-                    <h2 className="font-heading font-bold text-xl text-black leading-tight">{currentJob.title}</h2>
+                  <div className="min-w-0 pb-0.5">
+                    <h2 className="font-heading font-semibold text-lg sm:text-xl text-white leading-snug tracking-tight">
+                      {currentJob.title}
+                    </h2>
                     {company?.company_name && (
-                      <p className="font-body text-sm text-neutral-700 mt-0.5 flex items-center gap-1.5">
-                        <Briefcase className="h-3.5 w-3.5 shrink-0" />
-                        {company.company_name}
-                      </p>
+                      <p className="font-body text-sm text-white/65 mt-1 truncate">{company.company_name}</p>
                     )}
                   </div>
                 </div>
               </div>
 
-              {/* Body */}
-              <div className="p-6 space-y-5">
-                {/* Meta */}
+              <div className="p-6 sm:p-8 space-y-6">
                 <div className="flex flex-wrap gap-2">
-                  <span className="font-data text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-neutral-900">
+                  <span className="rounded-full bg-neutral-100 px-3 py-1 font-body text-xs font-medium text-neutral-800">
                     {JOB_TYPE_LABEL[currentJob.job_type] ?? currentJob.job_type}
                   </span>
                   {currentJob.is_remote ? (
-                    <span className="font-data text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-full bg-neutral-500/10 border border-neutral-500/20 text-neutral-400 flex items-center gap-1">
-                      <Wifi className="h-3 w-3" /> Remote
+                    <span className="rounded-full bg-neutral-100 px-3 py-1 font-body text-xs font-medium text-neutral-600">
+                      Remote
                     </span>
                   ) : currentJob.location ? (
-                    <span className="font-data text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-full bg-white/5 border border-black/10 text-neutral-700 flex items-center gap-1">
-                      <MapPin className="h-3 w-3" /> {currentJob.location}
+                    <span className="rounded-full bg-neutral-100 px-3 py-1 font-body text-xs font-medium text-neutral-600">
+                      {currentJob.location}
                     </span>
                   ) : null}
                 </div>
 
-                {/* Description */}
                 {currentJob.description && (
                   <div>
-                    <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mb-2">About the role</p>
-                    <p className="font-body text-sm text-neutral-800 leading-relaxed">{currentJob.description}</p>
+                    <h3 className="font-heading text-xs font-semibold uppercase tracking-wide text-neutral-400 mb-2">
+                      Role
+                    </h3>
+                    <p className="font-body text-sm text-neutral-700 leading-relaxed">{currentJob.description}</p>
                   </div>
                 )}
 
-                {/* Required skills */}
                 {(currentJob.required_skills?.length ?? 0) > 0 && (
                   <div>
-                    <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mb-2">Required skills</p>
+                    <h3 className="font-heading text-xs font-semibold uppercase tracking-wide text-neutral-400 mb-2">
+                      Required
+                    </h3>
                     <div className="flex flex-wrap gap-2">
                       {currentJob.required_skills.map((s) => (
-                        <span key={s} className="font-data text-[10px] tracking-wide px-2.5 py-1 rounded-md bg-[#FAFAFA]/10 border border-[#FAFAFA]/25 text-neutral-900">
+                        <span
+                          key={s}
+                          className="rounded-md border border-neutral-200 bg-neutral-50/80 px-2.5 py-1 font-body text-xs text-neutral-800"
+                        >
                           {s}
                         </span>
                       ))}
@@ -288,13 +314,17 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
                   </div>
                 )}
 
-                {/* Nice to have */}
                 {(currentJob.nice_to_have_skills?.length ?? 0) > 0 && (
                   <div>
-                    <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mb-2">Nice to have</p>
+                    <h3 className="font-heading text-xs font-semibold uppercase tracking-wide text-neutral-400 mb-2">
+                      Nice to have
+                    </h3>
                     <div className="flex flex-wrap gap-2">
                       {currentJob.nice_to_have_skills.map((s) => (
-                        <span key={s} className="font-data text-[10px] tracking-wide px-2.5 py-1 rounded-md bg-white/5 border border-black/10 text-neutral-700">
+                        <span
+                          key={s}
+                          className="rounded-md border border-neutral-100 bg-white px-2.5 py-1 font-body text-xs text-neutral-600"
+                        >
                           {s}
                         </span>
                       ))}
@@ -302,82 +332,94 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
                   </div>
                 )}
 
-                {/* Company description */}
                 {company?.description && (
                   <div>
-                    <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mb-2">About {company.company_name}</p>
+                    <h3 className="font-heading text-xs font-semibold uppercase tracking-wide text-neutral-400 mb-2">
+                      {company.company_name ? `About ${company.company_name}` : "Company"}
+                    </h3>
                     <p className="font-body text-sm text-neutral-700 leading-relaxed">{company.description}</p>
                   </div>
                 )}
 
-                {/* Company website */}
                 {company?.website_url && (
-                  <a href={company.website_url} target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 font-body text-xs text-neutral-900 hover:text-neutral-600 transition-colors">
-                    <ExternalLink className="h-3.5 w-3.5" />
-                    Visit {company.company_name}
+                  <a
+                    href={company.website_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block font-body text-sm font-medium text-neutral-950 underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-950 transition-colors"
+                  >
+                    Company website
                   </a>
                 )}
 
-                {/* Action buttons in detail panel */}
-                <div className="flex gap-3 pt-2 border-t border-black/10">
-                  <button onClick={() => handleSwipe("left")} disabled={swiping}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-red-500/8 border border-neutral-500/20 text-neutral-500 hover:bg-red-500/15 transition-all font-body text-sm font-medium">
-                    <X className="h-4 w-4" /> Pass
+                <div className="flex flex-col gap-2 sm:flex-row sm:gap-3 pt-4 border-t border-neutral-100">
+                  <button
+                    type="button"
+                    onClick={() => handleSwipe("left")}
+                    disabled={swiping}
+                    className="flex-1 rounded-xl border border-neutral-200 py-3 font-body text-sm font-medium text-neutral-600 transition hover:bg-neutral-50 disabled:opacity-50"
+                  >
+                    Pass
                   </button>
-                  <button onClick={() => handleSwipe("saved")} disabled={swiping}
-                    className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#D4D4D4]/8 border border-[#D4D4D4]/20 text-[#D4D4D4] hover:bg-[#D4D4D4]/15 transition-all font-body text-sm font-medium">
-                    <Bookmark className="h-4 w-4" /> Save
+                  <button
+                    type="button"
+                    onClick={() => handleSwipe("saved")}
+                    disabled={swiping}
+                    className="flex-1 rounded-xl border border-neutral-200 py-3 font-body text-sm font-medium text-neutral-700 transition hover:bg-neutral-50 disabled:opacity-50 sm:max-w-[8rem]"
+                  >
+                    Save
                   </button>
-                  <button onClick={() => handleSwipe("right")} disabled={swiping}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-black text-white hover:opacity-90 transition-all font-body text-sm font-semibold shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)]">
-                    <Heart className="h-4 w-4" fill="currentColor" /> Apply Now
+                  <button
+                    type="button"
+                    onClick={() => handleSwipe("right")}
+                    disabled={swiping}
+                    className="flex-1 rounded-xl bg-neutral-950 py-3 font-body text-sm font-medium text-white transition hover:bg-neutral-800 disabled:opacity-50"
+                  >
+                    Apply
                   </button>
                 </div>
               </div>
-            </div>
+            </article>
 
-            {/* Up next queue */}
             {jobs.slice(currentIndex + 1, currentIndex + 4).length > 0 && (
-              <div className="rounded-2xl bg-white border border-black/10 p-4 space-y-3">
-                <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700">Up Next</p>
-                <div className="space-y-2">
+              <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+                <h3 className="font-heading text-xs font-semibold uppercase tracking-wide text-neutral-400 mb-3">
+                  Up next
+                </h3>
+                <ul className="space-y-1">
                   {jobs.slice(currentIndex + 1, currentIndex + 4).map((job, i) => {
                     const co = job.recruiter_profiles
                     return (
-                      <div key={job.id} className="flex items-center gap-3 p-2.5 rounded-xl bg-white border border-black/10 opacity-70">
+                      <li
+                        key={job.id}
+                        className="flex items-center gap-3 rounded-xl py-2.5 px-1 -mx-1 text-neutral-600"
+                      >
                         {co?.logo_url ? (
-                          <img src={co.logo_url} alt="" className="h-8 w-8 rounded-lg object-cover border border-black/10 shrink-0" />
+                          <img src={co.logo_url} alt="" className="h-9 w-9 rounded-lg object-cover ring-1 ring-neutral-200 shrink-0" />
                         ) : (
-                          <div className="h-8 w-8 rounded-lg bg-neutral-200 flex items-center justify-center shrink-0">
-                            <Building2 className="h-4 w-4 text-black/70" />
-                          </div>
+                          <div className="h-9 w-9 rounded-lg bg-neutral-100 shrink-0" aria-hidden />
                         )}
                         <div className="flex-1 min-w-0">
-                          <p className="font-body text-sm font-medium text-black truncate">{job.title}</p>
-                          <p className="font-data text-[10px] text-neutral-700 truncate">{co?.company_name ?? "Company"}</p>
+                          <p className="font-body text-sm font-medium text-neutral-950 truncate">{job.title}</p>
+                          <p className="font-body text-xs text-neutral-500 truncate">{co?.company_name ?? "Company"}</p>
                         </div>
-                        <span className="font-data text-[9px] text-neutral-700 shrink-0">#{i + 2}</span>
-                      </div>
+                        <span className="font-body text-xs tabular-nums text-neutral-400 shrink-0">{i + 2}</span>
+                      </li>
                     )
                   })}
-                </div>
+                </ul>
               </div>
             )}
 
-            {/* Tips */}
-            <div className="rounded-2xl bg-white border border-black/10 p-4 space-y-2">
-              <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700">How matching works</p>
-              {[
-                { color: "#FAFAFA", text: "Swipe right to apply — the recruiter sees your profile immediately" },
-                { color: "#D4D4D4", text: "A match happens when the recruiter also likes your profile" },
-                { color: "#A3A3A3", text: "Matches unlock a private chat to discuss opportunities" },
-              ].map(({ color, text }, i) => (
-                <div key={i} className="flex items-start gap-2.5">
-                  <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: color }} />
-                  <p className="font-body text-xs text-neutral-700">{text}</p>
-                </div>
-              ))}
+            <div className="rounded-2xl border border-neutral-200 bg-neutral-50/80 p-5">
+              <h3 className="font-heading text-xs font-semibold uppercase tracking-wide text-neutral-400 mb-3">
+                How matching works
+              </h3>
+              <ol className="list-decimal list-inside space-y-2 font-body text-sm text-neutral-600">
+                <li>Apply sends your profile to the recruiter right away.</li>
+                <li>A match is when they express interest back.</li>
+                <li>Matched pairs can chat in-app to coordinate next steps.</li>
+              </ol>
             </div>
           </div>
         </div>

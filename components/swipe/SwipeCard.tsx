@@ -7,6 +7,9 @@ interface SwipeCardProps {
   onSwipeRight: () => void
   children:     React.ReactNode
   disabled?:    boolean
+  /** Shown when dragging right (e.g. "Apply" for jobs, "Like" for candidates) */
+  rightStampLabel?: string
+  leftStampLabel?: string
 }
 
 // How far (px) the card must travel to trigger a swipe
@@ -19,6 +22,8 @@ export function SwipeCard({
   onSwipeRight,
   children,
   disabled,
+  rightStampLabel = "Apply",
+  leftStampLabel = "Pass",
 }: SwipeCardProps) {
   const cardRef  = useRef<HTMLDivElement>(null)
   const likeRef  = useRef<HTMLDivElement>(null)
@@ -196,8 +201,8 @@ export function SwipeCard({
         style={{ opacity: 0 }}
         className="absolute top-5 left-4 z-20 pointer-events-none"
       >
-        <div className="border-[3px] border-[#FAFAFA] text-neutral-900 font-black text-lg px-3 py-0.5 rounded-xl -rotate-[22deg] uppercase tracking-wider shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)]">
-          Apply ✓
+        <div className="border-2 border-white/90 text-white font-heading text-sm font-semibold px-3 py-1 rounded-lg -rotate-[18deg] tracking-wide bg-neutral-950/40 backdrop-blur-sm">
+          Apply
         </div>
       </div>
 
@@ -207,8 +212,8 @@ export function SwipeCard({
         style={{ opacity: 0 }}
         className="absolute top-5 right-4 z-20 pointer-events-none"
       >
-        <div className="border-[3px] border-neutral-500 text-neutral-500 font-black text-lg px-3 py-0.5 rounded-xl rotate-[22deg] uppercase tracking-wider shadow-[0_0_15px_-3px_rgba(255,255,255,0.4)]">
-          Pass ✗
+        <div className="border-2 border-neutral-400 text-neutral-200 font-heading text-sm font-semibold px-3 py-1 rounded-lg rotate-[18deg] tracking-wide bg-neutral-950/50 backdrop-blur-sm">
+          {leftStampLabel}
         </div>
       </div>
 

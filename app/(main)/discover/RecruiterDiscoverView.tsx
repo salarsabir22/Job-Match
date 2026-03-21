@@ -6,11 +6,7 @@ import { SwipeCard } from "@/components/swipe/SwipeCard"
 import { CandidateCard } from "@/components/swipe/CandidateCard"
 import { useToast } from "@/lib/hooks/use-toast"
 import Link from "next/link"
-import {
-  X, Heart, Zap, GraduationCap, Calendar,
-  Github, Linkedin, Link2, FileText, Briefcase,
-  ChevronDown, CheckCircle,
-} from "lucide-react"
+import { X, Heart, ChevronDown, CheckCircle } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { getInitials } from "@/lib/utils"
 import type { Profile, StudentProfile } from "@/types"
@@ -119,11 +115,12 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-32">
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-12 h-12 rounded-full bg-neutral-200 flex items-center justify-center animate-pulse shadow-[0_0_20px_-3px_rgba(255,255,255,0.6)]">
-            <Zap className="h-6 w-6 text-black" />
-          </div>
-          <p className="font-data text-xs tracking-widest uppercase text-neutral-700">Finding candidates...</p>
+        <div className="flex flex-col items-center gap-4">
+          <div
+            className="h-9 w-9 rounded-full border-2 border-neutral-200 border-t-neutral-900 animate-spin"
+            aria-hidden
+          />
+          <p className="font-body text-sm text-neutral-600">Loading candidates…</p>
         </div>
       </div>
     )
@@ -132,21 +129,23 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
   /* ── No jobs posted ── */
   if (jobs.length === 0) {
     return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="font-heading font-bold text-2xl text-black">Discover Candidates</h1>
-          <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mt-0.5">Find your next hire</p>
-        </div>
-        <div className="flex flex-col items-center gap-4 text-center py-24 rounded-2xl bg-white border border-black/10">
-          <div className="w-16 h-16 rounded-2xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
-            <Briefcase className="h-8 w-8 text-neutral-900" />
-          </div>
+      <div className="space-y-8">
+        <header className="space-y-1">
+          <h1 className="font-heading font-bold text-3xl tracking-tight text-neutral-950">Discover</h1>
+          <p className="font-body text-sm text-neutral-600">Review applicants for your open roles.</p>
+        </header>
+        <div className="flex flex-col items-center gap-5 text-center py-20 px-6 rounded-2xl border border-neutral-200 bg-neutral-50/50">
           <div>
-            <h3 className="font-heading font-semibold text-lg text-black">No active jobs</h3>
-            <p className="font-body text-sm text-neutral-700 mt-1">Post a job first to start discovering candidates</p>
+            <h3 className="font-heading text-lg font-semibold text-neutral-950">No active listings</h3>
+            <p className="font-body text-sm text-neutral-600 mt-2 max-w-sm mx-auto">
+              Publish a role to start browsing candidates matched to that position.
+            </p>
           </div>
-          <Link href="/jobs" className="px-5 py-2.5 rounded-full bg-black text-white font-body font-semibold text-sm inline-block">
-            Post a Job
+          <Link
+            href="/jobs"
+            className="rounded-full bg-neutral-950 px-6 py-2.5 font-body text-sm font-medium text-white transition hover:bg-neutral-800"
+          >
+            Post a job
           </Link>
         </div>
       </div>
@@ -156,84 +155,91 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
   const selectedJob = jobs.find(j => j.id === selectedJobId)
 
   return (
-    <div className="space-y-5">
-      {/* Page header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <div>
-          <h1 className="font-heading font-bold text-2xl text-black">Discover Candidates</h1>
-          <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mt-0.5">
-            {remaining > 0 ? `${remaining} candidates to review` : "All reviewed"}
-            {selectedJob ? ` · ${selectedJob.title}` : ""}
+    <div className="space-y-8">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <header className="space-y-1 min-w-0">
+          <h1 className="font-heading font-bold text-3xl tracking-tight text-neutral-950">Discover</h1>
+          <p className="font-body text-sm text-neutral-600">
+            {remaining > 0
+              ? `${remaining} candidate${remaining === 1 ? "" : "s"} left for this role.`
+              : "You're through this list for now."}
+            {selectedJob && (
+              <span className="block sm:inline sm:before:content-['\00a0·\00a0'] mt-0.5 sm:mt-0 font-medium text-neutral-800 truncate">
+                {selectedJob.title}
+              </span>
+            )}
           </p>
-        </div>
+        </header>
 
-        {/* Job selector */}
-        <div className="relative">
+        <div className="relative shrink-0">
           <select
             value={selectedJobId}
-            onChange={(e) => { setSelectedJobId(e.target.value); loadCandidates(e.target.value) }}
-            className="appearance-none pl-4 pr-10 py-2.5 rounded-xl bg-white border border-black/10 text-black text-sm focus:outline-none focus:border-[#FAFAFA]/50 transition-colors font-body min-w-[200px]"
+            onChange={(e) => {
+              setSelectedJobId(e.target.value)
+              void loadCandidates(e.target.value)
+            }}
+            aria-label="Select job listing"
+            className="appearance-none w-full sm:w-auto min-w-[12rem] rounded-xl border border-neutral-200 bg-white py-2.5 pl-4 pr-10 font-body text-sm text-neutral-950 shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-950/10"
           >
-            {jobs.map((j) => <option key={j.id} value={j.id} className="bg-white">{j.title}</option>)}
+            {jobs.map((j) => (
+              <option key={j.id} value={j.id}>
+                {j.title}
+              </option>
+            ))}
           </select>
-          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-700 pointer-events-none" />
+          <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500" aria-hidden />
         </div>
       </div>
 
-      {/* Stats bar */}
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-px rounded-2xl bg-neutral-200/80 overflow-hidden border border-neutral-200/80">
         {[
-          { label: "Liked",  value: stats.liked,  color: "#FAFAFA", bg: "#FAFAFA" },
-          { label: "Passed", value: stats.passed, color: "#94A3B8", bg: "#94A3B8" },
-          { label: "Reviewed", value: stats.total, color: "#D4D4D4", bg: "#D4D4D4" },
-        ].map(({ label, value, color, bg }) => (
-          <div key={label} className="rounded-xl bg-white border border-black/10 p-3 flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${bg}15` }}>
-              <span className="font-heading font-bold text-sm" style={{ color }}>{value}</span>
-            </div>
-            <p className="font-data text-[9px] tracking-wider uppercase text-neutral-700">{label}</p>
+          { label: "Liked", value: stats.liked },
+          { label: "Passed", value: stats.passed },
+          { label: "Reviewed", value: stats.total },
+        ].map(({ label, value }) => (
+          <div key={label} className="bg-white px-4 py-4 text-center sm:text-left">
+            <p className="font-heading text-2xl font-semibold tabular-nums text-neutral-950">{value}</p>
+            <p className="font-body text-xs text-neutral-500 mt-1">{label}</p>
           </div>
         ))}
       </div>
 
       {/* All reviewed */}
       {currentIndex >= candidates.length ? (
-        <div className="flex flex-col items-center gap-5 text-center py-20 rounded-2xl bg-white border border-black/10">
-          <div className="w-20 h-20 rounded-3xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
-            <CheckCircle className="h-10 w-10 text-neutral-900" />
-          </div>
+        <div className="flex flex-col items-center gap-6 text-center py-14 px-6 rounded-2xl border border-neutral-200 bg-white">
+          <CheckCircle className="h-10 w-10 text-neutral-300" strokeWidth={1.25} aria-hidden />
           <div>
-            <h3 className="font-heading font-bold text-xl text-black">All caught up!</h3>
-            <p className="font-body text-sm text-neutral-700 mt-1">
-              You&apos;ve reviewed all {stats.total} candidate{stats.total !== 1 ? "s" : ""} for this job.
+            <h3 className="font-heading text-xl font-semibold text-neutral-950">List complete</h3>
+            <p className="font-body text-sm text-neutral-600 mt-2 max-w-sm mx-auto">
+              You&apos;ve reviewed {stats.total} candidate{stats.total !== 1 ? "s" : ""} for this role. Refresh to
+              reload the pool.
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-3 text-left w-full max-w-xs">
-            <div className="rounded-xl bg-white border border-black/10 p-3 text-center">
-              <p className="font-heading font-bold text-xl text-neutral-900">{stats.liked}</p>
-              <p className="font-data text-[9px] tracking-wider uppercase text-neutral-700 mt-0.5">Liked</p>
+          <dl className="grid grid-cols-2 gap-4 w-full max-w-xs text-left">
+            <div className="rounded-xl border border-neutral-100 bg-neutral-50/50 p-4">
+              <dt className="font-body text-xs text-neutral-500">Liked</dt>
+              <dd className="font-heading text-xl font-semibold tabular-nums text-neutral-950 mt-1">{stats.liked}</dd>
             </div>
-            <div className="rounded-xl bg-white border border-black/10 p-3 text-center">
-              <p className="font-heading font-bold text-xl text-neutral-700">{stats.passed}</p>
-              <p className="font-data text-[9px] tracking-wider uppercase text-neutral-700 mt-0.5">Passed</p>
+            <div className="rounded-xl border border-neutral-100 bg-neutral-50/50 p-4">
+              <dt className="font-body text-xs text-neutral-500">Passed</dt>
+              <dd className="font-heading text-xl font-semibold tabular-nums text-neutral-950 mt-1">{stats.passed}</dd>
             </div>
-          </div>
+          </dl>
           <button
-            onClick={() => loadCandidates(selectedJobId)}
-            className="px-6 py-2.5 rounded-full bg-black text-white font-body font-semibold text-sm"
+            type="button"
+            onClick={() => void loadCandidates(selectedJobId)}
+            className="rounded-full bg-neutral-950 px-6 py-2.5 font-body text-sm font-medium text-white transition hover:bg-neutral-800"
           >
-            Refresh Candidates
+            Refresh list
           </button>
         </div>
       ) : (
         /* ── Two-column desktop layout ── */
-        <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6 items-start">
-
-          {/* Left: swipe card + controls */}
+        <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-8 lg:gap-10 items-start">
           <div className="flex flex-col items-center gap-5 lg:sticky lg:top-6">
             <div className="relative w-full max-w-sm mx-auto">
               {nextCandidate && (
-                <div className="absolute inset-0 scale-[0.96] -translate-y-3 opacity-60 pointer-events-none rounded-3xl overflow-hidden">
+                <div className="absolute inset-0 scale-[0.96] -translate-y-3 opacity-50 pointer-events-none rounded-3xl overflow-hidden">
                   <CandidateCard profile={nextCandidate.profile} studentProfile={nextCandidate.studentProfile} />
                 </div>
               )}
@@ -242,62 +248,59 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
                 onSwipeLeft={() => handleSwipe("left")}
                 onSwipeRight={() => handleSwipe("right")}
                 disabled={swiping}
+                rightStampLabel="Like"
               >
                 <CandidateCard profile={currentCandidate.profile} studentProfile={currentCandidate.studentProfile} />
               </SwipeCard>
             </div>
 
-            {/* Action buttons */}
-            <div className="flex justify-center items-center gap-6">
+            <div className="flex justify-center items-center gap-4">
               <button
+                type="button"
                 onClick={() => handleSwipe("left")}
                 disabled={swiping}
-                className="h-14 w-14 rounded-full bg-white border-2 border-neutral-500/30 shadow-[0_0_15px_-5px_rgba(255,255,255,0.3)] flex items-center justify-center hover:bg-red-500/10 hover:border-neutral-500/60 transition-all duration-200 active:scale-90"
+                aria-label="Pass on this candidate"
+                className="h-12 w-12 sm:h-14 sm:w-14 rounded-full border border-neutral-200 bg-white text-neutral-600 transition hover:border-neutral-300 hover:bg-neutral-50 active:scale-[0.97] disabled:opacity-50"
               >
-                <X className="h-7 w-7 text-neutral-500" />
+                <X className="h-5 w-5 sm:h-6 sm:w-6 mx-auto" strokeWidth={1.75} />
               </button>
               <button
+                type="button"
                 onClick={() => handleSwipe("right")}
                 disabled={swiping}
-                className="h-14 w-14 rounded-full bg-neutral-200 shadow-[0_0_20px_-5px_rgba(255,255,255,0.6)] flex items-center justify-center hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.9)] transition-all duration-200 active:scale-90"
+                aria-label="Like this candidate"
+                className="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-neutral-950 text-white shadow-sm transition hover:bg-neutral-800 active:scale-[0.97] disabled:opacity-50"
               >
-                <Heart className="h-7 w-7 text-black" fill="white" />
+                <Heart className="h-5 w-5 sm:h-6 sm:w-6 mx-auto" fill="currentColor" stroke="currentColor" strokeWidth={1.5} />
               </button>
             </div>
 
-            <div className="flex items-center gap-5 font-data text-[9px] tracking-wider uppercase">
-              <span className="text-neutral-500">← Pass</span>
-              <span className="text-neutral-900">Like →</span>
-            </div>
+            <p className="font-body text-xs text-neutral-500 text-center">Swipe or tap pass / like</p>
           </div>
 
-          {/* Right: candidate detail panel */}
-          <div className="space-y-4">
-            {/* Candidate detail */}
-            <div className="rounded-2xl bg-white border border-black/10 overflow-hidden">
-              {/* Header gradient */}
-              <div className="h-32 bg-neutral-800 relative overflow-hidden flex items-end px-6 pb-4">
-                <div className="absolute inset-0 bg-black/5 pointer-events-none" />
-                <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full bg-[#A3A3A3]/8 blur-2xl" />
-                <div className="flex items-end gap-4 relative z-10">
-                  <Avatar className="h-16 w-16 border-[3px] border-[#A3A3A3]/40 shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)]">
+          <div className="space-y-6">
+            <article className="rounded-2xl bg-white border border-neutral-200 overflow-hidden shadow-sm">
+              <div className="h-28 bg-neutral-950 flex items-end px-6 pb-5">
+                <div className="flex items-end gap-4 min-w-0">
+                  <Avatar className="h-14 w-14 ring-2 ring-white/15 shrink-0">
                     <AvatarImage src={currentCandidate.profile.avatar_url || undefined} />
-                    <AvatarFallback className="text-lg font-bold bg-neutral-300 text-black">
+                    <AvatarFallback className="text-base font-semibold bg-white/10 text-white">
                       {getInitials(currentCandidate.profile.full_name || "?")}
                     </AvatarFallback>
                   </Avatar>
-                  <div>
-                    <h2 className="font-heading font-bold text-xl text-black">{currentCandidate.profile.full_name}</h2>
-                    {currentCandidate.studentProfile.university && (
-                      <p className="font-body text-sm text-neutral-700 flex items-center gap-1.5 mt-0.5">
-                        <GraduationCap className="h-3.5 w-3.5 shrink-0" />
-                        {currentCandidate.studentProfile.university}
-                        {currentCandidate.studentProfile.degree && ` · ${currentCandidate.studentProfile.degree}`}
+                  <div className="min-w-0 pb-0.5">
+                    <h2 className="font-heading font-semibold text-lg sm:text-xl text-white leading-snug tracking-tight truncate">
+                      {currentCandidate.profile.full_name}
+                    </h2>
+                    {(currentCandidate.studentProfile.university || currentCandidate.studentProfile.degree) && (
+                      <p className="font-body text-sm text-white/65 mt-1 truncate">
+                        {[currentCandidate.studentProfile.university, currentCandidate.studentProfile.degree]
+                          .filter(Boolean)
+                          .join(" · ")}
                       </p>
                     )}
                     {currentCandidate.studentProfile.graduation_year && (
-                      <p className="font-data text-[10px] text-neutral-700 flex items-center gap-1 mt-0.5">
-                        <Calendar className="h-3 w-3" />
+                      <p className="font-body text-xs text-white/50 mt-0.5">
                         Class of {currentCandidate.studentProfile.graduation_year}
                       </p>
                     )}
@@ -305,10 +308,9 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
                 </div>
               </div>
 
-              {/* Body */}
-              <div className="p-6 space-y-5">
+              <div className="p-6 sm:p-8 space-y-6">
                 {currentCandidate.profile.profile_video_url && (
-                  <div className="rounded-xl overflow-hidden bg-white aspect-video max-h-[240px]">
+                  <div className="rounded-xl overflow-hidden bg-neutral-100 aspect-video max-h-[240px] ring-1 ring-neutral-200">
                     <video
                       src={currentCandidate.profile.profile_video_url}
                       controls
@@ -319,17 +321,24 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
                 )}
                 {currentCandidate.profile.bio && (
                   <div>
-                    <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mb-2">About</p>
-                    <p className="font-body text-sm text-neutral-800 leading-relaxed">{currentCandidate.profile.bio}</p>
+                    <h3 className="font-heading text-xs font-semibold uppercase tracking-wide text-neutral-400 mb-2">
+                      About
+                    </h3>
+                    <p className="font-body text-sm text-neutral-700 leading-relaxed">{currentCandidate.profile.bio}</p>
                   </div>
                 )}
 
                 {currentCandidate.studentProfile.skills?.length > 0 && (
                   <div>
-                    <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mb-2">Skills</p>
+                    <h3 className="font-heading text-xs font-semibold uppercase tracking-wide text-neutral-400 mb-2">
+                      Skills
+                    </h3>
                     <div className="flex flex-wrap gap-2">
                       {currentCandidate.studentProfile.skills.map((s: string) => (
-                        <span key={s} className="font-data text-[10px] tracking-wide px-2.5 py-1 rounded-md bg-[#A3A3A3]/10 border border-[#A3A3A3]/20 text-[#A3A3A3]">
+                        <span
+                          key={s}
+                          className="rounded-md border border-neutral-200 bg-neutral-50/80 px-2.5 py-1 font-body text-xs text-neutral-800"
+                        >
                           {s}
                         </span>
                       ))}
@@ -339,10 +348,15 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
 
                 {currentCandidate.studentProfile.preferred_job_categories?.length > 0 && (
                   <div>
-                    <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mb-2">Looking For</p>
+                    <h3 className="font-heading text-xs font-semibold uppercase tracking-wide text-neutral-400 mb-2">
+                      Interested in
+                    </h3>
                     <div className="flex flex-wrap gap-2">
                       {currentCandidate.studentProfile.preferred_job_categories.map((c: string) => (
-                        <span key={c} className="font-data text-[10px] tracking-wide px-2.5 py-1 rounded-md bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-neutral-900">
+                        <span
+                          key={c}
+                          className="rounded-md border border-neutral-100 bg-white px-2.5 py-1 font-body text-xs text-neutral-600"
+                        >
                           {c}
                         </span>
                       ))}
@@ -350,91 +364,106 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
                   </div>
                 )}
 
-                {/* Links */}
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap gap-x-4 gap-y-2 border-t border-neutral-100 pt-4">
                   {currentCandidate.studentProfile.linkedin_url && (
-                    <a href={currentCandidate.studentProfile.linkedin_url} target="_blank" rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#A3A3A3]/8 border border-[#A3A3A3]/20 text-[#A3A3A3] hover:bg-[#A3A3A3]/15 transition-colors font-body text-xs">
-                      <Linkedin className="h-3.5 w-3.5" /> LinkedIn
+                    <a
+                      href={currentCandidate.studentProfile.linkedin_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-body text-sm font-medium text-neutral-950 underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-950"
+                    >
+                      LinkedIn
                     </a>
                   )}
                   {currentCandidate.studentProfile.github_url && (
-                    <a href={currentCandidate.studentProfile.github_url} target="_blank" rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-black/10 text-black hover:bg-white/10 transition-colors font-body text-xs">
-                      <Github className="h-3.5 w-3.5" /> GitHub
+                    <a
+                      href={currentCandidate.studentProfile.github_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-body text-sm font-medium text-neutral-950 underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-950"
+                    >
+                      GitHub
                     </a>
                   )}
                   {currentCandidate.studentProfile.portfolio_url && (
-                    <a href={currentCandidate.studentProfile.portfolio_url} target="_blank" rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-black/10 text-black hover:bg-white/10 transition-colors font-body text-xs">
-                      <Link2 className="h-3.5 w-3.5" /> Portfolio
+                    <a
+                      href={currentCandidate.studentProfile.portfolio_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-body text-sm font-medium text-neutral-950 underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-950"
+                    >
+                      Portfolio
                     </a>
                   )}
                   {currentCandidate.studentProfile.resume_url && (
-                    <a href={currentCandidate.studentProfile.resume_url} target="_blank" rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#FAFAFA]/8 border border-[#FAFAFA]/20 text-neutral-900 hover:bg-[#FAFAFA]/15 transition-colors font-body text-xs">
-                      <FileText className="h-3.5 w-3.5" /> Resume
+                    <a
+                      href={currentCandidate.studentProfile.resume_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-body text-sm font-medium text-neutral-950 underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-950"
+                    >
+                      Resume
                     </a>
                   )}
                 </div>
 
-                {/* Action buttons in detail panel (desktop) */}
-                <div className="flex gap-3 pt-2 border-t border-black/10">
+                <div className="flex flex-col gap-2 sm:flex-row sm:gap-3 pt-4 border-t border-neutral-100">
                   <button
+                    type="button"
                     onClick={() => handleSwipe("left")}
                     disabled={swiping}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-red-500/8 border border-neutral-500/20 text-neutral-500 hover:bg-red-500/15 transition-all font-body text-sm font-medium"
+                    className="flex-1 rounded-xl border border-neutral-200 py-3 font-body text-sm font-medium text-neutral-600 transition hover:bg-neutral-50 disabled:opacity-50"
                   >
-                    <X className="h-4 w-4" /> Pass
+                    Pass
                   </button>
                   <button
+                    type="button"
                     onClick={() => handleSwipe("right")}
                     disabled={swiping}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-black text-white hover:opacity-90 transition-all font-body text-sm font-semibold shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)]"
+                    className="flex-1 rounded-xl bg-neutral-950 py-3 font-body text-sm font-medium text-white transition hover:bg-neutral-800 disabled:opacity-50"
                   >
-                    <Heart className="h-4 w-4" fill="currentColor" /> Like Candidate
+                    Like
                   </button>
                 </div>
               </div>
-            </div>
+            </article>
 
-            {/* Queue: up next */}
             {candidates.slice(currentIndex + 1, currentIndex + 4).length > 0 && (
-              <div className="rounded-2xl bg-white border border-black/10 p-4 space-y-3">
-                <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700">Up Next</p>
-                <div className="space-y-2">
+              <div className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+                <h3 className="font-heading text-xs font-semibold uppercase tracking-wide text-neutral-400 mb-3">
+                  Up next
+                </h3>
+                <ul className="space-y-1">
                   {candidates.slice(currentIndex + 1, currentIndex + 4).map(({ profile, studentProfile }, i) => (
-                    <div key={profile.id} className="flex items-center gap-3 p-2.5 rounded-xl bg-white border border-black/10 opacity-70">
-                      <Avatar className="h-8 w-8 shrink-0">
+                    <li key={profile.id} className="flex items-center gap-3 rounded-xl py-2.5 px-1 -mx-1">
+                      <Avatar className="h-9 w-9 shrink-0 ring-1 ring-neutral-200">
                         <AvatarImage src={profile.avatar_url || undefined} />
-                        <AvatarFallback className="text-xs bg-neutral-300 text-black">
+                        <AvatarFallback className="text-xs bg-neutral-100 text-neutral-700">
                           {getInitials(profile.full_name || "?")}
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1 min-w-0">
-                        <p className="font-body text-sm font-medium text-black truncate">{profile.full_name}</p>
-                        <p className="font-data text-[10px] text-neutral-700 truncate">{studentProfile.university ?? "Student"}</p>
+                        <p className="font-body text-sm font-medium text-neutral-950 truncate">{profile.full_name}</p>
+                        <p className="font-body text-xs text-neutral-500 truncate">
+                          {studentProfile.university ?? "Student"}
+                        </p>
                       </div>
-                      <span className="font-data text-[9px] text-neutral-700 shrink-0">#{i + 2}</span>
-                    </div>
+                      <span className="font-body text-xs tabular-nums text-neutral-400 shrink-0">{i + 2}</span>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
             )}
 
-            {/* Tip */}
-            <div className="rounded-2xl bg-white border border-black/10 p-4 space-y-2">
-              <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700">How it works</p>
-              {[
-                { color: "#FAFAFA", text: "Like a candidate to express interest in their profile" },
-                { color: "#D4D4D4", text: "A mutual match happens when they also apply to your job" },
-                { color: "#A3A3A3", text: "Matches unlock a private chat to coordinate interviews" },
-              ].map(({ color, text }, i) => (
-                <div key={i} className="flex items-start gap-2.5">
-                  <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: color }} />
-                  <p className="font-body text-xs text-neutral-700">{text}</p>
-                </div>
-              ))}
+            <div className="rounded-2xl border border-neutral-200 bg-neutral-50/80 p-5">
+              <h3 className="font-heading text-xs font-semibold uppercase tracking-wide text-neutral-400 mb-3">
+                How it works
+              </h3>
+              <ol className="list-decimal list-inside space-y-2 font-body text-sm text-neutral-600">
+                <li>Liking signals interest in a candidate&apos;s profile.</li>
+                <li>If they applied to your role and you both align, it&apos;s a match.</li>
+                <li>Matches open a private thread to schedule interviews.</li>
+              </ol>
             </div>
           </div>
         </div>
