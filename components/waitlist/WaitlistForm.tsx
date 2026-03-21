@@ -41,7 +41,6 @@ const WAITLIST_FACE_AVATARS: { src: string; alt: string }[] = [
 
 export function WaitlistForm() {
   const router = useRouter()
-  const supabase = createClient()
   const reduceMotion = useReducedMotion()
   const formControls = useAnimation()
 
