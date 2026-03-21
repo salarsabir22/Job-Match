@@ -80,7 +80,7 @@ body {
 
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 2px; }
 
 /* ─── Typography Utilities ───────────────────────────────────────── */
 .font-heading {
@@ -96,14 +96,39 @@ body {
 /* ─── Accent text (no gradients) ───────────────────────────────── */
 .gradient-text,
 .gradient-text-fire {
-  color: #171717;
-  -webkit-text-fill-color: #171717;
+  color: #000000;
+  -webkit-text-fill-color: #000000;
 }
 
 /* ─── Grid Background Pattern (flat, no gradients) ───────────────── */
 .bg-grid-pattern {
   background-color: #f5f5f5;
   background-image: none;
+}
+
+/* Subtle dot grid — black dots on white (no gray fills) */
+.bg-dot-grid {
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='2' cy='2' r='1' fill='%23000000' fill-opacity='0.12'/%3E%3C/svg%3E");
+  background-size: 24px 24px;
+}
+
+/* Marketing / waitlist — quieter rhythm, larger spacing (feels calmer) */
+.bg-dot-grid-soft {
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ccircle cx='2' cy='2' r='0.85' fill='%23000000' fill-opacity='0.055'/%3E%3C/svg%3E");
+  background-size: 28px 28px;
+}
+
+/* Waitlist footer — full-bleed surface, no bitmaps (perf) */
+.footer-premium-surface {
+  background-color: #050506;
+  background-image:
+    radial-gradient(ellipse 100% 90% at 50% -30%, rgba(255, 255, 255, 0.055), transparent 52%),
+    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+  background-size: 100% 100%, 72px 72px, 72px 72px;
+  background-position: center top, center center, center center;
 }
 
 /* ─── Glass Morphism ─────────────────────────────────────────────── */
@@ -177,4 +202,207 @@ body {
   .animate-ticker,
   .animate-orbit-cw,
   .animate-orbit-ccw { animation: none !important; }
+}
+
+/* ─── Waitlist USP demos (CSS only, no video) ───────────────────── */
+@keyframes usp-demo-swipe {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  38% { transform: translateX(32%) rotate(8deg); }
+  52% { transform: translateX(0) rotate(0deg); }
+}
+.usp-demo-swipe-card {
+  animation: usp-demo-swipe 4.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes usp-demo-heart-ring {
+  0%, 100% { transform: scale(1); opacity: 0.35; }
+  50% { transform: scale(1.08); opacity: 0.55; }
+}
+.usp-demo-heart-ring {
+  animation: usp-demo-heart-ring 2.8s ease-in-out infinite;
+}
+
+@keyframes usp-demo-heart {
+  0%, 100% { transform: scale(1); }
+  45% { transform: scale(1.12); }
+}
+.usp-demo-heart-icon {
+  animation: usp-demo-heart 2.8s ease-in-out infinite;
+}
+
+@keyframes usp-demo-chat-a {
+  0%, 100% { opacity: 0; transform: translateY(10px); }
+  8%, 32% { opacity: 1; transform: translateY(0); }
+  40%, 99% { opacity: 0; transform: translateY(8px); }
+}
+@keyframes usp-demo-chat-b {
+  0%, 100% { opacity: 0; transform: translateY(10px); }
+  36%, 58% { opacity: 1; transform: translateY(0); }
+  66%, 99% { opacity: 0; transform: translateY(8px); }
+}
+@keyframes usp-demo-chat-c {
+  0%, 100% { opacity: 0; transform: translateY(10px); }
+  62%, 88% { opacity: 1; transform: translateY(0); }
+  95%, 99% { opacity: 0; transform: translateY(8px); }
+}
+.usp-demo-chat-a {
+  animation: usp-demo-chat-a 9s ease-in-out infinite;
+}
+.usp-demo-chat-b {
+  animation: usp-demo-chat-b 9s ease-in-out infinite;
+}
+.usp-demo-chat-c {
+  animation: usp-demo-chat-c 9s ease-in-out infinite;
+}
+
+@keyframes usp-demo-typing-dot {
+  0%, 100% { transform: translateY(0); opacity: 0.35; }
+  50% { transform: translateY(-3px); opacity: 1; }
+}
+.usp-demo-typing-dot {
+  animation: usp-demo-typing-dot 0.9s ease-in-out infinite;
+}
+
+@keyframes usp-demo-pipeline-slide {
+  0%, 100% { transform: translateX(0); }
+  30% { transform: translateX(calc(100% + 4px)); }
+  60% { transform: translateX(calc(200% + 8px)); }
+}
+.usp-demo-pipeline-highlight {
+  animation: usp-demo-pipeline-slide 7s cubic-bezier(0.45, 0, 0.15, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .usp-demo-swipe-card,
+  .usp-demo-heart-ring,
+  .usp-demo-heart-icon,
+  .usp-demo-chat-a,
+  .usp-demo-chat-b,
+  .usp-demo-chat-c,
+  .usp-demo-typing-dot,
+  .usp-demo-pipeline-highlight {
+    animation: none !important;
+  }
+  .usp-demo-chat-a,
+  .usp-demo-chat-b,
+  .usp-demo-chat-c {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .usp-demo-pipeline-highlight {
+    transform: translateX(calc(100% + 4px)) !important;
+  }
+}
+
+/* ─── Audience sections (recruiters / universities) metric bars ─── */
+/* High baselines; motion only nudges upward (no deep dips into “empty” reads). */
+@keyframes audience-metric-bar-a {
+  0%,
+  100% {
+    transform: scaleX(0.86);
+  }
+  50% {
+    transform: scaleX(0.96);
+  }
+}
+@keyframes audience-metric-bar-b {
+  0%,
+  100% {
+    transform: scaleX(0.8);
+  }
+  50% {
+    transform: scaleX(0.9);
+  }
+}
+@keyframes audience-metric-bar-c {
+  0%,
+  100% {
+    transform: scaleX(0.9);
+  }
+  50% {
+    transform: scaleX(0.99);
+  }
+}
+@keyframes audience-metric-bar-d {
+  0%,
+  100% {
+    transform: scaleX(0.84);
+  }
+  50% {
+    transform: scaleX(0.94);
+  }
+}
+@keyframes audience-metric-bar-e {
+  0%,
+  100% {
+    transform: scaleX(0.78);
+  }
+  50% {
+    transform: scaleX(0.88);
+  }
+}
+@keyframes audience-metric-bar-f {
+  0%,
+  100% {
+    transform: scaleX(0.82);
+  }
+  50% {
+    transform: scaleX(0.92);
+  }
+}
+
+.audience-metric-fill-a {
+  transform-origin: left center;
+  animation: audience-metric-bar-a 5.2s ease-in-out infinite;
+}
+.audience-metric-fill-b {
+  transform-origin: left center;
+  animation: audience-metric-bar-b 5.2s ease-in-out infinite;
+  animation-delay: 0.35s;
+}
+.audience-metric-fill-c {
+  transform-origin: left center;
+  animation: audience-metric-bar-c 5.2s ease-in-out infinite;
+  animation-delay: 0.7s;
+}
+.audience-metric-fill-d {
+  transform-origin: left center;
+  animation: audience-metric-bar-d 5.4s ease-in-out infinite;
+}
+.audience-metric-fill-e {
+  transform-origin: left center;
+  animation: audience-metric-bar-e 5.4s ease-in-out infinite;
+  animation-delay: 0.4s;
+}
+.audience-metric-fill-f {
+  transform-origin: left center;
+  animation: audience-metric-bar-f 5.4s ease-in-out infinite;
+  animation-delay: 0.8s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .audience-metric-fill-a {
+    animation: none !important;
+    transform: scaleX(0.92) !important;
+  }
+  .audience-metric-fill-b {
+    animation: none !important;
+    transform: scaleX(0.86) !important;
+  }
+  .audience-metric-fill-c {
+    animation: none !important;
+    transform: scaleX(0.96) !important;
+  }
+  .audience-metric-fill-d {
+    animation: none !important;
+    transform: scaleX(0.9) !important;
+  }
+  .audience-metric-fill-e {
+    animation: none !important;
+    transform: scaleX(0.84) !important;
+  }
+  .audience-metric-fill-f {
+    animation: none !important;
+    transform: scaleX(0.88) !important;
+  }
 }
