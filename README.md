@@ -95,6 +95,12 @@ supabase/
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
+
+# Server-only — required for the marketing waitlist (`POST /api/waitlist`).
+# Dashboard → Settings → API → Secret key (`sb_secret_...`) or legacy service_role JWT.
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-or-secret-key
 ```
 
 Use either the **publishable** key (`sb_publishable_...`) or the legacy **anon** JWT (`eyJ...`) from [Project Settings → API Keys](https://supabase.com/dashboard/project/_/settings/api-keys). For PostgREST (`/rest/v1`), this app removes non-JWT `Authorization` bearer values so publishable keys work (see `lib/supabase/fetch.ts`).
+
+**Waitlist:** The homepage waitlist form calls **`/api/waitlist`**, which uses **`SUPABASE_SERVICE_ROLE_KEY`** so signups are not blocked by browser RLS or publishable-key quirks. Never expose that key in client code or `NEXT_PUBLIC_*` vars.

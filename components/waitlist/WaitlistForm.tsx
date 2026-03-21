@@ -5,7 +5,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { AnimatePresence, motion, useAnimation, useReducedMotion } from "framer-motion"
-import { createClient } from "@/lib/supabase/client"
 import { StaggerChild, StaggerMount, easeOutExpo } from "@/components/motion/waitlist-motion"
 import { WaitlistAudienceSections } from "@/components/waitlist/AudienceSections"
 import { WaitlistFaq } from "@/components/waitlist/WaitlistFaq"
@@ -73,11 +72,16 @@ export function WaitlistForm() {
 
     setSubmitting(true)
     try {
-      const { error: upsertError } = await supabase
-        .from("waitlist_emails")
-        .upsert({ email: v }, { onConflict: "email" })
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: v }),
+      })
+      const data = (await res.json().catch(() => ({}))) as { error?: string }
 
-      if (upsertError) throw upsertError
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to join waitlist.")
+      }
 
       setSubmitting(false)
       setSubmitSuccess(true)
