@@ -9,6 +9,7 @@ import type { UserRole } from "@/types"
 import { NotificationBell } from "@/components/nav/NotificationBell"
 
 const studentLinks = [
+  { href: "/dashboard", label: "Dashboard", desc: "Overview" },
   { href: "/discover",  label: "Discover",  desc: "Browse roles" },
   { href: "/matches",   label: "Matches",   desc: "Conversations" },
   { href: "/saved",     label: "Saved",     desc: "Bookmarks" },
@@ -17,6 +18,7 @@ const studentLinks = [
 ]
 
 const recruiterLinks = [
+  { href: "/dashboard", label: "Dashboard", desc: "Overview" },
   { href: "/jobs",      label: "Jobs",      desc: "Postings" },
   { href: "/discover",  label: "Discover",  desc: "Candidates" },
   { href: "/matches",   label: "Matches",   desc: "Pipeline" },
