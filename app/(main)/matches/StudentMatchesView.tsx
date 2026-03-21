@@ -3,6 +3,17 @@ import Link from "next/link"
 import { Heart, MessageCircle, Building2, Zap, ArrowRight, Target, TrendingUp, Clock } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 
+type MatchListItem = {
+  id: string
+  created_at: string
+  conversations?: { id: string }[] | { id: string } | null
+  jobs?: {
+    title?: string
+    job_type?: string
+    recruiter_profiles?: { company_name?: string; logo_url?: string | null } | null
+  } | null
+}
+
 export async function StudentMatchesView({ userId }: { userId: string }) {
   const supabase = await createClient()
 
@@ -24,13 +35,13 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
       .eq("direction", "saved"),
   ])
 
-  const matches = matchesRes.data || []
+  const matches = (matchesRes.data || []) as MatchListItem[]
   const appliedCount = appliedRes.count || 0
   const savedCount = savedRes.count || 0
   const matchRate = appliedCount > 0 ? Math.round((matches.length / appliedCount) * 100) : 0
-  const withChat = matches.filter(m => {
-    const c = (m as any).conversations
-    return Array.isArray(c) ? c?.length > 0 : !!c?.id
+  const withChat = matches.filter((m) => {
+    const c = m.conversations
+    return Array.isArray(c) ? c.length > 0 : !!(c && typeof c === "object" && "id" in c)
   }).length
 
   return (
@@ -135,7 +146,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
             {matches.length} match{matches.length !== 1 ? "es" : ""} — click to open a chat
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {(matches as any[]).map((match) => {
+            {matches.map((match) => {
               const job = match.jobs
               const company = job?.recruiter_profiles
               const convId = Array.isArray(match.conversations) ? match.conversations?.[0]?.id : match.conversations?.id

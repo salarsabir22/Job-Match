@@ -5,6 +5,9 @@ import { formatDate, getInitials } from "@/lib/utils"
 import { Users, GraduationCap, Building2, Shield, TrendingUp, Calendar, ArrowRight } from "lucide-react"
 import Link from "next/link"
 
+/** Cutoff for “new this week” — computed once per server module load, not per React render. */
+const WEEK_AGO_ISO = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
+
 export default async function AdminUsersPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -23,8 +26,7 @@ export default async function AdminUsersPage() {
   const admins = (profiles || []).filter(p => p.role === "admin")
 
   // Signups in last 7 days
-  const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
-  const newThisWeek = (profiles || []).filter(p => p.created_at > weekAgo).length
+  const newThisWeek = (profiles || []).filter(p => p.created_at > WEEK_AGO_ISO).length
 
   const roleBadge = (role: string) => {
     if (role === "admin") return "bg-[#D4D4D4]/15 border-[#D4D4D4]/30 text-[#D4D4D4]"

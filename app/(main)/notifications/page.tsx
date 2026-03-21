@@ -38,10 +38,10 @@ export default function NotificationsPage() {
   }, [supabase])
 
   const actOnNotification = async (n: Notification) => {
-    // If the notification has a conversation_id, we can route directly to the chat.
-    const conversationId = (n.data as any)?.conversation_id as string | undefined
-    const matchId = (n.data as any)?.match_id as string | undefined
-    const jobId = (n.data as any)?.job_id as string | undefined
+    const payload = (n.data && typeof n.data === "object" ? n.data : {}) as Record<string, unknown>
+    const conversationId = typeof payload.conversation_id === "string" ? payload.conversation_id : undefined
+    const matchId = typeof payload.match_id === "string" ? payload.match_id : undefined
+    const jobId = typeof payload.job_id === "string" ? payload.job_id : undefined
 
     // Mark as read first so UI updates immediately.
     if (!n.is_read) {

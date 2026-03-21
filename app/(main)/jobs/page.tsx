@@ -1,8 +1,11 @@
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { Plus, MapPin, Wifi, Calendar, Briefcase, TrendingUp, Heart, Eye, ChevronRight, Zap, Users, BarChart2, AlertCircle } from "lucide-react"
+import { Plus, MapPin, Wifi, Calendar, Briefcase, TrendingUp, Heart, Eye, ChevronRight, BarChart2, AlertCircle } from "lucide-react"
 import { formatDate } from "@/lib/utils"
+import type { Job } from "@/types"
+
+type JobIdRow = { job_id: string }
 
 export default async function JobsPage() {
   const supabase = await createClient()
@@ -18,7 +21,7 @@ export default async function JobsPage() {
   const { data: jobs } = await supabase
     .from("jobs").select("*").eq("recruiter_id", user.id).order("created_at", { ascending: false })
 
-  const jobIds = (jobs || []).map((j: any) => j.id)
+  const jobIds = (jobs || []).map((j: Job) => j.id)
 
   // Fetch per-job stats in parallel
   const [appResult, matchResult, viewResult] = await Promise.all([
@@ -35,15 +38,15 @@ export default async function JobsPage() {
 
   // Build per-job lookup maps
   const perJobStats: Record<string, { applications: number; matches: number; views: number }> = {}
-  for (const s of (appResult.data || []) as any[]) {
+  for (const s of (appResult.data || []) as JobIdRow[]) {
     if (!perJobStats[s.job_id]) perJobStats[s.job_id] = { applications: 0, matches: 0, views: 0 }
     perJobStats[s.job_id].applications++
   }
-  for (const m of (matchResult.data || []) as any[]) {
+  for (const m of (matchResult.data || []) as JobIdRow[]) {
     if (!perJobStats[m.job_id]) perJobStats[m.job_id] = { applications: 0, matches: 0, views: 0 }
     perJobStats[m.job_id].matches++
   }
-  for (const v of (viewResult.data || []) as any[]) {
+  for (const v of (viewResult.data || []) as JobIdRow[]) {
     if (!perJobStats[v.job_id]) perJobStats[v.job_id] = { applications: 0, matches: 0, views: 0 }
     perJobStats[v.job_id].views++
   }
@@ -52,8 +55,10 @@ export default async function JobsPage() {
   const totalApplications = (appResult.data || []).length
   const totalMatches = (matchResult.data || []).length
   const totalCandidatesViewed = (viewResult.data || []).length
-  const activeJobs = (jobs || []).filter((j: any) => j.is_active).length
-  const isApproved = (recruiterProfile as any)?.is_approved
+  const activeJobs = (jobs || []).filter((j: Job) => j.is_active).length
+  const isApproved = recruiterProfile && "is_approved" in recruiterProfile
+    ? (recruiterProfile as { is_approved?: boolean }).is_approved
+    : false
 
   const overallMatchRate = totalApplications > 0
     ? Math.round((totalMatches / totalApplications) * 100)
@@ -188,7 +193,7 @@ export default async function JobsPage() {
           <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 px-1">
             {jobs.length} posting{jobs.length !== 1 ? "s" : ""} — click a job to manage candidates
           </p>
-          {(jobs as any[]).map((job) => {
+          {(jobs || []).map((job: Job) => {
             const stats = perJobStats[job.id] || { applications: 0, matches: 0, views: 0 }
             const matchRate = stats.applications > 0 ? Math.round((stats.matches / stats.applications) * 100) : 0
             return (

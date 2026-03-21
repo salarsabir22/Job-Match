@@ -196,9 +196,13 @@ export default function ResetPasswordPage() {
             {REQUIREMENTS.map(({ label, check }) => {
               const ok = check(password)
               return (
-                <div key={label} className="flex items-center gap-2">
-                  <CheckCircle2
-                    className={cn("h-3 w-3 shrink-0 transition-colors", ok ? "text-emerald-400/90" : "text-white/15")}
+                <div key={label} className="flex items-center gap-2.5">
+                  <span
+                    className={cn(
+                      "size-1.5 shrink-0 rounded-full transition-colors",
+                      ok ? "bg-emerald-400/85" : "bg-white/12"
+                    )}
+                    aria-hidden
                   />
                   <span
                     className={cn(

@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"
-import { Loader2, CheckCircle2, RefreshCw } from "lucide-react"
+import { Loader2, CheckCircle2, RefreshCw, ArrowLeft } from "lucide-react"
 
 const inputBase =
   "w-full min-h-[3.25rem] px-5 rounded-full border border-white/[0.15] bg-white/[0.07] text-[15px] text-white placeholder:text-white/30 backdrop-blur-sm focus:outline-none focus:border-white/35 focus:ring-2 focus:ring-white/[0.08] transition-all duration-300"
@@ -112,9 +112,9 @@ export default function ForgotPasswordPage() {
         <div className="text-center">
           <Link
             href="/login"
-            className="inline-flex items-center gap-1.5 font-body text-sm text-white/40 hover:text-white/65 transition-colors"
+            className="inline-flex items-center justify-center gap-1.5 font-body text-sm text-white/42 hover:text-white/70 transition-colors"
           >
-            <ArrowLeft className="h-3.5 w-3.5" />
+            <ArrowLeft className="h-3.5 w-3.5 shrink-0" strokeWidth={1.75} />
             Back to sign in
           </Link>
         </div>
@@ -171,16 +171,18 @@ export default function ForgotPasswordPage() {
               <Loader2 className="h-4 w-4 animate-spin" /> Sending…
             </>
           ) : (
-            <>
-              <Mail className="h-4 w-4" /> Send reset link
-            </>
+            "Send reset link"
           )}
         </button>
       </form>
 
       <div className="text-center mt-6">
-        <Link href="/login" className="font-body text-sm text-white/42 hover:text-white/70 transition-colors">
-          ← Back to sign in
+        <Link
+          href="/login"
+          className="inline-flex items-center justify-center gap-1.5 font-body text-sm text-white/42 hover:text-white/70 transition-colors"
+        >
+          <ArrowLeft className="h-3.5 w-3.5 shrink-0" strokeWidth={1.75} />
+          Back to sign in
         </Link>
       </div>
     </div>

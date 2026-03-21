@@ -150,8 +150,7 @@ function DemoSwipe() {
                 <p className="text-[17px] font-semibold leading-[1.15] tracking-[-0.03em] text-black sm:text-lg">
                   Brightline Analytics
                 </p>
-                <p className="flex items-center justify-center gap-1.5 text-[11px] font-medium text-black/48">
-                  <MapPin className="size-3 shrink-0 text-black/35" strokeWidth={2.25} aria-hidden />
+                <p className="text-center text-[11px] font-medium tabular-nums text-black/48">
                   Austin · Hybrid · $28–32/hr
                 </p>
                 <div className="mt-3 flex w-full items-center justify-between gap-3 border-t border-black/[0.06] pt-3">
@@ -202,7 +201,9 @@ function DemoMutual() {
         </div>
         <div className="relative flex h-[4.5rem] w-[4.5rem] items-center justify-center sm:h-16 sm:w-16">
           <div className="usp-demo-heart-ring absolute inset-0 rounded-full border-2 border-black/12" />
-          <Heart className="usp-demo-heart-icon relative size-8 fill-black text-black sm:size-9" strokeWidth={1.5} />
+          <span className="usp-demo-heart-icon relative text-[1.65rem] font-light leading-none text-black sm:text-[1.85rem]" aria-hidden>
+            ♥
+          </span>
         </div>
         <div className="relative size-[52px] shrink-0 overflow-hidden rounded-2xl border-2 border-black shadow-md sm:size-14">
           <Image

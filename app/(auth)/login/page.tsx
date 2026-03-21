@@ -77,26 +77,22 @@ export default function LoginPage() {
     <div className="rounded-2xl border border-white/[0.12] bg-white/[0.06] px-6 py-8 sm:px-8 sm:py-10 backdrop-blur-sm">
       {/* Header */}
       <div className="text-center mb-7">
-        <div className="w-14 h-14 rounded-full bg-white/[0.08] border border-white/[0.12] flex items-center justify-center mx-auto mb-4">
-          <Zap className="w-7 h-7 text-white/90" />
-        </div>
-        <h1 className="text-[18px] sm:text-[19px] font-semibold tracking-[-0.02em] text-white">Welcome back</h1>
-        <p className="font-body text-white/45 text-sm mt-1.5">Sign in to JobMatch</p>
+        <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/35">Account</p>
+        <h1 className="mt-3 text-[20px] sm:text-[21px] font-semibold tracking-[-0.03em] text-white">Welcome back</h1>
+        <p className="font-body text-white/42 text-[15px] mt-2">Sign in to JobMatch</p>
       </div>
 
       {/* Global error */}
       {error && (
-        <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/15 border border-red-400/25 mb-5">
-          <AlertCircle className="h-4 w-4 text-red-300 shrink-0 mt-0.5" />
-          <p className="font-body text-sm text-red-200/90">{error}</p>
+        <div className="border-l-2 border-red-400/50 bg-red-500/[0.08] pl-4 pr-3 py-3 rounded-r-xl mb-5">
+          <p className="font-body text-[14px] leading-snug text-red-100/90">{error}</p>
         </div>
       )}
 
       {/* Success */}
       {success && (
-        <div className="flex items-center gap-2.5 p-3.5 rounded-xl bg-emerald-500/15 border border-emerald-400/25 mb-5">
-          <CheckCircle2 className="h-4 w-4 text-emerald-300 shrink-0" />
-          <p className="font-body text-sm text-white/80">Signed in! Redirecting…</p>
+        <div className="border border-white/[0.12] bg-white/[0.04] px-4 py-3 rounded-xl mb-5">
+          <p className="font-body text-[14px] text-white/75">Signed in. Redirecting…</p>
         </div>
       )}
 

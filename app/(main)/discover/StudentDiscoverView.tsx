@@ -6,8 +6,8 @@ import { SwipeCard } from "@/components/swipe/SwipeCard"
 import { JobCard } from "@/components/swipe/JobCard"
 import { useToast } from "@/lib/hooks/use-toast"
 import {
-  X, Heart, Bookmark, Sparkles, Zap, TrendingUp, Target, CheckCircle2,
-  Building2, MapPin, Wifi, Calendar, ExternalLink, Briefcase, CheckCircle,
+  X, Heart, Bookmark, Sparkles, Zap, CheckCircle2,
+  Building2, MapPin, Wifi, ExternalLink, Briefcase, CheckCircle,
 } from "lucide-react"
 import type { Job } from "@/types"
 
@@ -17,6 +17,8 @@ interface Stats {
   matches: number
   total: number
 }
+
+type JobSwipeRow = { job_id: string; direction: string }
 
 const JOB_TYPE_LABEL: Record<string, string> = {
   internship: "Internship",
@@ -33,9 +35,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
   const [swiping, setSwiping] = useState(false)
   const [stats, setStats] = useState<Stats>({ applied: 0, saved: 0, matches: 0, total: 0 })
 
-  useEffect(() => { loadJobs() }, [])
-
-  const loadJobs = async () => {
+  async function loadJobs() {
     setLoading(true)
     const supabase = createClient()
 
@@ -44,10 +44,10 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
       supabase.from("matches").select("id", { count: "exact", head: true }).eq("student_id", userId),
     ])
 
-    const swipes = swipesRes.data || []
-    const swipedJobIds = swipes.map((s: any) => s.job_id)
-    const applied = swipes.filter((s: any) => s.direction === "right").length
-    const saved   = swipes.filter((s: any) => s.direction === "saved").length
+    const swipes = (swipesRes.data || []) as JobSwipeRow[]
+    const swipedJobIds = swipes.map((s) => s.job_id)
+    const applied = swipes.filter((s) => s.direction === "right").length
+    const saved   = swipes.filter((s) => s.direction === "saved").length
 
     setStats({ applied, saved, matches: matchesRes.count || 0, total: swipes.length })
 
@@ -65,6 +65,12 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
     setCurrentIndex(0)
     setLoading(false)
   }
+
+  useEffect(() => {
+    queueMicrotask(() => {
+      void loadJobs()
+    })
+  }, [])
 
   const handleSwipe = useCallback(async (direction: "right" | "left" | "saved") => {
     if (swiping || currentIndex >= jobs.length) return
@@ -103,7 +109,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
     )
   }
 
-  const company = currentJob ? (currentJob as any).recruiter_profiles : null
+  const company = currentJob?.recruiter_profiles ?? null
 
   return (
     <div className="space-y-5">
@@ -337,7 +343,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
                 <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700">Up Next</p>
                 <div className="space-y-2">
                   {jobs.slice(currentIndex + 1, currentIndex + 4).map((job, i) => {
-                    const co = (job as any).recruiter_profiles
+                    const co = job.recruiter_profiles
                     return (
                       <div key={job.id} className="flex items-center gap-3 p-2.5 rounded-xl bg-white border border-black/10 opacity-70">
                         {co?.logo_url ? (

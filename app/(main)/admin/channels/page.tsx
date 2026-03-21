@@ -5,9 +5,17 @@ import { createClient } from "@/lib/supabase/client"
 import { useToast } from "@/lib/hooks/use-toast"
 import { Hash, Plus, Trash2, Users, Loader2, Zap, X } from "lucide-react"
 
+type ChannelRow = {
+  id: string
+  name: string
+  description?: string | null
+  category?: string | null
+  channel_members?: { user_id: string }[]
+}
+
 export default function AdminChannelsPage() {
   const { toast } = useToast()
-  const [channels, setChannels] = useState<any[]>([])
+  const [channels, setChannels] = useState<ChannelRow[]>([])
   const [loading, setLoading] = useState(true)
   const [creating, setCreating] = useState(false)
   const [open, setOpen] = useState(false)
@@ -19,14 +27,18 @@ export default function AdminChannelsPage() {
   const textareaClass = "w-full px-4 py-3 rounded-xl bg-white border border-black/10 text-black text-sm placeholder:text-black/25 focus:outline-none focus:border-[#FAFAFA]/60 transition-all duration-200 resize-none"
   const labelClass = "block font-data text-[11px] tracking-wider uppercase text-neutral-700 mb-1.5"
 
-  useEffect(() => { loadChannels() }, [])
-
-  const loadChannels = async () => {
+  async function loadChannels() {
     const supabase = createClient()
     const { data } = await supabase.from("community_channels").select("*, channel_members(user_id)").order("name")
-    setChannels(data || [])
+    setChannels((data as ChannelRow[]) || [])
     setLoading(false)
   }
+
+  useEffect(() => {
+    queueMicrotask(() => {
+      void loadChannels()
+    })
+  }, [])
 
   const createChannel = async (e: React.FormEvent) => {
     e.preventDefault()

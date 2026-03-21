@@ -5,10 +5,11 @@ import { createClient } from "@/lib/supabase/client"
 import { SwipeCard } from "@/components/swipe/SwipeCard"
 import { CandidateCard } from "@/components/swipe/CandidateCard"
 import { useToast } from "@/lib/hooks/use-toast"
+import Link from "next/link"
 import {
-  X, Heart, Loader2, Users, Zap, GraduationCap, Calendar,
-  Github, Linkedin, Link2, FileText, Briefcase, TrendingUp,
-  ChevronDown, Star, CheckCircle,
+  X, Heart, Zap, GraduationCap, Calendar,
+  Github, Linkedin, Link2, FileText, Briefcase,
+  ChevronDown, CheckCircle,
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { getInitials } from "@/lib/utils"
@@ -31,6 +32,9 @@ interface Stats {
   total: number
 }
 
+type SwipeRow = { student_id: string; direction: string }
+type StudentProfileRow = StudentProfile & { profiles: Profile; id: string }
+
 export function RecruiterDiscoverView({ userId }: { userId: string }) {
   const { toast } = useToast()
   const [candidates, setCandidates] = useState<Candidate[]>([])
@@ -41,9 +45,30 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
   const [selectedJobId, setSelectedJobId] = useState<string>("")
   const [stats, setStats] = useState<Stats>({ liked: 0, passed: 0, total: 0 })
 
-  useEffect(() => { loadInitialData() }, [])
+  async function loadCandidates(jobId: string) {
+    setLoading(true)
+    const supabase = createClient()
+    const { data: swipedIds } = await supabase
+      .from("candidate_swipes")
+      .select("student_id, direction")
+      .eq("recruiter_id", userId)
+      .eq("job_id", jobId)
+    const swiped = (swipedIds || []).map((s: SwipeRow) => s.student_id)
+    const liked  = (swipedIds || []).filter((s: SwipeRow) => s.direction === "right").length
+    const passed = (swipedIds || []).filter((s: SwipeRow) => s.direction === "left").length
+    setStats({ liked, passed, total: swiped.length })
 
-  const loadInitialData = async () => {
+    const { data } = await supabase
+      .from("student_profiles")
+      .select("*, profiles!inner(*)")
+      .limit(30)
+    const filtered = (data || []).filter((sp: StudentProfileRow) => !swiped.includes(sp.id))
+    setCandidates(filtered.map((sp: StudentProfileRow) => ({ profile: sp.profiles as Profile, studentProfile: sp as StudentProfile })))
+    setCurrentIndex(0)
+    setLoading(false)
+  }
+
+  async function loadInitialData() {
     const supabase = createClient()
     const { data: jobsData } = await supabase
       .from("jobs")
@@ -59,28 +84,11 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
     }
   }
 
-  const loadCandidates = async (jobId: string) => {
-    setLoading(true)
-    const supabase = createClient()
-    const { data: swipedIds } = await supabase
-      .from("candidate_swipes")
-      .select("student_id, direction")
-      .eq("recruiter_id", userId)
-      .eq("job_id", jobId)
-    const swiped = (swipedIds || []).map((s: any) => s.student_id)
-    const liked  = (swipedIds || []).filter((s: any) => s.direction === "right").length
-    const passed = (swipedIds || []).filter((s: any) => s.direction === "left").length
-    setStats({ liked, passed, total: swiped.length })
-
-    const { data } = await supabase
-      .from("student_profiles")
-      .select("*, profiles!inner(*)")
-      .limit(30)
-    const filtered = (data || []).filter((sp: any) => !swiped.includes(sp.id))
-    setCandidates(filtered.map((sp: any) => ({ profile: sp.profiles as Profile, studentProfile: sp as StudentProfile })))
-    setCurrentIndex(0)
-    setLoading(false)
-  }
+  useEffect(() => {
+    queueMicrotask(() => {
+      void loadInitialData()
+    })
+  }, [])
 
   const handleSwipe = useCallback(async (direction: "right" | "left") => {
     if (!selectedJobId || swiping || currentIndex >= candidates.length) return
@@ -137,9 +145,9 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
             <h3 className="font-heading font-semibold text-lg text-black">No active jobs</h3>
             <p className="font-body text-sm text-neutral-700 mt-1">Post a job first to start discovering candidates</p>
           </div>
-          <a href="/jobs" className="px-5 py-2.5 rounded-full bg-black text-white font-body font-semibold text-sm">
+          <Link href="/jobs" className="px-5 py-2.5 rounded-full bg-black text-white font-body font-semibold text-sm inline-block">
             Post a Job
-          </a>
+          </Link>
         </div>
       </div>
     )
@@ -299,10 +307,10 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
 
               {/* Body */}
               <div className="p-6 space-y-5">
-                {(currentCandidate.profile as any).profile_video_url && (
+                {currentCandidate.profile.profile_video_url && (
                   <div className="rounded-xl overflow-hidden bg-white aspect-video max-h-[240px]">
                     <video
-                      src={(currentCandidate.profile as any).profile_video_url}
+                      src={currentCandidate.profile.profile_video_url}
                       controls
                       className="w-full h-full object-contain"
                       playsInline

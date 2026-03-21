@@ -4,6 +4,8 @@ import { formatDate } from "@/lib/utils"
 import { Building2 } from "lucide-react"
 import { ApproveButton } from "./ApproveButton"
 
+type ProfileEmbed = { full_name?: string | null; created_at?: string }
+
 export default async function AdminRecruitersPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -55,8 +57,14 @@ export default async function AdminRecruitersPage() {
                 </div>
                 <div>
                   <p className="font-heading font-semibold text-black">{recruiter.company_name}</p>
-                  <p className="font-body text-sm text-neutral-700">{(recruiter.profiles as any)?.full_name}</p>
-                  <p className="font-data text-[10px] text-neutral-700">Joined {formatDate((recruiter.profiles as any)?.created_at)}</p>
+                  <p className="font-body text-sm text-neutral-700">{(recruiter.profiles as ProfileEmbed | null)?.full_name}</p>
+                  <p className="font-data text-[10px] text-neutral-700">
+                    Joined{" "}
+                    {(() => {
+                      const p = recruiter.profiles as ProfileEmbed | null
+                      return p?.created_at ? formatDate(p.created_at) : "—"
+                    })()}
+                  </p>
                 </div>
               </div>
               <span className={`flex-shrink-0 font-data text-[9px] tracking-widest uppercase px-2 py-1 rounded-full border ${

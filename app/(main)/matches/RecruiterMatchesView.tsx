@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import Link from "next/link"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Heart, MessageCircle, Star, Archive, Zap, TrendingUp, Target, Users, ArrowRight, GraduationCap, ChevronRight } from "lucide-react"
+import { Heart, MessageCircle, Star, Archive, Zap, TrendingUp, ArrowRight, GraduationCap } from "lucide-react"
 import { getInitials, formatDate } from "@/lib/utils"
 import { useToast } from "@/lib/hooks/use-toast"
 import { cn } from "@/lib/utils"
@@ -16,18 +16,45 @@ interface OverallStats {
   archived: number
 }
 
+type MatchRow = {
+  id: string
+  created_at: string
+  is_shortlisted?: boolean
+  is_archived?: boolean
+  jobs?: { title?: string | null; job_type?: string | null } | null
+  profiles?: {
+    id?: string
+    full_name?: string | null
+    avatar_url?: string | null
+    bio?: string | null
+    student_profiles?:
+      | {
+          skills?: string[] | null
+          university?: string | null
+          degree?: string | null
+          graduation_year?: number | string | null
+        }
+      | {
+          skills?: string[] | null
+          university?: string | null
+          degree?: string | null
+          graduation_year?: number | string | null
+        }[]
+      | null
+  } | null
+  conversations?: { id: string }[] | { id: string } | null
+}
+
 export function RecruiterMatchesView({ userId }: { userId: string }) {
   const { toast } = useToast()
-  const [matches, setMatches] = useState<any[]>([])
+  const [matches, setMatches] = useState<MatchRow[]>([])
   const [loading, setLoading] = useState(true)
   const [tab, setTab] = useState<"all" | "starred" | "archived">("all")
   const [overallStats, setOverallStats] = useState<OverallStats>({
     totalMatches: 0, shortlisted: 0, inConversation: 0, archived: 0,
   })
 
-  useEffect(() => { loadMatches() }, [])
-
-  const loadMatches = async () => {
+  async function loadMatches() {
     const supabase = createClient()
     const { data } = await supabase
       .from("matches")
@@ -40,16 +67,24 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
       .eq("recruiter_id", userId)
       .order("created_at", { ascending: false })
 
-    const all = data || []
+    const all = (data || []) as MatchRow[]
     setMatches(all)
     setOverallStats({
       totalMatches: all.length,
-      shortlisted: all.filter((m: any) => m.is_shortlisted && !m.is_archived).length,
-      inConversation: all.filter((m: any) => (Array.isArray(m.conversations) ? m.conversations?.length > 0 : !!m.conversations?.id)).length,
-      archived: all.filter((m: any) => m.is_archived).length,
+      shortlisted: all.filter((m) => m.is_shortlisted && !m.is_archived).length,
+      inConversation: all.filter((m) =>
+        Array.isArray(m.conversations) ? m.conversations.length > 0 : !!(m.conversations && typeof m.conversations === "object" && "id" in m.conversations)
+      ).length,
+      archived: all.filter((m) => m.is_archived).length,
     })
     setLoading(false)
   }
+
+  useEffect(() => {
+    queueMicrotask(() => {
+      void loadMatches()
+    })
+  }, [])
 
   const toggleShortlist = async (matchId: string, current: boolean) => {
     const supabase = createClient()
@@ -78,9 +113,10 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
   const archived = matches.filter(m => m.is_archived)
   const displayed = tab === "all" ? active : tab === "starred" ? shortlisted : archived
 
-  const MatchCard = ({ match }: { match: any }) => {
+  const MatchCard = ({ match }: { match: MatchRow }) => {
     const profile = match.profiles
-    const sp = match.profiles?.student_profiles
+    const spRaw = match.profiles?.student_profiles
+    const sp = Array.isArray(spRaw) ? spRaw[0] : spRaw
     const convId = Array.isArray(match.conversations) ? match.conversations?.[0]?.id : match.conversations?.id
     const skills = sp?.skills?.slice(0, 3) || []
 
@@ -88,7 +124,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
       <div className="rounded-xl bg-white border border-black/10 hover:border-[#FAFAFA]/20 transition-all duration-200 overflow-hidden">
         <div className="p-4 flex items-start gap-3">
           <Avatar className="h-12 w-12 shrink-0 border border-black/10">
-            <AvatarImage src={profile?.avatar_url} />
+            <AvatarImage src={profile?.avatar_url || undefined} />
             <AvatarFallback className="bg-white text-neutral-900 text-sm font-bold">
               {getInitials(profile?.full_name || "?")}
             </AvatarFallback>
@@ -119,7 +155,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
                 ))}
                 {(sp?.skills?.length || 0) > 3 && (
                   <span className="font-data text-[9px] px-1.5 py-0.5 rounded-full border border-black/10 text-neutral-700">
-                    +{sp.skills.length - 3}
+                    +{(sp?.skills?.length || 0) - 3}
                   </span>
                 )}
               </div>
@@ -144,7 +180,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
 
           <div className="flex items-center gap-1.5">
             <button
-              onClick={() => toggleShortlist(match.id, match.is_shortlisted)}
+              onClick={() => toggleShortlist(match.id, !!match.is_shortlisted)}
               title={match.is_shortlisted ? "Remove from shortlist" : "Shortlist"}
               className={cn(
                 "h-8 w-8 rounded-lg border flex items-center justify-center transition-all",
@@ -156,7 +192,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
               <Star className="h-3.5 w-3.5" />
             </button>
             <button
-              onClick={() => toggleArchive(match.id, match.is_archived)}
+              onClick={() => toggleArchive(match.id, !!match.is_archived)}
               title={match.is_archived ? "Unarchive" : "Archive"}
               className="h-8 w-8 rounded-lg border border-black/10 text-neutral-700 flex items-center justify-center hover:border-white/20 transition-all"
             >

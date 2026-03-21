@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { Hash, Users, MessageCircle, TrendingUp, Zap, CheckCircle } from "lucide-react"
+import { Hash, Users, MessageCircle, TrendingUp, CheckCircle } from "lucide-react"
 
 const CATEGORY_META: Record<string, { color: string; description: string; emoji: string }> = {
   tech:       { color: "#FAFAFA", description: "Engineering, dev, and infrastructure discussions", emoji: "⚡" },
@@ -35,7 +35,8 @@ export default async function CommunityPage() {
   const joinedCount = joinedIds.size
 
   // Sort channels: largest member count first within each category
-  const byCategory = (channels || []).reduce((acc: Record<string, any[]>, ch) => {
+  type Ch = NonNullable<typeof channels>[number]
+  const byCategory = (channels || []).reduce((acc: Record<string, Ch[]>, ch) => {
     const cat = ch.category || "general"
     if (!acc[cat]) acc[cat] = []
     acc[cat].push(ch)

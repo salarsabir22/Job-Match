@@ -40,7 +40,9 @@ export function SwipeCard({
   // Simple swipe sound (no external audio files needed).
   const playSwipeSound = useCallback((direction: "left" | "right") => {
     try {
-      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext
+      const AudioCtx =
+        window.AudioContext ??
+        (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext
       if (!AudioCtx) return
       const ctx = new AudioCtx()
       const now = ctx.currentTime
@@ -174,10 +176,6 @@ export function SwipeCard({
     else              snapBack()
   }, [flyOff])
 
-  /* ── programmatic trigger (used by button controls) ─────────── */
-  const triggerLeft  = useCallback(() => flyOff("left"),  [flyOff])
-  const triggerRight = useCallback(() => flyOff("right"), [flyOff])
-
   return (
     <div
       ref={cardRef}
@@ -191,8 +189,6 @@ export function SwipeCard({
       onPointerMove={onMove}
       onPointerUp={onUp}
       onPointerCancel={onUp}
-      data-trigger-left={String(triggerLeft)}
-      data-trigger-right={String(triggerRight)}
     >
       {/* Apply overlay */}
       <div

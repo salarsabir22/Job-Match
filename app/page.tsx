@@ -1,5 +1,6 @@
 "use client"
 
+import { WaitlistForm } from "@/components/waitlist/WaitlistForm"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import {
@@ -945,20 +946,5 @@ function Footer() {
 
 /* ─── Page ───────────────────────────────────────────────────────── */
 export default function LandingPage() {
-  return (
-    <WaitlistRedirector />
-  )
-}
-
-function WaitlistRedirector() {
-  // Keep the existing landing file structure, but show the waitlist UI at `/`.
-  // (No redirect needed; user asked to remove landing and collect emails.)
   return <WaitlistForm />
-}
-
-function WaitlistForm() {
-  // Lazy import pattern to avoid restructuring the rest of this large file.
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const Waitlist = require("@/components/waitlist/WaitlistForm").WaitlistForm as React.ComponentType
-  return <Waitlist />
 }

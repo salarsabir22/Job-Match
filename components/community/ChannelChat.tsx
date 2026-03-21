@@ -20,8 +20,16 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
   const bottomRef = useRef<HTMLDivElement>(null)
   const supabase = createClient()
 
+  async function loadMessages() {
+    const { data } = await supabase.from("channel_messages").select("*, profiles(id, full_name, avatar_url)").eq("channel_id", channelId).order("created_at", { ascending: true }).limit(100)
+    setMessages((data as unknown as ChannelMessage[]) || [])
+    setLoading(false)
+  }
+
   useEffect(() => {
-    loadMessages()
+    queueMicrotask(() => {
+      void loadMessages()
+    })
     const channel = supabase
       .channel(`channel:${channelId}`)
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "channel_messages", filter: `channel_id=eq.${channelId}` },
@@ -39,12 +47,6 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
   }, [channelId])
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }) }, [messages])
-
-  const loadMessages = async () => {
-    const { data } = await supabase.from("channel_messages").select("*, profiles(id, full_name, avatar_url)").eq("channel_id", channelId).order("created_at", { ascending: true }).limit(100)
-    setMessages((data as unknown as ChannelMessage[]) || [])
-    setLoading(false)
-  }
 
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault()

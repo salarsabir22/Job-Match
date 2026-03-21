@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState } from "react"
+import { startTransition, useEffect, useMemo, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Bell } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
@@ -37,12 +37,16 @@ export function NotificationBell() {
   }
 
   useEffect(() => {
-    void loadItems()
+    startTransition(() => {
+      void loadItems()
+    })
   }, [])
 
   useEffect(() => {
     if (!open) return
-    void loadItems()
+    startTransition(() => {
+      void loadItems()
+    })
   }, [open])
 
   useEffect(() => {

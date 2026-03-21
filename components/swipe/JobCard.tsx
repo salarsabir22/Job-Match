@@ -13,7 +13,7 @@ interface JobCardProps {
 }
 
 export function JobCard({ job }: JobCardProps) {
-  const company = (job as any).recruiter_profiles
+  const company = job.recruiter_profiles
 
   return (
     <div className="rounded-3xl overflow-hidden bg-white border border-black/10 shadow-[0_8px_40px_-8px_rgba(0,0,0,0.6)] w-full select-none">

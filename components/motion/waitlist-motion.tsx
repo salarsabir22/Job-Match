@@ -73,7 +73,8 @@ export const faqStaggerItem: Variants = {
   },
 }
 
-function reducedVariants(v: Variants): Variants {
+function reducedVariants(base: Variants): Variants {
+  void base
   return {
     hidden: { opacity: 1, y: 0, x: 0 },
     visible: { opacity: 1, y: 0, x: 0, transition: { duration: 0 } },

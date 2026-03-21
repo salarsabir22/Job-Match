@@ -50,8 +50,9 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
       if (updateError) throw updateError
       onUpdate(url)
       toast({ title: "Video updated", description: "Your profile video is live." })
-    } catch (e: any) {
-      toast({ title: "Upload failed", description: e?.message || "Try again", variant: "destructive" })
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : "Try again"
+      toast({ title: "Upload failed", description: msg, variant: "destructive" })
     } finally {
       setUploading(false)
     }
@@ -96,8 +97,9 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
           setShowRecordModal(false)
         }
       }, MAX_DURATION_MS)
-    } catch (e: any) {
-      toast({ title: "Camera/mic required", description: e?.message || "Allow access to record", variant: "destructive" })
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : "Allow access to record"
+      toast({ title: "Camera/mic required", description: msg, variant: "destructive" })
     }
   }, [uploadFile, toast])
 
@@ -117,7 +119,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
       await supabase.from("profiles").update({ profile_video_url: null }).eq("id", userId)
       onUpdate(null)
       toast({ title: "Video removed" })
-    } catch (e: any) {
+    } catch {
       toast({ title: "Could not remove video", variant: "destructive" })
     } finally {
       setUploading(false)

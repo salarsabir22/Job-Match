@@ -3,11 +3,25 @@ import { redirect } from "next/navigation"
 import Link from "next/link"
 import {
   Users, Building2, Hash, Heart, Briefcase, TrendingUp,
-  CheckCircle, Clock, AlertTriangle, ArrowRight, Zap, MessageCircle, Shield
+  Clock, AlertTriangle, ArrowRight, Zap, MessageCircle, Shield
 } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { getInitials } from "@/lib/utils"
+
+type PendingRecruiterRow = {
+  id: string
+  company_name: string
+  profiles?: { full_name?: string | null; created_at?: string | null } | null
+}
+
+type RecentUserRow = {
+  id: string
+  full_name?: string | null
+  avatar_url?: string | null
+  role?: string | null
+  created_at?: string | null
+}
 
 export default async function AdminOverviewPage() {
   const supabase = await createClient()
@@ -40,14 +54,16 @@ export default async function AdminOverviewPage() {
   const admins = allProfiles.filter(p => p.role === "admin").length
 
   const allJobs = jobsRes.data || []
-  const activeJobs = allJobs.filter(j => (j as any).is_active).length
+  const activeJobs = allJobs.filter((j): j is { is_active: boolean } =>
+    typeof j === "object" && j !== null && "is_active" in j && (j as { is_active: boolean }).is_active === true
+  ).length
 
   const totalMatches = matchesRes.count || 0
   const totalChannels = (channelsRes.data || []).length
   const totalMembers = (channelsRes.data || []).reduce((sum, ch) => sum + (ch.channel_members?.length || 0), 0)
 
-  const pendingRecruiters = pendingRecruitersRes.data || []
-  const recentUsers = recentUsersRes.data || []
+  const pendingRecruiters = (pendingRecruitersRes.data || []) as PendingRecruiterRow[]
+  const recentUsers = (recentUsersRes.data || []) as RecentUserRow[]
 
   return (
     <div className="space-y-6">
@@ -175,7 +191,7 @@ export default async function AdminOverviewPage() {
             </Link>
           </div>
           <div className="space-y-2">
-            {pendingRecruiters.map((recruiter: any) => (
+            {pendingRecruiters.map((recruiter) => (
               <div key={recruiter.id} className="flex items-center justify-between gap-3 p-3 rounded-lg bg-white/[0.02] border border-black/10">
                 <div className="flex items-center gap-2.5">
                   <div className="h-9 w-9 rounded-lg bg-neutral-200 flex items-center justify-center">
@@ -183,7 +199,10 @@ export default async function AdminOverviewPage() {
                   </div>
                   <div>
                     <p className="font-body text-sm text-black font-medium">{recruiter.company_name}</p>
-                    <p className="font-data text-[10px] text-neutral-700">{recruiter.profiles?.full_name} · {formatDate(recruiter.profiles?.created_at)}</p>
+                    <p className="font-data text-[10px] text-neutral-700">
+                      {recruiter.profiles?.full_name} ·{" "}
+                      {recruiter.profiles?.created_at ? formatDate(recruiter.profiles.created_at) : "—"}
+                    </p>
                   </div>
                 </div>
                 <span className="font-data text-[9px] tracking-widest uppercase px-2 py-1 rounded-full bg-[#D4D4D4]/10 border border-[#D4D4D4]/25 text-[#D4D4D4] shrink-0">
@@ -211,7 +230,7 @@ export default async function AdminOverviewPage() {
           </Link>
         </div>
         <div className="divide-y divide-white/5">
-          {recentUsers.map((u: any) => (
+          {recentUsers.map((u) => (
             <div key={u.id} className="flex items-center gap-3 px-4 py-3 hover:bg-white/[0.015] transition-colors">
               <Avatar className="h-8 w-8 border border-black/10">
                 <AvatarImage src={u.avatar_url || undefined} />
@@ -221,7 +240,9 @@ export default async function AdminOverviewPage() {
               </Avatar>
               <div className="flex-1 min-w-0">
                 <p className="font-body text-sm text-black truncate">{u.full_name || "—"}</p>
-                <p className="font-data text-[10px] text-neutral-700">{formatDate(u.created_at)}</p>
+                <p className="font-data text-[10px] text-neutral-700">
+                  {u.created_at ? formatDate(u.created_at) : "—"}
+                </p>
               </div>
               <span className={`font-data text-[9px] tracking-widest uppercase px-2 py-0.5 rounded-full border shrink-0 ${
                 u.role === "admin"

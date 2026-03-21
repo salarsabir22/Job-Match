@@ -5,6 +5,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ArrowLeft, Briefcase } from "lucide-react"
 import { getInitials } from "@/lib/utils"
 import { ChatWindow } from "@/components/chat/ChatWindow"
+import type { Profile } from "@/types"
+
+type MatchQueryRow = {
+  id: string
+  job_id: string
+  jobs?: { title?: string | null }[] | null
+  student?: Pick<Profile, "id" | "full_name" | "avatar_url">[] | null
+  recruiter?: Pick<Profile, "id" | "full_name" | "avatar_url">[] | null
+}
 
 export default async function ChatPage({ params }: { params: Promise<{ matchId: string }> }) {
   const { matchId } = await params
@@ -22,8 +31,22 @@ export default async function ChatPage({ params }: { params: Promise<{ matchId: 
 
   if (!conversation) notFound()
 
-  const match = conversation.matches as any
-  const otherUser = profile?.role === "student" ? match?.recruiter : match?.student
+  const rawMatches = conversation.matches as unknown
+  const match = (Array.isArray(rawMatches) ? rawMatches[0] : rawMatches) as MatchQueryRow | null | undefined
+  const student = match?.student?.[0]
+  const recruiter = match?.recruiter?.[0]
+  const otherUserPartial = profile?.role === "student" ? recruiter : student
+  const otherUser: Profile = {
+    id: otherUserPartial?.id ?? "unknown",
+    role: profile?.role === "student" ? "recruiter" : "student",
+    full_name: otherUserPartial?.full_name ?? "Unknown user",
+    avatar_url: otherUserPartial?.avatar_url ?? null,
+    bio: null,
+    profile_video_url: null,
+    created_at: new Date(0).toISOString(),
+    updated_at: new Date(0).toISOString(),
+  }
+  const jobTitle = match?.jobs?.[0]?.title
 
   return (
     <div className="flex flex-col rounded-2xl overflow-hidden border border-black/10 bg-white" style={{ height: "calc(100dvh - 10rem)" }}>
@@ -34,16 +57,16 @@ export default async function ChatPage({ params }: { params: Promise<{ matchId: 
           <ArrowLeft className="h-4 w-4 text-black" />
         </Link>
         <Avatar className="h-9 w-9 border border-[#FAFAFA]/30">
-          <AvatarImage src={otherUser?.avatar_url} />
+          <AvatarImage src={otherUser.avatar_url || undefined} />
           <AvatarFallback className="bg-white text-neutral-900 text-xs font-bold">
-            {getInitials(otherUser?.full_name || "?")}
+            {getInitials(otherUser.full_name || "?")}
           </AvatarFallback>
         </Avatar>
         <div className="min-w-0 flex-1">
           <p className="font-heading font-semibold text-sm text-black truncate">{otherUser?.full_name}</p>
-          {match?.jobs?.title && (
+          {jobTitle && (
             <p className="font-data text-[10px] text-neutral-700 flex items-center gap-1 truncate">
-              <Briefcase className="h-3 w-3" />{match.jobs.title}
+              <Briefcase className="h-3 w-3" />{jobTitle}
             </p>
           )}
         </div>

@@ -21,8 +21,19 @@ export function ChatWindow({ conversationId, currentUserId, otherUser }: ChatWin
   const bottomRef = useRef<HTMLDivElement>(null)
   const supabase = createClient()
 
+  async function loadMessages() {
+    const { data } = await supabase.from("messages").select("*").eq("conversation_id", conversationId).order("created_at", { ascending: true })
+    setMessages(data || [])
+    setLoading(false)
+    if (data?.length) {
+      await supabase.from("messages").update({ is_read: true }).eq("conversation_id", conversationId).neq("sender_id", currentUserId).eq("is_read", false)
+    }
+  }
+
   useEffect(() => {
-    loadMessages()
+    queueMicrotask(() => {
+      void loadMessages()
+    })
     const channel = supabase
       .channel(`conv:${conversationId}`)
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages", filter: `conversation_id=eq.${conversationId}` },
@@ -37,15 +48,6 @@ export function ChatWindow({ conversationId, currentUserId, otherUser }: ChatWin
   }, [conversationId])
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }) }, [messages])
-
-  const loadMessages = async () => {
-    const { data } = await supabase.from("messages").select("*").eq("conversation_id", conversationId).order("created_at", { ascending: true })
-    setMessages(data || [])
-    setLoading(false)
-    if (data?.length) {
-      await supabase.from("messages").update({ is_read: true }).eq("conversation_id", conversationId).neq("sender_id", currentUserId).eq("is_read", false)
-    }
-  }
 
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault()

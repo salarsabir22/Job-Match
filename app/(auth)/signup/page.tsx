@@ -4,7 +4,6 @@ import { useState } from "react"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"
 import { cn } from "@/lib/utils"
-import type { UserRole } from "@/types"
 import { Loader2, Eye, EyeOff } from "lucide-react"
 
 const GoogleIcon = () => (
@@ -37,16 +36,14 @@ function getPasswordStrength(pw: string): PasswordStrength {
 
 type SignupRole = "student" | "recruiter"
 
-const ROLE_INFO: Record<SignupRole, { icon: React.ElementType; label: string; description: string }> = {
+const ROLE_INFO: Record<SignupRole, { label: string; description: string }> = {
   student: {
-    icon: GraduationCap,
-    label: "Student / Job Seeker",
-    description: "Browse and swipe on jobs, get matched with recruiters, connect with your community",
+    label: "Student",
+    description: "Browse roles, get matched, message when it’s mutual.",
   },
   recruiter: {
-    icon: Building2,
-    label: "Recruiter / Employer",
-    description: "Post positions, discover top student talent, manage applications — pending admin approval",
+    label: "Recruiter",
+    description: "Post jobs and shortlist candidates — account review may apply.",
   },
 }
 
@@ -158,9 +155,7 @@ export default function SignupPage() {
   return (
     <div className="rounded-2xl border border-white/[0.12] bg-white/[0.06] px-6 py-8 sm:px-8 sm:py-10 backdrop-blur-sm">
       <div className="text-center mb-7">
-        <div className="w-14 h-14 rounded-full bg-white/[0.08] border border-white/[0.12] flex items-center justify-center mx-auto mb-4">
-          <Zap className="w-7 h-7 text-white/90" />
-        </div>
+        <p className="font-data text-[10px] tracking-[0.25em] uppercase text-white/38 mb-2">Welcome</p>
         <h1 className="text-[18px] sm:text-[19px] font-semibold tracking-[-0.02em] text-white">Create your account</h1>
         <p className="font-body text-white/45 text-sm mt-1.5">Free — under a minute</p>
       </div>
@@ -192,10 +187,9 @@ export default function SignupPage() {
 
       {/* Global error */}
       {error && (
-        <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/15 border border-red-400/25 mb-5">
-          <AlertCircle className="h-4 w-4 text-red-300 shrink-0 mt-0.5" />
+        <div className="border-l-2 border-red-400/50 bg-red-500/[0.08] pl-4 pr-3 py-3 rounded-r-xl mb-5">
           <div>
-            <p className="font-body text-sm text-red-200/90">{error}</p>
+            <p className="font-body text-[14px] leading-snug text-red-100/90">{error}</p>
             {error.includes("already exists") && (
               <Link href="/login" className="font-body text-xs text-white mt-1 inline-block hover:underline">
                 Go to sign in →
@@ -245,9 +239,7 @@ export default function SignupPage() {
             className={`${inputBase} ${fieldErrors.email ? "border-red-400/50" : ""}`}
           />
           {fieldErrors.email && (
-            <p className="flex items-center gap-1.5 text-xs text-red-300/90 font-body">
-              <AlertCircle className="h-3 w-3 shrink-0" />{fieldErrors.email}
-            </p>
+            <p className="text-xs text-red-300/90 font-body pl-0.5">{fieldErrors.email}</p>
           )}
         </div>
 
@@ -288,9 +280,7 @@ export default function SignupPage() {
             </div>
           )}
           {fieldErrors.password && (
-            <p className="flex items-center gap-1.5 text-xs text-red-300/90 font-body">
-              <AlertCircle className="h-3 w-3 shrink-0" />{fieldErrors.password}
-            </p>
+            <p className="text-xs text-red-300/90 font-body pl-0.5">{fieldErrors.password}</p>
           )}
         </div>
 

@@ -6,7 +6,7 @@ import {
   Loader2, X, Plus, GraduationCap, Building2, CheckCircle2,
   Zap, AlertCircle, Info, ExternalLink, FileText, ImageIcon,
   Heart, Briefcase, MessageCircle, Star, TrendingUp, Users,
-  ChevronRight, ArrowRight, MapPin, Clock, Send, Bell, Video
+  ChevronRight, ArrowRight, Send, Bell, Video
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { UserRole } from "@/types"
@@ -744,10 +744,6 @@ function ProductDemo({ role }: { role: UserRole | null }) {
   }, [screens.length])
 
   useEffect(() => {
-    setScreenIdx(0); setCardIdx(0); setVisible(true)
-  }, [role])
-
-  useEffect(() => {
     const t = setInterval(() => {
       setVisible(false)
       setTimeout(() => {
@@ -1424,7 +1420,7 @@ export default function OnboardingPage() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#FAFAFA] opacity-[0.04] blur-[140px] rounded-full pointer-events-none" />
           <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] bg-[#525252] opacity-[0.03] blur-[100px] rounded-full pointer-events-none" />
           <div className="relative w-full h-full">
-            <ProductDemo role={role} />
+            <ProductDemo key={role ?? "none"} role={role} />
           </div>
         </div>
       </div>

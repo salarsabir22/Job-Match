@@ -1,6 +1,12 @@
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import { Bookmark, MapPin, Wifi, Calendar, Building2 } from "lucide-react"
+import type { Job, RecruiterProfile } from "@/types"
+
+type SavedSwipeRow = {
+  id: string
+  jobs: (Job & { recruiter_profiles?: RecruiterProfile | null }) | null
+}
 
 export default async function SavedJobsPage() {
   const supabase = await createClient()
@@ -33,7 +39,7 @@ export default async function SavedJobsPage() {
         </div>
       ) : (
         <div className="space-y-3">
-          {(saved as any[]).map((swipe) => {
+          {(saved as SavedSwipeRow[]).map((swipe) => {
             const job = swipe.jobs
             const company = job?.recruiter_profiles
             return (
@@ -60,9 +66,9 @@ export default async function SavedJobsPage() {
                     <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" />{job.location}</span>
                   ) : null}
                 </div>
-                {job?.required_skills?.length > 0 && (
+                {(job?.required_skills?.length ?? 0) > 0 && (
                   <div className="flex flex-wrap gap-1">
-                    {job.required_skills.slice(0, 4).map((s: string) => (
+                    {(job?.required_skills ?? []).slice(0, 4).map((s: string) => (
                       <span key={s} className="font-data text-[9px] tracking-wider px-2 py-0.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-neutral-900">{s}</span>
                     ))}
                   </div>
