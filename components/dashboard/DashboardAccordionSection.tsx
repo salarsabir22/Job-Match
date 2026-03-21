@@ -1,8 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronDown } from "lucide-react"
-import { cn } from "@/lib/utils"
 
 type DashboardAccordionSectionProps = {
   title: string
@@ -40,12 +38,7 @@ export function DashboardAccordionSection({
               {badge}
             </span>
           ) : null}
-          <ChevronDown
-            className={cn(
-              "h-4 w-4 text-neutral-700 transition-transform duration-200",
-              open ? "rotate-180" : "rotate-0"
-            )}
-          />
+          <span className="font-data text-[10px] text-neutral-500 tabular-nums w-8 text-right">{open ? "Hide" : "Show"}</span>
         </div>
       </button>
       {open ? <div className="px-4 pb-4 border-t border-black/10">{children}</div> : null}

@@ -1,8 +1,9 @@
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/server"
-import { Briefcase, Users, Heart, Star, ArrowRight, Calendar } from "lucide-react"
 import { DashboardAccordionSection } from "@/components/dashboard/DashboardAccordionSection"
+import { RecruiterDashboardCharts } from "@/components/dashboard/RecruiterDashboardCharts"
 import { formatDate } from "@/lib/utils"
+import { daysLastN, shortDayLabel } from "@/lib/dashboard/time-series"
 
 type JobRow = {
   id: string
@@ -18,9 +19,14 @@ type MatchRow = {
 }
 
 type JobSwipeRow = { job_id: string }
+type CreatedRow = { created_at: string }
 
 export async function RecruiterDashboardView({ userId, fullName }: { userId: string; fullName: string | null }) {
   const supabase = await createClient()
+
+  const thirtyDaysAgo = new Date()
+  thirtyDaysAgo.setUTCDate(thirtyDaysAgo.getUTCDate() - 30)
+  const since = thirtyDaysAgo.toISOString()
 
   const [jobsRes, matchesRes, shortlistedRes] = await Promise.all([
     supabase.from("jobs").select("id, title, is_active, created_at").eq("recruiter_id", userId).order("created_at", { ascending: false }),
@@ -31,7 +37,7 @@ export async function RecruiterDashboardView({ userId, fullName }: { userId: str
   const jobs = (jobsRes.data || []) as JobRow[]
   const jobIds = jobs.map((j) => j.id)
 
-  const [applicationsRes, recentMatchesRes] = await Promise.all([
+  const [applicationsRes, recentMatchesRes, appTimelineRes, matchTimelineRes] = await Promise.all([
     jobIds.length > 0
       ? supabase.from("job_swipes").select("job_id").in("job_id", jobIds).eq("direction", "right")
       : Promise.resolve({ data: [] as JobSwipeRow[] }),
@@ -41,6 +47,15 @@ export async function RecruiterDashboardView({ userId, fullName }: { userId: str
       .eq("recruiter_id", userId)
       .order("created_at", { ascending: false })
       .limit(5),
+    jobIds.length > 0
+      ? supabase
+          .from("job_swipes")
+          .select("created_at")
+          .in("job_id", jobIds)
+          .eq("direction", "right")
+          .gte("created_at", since)
+      : Promise.resolve({ data: [] as CreatedRow[] }),
+    supabase.from("matches").select("created_at").eq("recruiter_id", userId).gte("created_at", since),
   ])
 
   const matches = matchesRes.count || 0
@@ -54,9 +69,25 @@ export async function RecruiterDashboardView({ userId, fullName }: { userId: str
     perJobApps.set(row.job_id, (perJobApps.get(row.job_id) || 0) + 1)
   }
 
+  const days = daysLastN(30)
+  const appRows = (appTimelineRes.data || []) as CreatedRow[]
+  const matchRows = (matchTimelineRes.data || []) as CreatedRow[]
+
+  const timeline = days.map((day) => ({
+    label: shortDayLabel(day),
+    applications: appRows.filter((r) => r.created_at?.slice(0, 10) === day).length,
+    matches: matchRows.filter((r) => r.created_at?.slice(0, 10) === day).length,
+  }))
+
+  const jobBars = [...jobs]
+    .map((j) => ({ name: j.title.length > 24 ? `${j.title.slice(0, 24)}…` : j.title, applications: perJobApps.get(j.id) || 0 }))
+    .filter((x) => x.applications > 0)
+    .sort((a, b) => b.applications - a.applications)
+    .slice(0, 8)
+
   return (
     <div className="space-y-6">
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
         <div>
           <p className="font-data text-[10px] tracking-[0.2em] uppercase text-neutral-700">Recruiter Dashboard</p>
           <h1 className="font-heading text-3xl font-bold text-black mt-1">
@@ -65,36 +96,34 @@ export async function RecruiterDashboardView({ userId, fullName }: { userId: str
         </div>
         <Link
           href="/jobs/new"
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-black text-white text-xs font-semibold shadow-[0_0_16px_-6px_rgba(0,0,0,0.4)]"
+          className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-black text-white text-xs font-semibold shadow-[0_0_16px_-6px_rgba(0,0,0,0.4)] w-fit"
         >
-          Post Job <ArrowRight className="h-3.5 w-3.5" />
+          Post job
         </Link>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {[
-          { label: "Active Jobs", value: activeJobs, icon: Briefcase },
-          { label: "Applications", value: applications, icon: Users },
-          { label: "Matches", value: matches, icon: Heart },
-          { label: "Shortlisted", value: shortlisted, icon: Star },
-        ].map(({ label, value, icon: Icon }) => (
+          { label: "Active jobs", value: String(activeJobs) },
+          { label: "Applications", value: String(applications) },
+          { label: "Matches", value: String(matches) },
+          { label: "Shortlisted", value: String(shortlisted) },
+        ].map(({ label, value }) => (
           <div key={label} className="rounded-xl border border-black/10 bg-white p-4">
-            <div className="flex items-center justify-between mb-2">
-              <p className="font-data text-[9px] tracking-wider uppercase text-neutral-700">{label}</p>
-              <Icon className="h-3.5 w-3.5 text-neutral-900" />
-            </div>
-            <p className="font-heading text-2xl font-bold text-black">{value}</p>
+            <p className="font-data text-[9px] tracking-wider uppercase text-neutral-700">{label}</p>
+            <p className="font-heading text-2xl font-bold text-black mt-2">{value}</p>
           </div>
         ))}
       </div>
 
+      <div>
+        <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mb-1">Last 30 days</p>
+        <p className="font-body text-sm text-neutral-600">Application volume, matches, and top postings.</p>
+        <RecruiterDashboardCharts timeline={timeline} jobBars={jobBars} />
+      </div>
+
       <div className="space-y-3">
-        <DashboardAccordionSection
-          title="Job Performance"
-          subtitle="Live snapshot by posting"
-          badge={`${jobs.length} total`}
-          defaultOpen
-        >
+        <DashboardAccordionSection title="Job performance" subtitle="Per posting" badge={`${jobs.length} total`} defaultOpen>
           <div className="mt-3 space-y-2">
             {jobs.length === 0 ? (
               <p className="font-body text-sm text-neutral-700">No jobs yet. Post your first one to start the pipeline.</p>
@@ -112,7 +141,7 @@ export async function RecruiterDashboardView({ userId, fullName }: { userId: str
                         {job.is_active ? "Active" : "Paused"} · Posted {formatDate(job.created_at)}
                       </p>
                     </div>
-                    <span className="font-heading text-lg font-bold text-black">{perJobApps.get(job.id) || 0}</span>
+                    <span className="font-heading text-lg font-bold text-black tabular-nums">{perJobApps.get(job.id) || 0}</span>
                   </div>
                 </Link>
               ))
@@ -121,8 +150,8 @@ export async function RecruiterDashboardView({ userId, fullName }: { userId: str
         </DashboardAccordionSection>
 
         <DashboardAccordionSection
-          title="Recent Candidate Matches"
-          subtitle="High-intent candidates to follow up"
+          title="Recent candidate matches"
+          subtitle="Follow up"
           badge={`${recentMatches.length} recent`}
           defaultOpen
         >
@@ -133,37 +162,15 @@ export async function RecruiterDashboardView({ userId, fullName }: { userId: str
               recentMatches.map((m) => (
                 <div key={m.id} className="rounded-xl border border-black/10 p-3">
                   <p className="font-body text-sm font-semibold text-black">{m.profiles?.[0]?.full_name || "Candidate"}</p>
-                  <p className="font-data text-[10px] tracking-wider uppercase text-neutral-700 mt-1 flex items-center gap-1">
-                    <Calendar className="h-3 w-3" />Matched {formatDate(m.created_at)}
+                  <p className="font-data text-[10px] tracking-wider uppercase text-neutral-700 mt-1">
+                    Matched {formatDate(m.created_at)}
                   </p>
                 </div>
               ))
             )}
           </div>
         </DashboardAccordionSection>
-
-        <DashboardAccordionSection
-          title="Pipeline Health"
-          subtitle="Top-level conversion checkpoints"
-          badge={applications > 0 ? `${Math.round((matches / applications) * 100)}% match rate` : "No data"}
-        >
-          <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-2">
-            <HealthTile label="Applications" value={applications} />
-            <HealthTile label="Matches" value={matches} />
-            <HealthTile label="Shortlisted" value={shortlisted} />
-          </div>
-        </DashboardAccordionSection>
       </div>
     </div>
   )
 }
-
-function HealthTile({ label, value }: { label: string; value: number }) {
-  return (
-    <div className="rounded-xl border border-black/10 bg-black/[0.01] p-3">
-      <p className="font-data text-[9px] tracking-wider uppercase text-neutral-700">{label}</p>
-      <p className="font-heading text-xl font-bold text-black mt-1">{value}</p>
-    </div>
-  )
-}
-
