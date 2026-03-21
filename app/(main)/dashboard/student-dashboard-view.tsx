@@ -11,14 +11,14 @@ type SavedJobRow = {
     id: string
     title: string
     job_type: string | null
-    recruiter_profiles: { company_name: string | null } | null
-  } | null
+    recruiter_profiles: { company_name: string | null }[] | null
+  }[] | null
 }
 
 type MatchRow = {
   id: string
   created_at: string
-  profiles: { full_name: string | null } | null
+  profiles: { full_name: string | null }[] | null
 }
 
 export async function StudentDashboardView({ userId, fullName }: { userId: string; fullName: string | null }) {
@@ -108,16 +108,22 @@ export async function StudentDashboardView({ userId, fullName }: { userId: strin
               <p className="font-body text-sm text-neutral-700">No saved jobs yet.</p>
             ) : (
               savedJobs.map((row) => (
+                (() => {
+                  const job = row.jobs?.[0]
+                  const companyName = job?.recruiter_profiles?.[0]?.company_name || "Company"
+                  return (
                 <Link
                   key={row.id}
-                  href={row.jobs?.id ? `/jobs/${row.jobs.id}` : "/saved"}
+                  href={job?.id ? `/jobs/${job.id}` : "/saved"}
                   className="block rounded-xl border border-black/10 p-3 hover:border-black/20 transition-colors"
                 >
-                  <p className="font-body text-sm font-semibold text-black">{row.jobs?.title || "Untitled job"}</p>
+                  <p className="font-body text-sm font-semibold text-black">{job?.title || "Untitled job"}</p>
                   <p className="font-body text-xs text-neutral-700 mt-0.5">
-                    {row.jobs?.recruiter_profiles?.company_name || "Company"} · {row.jobs?.job_type?.replace("_", " ") || "Role"}
+                    {companyName} · {job?.job_type?.replace("_", " ") || "Role"}
                   </p>
                 </Link>
+                  )
+                })()
               ))
             )}
           </div>
@@ -134,7 +140,7 @@ export async function StudentDashboardView({ userId, fullName }: { userId: strin
             ) : (
               recentMatches.map((m) => (
                 <div key={m.id} className="rounded-xl border border-black/10 p-3">
-                  <p className="font-body text-sm font-semibold text-black">{m.profiles?.full_name || "Recruiter"}</p>
+                  <p className="font-body text-sm font-semibold text-black">{m.profiles?.[0]?.full_name || "Recruiter"}</p>
                   <p className="font-data text-[10px] tracking-wider uppercase text-neutral-700 mt-1 flex items-center gap-1">
                     <Calendar className="h-3 w-3" />Matched {formatDate(m.created_at)}
                   </p>
