@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr"
 import { NextResponse, type NextRequest } from "next/server"
+import { createSupabaseFetch } from "@/lib/supabase/fetch"
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -19,6 +20,9 @@ export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(supabaseUrl, supabaseKey, {
+    global: {
+      fetch: createSupabaseFetch(),
+    },
     cookies: {
       getAll() {
         return request.cookies.getAll()

@@ -96,3 +96,5 @@ supabase/
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
 ```
+
+Use either the **publishable** key (`sb_publishable_...`) or the legacy **anon** JWT (`eyJ...`) from [Project Settings → API Keys](https://supabase.com/dashboard/project/_/settings/api-keys). For PostgREST (`/rest/v1`), this app removes non-JWT `Authorization` bearer values so publishable keys work (see `lib/supabase/fetch.ts`).
