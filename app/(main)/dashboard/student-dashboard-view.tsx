@@ -4,6 +4,7 @@ import { DashboardAccordionSection } from "@/components/dashboard/DashboardAccor
 import { StudentDashboardCharts } from "@/components/dashboard/StudentDashboardCharts"
 import { formatDate } from "@/lib/utils"
 import { daysLastN, shortDayLabel } from "@/lib/dashboard/time-series"
+import { dashTable } from "@/components/dashboard/dashboard-table-styles"
 
 type SavedJobRow = {
   id: string
@@ -43,13 +44,13 @@ export async function StudentDashboardView({ userId, fullName }: { userId: strin
         .eq("student_id", userId)
         .eq("direction", "saved")
         .order("created_at", { ascending: false })
-        .limit(5),
+        .limit(20),
       supabase
         .from("matches")
         .select("id, created_at, profiles!matches_recruiter_id_fkey(full_name)")
         .eq("student_id", userId)
         .order("created_at", { ascending: false })
-        .limit(5),
+        .limit(20),
       supabase.from("job_swipes").select("created_at, direction").eq("student_id", userId).gte("created_at", since),
       supabase.from("matches").select("created_at").eq("student_id", userId).gte("created_at", since),
     ])
@@ -123,48 +124,81 @@ export async function StudentDashboardView({ userId, fullName }: { userId: strin
         <DashboardAccordionSection
           title="Saved jobs"
           subtitle="Recently bookmarked"
-          badge={`${savedJobs.length} recent`}
+          badge={`${savedJobs.length} items`}
           defaultOpen
         >
-          <div className="mt-3 space-y-2">
-            {savedJobs.length === 0 ? (
-              <p className="font-body text-sm text-neutral-700">No saved jobs yet.</p>
-            ) : (
-              savedJobs.map((row) => {
-                const job = row.jobs?.[0]
-                const companyName = job?.recruiter_profiles?.[0]?.company_name || "Company"
-                return (
-                  <Link
-                    key={row.id}
-                    href={job?.id ? `/jobs/${job.id}` : "/saved"}
-                    className="block rounded-xl border border-black/10 p-3 hover:border-black/20 transition-colors"
-                  >
-                    <p className="font-body text-sm font-semibold text-black">{job?.title || "Untitled job"}</p>
-                    <p className="font-body text-xs text-neutral-700 mt-0.5">
-                      {companyName} · {job?.job_type?.replace("_", " ") || "Role"}
-                    </p>
-                  </Link>
-                )
-              })
-            )}
-          </div>
+          {savedJobs.length === 0 ? (
+            <p className={dashTable.empty}>No saved jobs yet.</p>
+          ) : (
+            <div className={dashTable.wrap}>
+              <table className={dashTable.table}>
+                <thead>
+                  <tr>
+                    <th className={dashTable.th}>Job</th>
+                    <th className={dashTable.th}>Company</th>
+                    <th className={dashTable.th}>Type</th>
+                    <th className={dashTable.th}>Saved</th>
+                    <th className={`${dashTable.th} text-right`}> </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {savedJobs.map((row) => {
+                    const job = row.jobs?.[0]
+                    const companyName = job?.recruiter_profiles?.[0]?.company_name || "—"
+                    const href = job?.id ? `/jobs/${job.id}` : "/saved"
+                    return (
+                      <tr key={row.id} className="hover:bg-black/[0.02]">
+                        <td className={dashTable.td}>
+                          <span className="font-medium">{job?.title || "Untitled"}</span>
+                        </td>
+                        <td className={dashTable.tdMuted}>{companyName}</td>
+                        <td className={dashTable.tdMuted}>{job?.job_type?.replace(/_/g, " ") || "—"}</td>
+                        <td className={dashTable.tdMuted}>{formatDate(row.created_at)}</td>
+                        <td className={`${dashTable.td} text-right`}>
+                          <Link href={href} className={dashTable.link}>
+                            Open
+                          </Link>
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
         </DashboardAccordionSection>
 
-        <DashboardAccordionSection title="Recent matches" subtitle="Recruiter connections" badge={`${matches} total`}>
-          <div className="mt-3 space-y-2">
-            {recentMatches.length === 0 ? (
-              <p className="font-body text-sm text-neutral-700">No matches yet. Keep swiping.</p>
-            ) : (
-              recentMatches.map((m) => (
-                <div key={m.id} className="rounded-xl border border-black/10 p-3">
-                  <p className="font-body text-sm font-semibold text-black">{m.profiles?.[0]?.full_name || "Recruiter"}</p>
-                  <p className="font-data text-[10px] tracking-wider uppercase text-neutral-700 mt-1">
-                    Matched {formatDate(m.created_at)}
-                  </p>
-                </div>
-              ))
-            )}
-          </div>
+        <DashboardAccordionSection title="Matches" subtitle="Recruiter connections" badge={`${matches} total`}>
+          {recentMatches.length === 0 ? (
+            <p className={dashTable.empty}>No matches yet. Keep swiping.</p>
+          ) : (
+            <div className={dashTable.wrap}>
+              <table className={dashTable.table}>
+                <thead>
+                  <tr>
+                    <th className={dashTable.th}>Recruiter</th>
+                    <th className={dashTable.th}>Matched</th>
+                    <th className={`${dashTable.th} text-right`}> </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recentMatches.map((m) => (
+                    <tr key={m.id} className="hover:bg-black/[0.02]">
+                      <td className={dashTable.td}>
+                        <span className="font-medium">{m.profiles?.[0]?.full_name || "Recruiter"}</span>
+                      </td>
+                      <td className={dashTable.tdMuted}>{formatDate(m.created_at)}</td>
+                      <td className={`${dashTable.td} text-right`}>
+                        <Link href="/matches" className={dashTable.link}>
+                          View
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </DashboardAccordionSection>
       </div>
     </div>
