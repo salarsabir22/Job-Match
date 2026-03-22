@@ -1,7 +1,6 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -14,7 +13,6 @@ import {
   Smile,
   Square,
   Trash2,
-  X,
   Zap,
 } from "lucide-react"
 import { formatTime, getInitials } from "@/lib/utils"
@@ -24,8 +22,9 @@ import {
   serializeImage,
   serializeText,
   serializeVoice,
-  type ChatPayload,
 } from "@/lib/chat-message"
+import { ChatMessageBubble } from "@/components/chat/ChatMessageBubble"
+import type { MessageDeliveryStatus } from "@/components/chat/MessageTicks"
 import TextareaAutosize from "react-textarea-autosize"
 import { useVoiceRecorder } from "@/components/chat/useVoiceRecorder"
 import { cn } from "@/lib/utils"
@@ -39,62 +38,19 @@ const EmojiPicker = dynamic(
 
 const CHAT_MEDIA_BUCKET = "chat-media"
 
+function deliveryStatusFor(msg: Message, isOwn: boolean): MessageDeliveryStatus | undefined {
+  if (!isOwn) return undefined
+  if (msg.id.startsWith("optimistic-")) return "sending"
+  if (msg.is_read) return "read"
+  return "sent"
+}
+
 interface ChatWindowProps {
   conversationId: string
   currentUserId: string
   otherUser: Profile
   /** Full-page chat vs compact dock */
   variant?: "page" | "dock"
-}
-
-function MessageBubble({
-  payload,
-  isOwn,
-}: {
-  payload: ChatPayload
-  isOwn: boolean
-}) {
-  const bubble = cn(
-    "max-w-[85%] rounded-2xl font-body text-sm leading-relaxed break-words",
-    isOwn
-      ? "bg-primary text-primary-foreground rounded-br-md px-3.5 py-2 shadow-sm"
-      : "bg-primary/5 text-foreground rounded-bl-md border border-primary/20 px-3.5 py-2"
-  )
-
-  if (payload.type === "voice") {
-    return (
-      <div className={bubble}>
-        <audio
-          src={payload.url}
-          controls
-          className="h-9 w-[min(100%,220px)] max-w-full"
-          preload="metadata"
-        />
-        {payload.durationSec > 0 && (
-          <p className="font-data text-[10px] opacity-80 mt-1">{payload.durationSec}s</p>
-        )}
-      </div>
-    )
-  }
-
-  if (payload.type === "image") {
-    return (
-      <div className={cn(bubble, "p-1.5 overflow-hidden")}>
-        <a href={payload.url} target="_blank" rel="noopener noreferrer" className="block">
-          <Image
-            src={payload.url}
-            alt=""
-            width={280}
-            height={200}
-            className="rounded-xl max-h-48 w-auto object-contain"
-            unoptimized
-          />
-        </a>
-      </div>
-    )
-  }
-
-  return <div className={bubble}>{payload.body}</div>
 }
 
 export function ChatWindow({ conversationId, currentUserId, otherUser, variant = "page" }: ChatWindowProps) {
@@ -149,6 +105,19 @@ export function ChatWindow({ conversationId, currentUserId, otherUser, variant =
             if (prev.some((m) => m.id === payload.new.id)) return prev
             return [...prev, payload.new as Message]
           })
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "messages",
+          filter: `conversation_id=eq.${conversationId}`,
+        },
+        (payload) => {
+          const next = payload.new as Message
+          setMessages((prev) => prev.map((m) => (m.id === next.id ? { ...m, ...next } : m)))
         }
       )
       .subscribe()
@@ -260,7 +229,7 @@ export function ChatWindow({ conversationId, currentUserId, otherUser, variant =
 
   return (
     <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
-      <div className={cn("flex-1 overflow-y-auto", isDock ? "px-3" : "px-4")}>
+      <div className={cn("flex-1 overflow-y-auto bg-muted/15", isDock ? "px-3" : "px-4")}>
         <div className="py-3 space-y-2">
           {messages.length === 0 && (
             <div className="flex flex-col items-center gap-3 py-8 text-center">
@@ -291,16 +260,21 @@ export function ChatWindow({ conversationId, currentUserId, otherUser, variant =
                     {formatTime(msg.created_at)}
                   </p>
                 )}
-                <div className={cn("flex items-end gap-2", isOwn ? "flex-row-reverse" : "flex-row")}>
+                <div className={cn("flex items-end gap-2 group/msg", isOwn ? "flex-row-reverse" : "flex-row")}>
                   {!isOwn && (
-                    <Avatar className="h-7 w-7 shrink-0 mb-0.5 border border-primary/20">
+                    <Avatar className="h-7 w-7 shrink-0 mb-1 border border-primary/20">
                       <AvatarImage src={otherUser.avatar_url || undefined} />
                       <AvatarFallback className="bg-primary/10 text-primary text-[10px] font-bold">
                         {getInitials(otherUser.full_name || "?")}
                       </AvatarFallback>
                     </Avatar>
                   )}
-                  <MessageBubble payload={payload} isOwn={isOwn} />
+                  <ChatMessageBubble
+                    payload={payload}
+                    isOwn={isOwn}
+                    createdAt={msg.created_at}
+                    deliveryStatus={deliveryStatusFor(msg, isOwn)}
+                  />
                 </div>
               </div>
             )
@@ -323,7 +297,7 @@ export function ChatWindow({ conversationId, currentUserId, otherUser, variant =
             <Button
               type="button"
               size="sm"
-              className="h-8 gap-1"
+              className="h-8 gap-1 bg-primary text-primary-foreground hover:bg-[var(--clearpath-navy-hover)]"
               onClick={() => void sendVoiceMessage()}
               disabled={uploadingVoice}
             >
@@ -373,7 +347,7 @@ export function ChatWindow({ conversationId, currentUserId, otherUser, variant =
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 shrink-0 text-muted-foreground"
+                className="h-8 w-8 shrink-0 text-muted-foreground hover:text-primary"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploadingImage || recording}
                 aria-label="Photo"
