@@ -1,15 +1,30 @@
 "use client"
 
 import { useState, type FormEvent } from "react"
+import dynamic from "next/dynamic"
 import Image from "next/image"
 import Link from "next/link"
 import { AnimatePresence, motion, useAnimation, useReducedMotion } from "framer-motion"
 import { StaggerChild, StaggerMount, easeOutExpo } from "@/components/motion/waitlist-motion"
-import { WaitlistAudienceSections } from "@/components/waitlist/AudienceSections"
-import { WaitlistFaq } from "@/components/waitlist/WaitlistFaq"
-import { WaitlistFooter } from "@/components/waitlist/WaitlistFooter"
-import { WaitlistUspSections } from "@/components/waitlist/UspSections"
-import { WaitlistEarthCanvas } from "@/components/waitlist/WaitlistEarthCanvas"
+
+const WaitlistEarthCanvas = dynamic(
+  () => import("@/components/waitlist/WaitlistEarthCanvas").then((m) => m.WaitlistEarthCanvas),
+  {
+    ssr: false,
+    loading: () => <div className="absolute inset-0 bg-black" aria-hidden />,
+  },
+)
+
+const WaitlistUspSections = dynamic(() =>
+  import("@/components/waitlist/UspSections").then((m) => m.WaitlistUspSections),
+)
+const WaitlistAudienceSections = dynamic(() =>
+  import("@/components/waitlist/AudienceSections").then((m) => m.WaitlistAudienceSections),
+)
+const WaitlistFaq = dynamic(() => import("@/components/waitlist/WaitlistFaq").then((m) => m.WaitlistFaq))
+const WaitlistFooter = dynamic(() =>
+  import("@/components/waitlist/WaitlistFooter").then((m) => m.WaitlistFooter),
+)
 
 const CONTACT_MAIL = "mailto:hello@jobmatch.app"
 
@@ -21,11 +36,11 @@ const formShake = {
 /** Stock portraits (Unsplash) — face-cropped, stable IDs */
 const WAITLIST_FACE_AVATARS: { src: string; alt: string }[] = [
   {
-    src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&crop=faces&w=128&h=128&q=80",
+    src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&crop=faces&w=128&h=128&q=75",
     alt: "Student on the JobMatch waitlist",
   },
   {
-    src: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&crop=faces&w=128&h=128&q=80",
+    src: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&crop=faces&w=128&h=128&q=75",
     alt: "Student on the JobMatch waitlist",
   },
   {
@@ -33,7 +48,7 @@ const WAITLIST_FACE_AVATARS: { src: string; alt: string }[] = [
     alt: "Student on the JobMatch waitlist",
   },
   {
-    src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&crop=faces&w=128&h=128&q=80",
+    src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&crop=faces&w=128&h=128&q=75",
     alt: "Student on the JobMatch waitlist",
   },
 ]
@@ -134,7 +149,7 @@ export function WaitlistForm() {
           </Link>
           <a
             href={CONTACT_MAIL}
-            className="text-[13px] font-medium text-white/45 hover:text-[#5ac8fa] transition-colors duration-300"
+            className="text-[13px] font-medium text-white/45 transition-colors duration-300 hover:text-[var(--waitlist-blue)]"
           >
             Contact
           </a>
@@ -211,7 +226,7 @@ export function WaitlistForm() {
                       </p>
                       <Link
                         href="/waitlist?success=1"
-                        className="mt-6 inline-block text-[13px] font-medium text-[#5ac8fa] underline-offset-[5px] hover:text-[#7dc8ff] hover:underline"
+                        className="mt-6 inline-block text-[13px] font-medium text-[var(--waitlist-blue)] underline-offset-[5px] hover:text-[var(--waitlist-blue-hover)] hover:underline"
                       >
                         View confirmation page
                       </Link>

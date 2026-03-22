@@ -14,18 +14,18 @@ import {
 /** Unsplash — one coherent “modern office / early-career” set (same energy, natural light) */
 const IMG = {
   swipeFront:
-    "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=720&h=900&q=88",
+    "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=520&h=650&q=75",
   swipeMid:
-    "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=560&h=700&q=88",
+    "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=480&h=600&q=75",
   swipeBack:
-    "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=560&h=700&q=88",
+    "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=480&h=600&q=75",
   /** Neutral office texture — reads as company mark in a circle */
   companyMark:
-    "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=200&h=200&q=85",
+    "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=128&h=128&q=75",
   studentFace:
-    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=128&h=128&q=80",
+    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=128&h=128&q=75",
   recruiterFace:
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=128&h=128&q=80",
+    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=128&h=128&q=75",
 } as const
 
 const usps: {
@@ -127,6 +127,7 @@ function DemoSwipe() {
               fill
               className="object-cover"
               sizes="255px"
+              quality={72}
             />
             <div className="absolute inset-0 bg-black/18" />
           </div>
@@ -161,6 +162,7 @@ function DemoSwipe() {
                       fill
                       className="object-cover"
                       sizes="36px"
+                      quality={70}
                     />
                   </div>
                   <span className="rounded-full border border-black/15 bg-white px-3.5 py-2 text-[10px] font-medium tracking-wide text-black/65 shadow-sm">
@@ -212,6 +214,7 @@ function DemoMutual() {
             fill
             className="object-cover"
             sizes="56px"
+            quality={70}
           />
         </div>
       </div>
