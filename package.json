@@ -42,6 +42,12 @@
     "zod": "^4.3.6",
     "zustand": "^5.0.11"
   },
+  "browserslist": [
+    "chrome >= 105",
+    "edge >= 105",
+    "firefox >= 104",
+    "safari >= 16"
+  ],
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",

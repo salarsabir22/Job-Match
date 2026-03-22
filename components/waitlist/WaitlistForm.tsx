@@ -44,7 +44,7 @@ const WAITLIST_FACE_AVATARS: { src: string; alt: string }[] = [
     alt: "Student on the JobMatch waitlist",
   },
   {
-    src: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&crop=faces&w=128&h=128&q=80",
+    src: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&crop=faces&w=128&h=128&q=75",
     alt: "Student on the JobMatch waitlist",
   },
   {
@@ -137,7 +137,7 @@ export function WaitlistForm() {
         {/* Header */}
         <motion.header
           className="relative z-20 mx-auto flex w-full max-w-[1120px] items-center justify-between gap-6 px-5 pt-7 sm:px-10 sm:pt-9 lg:px-12"
-          initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -14 }}
+          initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.48, ease: easeOutExpo }}
         >
@@ -156,7 +156,7 @@ export function WaitlistForm() {
         </motion.header>
 
         <StaggerMount className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center px-5 py-12 text-center sm:px-10 sm:py-16 lg:px-12 lg:py-20">
-          <StaggerChild>
+          <StaggerChild hero>
             <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.28em] text-white/45">
               Early access
             </p>
@@ -194,7 +194,7 @@ export function WaitlistForm() {
             </div>
           </StaggerChild>
 
-          <StaggerChild>
+          <StaggerChild hero>
             <div className="mx-auto mt-10 w-full max-w-lg sm:mt-12">
               <AnimatePresence mode="wait">
                 {submitSuccess ? (

@@ -57,6 +57,16 @@ export const staggerItem: Variants = {
   },
 }
 
+/** Hero / above-fold: keep opacity at 1 so LCP isn’t blocked by Framer’s default hidden state (opacity: 0). */
+export const staggerItemHero: Variants = {
+  hidden: { opacity: 1, y: 14 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration, ease: easeOutExpo },
+  },
+}
+
 export const faqStaggerParent: Variants = {
   hidden: {},
   visible: {
@@ -127,8 +137,17 @@ export function StaggerMount({ children, className }: { children: ReactNode; cla
   )
 }
 
-export function StaggerChild({ children, className }: { children: ReactNode; className?: string }) {
-  const v = useReducedEnterVariants(staggerItem)
+export function StaggerChild({
+  children,
+  className,
+  hero,
+}: {
+  children: ReactNode
+  className?: string
+  /** Use on above-fold waitlist copy so the headline can paint for LCP before/during motion. */
+  hero?: boolean
+}) {
+  const v = useReducedEnterVariants(hero ? staggerItemHero : staggerItem)
   return (
     <motion.div className={className} variants={v}>
       {children}
