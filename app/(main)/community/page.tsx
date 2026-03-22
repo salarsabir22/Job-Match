@@ -1,22 +1,32 @@
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { Hash, Users, MessageCircle, TrendingUp, CheckCircle } from "lucide-react"
+import { Hash, Users, MessageCircle } from "lucide-react"
+import { DiscoverHeader, DiscoverStatStrip } from "@/components/discover"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { cn } from "@/lib/utils"
 
-const CATEGORY_META: Record<string, { color: string; description: string; emoji: string }> = {
-  tech:       { color: "#FAFAFA", description: "Engineering, dev, and infrastructure discussions", emoji: "⚡" },
-  design:     { color: "#D4D4D4", description: "UI/UX, product design, and creative conversations", emoji: "🎨" },
-  finance:    { color: "#525252", description: "Fintech, DeFi, crypto, and investment talks", emoji: "📊" },
-  marketing:  { color: "#FAFAFA", description: "Growth, content, brand, and go-to-market strategies", emoji: "📣" },
-  data:       { color: "#D4D4D4", description: "Data science, analytics, and machine learning", emoji: "🔢" },
-  startup:    { color: "#525252", description: "Founders, investors, and startup ecosystem news", emoji: "🚀" },
-  general:    { color: "#94A3B8", description: "Open discussions, networking, and introductions", emoji: "💬" },
-  career:     { color: "#FAFAFA", description: "Job search tips, interview prep, and career advice", emoji: "🎯" },
+const CATEGORY_META: Record<string, { description: string }> = {
+  tech: { description: "Engineering, infrastructure, and developer tools." },
+  design: { description: "Product design, UX, and creative work." },
+  finance: { description: "Markets, fintech, and investing." },
+  marketing: { description: "Growth, brand, and go-to-market." },
+  data: { description: "Analytics, data science, and ML." },
+  startup: { description: "Founders, funding, and company building." },
+  general: { description: "General discussion and introductions." },
+  career: { description: "Hiring, interviews, and career progression." },
+}
+
+function categoryLabel(slug: string) {
+  return slug.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
 }
 
 export default async function CommunityPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) redirect("/login")
 
   const { data: channels } = await supabase
@@ -24,17 +34,13 @@ export default async function CommunityPage() {
     .select("*, channel_members(user_id)")
     .order("name")
 
-  const { data: memberships } = await supabase
-    .from("channel_members")
-    .select("channel_id")
-    .eq("user_id", user.id)
+  const { data: memberships } = await supabase.from("channel_members").select("channel_id").eq("user_id", user.id)
 
-  const joinedIds = new Set(memberships?.map(m => m.channel_id) || [])
+  const joinedIds = new Set(memberships?.map((m) => m.channel_id) || [])
 
   const totalMembers = (channels || []).reduce((sum, ch) => sum + (ch.channel_members?.length || 0), 0)
   const joinedCount = joinedIds.size
 
-  // Sort channels: largest member count first within each category
   type Ch = NonNullable<typeof channels>[number]
   const byCategory = (channels || []).reduce((acc: Record<string, Ch[]>, ch) => {
     const cat = ch.category || "general"
@@ -43,150 +49,141 @@ export default async function CommunityPage() {
     return acc
   }, {})
 
-  // Sort each category's channels by member count desc
   for (const cat of Object.keys(byCategory)) {
     byCategory[cat].sort((a, b) => (b.channel_members?.length || 0) - (a.channel_members?.length || 0))
   }
 
-  // Find the most popular channel
+  const categoryCount = Object.keys(byCategory).length
   const allSorted = (channels || []).slice().sort((a, b) => (b.channel_members?.length || 0) - (a.channel_members?.length || 0))
   const topChannel = allSorted[0]
+  const channelTotal = channels?.length || 0
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
-        <div className="min-w-0">
-          <div>
-            <h1 className="font-heading text-2xl font-bold text-foreground sm:text-[1.75rem]">Community</h1>
-            <p className="font-data text-[10px] tracking-wider uppercase text-neutral-700 mt-0.5">
-              {channels?.length || 0} channels · {totalMembers} members
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          {joinedCount > 0 && (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/25">
-              <CheckCircle className="h-3.5 w-3.5 text-primary" />
-              <span className="font-data text-[10px] tracking-wider uppercase text-primary">
-                {joinedCount} joined
+    <div className="space-y-10">
+      <DiscoverHeader
+        eyebrow="Channels"
+        title="Community"
+        description={
+          <>
+            {channelTotal} channel{channelTotal !== 1 ? "s" : ""} · {totalMembers} memberships across channels
+            {joinedCount > 0 ? (
+              <>
+                {" "}
+                · {joinedCount} joined
+              </>
+            ) : null}
+          </>
+        }
+        action={
+          joinedCount > 0 ? (
+            <Badge variant="secondary" className="rounded-full px-3 py-1 font-data text-[10px] uppercase tracking-wide">
+              {joinedCount} member{joinedCount !== 1 ? "s" : ""}
+            </Badge>
+          ) : null
+        }
+      />
+
+      {channelTotal > 0 ? (
+        <DiscoverStatStrip
+          columns={4}
+          caption="Counts"
+          items={[
+            { label: "Channels", value: channelTotal },
+            { label: "Memberships", value: totalMembers, sub: "Sum of joins" },
+            { label: "Yours", value: joinedCount },
+            { label: "Categories", value: categoryCount },
+          ]}
+        />
+      ) : null}
+
+      {topChannel && (topChannel.channel_members?.length || 0) > 1 ? (
+        <Link href={`/community/${topChannel.id}`} className="block">
+          <Card className="overflow-hidden border-border shadow-sm transition-colors hover:border-border">
+            <CardContent className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:gap-4">
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Users className="h-4 w-4 shrink-0" />
+                <span className="font-data text-[10px] font-medium uppercase tracking-[0.14em]">Largest channel</span>
+              </div>
+              <div className="flex min-w-0 flex-1 items-center gap-2">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-primary/5">
+                  <Hash className="h-4 w-4 text-primary" />
+                </div>
+                <p className="font-heading truncate text-base font-semibold text-foreground">#{topChannel.name}</p>
+              </div>
+              <div className="flex items-center gap-1.5 font-data text-xs text-muted-foreground sm:shrink-0">
+                <Users className="h-3.5 w-3.5" />
+                {topChannel.channel_members?.length || 0} members
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
+      ) : null}
+
+      {Object.entries(byCategory).map(([category, chans]) => {
+        const meta = CATEGORY_META[category] || { description: "" }
+        return (
+          <div key={category} className="space-y-4">
+            <div className="flex flex-wrap items-start gap-3 border-b border-border pb-3">
+              <div className="min-w-0 flex-1">
+                <h2 className="font-heading text-sm font-semibold text-foreground">{categoryLabel(category)}</h2>
+                {meta.description ? (
+                  <p className="font-body mt-1 text-sm text-muted-foreground">{meta.description}</p>
+                ) : null}
+              </div>
+              <span className="font-data text-[10px] text-muted-foreground">
+                {chans.length} channel{chans.length !== 1 ? "s" : ""}
               </span>
             </div>
-          )}
-        </div>
-      </div>
 
-      {/* Stats bar */}
-      {(channels?.length || 0) > 0 && (
-        <div className="grid grid-cols-3 gap-3">
-          {[
-            { label: "Channels", value: channels?.length || 0, icon: Hash, color: "#FAFAFA" },
-            { label: "Members", value: totalMembers, icon: Users, color: "#D4D4D4" },
-            { label: "Joined", value: joinedCount, icon: CheckCircle, color: "#D4D4D4" },
-          ].map(({ label, value, icon: Icon, color }) => (
-            <div key={label} className="rounded-xl bg-white border border-black/10 p-3 flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${color}15`, border: `1px solid ${color}25` }}>
-                <Icon className="h-3.5 w-3.5" style={{ color }} />
-              </div>
-              <div>
-                <p className="font-heading font-bold text-lg leading-none" style={{ color }}>{value}</p>
-                <p className="font-data text-[9px] tracking-wider uppercase text-neutral-700 mt-0.5">{label}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Most active channel highlight */}
-      {topChannel && (topChannel.channel_members?.length || 0) > 1 && (
-        <Link href={`/community/${topChannel.id}`}>
-          <div className="flex items-center gap-4 p-4 rounded-xl bg-neutral-50 border border-black/10 hover:border-black/20 transition-all duration-300 cursor-pointer">
-            <div className="flex items-center gap-1.5">
-              <TrendingUp className="h-4 w-4 text-neutral-900" />
-              <span className="font-data text-[10px] tracking-widest uppercase text-neutral-900">Most Active</span>
-            </div>
-            <div className="flex items-center gap-2 flex-1 min-w-0">
-              <Hash className="h-4 w-4 text-black shrink-0" />
-              <p className="font-heading font-semibold text-black truncate">#{topChannel.name}</p>
-            </div>
-            <div className="flex items-center gap-1 font-data text-[10px] text-neutral-700 shrink-0">
-              <Users className="h-3 w-3" />{topChannel.channel_members?.length || 0} members
-            </div>
-          </div>
-        </Link>
-      )}
-
-      {/* Channel categories */}
-      {Object.entries(byCategory).map(([category, chans]) => {
-        const meta = CATEGORY_META[category] || { color: "#FAFAFA", description: "", emoji: "💬" }
-        const accent = meta.color
-        return (
-          <div key={category} className="space-y-3">
-            <div className="flex items-center gap-3">
-              <span className="text-base">{meta.emoji}</span>
-              <div className="flex-1">
-                <h2 className="font-heading font-semibold text-sm capitalize" style={{ color: accent }}>
-                  {category}
-                </h2>
-                {meta.description && (
-                  <p className="font-body text-xs text-neutral-700">{meta.description}</p>
-                )}
-              </div>
-              <span className="font-data text-[10px] text-neutral-700">{chans.length} channel{chans.length !== 1 ? "s" : ""}</span>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 xl:grid-cols-3">
               {chans.map((channel) => {
                 const memberCount = channel.channel_members?.length || 0
                 const isJoined = joinedIds.has(channel.id)
                 const isPopular = memberCount >= 5
 
                 return (
-                  <Link key={channel.id} href={`/community/${channel.id}`}>
-                    <div className="flex items-start gap-3 p-5 rounded-2xl bg-white border border-black/10 hover:border-[#FAFAFA]/30 hover:shadow-[0_0_20px_-8px_rgba(255,255,255,0.2)] transition-all duration-300 h-full cursor-pointer relative overflow-hidden">
-                      {/* Accent glow */}
-                      {isJoined && (
-                        <div className="absolute top-0 right-0 w-1 h-full opacity-60" style={{ background: accent }} />
+                  <Link key={channel.id} href={`/community/${channel.id}`} className="group block h-full">
+                    <Card
+                      className={cn(
+                        "relative h-full overflow-hidden border-border shadow-sm transition-colors",
+                        "hover:border-border hover:bg-muted/20"
                       )}
-
-                      <div
-                        className="h-11 w-11 rounded-xl flex items-center justify-center shrink-0 mt-0.5"
-                        style={{ background: `${accent}18`, border: `1px solid ${accent}30` }}
-                      >
-                        <Hash className="h-5 w-5" style={{ color: accent }} />
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <p className="font-heading font-semibold text-sm text-black">#{channel.name}</p>
-                          {isJoined && (
-                            <span className="font-data text-[9px] tracking-widest uppercase px-1.5 py-0.5 rounded-full bg-primary/10 border border-primary/25 text-primary">
-                              Joined
-                            </span>
-                          )}
-                          {isPopular && !isJoined && (
-                            <span className="font-data text-[9px] tracking-widest uppercase px-1.5 py-0.5 rounded-full bg-[#D4D4D4]/10 border border-[#D4D4D4]/25 text-[#D4D4D4]">
-                              Popular
-                            </span>
-                          )}
+                    >
+                      {isJoined ? (
+                        <div className="absolute left-0 top-0 h-full w-0.5 bg-foreground/20" aria-hidden />
+                      ) : null}
+                      <CardContent className="flex gap-4 p-5">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-border bg-muted/30">
+                          <Hash className="h-5 w-5 text-muted-foreground" />
                         </div>
-
-                        {channel.description && (
-                          <p className="font-body text-xs text-neutral-700 mt-1 line-clamp-2">{channel.description}</p>
-                        )}
-
-                        <div className="flex items-center justify-between mt-2">
-                          <div className="flex items-center gap-1 font-data text-[10px] text-neutral-700">
-                            <Users className="h-3 w-3" />{memberCount} member{memberCount !== 1 ? "s" : ""}
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <p className="font-heading text-sm font-semibold text-foreground truncate group-hover:text-primary">
+                              #{channel.name}
+                            </p>
+                            {isJoined ? (
+                              <Badge variant="secondary" className="font-data text-[9px] uppercase tracking-wide">
+                                Joined
+                              </Badge>
+                            ) : null}
+                            {isPopular && !isJoined ? (
+                              <Badge variant="outline" className="font-data text-[9px] text-muted-foreground">
+                                Active
+                              </Badge>
+                            ) : null}
                           </div>
-                          {!isJoined && (
-                            <span className="font-data text-[9px] tracking-wider uppercase text-neutral-900">
-                              Join →
+                          {channel.description ? (
+                            <p className="font-body mt-1 line-clamp-2 text-xs text-muted-foreground">{channel.description}</p>
+                          ) : null}
+                          <div className="mt-3 flex items-center justify-between gap-2">
+                            <span className="inline-flex items-center gap-1 font-data text-[10px] text-muted-foreground">
+                              <Users className="h-3 w-3" />
+                              {memberCount} member{memberCount !== 1 ? "s" : ""}
                             </span>
-                          )}
+                          </div>
                         </div>
-                      </div>
-                    </div>
+                      </CardContent>
+                    </Card>
                   </Link>
                 )
               })}
@@ -195,20 +192,21 @@ export default async function CommunityPage() {
         )
       })}
 
-      {/* Empty state */}
-      {!channels?.length && (
-        <div className="text-center py-32 space-y-4">
-          <div className="w-16 h-16 rounded-2xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center mx-auto">
-            <MessageCircle className="h-8 w-8 text-primary" />
-          </div>
-          <div>
-            <p className="font-heading font-semibold text-foreground mb-1">No channels yet</p>
-            <p className="font-body text-sm text-neutral-700 max-w-xs mx-auto">
-              Community channels haven&apos;t been set up yet. Ask an admin to create some channels to get started.
-            </p>
-          </div>
-        </div>
-      )}
+      {!channelTotal ? (
+        <Card className="border-dashed border-border bg-muted/20 shadow-none">
+          <CardContent className="flex flex-col items-center justify-center gap-4 py-16 text-center sm:py-20">
+            <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-border bg-muted/30">
+              <MessageCircle className="h-7 w-7 text-muted-foreground" strokeWidth={1.5} />
+            </div>
+            <div className="max-w-md space-y-2">
+              <h2 className="font-heading text-lg font-semibold text-foreground">No channels</h2>
+              <p className="font-body text-sm leading-relaxed text-muted-foreground">
+                None are set up yet. Contact your administrator if you expected to see channels here.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      ) : null}
     </div>
   )
 }
