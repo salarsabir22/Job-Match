@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server"
 import Link from "next/link"
-import { Building2 } from "lucide-react"
+import { Building2, Heart } from "lucide-react"
+import { PageSymbol } from "@/components/ui/page-symbol"
 import { formatDate } from "@/lib/utils"
 
 type MatchListItem = {
@@ -46,13 +47,16 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
 
   return (
     <div className="space-y-8">
-      <header className="space-y-1">
-        <h1 className="font-heading font-bold text-3xl tracking-tight text-neutral-950">Matches</h1>
-        <p className="font-body text-sm text-neutral-600">
-          {matches.length === 0
-            ? "When a recruiter likes you back, the conversation starts here."
-            : `${matches.length} mutual match${matches.length !== 1 ? "es" : ""} — open a thread to keep momentum.`}
-        </p>
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
+        <PageSymbol icon={Heart} className="sm:mt-0.5" />
+        <div className="space-y-1 min-w-0">
+          <h1 className="font-heading font-bold text-3xl tracking-tight text-neutral-950">Matches</h1>
+          <p className="font-body text-sm text-neutral-600">
+            {matches.length === 0
+              ? "When a recruiter likes you back, the conversation starts here."
+              : `${matches.length} mutual match${matches.length !== 1 ? "es" : ""} — open a thread to keep momentum.`}
+          </p>
+        </div>
       </header>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-px rounded-2xl bg-neutral-200/80 overflow-hidden border border-neutral-200/80">

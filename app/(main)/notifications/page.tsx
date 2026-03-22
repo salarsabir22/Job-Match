@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client"
 import type { Notification } from "@/types"
 import { formatTime } from "@/lib/utils"
 import { Bell, Loader2, CheckCircle, XCircle } from "lucide-react"
+import { PageSymbol } from "@/components/ui/page-symbol"
 
 export default function NotificationsPage() {
   const supabase = useMemo(() => createClient(), [])
@@ -83,14 +84,14 @@ export default function NotificationsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="font-heading font-bold text-2xl text-black flex items-center gap-2">
-            <Bell className="h-5 w-5 text-neutral-900" />
-            Notifications
-          </h1>
+        <div className="flex items-start gap-3">
+          <PageSymbol icon={Bell} className="mt-0.5" />
+          <div>
+          <h1 className="font-heading font-bold text-2xl text-black">Notifications</h1>
           <p className="font-data text-[11px] tracking-widest uppercase text-neutral-700 mt-1">
             {unreadCount > 0 ? `${unreadCount} unread` : "All caught up"}
           </p>
+          </div>
         </div>
       </div>
 

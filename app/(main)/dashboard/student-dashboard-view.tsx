@@ -1,4 +1,6 @@
 import Link from "next/link"
+import { LayoutDashboard } from "lucide-react"
+import { PageSymbol } from "@/components/ui/page-symbol"
 import { createClient } from "@/lib/supabase/server"
 import { DashboardAccordionSection } from "@/components/dashboard/DashboardAccordionSection"
 import { StudentDashboardCharts } from "@/components/dashboard/StudentDashboardCharts"
@@ -86,11 +88,14 @@ export async function StudentDashboardView({ userId, fullName }: { userId: strin
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-        <div>
-          <p className="font-data text-[10px] tracking-[0.2em] uppercase text-neutral-700">Student Dashboard</p>
-          <h1 className="font-heading text-3xl font-bold text-black mt-1">
-            Welcome back{fullName ? `, ${fullName.split(" ")[0]}` : ""}
-          </h1>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4 min-w-0">
+          <PageSymbol icon={LayoutDashboard} className="sm:mt-1 shrink-0" />
+          <div>
+            <p className="font-data text-[10px] tracking-[0.2em] uppercase text-neutral-700">Student Dashboard</p>
+            <h1 className="font-heading text-3xl font-bold text-black mt-1">
+              Welcome back{fullName ? `, ${fullName.split(" ")[0]}` : ""}
+            </h1>
+          </div>
         </div>
         <Link
           href="/discover"

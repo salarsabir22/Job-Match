@@ -6,7 +6,8 @@ import { SwipeCard } from "@/components/swipe/SwipeCard"
 import { CandidateCard } from "@/components/swipe/CandidateCard"
 import { useToast } from "@/lib/hooks/use-toast"
 import Link from "next/link"
-import { X, Heart, ChevronDown, CheckCircle } from "lucide-react"
+import { X, Heart, ChevronDown, CheckCircle, UserSearch } from "lucide-react"
+import { PageSymbol } from "@/components/ui/page-symbol"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { getInitials } from "@/lib/utils"
 import type { Profile, StudentProfile } from "@/types"
@@ -130,9 +131,12 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
   if (jobs.length === 0) {
     return (
       <div className="space-y-8">
-        <header className="space-y-1">
-          <h1 className="font-heading font-bold text-3xl tracking-tight text-neutral-950">Discover</h1>
-          <p className="font-body text-sm text-neutral-600">Review applicants for your open roles.</p>
+        <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
+          <PageSymbol icon={UserSearch} className="sm:mt-0.5" />
+          <div className="space-y-1 min-w-0">
+            <h1 className="font-heading font-bold text-3xl tracking-tight text-neutral-950">Discover</h1>
+            <p className="font-body text-sm text-neutral-600">Review applicants for your open roles.</p>
+          </div>
         </header>
         <div className="flex flex-col items-center gap-5 text-center py-20 px-6 rounded-2xl border border-neutral-200 bg-neutral-50/50">
           <div>
@@ -169,6 +173,7 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
               </span>
             )}
           </p>
+          </div>
         </header>
 
         <div className="relative shrink-0">

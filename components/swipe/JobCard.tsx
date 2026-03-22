@@ -18,9 +18,9 @@ export function JobCard({ job }: JobCardProps) {
   const locationOrRemote = job.is_remote ? "Remote" : job.location
 
   return (
-    <div className="rounded-3xl overflow-hidden bg-white border border-neutral-200 shadow-sm w-full select-none">
+    <div className="rounded-[22px] overflow-hidden bg-white border border-[rgba(60,60,67,0.12)] shadow-[0_8px_32px_rgba(0,0,0,0.08)] w-full select-none">
 
-      <div className="relative h-40 bg-neutral-950 flex flex-col items-center justify-center px-5">
+      <div className="relative h-40 apple-vibrancy-header flex flex-col items-center justify-center px-5">
         <div className="relative z-10">
           {company?.logo_url ? (
             <img
@@ -92,9 +92,9 @@ export function JobCard({ job }: JobCardProps) {
         )}
       </div>
 
-      <div className="px-5 pb-4 flex items-center justify-between border-t border-neutral-100 pt-3">
-        <span className="font-body text-[11px] text-neutral-400">Pass</span>
-        <span className="font-body text-[11px] text-neutral-400">Apply</span>
+      <div className="px-5 pb-4 flex items-center justify-between border-t border-[rgba(60,60,67,0.08)] pt-3">
+        <span className="font-body text-[11px] text-[#86868b]">Pass</span>
+        <span className="font-body text-[11px] text-[#0071e3] font-medium">Apply</span>
       </div>
     </div>
   )

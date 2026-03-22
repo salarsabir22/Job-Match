@@ -10,33 +10,33 @@ import { NotificationBell } from "@/components/nav/NotificationBell"
 
 const studentLinks = [
   { href: "/dashboard", label: "Dashboard", desc: "Overview" },
-  { href: "/discover",  label: "Discover",  desc: "Browse roles" },
-  { href: "/matches",   label: "Matches",   desc: "Conversations" },
-  { href: "/saved",     label: "Saved",     desc: "Bookmarks" },
+  { href: "/discover", label: "Discover", desc: "Browse roles" },
+  { href: "/matches", label: "Matches", desc: "Conversations" },
+  { href: "/saved", label: "Saved", desc: "Bookmarks" },
   { href: "/community", label: "Community", desc: "Channels" },
-  { href: "/profile",   label: "Profile",   desc: "Account" },
+  { href: "/profile", label: "Profile", desc: "Account" },
 ]
 
 const recruiterLinks = [
   { href: "/dashboard", label: "Dashboard", desc: "Overview" },
-  { href: "/jobs",      label: "Jobs",      desc: "Postings" },
-  { href: "/discover",  label: "Discover",  desc: "Candidates" },
-  { href: "/matches",   label: "Matches",   desc: "Pipeline" },
+  { href: "/jobs", label: "Jobs", desc: "Postings" },
+  { href: "/discover", label: "Discover", desc: "Candidates" },
+  { href: "/matches", label: "Matches", desc: "Pipeline" },
   { href: "/community", label: "Community", desc: "Channels" },
-  { href: "/profile",   label: "Profile",   desc: "Account" },
+  { href: "/profile", label: "Profile", desc: "Account" },
 ]
 
 const adminLinks = [
-  { href: "/admin",            label: "Overview",   desc: "Dashboard" },
-  { href: "/admin/users",      label: "Users",      desc: "All accounts" },
+  { href: "/admin", label: "Overview", desc: "Dashboard" },
+  { href: "/admin/users", label: "Users", desc: "All accounts" },
   { href: "/admin/recruiters", label: "Recruiters", desc: "Review" },
-  { href: "/admin/channels",   label: "Channels",   desc: "Community" },
+  { href: "/admin/channels", label: "Channels", desc: "Community" },
 ]
 
 interface AppNavProps {
-  role:      UserRole | "admin"
+  role: UserRole | "admin"
   fullName?: string | null
-  email?:    string | null
+  email?: string | null
   avatarUrl?: string | null
 }
 
@@ -56,27 +56,27 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
   }
 
   const displayName = fullName ?? email?.split("@")[0] ?? "User"
-  const initials    = displayName.charAt(0).toUpperCase()
+  const initials = displayName.charAt(0).toUpperCase()
 
   const roleLabel = role === "admin" ? "Admin" : role === "recruiter" ? "Recruiter" : "Student"
 
   return (
     <>
-      <aside className="hidden lg:flex flex-col fixed left-0 top-0 h-full w-56 bg-black border-r border-white/[0.06] z-40">
-        <div className="h-[52px] flex items-center px-5 border-b border-white/[0.06] shrink-0">
+      <aside className="hidden lg:flex flex-col fixed left-0 top-0 h-full w-56 z-40 apple-grouped-bg border-r border-[rgba(60,60,67,0.12)]">
+        <div className="h-[52px] flex items-center px-5 border-b border-[rgba(60,60,67,0.08)] shrink-0">
           <Link
             href="/"
-            className="text-[15px] font-semibold tracking-[-0.03em] lowercase text-white/90 hover:text-white transition-colors"
+            className="text-[17px] font-semibold tracking-tight text-[#1d1d1f] hover:opacity-70 transition-opacity"
           >
-            jobmatch<span className="opacity-40">.</span>
+            jobmatch<span className="text-[#86868b]">.</span>
           </Link>
         </div>
 
         <div className="px-4 pt-4 pb-1">
-          <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-white/30">{roleLabel}</p>
+          <p className="text-[11px] font-medium text-[#86868b] uppercase tracking-wide">{roleLabel}</p>
         </div>
 
-        <nav className="flex-1 px-2 space-y-px overflow-y-auto">
+        <nav className="flex-1 px-2.5 space-y-0.5 overflow-y-auto">
           {links.map(({ href, label, desc }) => {
             const active = isActive(href)
             return (
@@ -84,62 +84,75 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
                 key={href}
                 href={href}
                 className={cn(
-                  "block rounded-lg px-3 py-2.5 transition-colors duration-200",
+                  "block rounded-[12px] px-3 py-2.5 transition-all duration-200 ease-out",
                   active
-                    ? "bg-white/[0.08] text-white"
-                    : "text-white/55 hover:bg-white/[0.04] hover:text-white/90"
+                    ? "bg-white text-[#0071e3] shadow-[0_1px_4px_rgba(0,0,0,0.06)] border border-[rgba(60,60,67,0.08)]"
+                    : "text-[#1d1d1f] hover:bg-black/[0.04]"
                 )}
               >
-                <span className="block text-[13px] font-medium leading-tight tracking-[-0.01em]">{label}</span>
-                <span className="mt-0.5 block text-[11px] leading-snug text-white/35">{desc}</span>
+                <span className="block text-[13px] font-semibold leading-tight tracking-tight">{label}</span>
+                <span
+                  className={cn(
+                    "mt-0.5 block text-[11px] leading-snug tracking-tight",
+                    active ? "text-[#0071e3]/70" : "text-[#86868b]"
+                  )}
+                >
+                  {desc}
+                </span>
               </Link>
             )
           })}
         </nav>
 
-        <div className="p-2 border-t border-white/[0.06] space-y-2">
-          <div className="flex items-center gap-2.5 px-2 pb-1 pt-1">
+        <div className="p-2.5 border-t border-[rgba(60,60,67,0.12)] space-y-2">
+          <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-[12px] bg-white/60 border border-[rgba(60,60,67,0.08)]">
             {avatarUrl ? (
-              <img src={avatarUrl} alt="" className="w-8 h-8 rounded-full object-cover border border-white/[0.1] shrink-0" />
+              <img
+                src={avatarUrl}
+                alt=""
+                className="w-9 h-9 rounded-full object-cover border border-[rgba(60,60,67,0.1)] shrink-0"
+              />
             ) : (
-              <div className="w-8 h-8 rounded-full bg-white/[0.1] flex items-center justify-center text-[12px] font-semibold text-white/90 shrink-0">
+              <div className="w-9 h-9 rounded-full bg-[#e8e8ed] flex items-center justify-center text-[13px] font-semibold text-[#1d1d1f] shrink-0">
                 {initials}
               </div>
             )}
             <div className="flex-1 min-w-0">
-              <p className="text-[13px] font-medium text-white/90 truncate leading-none">{displayName}</p>
-              <p className="text-[11px] text-white/35 truncate mt-1">{email ?? ""}</p>
+              <p className="text-[13px] font-semibold text-[#1d1d1f] truncate leading-tight tracking-tight">
+                {displayName}
+              </p>
+              <p className="text-[11px] text-[#86868b] truncate mt-0.5">{email ?? ""}</p>
             </div>
           </div>
 
           <button
             type="button"
             onClick={handleSignOut}
-            className="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-[13px] text-white/45 hover:text-white/75 hover:bg-white/[0.05] transition-colors"
+            className="w-full flex items-center gap-2 px-3 py-2.5 rounded-[12px] text-[13px] font-medium text-[#0071e3] hover:bg-[#0071e3]/8 transition-colors"
           >
-            <LogOut className="h-3.5 w-3.5 opacity-70" strokeWidth={1.75} />
+            <LogOut className="h-4 w-4 shrink-0 opacity-80" strokeWidth={2} />
             Sign out
           </button>
         </div>
       </aside>
 
-      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-black/[0.08] h-[52px] flex items-center justify-between px-4">
-        <Link href="/" className="text-[15px] font-semibold tracking-[-0.03em] lowercase text-black">
-          jobmatch<span className="opacity-40">.</span>
+      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 h-[52px] flex items-center justify-between px-4 border-b border-[rgba(60,60,67,0.12)] bg-white/80 backdrop-blur-2xl backdrop-saturate-180 supports-[backdrop-filter]:bg-white/70">
+        <Link href="/" className="text-[17px] font-semibold tracking-tight text-[#1d1d1f]">
+          jobmatch<span className="text-[#86868b]">.</span>
         </Link>
         <div className="flex items-center gap-1">
           <NotificationBell />
           <button
             type="button"
             onClick={handleSignOut}
-            className="px-2.5 py-1.5 text-[12px] text-neutral-500 hover:text-black transition-colors"
+            className="px-3 py-1.5 text-[13px] font-medium text-[#0071e3] rounded-full hover:bg-[#0071e3]/8 transition-colors"
           >
             Out
           </button>
         </div>
       </header>
 
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-black/[0.08] safe-area-pb">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-[rgba(60,60,67,0.12)] bg-white/85 backdrop-blur-2xl backdrop-saturate-180 supports-[backdrop-filter]:bg-white/75 safe-area-pb">
         <div className="flex">
           {links.map(({ href, label }) => {
             const active = isActive(href)
@@ -148,11 +161,11 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
                 key={href}
                 href={href}
                 className={cn(
-                  "flex-1 flex flex-col items-center justify-center py-2.5 min-h-[52px] transition-colors",
-                  active ? "text-black" : "text-neutral-400"
+                  "flex-1 flex flex-col items-center justify-center py-2 min-h-[50px] transition-colors",
+                  active ? "text-[#0071e3]" : "text-[#86868b]"
                 )}
               >
-                <span className="text-[10px] font-medium tracking-[-0.01em] text-center leading-tight px-0.5 max-w-full truncate">
+                <span className="text-[10px] font-semibold tracking-tight text-center leading-tight px-0.5 max-w-full truncate">
                   {label}
                 </span>
               </Link>

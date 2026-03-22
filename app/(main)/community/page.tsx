@@ -1,7 +1,8 @@
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { Hash, Users, MessageCircle, TrendingUp, CheckCircle } from "lucide-react"
+import { Hash, Users, MessageCircle, TrendingUp, CheckCircle, MessagesSquare } from "lucide-react"
+import { PageSymbol } from "@/components/ui/page-symbol"
 
 const CATEGORY_META: Record<string, { color: string; description: string; emoji: string }> = {
   tech:       { color: "#FAFAFA", description: "Engineering, dev, and infrastructure discussions", emoji: "⚡" },
@@ -55,12 +56,15 @@ export default async function CommunityPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="font-heading font-bold text-3xl text-black">Community</h1>
-          <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mt-0.5">
-            {channels?.length || 0} channels · {totalMembers} members
-          </p>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4 min-w-0">
+          <PageSymbol icon={MessagesSquare} className="sm:mt-0.5 shrink-0" />
+          <div>
+            <h1 className="font-heading font-bold text-3xl text-black">Community</h1>
+            <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mt-0.5">
+              {channels?.length || 0} channels · {totalMembers} members
+            </p>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           {joinedCount > 0 && (

@@ -7,6 +7,20 @@
 :root {
   --radius: 0.75rem;
 
+  /* Apple-like surfaces (HIG-adjacent) */
+  --apple-grouped: #f5f5f7;
+  --apple-card: #ffffff;
+  --apple-blue: #0071e3;
+  --apple-blue-hover: #0077ed;
+  --apple-blue-press: #006edb;
+  --apple-label: #1d1d1f;
+  --apple-secondary-label: #86868b;
+  --apple-separator: rgba(60, 60, 67, 0.12);
+  --apple-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+  --apple-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --apple-radius-lg: 22px;
+  --apple-radius-md: 14px;
+
   /* Monochrome (black & white) palette */
   --void:       #FFFFFF;
   --surface:    #FFFFFF;
@@ -70,10 +84,21 @@
 
 /* ─── Base ───────────────────────────────────────────────────────── */
 body {
-  font-family: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Text",
+    "SF Pro Display",
+    var(--font-inter),
+    "Inter",
+    "Segoe UI",
+    system-ui,
+    sans-serif;
   background: var(--void);
   color: var(--foreground);
   -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 * { border-color: var(--border); }
@@ -84,13 +109,70 @@ body {
 
 /* ─── Typography Utilities ───────────────────────────────────────── */
 .font-heading {
-  font-family: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Display",
+    var(--font-inter),
+    "Inter",
+    system-ui,
+    sans-serif;
+  letter-spacing: -0.022em;
 }
 .font-body {
-  font-family: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Text",
+    var(--font-inter),
+    "Inter",
+    system-ui,
+    sans-serif;
+  letter-spacing: -0.011em;
 }
 .font-data {
-  font-family: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Text",
+    var(--font-inter),
+    "Inter",
+    system-ui,
+    sans-serif;
+}
+
+/* ─── Apple-style surfaces ───────────────────────────────────────── */
+.apple-grouped-bg {
+  background-color: var(--apple-grouped);
+}
+
+.apple-card {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-radius: var(--apple-radius-lg);
+  box-shadow: var(--apple-shadow);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+}
+
+.apple-card-solid {
+  background: var(--apple-card);
+  border-radius: var(--apple-radius-lg);
+  box-shadow: var(--apple-shadow);
+  border: 1px solid var(--apple-separator);
+}
+
+.apple-platter {
+  border-radius: var(--apple-radius-lg);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: var(--apple-shadow);
+}
+
+.apple-vibrancy-header {
+  background: linear-gradient(180deg, rgba(45, 45, 48, 0.98) 0%, rgba(29, 29, 31, 1) 100%);
 }
 
 /* ─── Accent text (no gradients) ───────────────────────────────── */

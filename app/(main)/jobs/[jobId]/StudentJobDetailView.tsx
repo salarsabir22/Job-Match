@@ -1,5 +1,6 @@
 import Link from "next/link"
-import { ArrowLeft, Building2 } from "lucide-react"
+import { ArrowLeft, Building2, Briefcase } from "lucide-react"
+import { PageSymbol } from "@/components/ui/page-symbol"
 import { formatDate } from "@/lib/utils"
 import type { Job, RecruiterProfile } from "@/types"
 import { StudentJobActions } from "./StudentJobActions"
@@ -19,7 +20,7 @@ export function StudentJobDetailView({ job, userId }: { job: JobRow; userId: str
 
   return (
     <div className="space-y-8">
-      <div className="flex items-start gap-3">
+      <div className="flex flex-wrap items-start gap-3">
         <Link
           href="/discover"
           className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-neutral-200 text-neutral-700 transition hover:bg-neutral-50"
@@ -27,6 +28,7 @@ export function StudentJobDetailView({ job, userId }: { job: JobRow; userId: str
         >
           <ArrowLeft className="h-4 w-4" strokeWidth={1.75} />
         </Link>
+        <PageSymbol icon={Briefcase} className="mt-0.5" />
         <div className="min-w-0 flex-1 space-y-1">
           <h1 className="font-heading text-2xl font-bold tracking-tight text-neutral-950 sm:text-3xl">{job.title}</h1>
           {company?.company_name && (
