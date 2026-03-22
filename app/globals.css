@@ -3,59 +3,70 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ─── Design Token Layer ─────────────────────────────────────────── */
+/* ─── Design Token Layer — Clearpath app theme ───────────────────── */
 :root {
   --radius: 0.75rem;
 
-  /* Apple-like surfaces (HIG-adjacent) */
-  --apple-grouped: #f5f5f7;
-  --apple-card: #ffffff;
-  --apple-blue: #0071e3;
-  --apple-blue-hover: #0077ed;
-  --apple-blue-press: #006edb;
+  /* Clearpath palette */
+  --clearpath-page: #f5f5f5;
+  --clearpath-surface: #ffffff;
+  --clearpath-text: #0a1628;
+  --clearpath-text-secondary: #6b7280;
+  --clearpath-navy: #1e3a5f;
+  --clearpath-navy-hover: #254a73;
+  --clearpath-accent: #3b82f6;
+  --clearpath-separator: rgba(10, 22, 40, 0.12);
 
-  /* Waitlist / marketing — true blue (not sky cyan, not indigo) */
+  /* Apple-like surfaces — aligned to page/surface (legacy class names) */
+  --apple-grouped: #f5f5f5;
+  --apple-card: #ffffff;
+  --apple-blue: #1e3a5f;
+  --apple-blue-hover: #254a73;
+  --apple-blue-press: #1a3250;
+
+  /* Waitlist / marketing — true blue (dark hero; unchanged) */
   --waitlist-blue: #2563eb;
   --waitlist-blue-hover: #1d4ed8;
   --waitlist-blue-deep: #1e40af;
-  --apple-label: #1d1d1f;
-  --apple-secondary-label: #86868b;
-  --apple-separator: rgba(60, 60, 67, 0.12);
-  --apple-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
-  --apple-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --apple-label: #0a1628;
+  --apple-secondary-label: #6b7280;
+  --apple-separator: var(--clearpath-separator);
+  --apple-shadow: none;
+  --apple-shadow-lg: none;
   --apple-radius-lg: 22px;
   --apple-radius-md: 14px;
 
-  /* Monochrome (black & white) palette */
-  --void:       #FFFFFF;
-  --surface:    #FFFFFF;
-  --foreground: #000000;
-  --muted:      #A3A3A3;
+  /* Monochrome (legacy) */
+  --void:       var(--clearpath-page);
+  --surface:    var(--clearpath-surface);
+  --foreground: var(--clearpath-text);
+  --muted:      #9ca3af;
   --boundary:   #262626;
-  --btc:        #FAFAFA;
+  --btc:        #fafafa;
   --btc-deep:   #737373;
-  --gold:       #D4D4D4;
+  --gold:       #d4d4d4;
 
-  /* shadcn compat — neutral primary */
-  --background: oklch(1 0 0);
-  --card:       oklch(1 0 0);
-  --card-foreground: oklch(0.12 0 0);
-  --popover:    oklch(1 0 0);
-  --popover-foreground: oklch(0.12 0 0);
-  --primary:    oklch(0.12 0 0);
-  --primary-foreground: oklch(1 0 0);
-  --secondary:  oklch(0.96 0 0);
-  --secondary-foreground: oklch(0.12 0 0);
-  --muted-var:  oklch(0.97 0 0);
-  --muted-foreground: oklch(0.45 0 0);
-  --accent:     oklch(0.97 0 0);
-  --accent-foreground: oklch(0.12 0 0);
-  --destructive: oklch(0.35 0 0);
-  --border:     oklch(0 0 0 / 14%);
-  --input:      oklch(0 0 0 / 14%);
-  --ring:       oklch(0.35 0 0);
-  --success:    oklch(0.3 0 0);
-  --success-foreground: oklch(1 0 0);
+  /* shadcn compat — Clearpath */
+  --background: #f5f5f5;
+  --foreground: #0a1628;
+  --card:       #ffffff;
+  --card-foreground: #0a1628;
+  --popover:    #ffffff;
+  --popover-foreground: #0a1628;
+  --primary:    #1e3a5f;
+  --primary-foreground: #ffffff;
+  --secondary:  #f3f4f6;
+  --secondary-foreground: #0a1628;
+  --muted-var:  #f3f4f6;
+  --muted-foreground: #6b7280;
+  --accent:     #eff6ff;
+  --accent-foreground: #0a1628;
+  --destructive: #b91c1c;
+  --border:     rgba(10, 22, 40, 0.12);
+  --input:      rgba(10, 22, 40, 0.14);
+  --ring:       #1e3a5f;
+  --success:    #15803d;
+  --success-foreground: #ffffff;
 }
 
 @theme inline {
@@ -90,20 +101,96 @@
 /* ─── Base ───────────────────────────────────────────────────────── */
 body {
   font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "SF Pro Text",
-    "SF Pro Display",
     var(--font-inter),
     "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
     "Segoe UI",
     system-ui,
     sans-serif;
-  background: var(--void);
+  background: var(--background);
   color: var(--foreground);
   -webkit-tap-highlight-color: transparent;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Auth forms — Clearpath (shared by login / signup / password flows) */
+.auth-card {
+  border-radius: 1rem;
+  border: 1px solid rgba(10, 22, 40, 0.1);
+  background: #ffffff;
+  padding: 1.5rem;
+}
+@media (min-width: 640px) {
+  .auth-card {
+    padding: 2rem 2rem 2.5rem;
+  }
+}
+.auth-input {
+  display: block;
+  width: 100%;
+  min-height: 3.25rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(10, 22, 40, 0.14);
+  background: #ffffff;
+  color: #0a1628;
+  font-size: 15px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.auth-input::placeholder {
+  color: rgba(107, 114, 128, 0.75);
+}
+.auth-input:focus {
+  outline: none;
+  border-color: #1e3a5f;
+  box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.15);
+}
+.auth-btn-primary {
+  display: flex;
+  width: 100%;
+  min-height: 3.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: none;
+  background: #1e3a5f;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+.auth-btn-primary:hover:not(:disabled) {
+  background: #254a73;
+}
+.auth-btn-google {
+  display: flex;
+  width: 100%;
+  min-height: 3.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  border-radius: 9999px;
+  border: 2px solid #1e3a5f;
+  background: transparent;
+  color: #1e3a5f;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+.auth-btn-google:hover:not(:disabled) {
+  background: #1e3a5f;
+  color: #ffffff;
 }
 
 * { border-color: var(--border); }

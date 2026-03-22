@@ -212,7 +212,7 @@ export default async function AdminOverviewPage() {
             ))}
           </div>
           <Link href="/admin/recruiters"
-            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.4)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.6)] transition-all duration-300">
+            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-full bg-primary text-primary-foreground font-body font-semibold text-sm transition hover:bg-[var(--clearpath-navy-hover)] duration-300">
             Review & Approve Recruiters <ArrowRight className="h-4 w-4" />
           </Link>
         </div>

@@ -70,67 +70,68 @@ export default function LoginPage() {
     }
   }
 
-  const inputBase =
-    "w-full min-h-[3.25rem] px-5 rounded-full border border-white/[0.15] bg-white/[0.07] text-[15px] text-white placeholder:text-white/30 backdrop-blur-sm focus:outline-none focus:border-white/35 focus:ring-2 focus:ring-white/[0.08] transition-all duration-300"
-
   return (
-    <div className="rounded-2xl border border-white/[0.12] bg-white/[0.06] px-6 py-8 sm:px-8 sm:py-10 backdrop-blur-sm">
+    <div className="auth-card">
       {/* Header */}
       <div className="text-center mb-7">
-        <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/35">Account</p>
-        <h1 className="mt-3 text-[20px] sm:text-[21px] font-semibold tracking-[-0.03em] text-white">Welcome back</h1>
-        <p className="font-body text-white/42 text-[15px] mt-2">Sign in to JobMatch</p>
+        <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">Account</p>
+        <h1 className="mt-3 text-[20px] sm:text-[21px] font-semibold tracking-[-0.03em] text-foreground">Welcome back</h1>
+        <p className="font-body text-muted-foreground text-[15px] mt-2">Sign in to JobMatch</p>
       </div>
 
       {/* Global error */}
       {error && (
-        <div className="border-l-2 border-red-400/50 bg-red-500/[0.08] pl-4 pr-3 py-3 rounded-r-xl mb-5">
-          <p className="font-body text-[14px] leading-snug text-red-100/90">{error}</p>
+        <div className="border-l-2 border-destructive/80 bg-destructive/10 pl-4 pr-3 py-3 rounded-r-xl mb-5">
+          <p className="font-body text-[14px] leading-snug text-destructive">{error}</p>
         </div>
       )}
 
       {/* Success */}
       {success && (
-        <div className="border border-white/[0.12] bg-white/[0.04] px-4 py-3 rounded-xl mb-5">
-          <p className="font-body text-[14px] text-white/75">Signed in. Redirecting…</p>
+        <div className="border border-border bg-muted/50 px-4 py-3 rounded-xl mb-5">
+          <p className="font-body text-[14px] text-foreground">Signed in. Redirecting…</p>
         </div>
       )}
 
       {/* Google */}
-      <button onClick={handleGoogleLogin} disabled={googleLoading || loading}
-        className="w-full flex items-center justify-center gap-3 min-h-[3.25rem] rounded-full border border-white/[0.15] bg-white/[0.05] text-white text-[15px] font-medium hover:bg-white/[0.09] hover:border-white/25 transition-all duration-300 mb-5 disabled:opacity-45">
+      <button
+        type="button"
+        onClick={handleGoogleLogin}
+        disabled={googleLoading || loading}
+        className="auth-btn-google mb-5 disabled:opacity-45"
+      >
         {googleLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <GoogleIcon />}
         Continue with Google
       </button>
 
       <div className="relative flex items-center gap-3 mb-5">
-        <div className="flex-1 h-px bg-white/10" />
-        <span className="font-data text-[10px] tracking-[0.2em] uppercase text-white/38">or email</span>
-        <div className="flex-1 h-px bg-white/10" />
+        <div className="flex-1 h-px bg-border" />
+        <span className="font-data text-[10px] tracking-[0.2em] uppercase text-muted-foreground">or email</span>
+        <div className="flex-1 h-px bg-border" />
       </div>
 
       <form onSubmit={handleLogin} noValidate className="space-y-4">
         {/* Email */}
         <div className="space-y-1.5">
-          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-white/38">Email address</label>
+          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-muted-foreground">Email address</label>
           <input
             type="email"
             placeholder="you@example.com"
             value={email}
             onChange={(e) => { setEmail(e.target.value); setFieldErrors(p => ({ ...p, email: undefined })); setError(null) }}
             autoComplete="email"
-            className={`${inputBase} ${fieldErrors.email ? "border-red-400/50" : ""}`}
+            className={`auth-input ${fieldErrors.email ? "border-destructive/60" : ""}`}
           />
           {fieldErrors.email && (
-            <p className="text-xs text-red-300/90 font-body mt-1 pl-0.5">{fieldErrors.email}</p>
+            <p className="text-xs text-destructive font-body mt-1 pl-0.5">{fieldErrors.email}</p>
           )}
         </div>
 
         {/* Password */}
         <div className="space-y-1.5">
           <div className="flex items-center justify-between gap-2">
-            <label className="font-data text-[11px] tracking-[0.2em] uppercase text-white/38">Password</label>
-            <Link href="/forgot-password" className="font-body text-xs text-white/45 hover:text-white/75 transition-colors">
+            <label className="font-data text-[11px] tracking-[0.2em] uppercase text-muted-foreground">Password</label>
+            <Link href="/forgot-password" className="font-body text-xs text-primary hover:opacity-80 transition-colors">
               Forgot password
             </Link>
           </div>
@@ -141,27 +142,29 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => { setPassword(e.target.value); setFieldErrors(p => ({ ...p, password: undefined })); setError(null) }}
               autoComplete="current-password"
-              className={`${inputBase} pr-11 ${fieldErrors.password ? "border-red-400/50" : ""}`}
+              className={`auth-input pr-11 ${fieldErrors.password ? "border-destructive/60" : ""}`}
             />
-            <button type="button" onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors p-1">
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
+            >
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
           </div>
           {fieldErrors.password && (
-            <p className="text-xs text-red-300/90 font-body mt-1 pl-0.5">{fieldErrors.password}</p>
+            <p className="text-xs text-destructive font-body mt-1 pl-0.5">{fieldErrors.password}</p>
           )}
         </div>
 
-        <button type="submit" disabled={loading || success}
-          className="w-full min-h-[3.25rem] rounded-full bg-white text-black font-semibold text-[15px] tracking-[-0.01em] hover:bg-white/90 transition-all duration-300 disabled:opacity-45 disabled:pointer-events-none flex items-center justify-center gap-2">
+        <button type="submit" disabled={loading || success} className="auth-btn-primary disabled:opacity-45 disabled:pointer-events-none">
           {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Signing in…</> : "Sign in"}
         </button>
       </form>
 
-      <p className="font-body text-center text-sm text-white/45 mt-6">
+      <p className="font-body text-center text-sm text-muted-foreground mt-6">
         Don&apos;t have an account?{" "}
-        <Link href="/signup" className="text-white font-medium hover:text-white/90 transition-colors">
+        <Link href="/signup" className="text-primary font-medium hover:opacity-80 transition-colors">
           Create one
         </Link>
       </p>

@@ -19,8 +19,8 @@ function getPasswordStrength(pw: string): PasswordStrength {
     0: { score: 0, label: "", color: "" },
     1: { score: 1, label: "Weak", color: "bg-red-500" },
     2: { score: 2, label: "Fair", color: "bg-neutral-400" },
-    3: { score: 3, label: "Good", color: "bg-blue-500" },
-    4: { score: 4, label: "Strong", color: "bg-neutral-1000" },
+    3: { score: 3, label: "Good", color: "bg-primary" },
+    4: { score: 4, label: "Strong", color: "bg-neutral-800" },
   }
   return map[score as keyof typeof map]
 }
@@ -82,34 +82,31 @@ export default function ResetPasswordPage() {
     setTimeout(() => { window.location.href = "/login" }, 3000)
   }
 
-  const inputBase =
-    "w-full min-h-[3.25rem] px-5 rounded-full border border-white/[0.15] bg-white/[0.07] text-[15px] text-white placeholder:text-white/30 backdrop-blur-sm focus:outline-none focus:border-white/35 focus:ring-2 focus:ring-white/[0.08] transition-all duration-300"
-
   if (!sessionReady && !sessionError) {
     return (
-      <div className="rounded-2xl border border-white/[0.12] bg-white/[0.06] px-6 py-10 text-center backdrop-blur-sm">
-        <Loader2 className="h-8 w-8 animate-spin text-white/60 mx-auto mb-3" />
-        <p className="font-body text-sm text-white/45">Verifying your reset link…</p>
+      <div className="auth-card text-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-3" />
+        <p className="font-body text-sm text-muted-foreground">Verifying your reset link…</p>
       </div>
     )
   }
 
   if (sessionError) {
     return (
-      <div className="rounded-2xl border border-white/[0.12] bg-white/[0.06] px-6 py-8 sm:px-8 text-center backdrop-blur-sm">
-        <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/35">Reset link</p>
-        <h2 className="mt-4 text-[18px] font-semibold tracking-[-0.03em] text-white mb-2">Link expired or invalid</h2>
-        <p className="font-body text-white/45 text-sm mb-2">
-          Reset links last <span className="text-white/70 font-medium">1 hour</span> and work once.
+      <div className="auth-card text-center">
+        <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">Reset link</p>
+        <h2 className="mt-4 text-[18px] font-semibold tracking-[-0.03em] text-foreground mb-2">Link expired or invalid</h2>
+        <p className="font-body text-muted-foreground text-sm mb-2">
+          Reset links last <span className="text-foreground font-medium">1 hour</span> and work once.
         </p>
-        <p className="font-body text-xs text-white/35 mb-6">Request a fresh link below.</p>
+        <p className="font-body text-xs text-muted-foreground mb-6">Request a fresh link below.</p>
         <Link
           href="/forgot-password"
-          className="inline-flex items-center justify-center gap-2 w-full min-h-[3.25rem] rounded-full bg-white text-black font-semibold text-[15px] hover:bg-white/90 transition-all duration-300 mb-3"
+          className="auth-btn-primary mb-3"
         >
           Request a new link
         </Link>
-        <Link href="/login" className="font-body text-sm text-white/42 hover:text-white/70 transition-colors">
+        <Link href="/login" className="font-body text-sm text-muted-foreground hover:text-foreground transition-colors block">
           ← Back to sign in
         </Link>
       </div>
@@ -118,12 +115,12 @@ export default function ResetPasswordPage() {
 
   if (done) {
     return (
-      <div className="rounded-2xl border border-white/[0.12] bg-white/[0.06] px-6 py-8 text-center backdrop-blur-sm">
-        <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/35">Complete</p>
-        <h2 className="mt-4 text-[18px] font-semibold tracking-[-0.03em] text-white mb-2">Password updated</h2>
-        <p className="font-body text-white/45 text-sm mb-1">You&apos;re all set.</p>
-        <p className="font-body text-xs text-white/35 mb-6">Redirecting to sign in…</p>
-        <div className="flex items-center justify-center gap-2 text-white/50">
+      <div className="auth-card text-center">
+        <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">Complete</p>
+        <h2 className="mt-4 text-[18px] font-semibold tracking-[-0.03em] text-foreground mb-2">Password updated</h2>
+        <p className="font-body text-muted-foreground text-sm mb-1">You&apos;re all set.</p>
+        <p className="font-body text-xs text-muted-foreground mb-6">Redirecting to sign in…</p>
+        <div className="flex items-center justify-center gap-2 text-muted-foreground">
           <Loader2 className="h-4 w-4 animate-spin" />
           <span className="font-body text-sm">Loading login</span>
         </div>
@@ -132,23 +129,23 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="rounded-2xl border border-white/[0.12] bg-white/[0.06] px-6 py-8 sm:px-8 sm:py-10 backdrop-blur-sm">
+    <div className="auth-card">
       <div className="text-center mb-7">
-        <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/35">Security</p>
-        <h1 className="mt-3 text-[20px] sm:text-[21px] font-semibold tracking-[-0.03em] text-white">New password</h1>
-        <p className="font-body text-white/42 text-[15px] mt-2">Choose something strong you haven&apos;t used before</p>
+        <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">Security</p>
+        <h1 className="mt-3 text-[20px] sm:text-[21px] font-semibold tracking-[-0.03em] text-foreground">New password</h1>
+        <p className="font-body text-muted-foreground text-[15px] mt-2">Choose something strong you haven&apos;t used before</p>
       </div>
 
       {error && (
-        <div className="border-l-2 border-red-400/50 bg-red-500/[0.08] pl-4 pr-3 py-3 rounded-r-xl mb-5">
-          <p className="font-body text-[14px] leading-snug text-red-100/90">{error}</p>
+        <div className="border-l-2 border-destructive/80 bg-destructive/10 pl-4 pr-3 py-3 rounded-r-xl mb-5">
+          <p className="font-body text-[14px] leading-snug text-destructive">{error}</p>
         </div>
       )}
 
       <form onSubmit={handleReset} noValidate className="space-y-4">
         {/* New password */}
         <div className="space-y-1.5">
-          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-white/38">New password</label>
+          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-muted-foreground">New password</label>
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
@@ -160,12 +157,12 @@ export default function ResetPasswordPage() {
               }}
               autoComplete="new-password"
               autoFocus
-              className={`${inputBase} pr-11`}
+              className="auth-input pr-11"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors p-1"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
             >
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
@@ -179,14 +176,14 @@ export default function ResetPasswordPage() {
                     key={i}
                     className={cn(
                       "h-1 flex-1 rounded-full transition-all duration-300",
-                      i <= strength.score ? strength.color : "bg-white/10"
+                      i <= strength.score ? strength.color : "bg-muted"
                     )}
                   />
                 ))}
               </div>
               {strength.label && (
-                <p className="font-data text-[10px] text-white/40">
-                  Strength: <span className="text-white/60">{strength.label}</span>
+                <p className="font-data text-[10px] text-muted-foreground">
+                  Strength: <span className="text-foreground">{strength.label}</span>
                 </p>
               )}
             </div>
@@ -200,14 +197,14 @@ export default function ResetPasswordPage() {
                   <span
                     className={cn(
                       "size-1.5 shrink-0 rounded-full transition-colors",
-                      ok ? "bg-emerald-400/85" : "bg-white/12"
+                      ok ? "bg-emerald-500" : "bg-border"
                     )}
                     aria-hidden
                   />
                   <span
                     className={cn(
                       "font-body text-[11px] transition-colors",
-                      ok ? "text-white/50" : "text-white/25"
+                      ok ? "text-muted-foreground" : "text-muted-foreground/50"
                     )}
                   >
                     {label}
@@ -219,7 +216,7 @@ export default function ResetPasswordPage() {
         </div>
 
         <div className="space-y-1.5">
-          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-white/38">Confirm password</label>
+          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-muted-foreground">Confirm password</label>
           <div className="relative">
             <input
               type={showConfirm ? "text" : "password"}
@@ -230,12 +227,15 @@ export default function ResetPasswordPage() {
                 setError(null)
               }}
               autoComplete="new-password"
-              className={cn(`${inputBase} pr-11`, confirm.length > 0 && confirm !== password ? "border-red-400/40" : "")}
+              className={cn(
+                "auth-input pr-11",
+                confirm.length > 0 && confirm !== password ? "border-destructive/50" : ""
+              )}
             />
             <button
               type="button"
               onClick={() => setShowConfirm(!showConfirm)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors p-1"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
             >
               {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
@@ -244,7 +244,7 @@ export default function ResetPasswordPage() {
             <p
               className={cn(
                 "font-body text-[11px]",
-                confirm === password ? "text-emerald-300/90" : "text-red-300/80"
+                confirm === password ? "text-emerald-700" : "text-destructive"
               )}
             >
               {confirm === password ? "Passwords match" : "Doesn't match yet"}
@@ -255,7 +255,7 @@ export default function ResetPasswordPage() {
         <button
           type="submit"
           disabled={loading || password !== confirm || password.length < 8}
-          className="w-full min-h-[3.25rem] rounded-full bg-white text-black font-semibold text-[15px] hover:bg-white/90 transition-all duration-300 disabled:opacity-40 disabled:pointer-events-none flex items-center justify-center gap-2"
+          className="auth-btn-primary disabled:opacity-40 disabled:pointer-events-none"
         >
           {loading ? (
             <>
@@ -268,7 +268,7 @@ export default function ResetPasswordPage() {
       </form>
 
       <div className="text-center mt-5">
-        <Link href="/login" className="font-body text-sm text-white/42 hover:text-white/70 transition-colors">
+        <Link href="/login" className="font-body text-sm text-muted-foreground hover:text-foreground transition-colors">
           ← Back to sign in
         </Link>
       </div>

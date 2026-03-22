@@ -73,7 +73,7 @@ export default function AdminChannelsPage() {
           <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mt-0.5">{channels.length} channels</p>
         </div>
         <button onClick={() => setOpen(true)}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-black text-white font-body font-semibold text-xs shadow-[0_0_15px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_25px_-5px_rgba(255,255,255,0.7)] transition-all duration-300">
+          className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary text-primary-foreground font-body font-semibold text-xs transition hover:bg-[var(--clearpath-navy-hover)] duration-300">
           <Plus className="h-3.5 w-3.5" />New Channel
         </button>
       </div>
@@ -103,7 +103,7 @@ export default function AdminChannelsPage() {
                 <input className={inputClass} placeholder="e.g. tech, career, networking" value={category} onChange={(e) => setCategory(e.target.value)} />
               </div>
               <button type="submit" disabled={creating}
-                className="w-full h-11 rounded-xl bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)] transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2">
+                className="w-full h-11 rounded-full bg-primary text-primary-foreground font-body font-semibold text-sm transition hover:bg-[var(--clearpath-navy-hover)] duration-300 disabled:opacity-50 flex items-center justify-center gap-2">
                 {creating ? <Loader2 className="h-4 w-4 animate-spin" /> : "Create Channel"}
               </button>
             </form>

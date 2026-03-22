@@ -113,7 +113,7 @@ export function NotificationBell({ variant = "light" }: NotificationBellProps) {
         className={cn(
           "relative h-8 w-8 rounded-lg border transition-all flex items-center justify-center",
           isLight
-            ? "border-black/10 text-neutral-600 hover:text-black hover:border-black/20 bg-black/[0.03]"
+            ? "border-border text-muted-foreground hover:text-foreground hover:border-border bg-muted/50"
             : "border-white/[0.12] text-white/60 hover:text-white hover:border-white/25 bg-white/[0.04]"
         )}
         title="Notifications"
@@ -136,17 +136,17 @@ export function NotificationBell({ variant = "light" }: NotificationBellProps) {
           className={cn(
             "absolute right-0 mt-2 w-[320px] max-w-[85vw] rounded-xl border overflow-hidden shadow-lg",
             isLight
-              ? "border-black/10 bg-white shadow-[0_20px_50px_-15px_rgba(0,0,0,0.15)]"
+              ? "border-border bg-card shadow-none"
               : "border-white/[0.12] bg-zinc-950 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.85)]"
           )}
         >
           <div
             className={cn(
               "px-3 py-2 flex items-center justify-between border-b",
-              isLight ? "border-black/[0.08]" : "border-white/[0.08]"
+              isLight ? "border-border" : "border-white/[0.08]"
             )}
           >
-            <p className={cn("font-body text-sm", isLight ? "text-black" : "text-white/90")}>Notifications</p>
+            <p className={cn("font-body text-sm", isLight ? "text-foreground" : "text-white/90")}>Notifications</p>
             <button
               type="button"
               onClick={() => {
@@ -164,11 +164,11 @@ export function NotificationBell({ variant = "light" }: NotificationBellProps) {
 
           <div className="max-h-[360px] overflow-y-auto">
             {loading ? (
-              <p className={cn("px-3 py-4 font-body text-xs", isLight ? "text-neutral-500" : "text-white/45")}>
+              <p className={cn("px-3 py-4 font-body text-xs", isLight ? "text-muted-foreground" : "text-white/45")}>
                 Loading…
               </p>
             ) : items.length === 0 ? (
-              <p className={cn("px-3 py-4 font-body text-xs", isLight ? "text-neutral-500" : "text-white/45")}>
+              <p className={cn("px-3 py-4 font-body text-xs", isLight ? "text-muted-foreground" : "text-white/45")}>
                 No notifications yet.
               </p>
             ) : (
@@ -187,7 +187,7 @@ export function NotificationBell({ variant = "light" }: NotificationBellProps) {
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
                       <p
-                        className={cn("font-body text-xs truncate", isLight ? "text-black" : "text-white/90")}
+                        className={cn("font-body text-xs truncate", isLight ? "text-foreground" : "text-white/90")}
                       >
                         {n.title}
                       </p>
@@ -202,7 +202,7 @@ export function NotificationBell({ variant = "light" }: NotificationBellProps) {
                         </p>
                       )}
                       <p
-                        className={cn("font-data text-[9px] mt-1", isLight ? "text-neutral-400" : "text-white/35")}
+                        className={cn("font-data text-[9px] mt-1", isLight ? "text-muted-foreground" : "text-white/35")}
                       >
                         {formatTime(n.created_at)}
                       </p>
@@ -216,7 +216,7 @@ export function NotificationBell({ variant = "light" }: NotificationBellProps) {
                             )
                           : cn(
                               "mt-1 size-1.5 shrink-0 rounded-full",
-                              isLight ? "bg-neutral-300" : "bg-white/[0.12]"
+                              isLight ? "bg-border" : "bg-white/[0.12]"
                             )
                       }
                       aria-hidden

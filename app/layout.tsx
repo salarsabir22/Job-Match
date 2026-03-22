@@ -26,7 +26,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor: "#000000",
+  themeColor: "#f5f5f5",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -36,7 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
       </head>
       <body
-        className={`${inter.variable} antialiased bg-black text-white font-sans selection:bg-white/10`}
+        className={`${inter.variable} antialiased bg-background text-foreground font-sans selection:bg-primary/15`}
       >
         <Providers>{children}</Providers>
         <SpeedInsights />

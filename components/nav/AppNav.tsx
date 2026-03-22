@@ -62,18 +62,18 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
 
   return (
     <>
-      <aside className="hidden lg:flex flex-col fixed left-0 top-0 h-full w-56 z-40 apple-grouped-bg border-r border-[rgba(60,60,67,0.12)]">
-        <div className="h-[52px] flex items-center px-5 border-b border-[rgba(60,60,67,0.08)] shrink-0">
+      <aside className="hidden lg:flex flex-col fixed left-0 top-0 h-full w-56 z-40 bg-[#ffffff] border-r border-border">
+        <div className="h-[52px] flex items-center px-5 border-b border-border shrink-0">
           <Link
             href="/"
-            className="text-[17px] font-semibold tracking-tight text-[#1d1d1f] hover:opacity-70 transition-opacity"
+            className="text-[17px] font-semibold tracking-tight text-foreground hover:opacity-70 transition-opacity"
           >
-            jobmatch<span className="text-[#86868b]">.</span>
+            jobmatch<span className="text-muted-foreground">.</span>
           </Link>
         </div>
 
         <div className="px-4 pt-4 pb-1">
-          <p className="text-[11px] font-medium text-[#86868b] uppercase tracking-wide">{roleLabel}</p>
+          <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wide">{roleLabel}</p>
         </div>
 
         <nav className="flex-1 px-2.5 space-y-0.5 overflow-y-auto">
@@ -86,15 +86,15 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
                 className={cn(
                   "block rounded-[12px] px-3 py-2.5 transition-all duration-200 ease-out",
                   active
-                    ? "bg-white text-[#0071e3] shadow-[0_1px_4px_rgba(0,0,0,0.06)] border border-[rgba(60,60,67,0.08)]"
-                    : "text-[#1d1d1f] hover:bg-black/[0.04]"
+                    ? "bg-muted text-primary border border-border"
+                    : "text-foreground hover:bg-muted/80"
                 )}
               >
                 <span className="block text-[13px] font-semibold leading-tight tracking-tight">{label}</span>
                 <span
                   className={cn(
                     "mt-0.5 block text-[11px] leading-snug tracking-tight",
-                    active ? "text-[#0071e3]/70" : "text-[#86868b]"
+                    active ? "text-primary/80" : "text-muted-foreground"
                   )}
                 >
                   {desc}
@@ -104,31 +104,31 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
           })}
         </nav>
 
-        <div className="p-2.5 border-t border-[rgba(60,60,67,0.12)] space-y-2">
-          <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-[12px] bg-white/60 border border-[rgba(60,60,67,0.08)]">
+        <div className="p-2.5 border-t border-border space-y-2">
+          <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-[12px] bg-muted/60 border border-border">
             {avatarUrl ? (
               <img
                 src={avatarUrl}
                 alt=""
-                className="w-9 h-9 rounded-full object-cover border border-[rgba(60,60,67,0.1)] shrink-0"
+                className="w-9 h-9 rounded-full object-cover border border-border shrink-0"
               />
             ) : (
-              <div className="w-9 h-9 rounded-full bg-[#e8e8ed] flex items-center justify-center text-[13px] font-semibold text-[#1d1d1f] shrink-0">
+              <div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center text-[13px] font-semibold text-foreground shrink-0">
                 {initials}
               </div>
             )}
             <div className="flex-1 min-w-0">
-              <p className="text-[13px] font-semibold text-[#1d1d1f] truncate leading-tight tracking-tight">
+              <p className="text-[13px] font-semibold text-foreground truncate leading-tight tracking-tight">
                 {displayName}
               </p>
-              <p className="text-[11px] text-[#86868b] truncate mt-0.5">{email ?? ""}</p>
+              <p className="text-[11px] text-muted-foreground truncate mt-0.5">{email ?? ""}</p>
             </div>
           </div>
 
           <button
             type="button"
             onClick={handleSignOut}
-            className="w-full flex items-center gap-2 px-3 py-2.5 rounded-[12px] text-[13px] font-medium text-[#0071e3] hover:bg-[#0071e3]/8 transition-colors"
+            className="w-full flex items-center gap-2 px-3 py-2.5 rounded-[12px] text-[13px] font-medium text-primary hover:bg-primary/8 transition-colors"
           >
             <LogOut className="h-4 w-4 shrink-0 opacity-80" strokeWidth={2} />
             Sign out
@@ -136,23 +136,23 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
         </div>
       </aside>
 
-      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 h-[52px] flex items-center justify-between px-4 border-b border-[rgba(60,60,67,0.12)] bg-white/80 backdrop-blur-2xl backdrop-saturate-180 supports-[backdrop-filter]:bg-white/70">
-        <Link href="/" className="text-[17px] font-semibold tracking-tight text-[#1d1d1f]">
-          jobmatch<span className="text-[#86868b]">.</span>
+      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 h-[52px] flex items-center justify-between px-4 border-b border-border bg-[#ffffff]/90 backdrop-blur-2xl backdrop-saturate-180 supports-[backdrop-filter]:bg-[#ffffff]/85">
+        <Link href="/" className="text-[17px] font-semibold tracking-tight text-foreground">
+          jobmatch<span className="text-muted-foreground">.</span>
         </Link>
         <div className="flex items-center gap-1">
           <NotificationBell />
           <button
             type="button"
             onClick={handleSignOut}
-            className="px-3 py-1.5 text-[13px] font-medium text-[#0071e3] rounded-full hover:bg-[#0071e3]/8 transition-colors"
+            className="px-3 py-1.5 text-[13px] font-medium text-primary rounded-full hover:bg-primary/8 transition-colors"
           >
             Out
           </button>
         </div>
       </header>
 
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-[rgba(60,60,67,0.12)] bg-white/85 backdrop-blur-2xl backdrop-saturate-180 supports-[backdrop-filter]:bg-white/75 safe-area-pb">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-[#ffffff]/90 backdrop-blur-2xl backdrop-saturate-180 supports-[backdrop-filter]:bg-[#ffffff]/85 safe-area-pb">
         <div className="flex">
           {links.map(({ href, label }) => {
             const active = isActive(href)
@@ -162,7 +162,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
                 href={href}
                 className={cn(
                   "flex-1 flex flex-col items-center justify-center py-2 min-h-[50px] transition-colors",
-                  active ? "text-[#0071e3]" : "text-[#86868b]"
+                  active ? "text-primary" : "text-muted-foreground"
                 )}
               >
                 <span className="text-[10px] font-semibold tracking-tight text-center leading-tight px-0.5 max-w-full truncate">

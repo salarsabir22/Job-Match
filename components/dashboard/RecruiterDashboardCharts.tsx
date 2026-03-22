@@ -23,7 +23,7 @@ const tooltipStyle = {
   fontSize: 12,
 }
 
-const axisTick = { fill: "#737373", fontSize: 10 }
+const axisTick = { fill: "#6b7280", fontSize: 10 }
 
 export function RecruiterDashboardCharts({
   timeline,
@@ -55,11 +55,11 @@ export function RecruiterDashboardCharts({
                   type="monotone"
                   dataKey="applications"
                   name="Applications"
-                  stroke="#525252"
+                  stroke="#6b7280"
                   strokeWidth={2}
                   dot={false}
                 />
-                <Line type="monotone" dataKey="matches" name="Matches" stroke="#171717" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="matches" name="Matches" stroke="#1e3a5f" strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           )}
@@ -86,7 +86,7 @@ export function RecruiterDashboardCharts({
                   axisLine={false}
                 />
                 <Tooltip contentStyle={tooltipStyle} />
-                <Bar dataKey="applications" name="Applications" fill="rgba(23,23,23,0.22)" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="applications" name="Applications" fill="rgba(30, 58, 95, 0.35)" radius={[0, 4, 4, 0]} />
               </BarChart>
             </ResponsiveContainer>
           )}

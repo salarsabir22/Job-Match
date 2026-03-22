@@ -14,8 +14,8 @@ export function PageSymbol({ icon: Icon, className, variant = "tint" }: PageSymb
     <span
       className={cn(
         "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-[12px]",
-        variant === "tint" && "bg-[#0071e3]/12 text-[#0071e3]",
-        variant === "neutral" && "bg-[#e8e8ed] text-[#1d1d1f]",
+        variant === "tint" && "bg-primary/12 text-primary",
+        variant === "neutral" && "bg-muted text-foreground",
         className
       )}
       aria-hidden

@@ -94,7 +94,7 @@ export function JobCard({ job }: JobCardProps) {
 
       <div className="px-5 pb-4 flex items-center justify-between border-t border-[rgba(60,60,67,0.08)] pt-3">
         <span className="font-body text-[11px] text-[#86868b]">Pass</span>
-        <span className="font-body text-[11px] text-[#0071e3] font-medium">Apply</span>
+        <span className="font-body text-[11px] text-primary font-medium">Apply</span>
       </div>
     </div>
   )

@@ -124,27 +124,24 @@ export default function SignupPage() {
     }
   }
 
-  const inputBase =
-    "w-full min-h-[3.25rem] px-5 rounded-full border border-white/[0.15] bg-white/[0.07] text-[15px] text-white placeholder:text-white/30 backdrop-blur-sm focus:outline-none focus:border-white/35 focus:ring-2 focus:ring-white/[0.08] transition-all duration-300"
-
   if (verifyMode) {
     return (
-      <div className="rounded-2xl border border-white/[0.12] bg-white/[0.06] px-6 py-8 sm:px-8 text-center backdrop-blur-sm">
-        <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/35">Verify email</p>
-        <h2 className="mt-4 text-[18px] font-semibold tracking-[-0.03em] text-white mb-2">Check your inbox</h2>
-        <p className="font-body text-white/45 text-sm mb-1">We sent a confirmation link to</p>
-        <p className="font-body text-white font-medium text-sm mb-5">{email}</p>
-        <div className="p-3.5 rounded-xl bg-white/[0.05] border border-white/[0.1] mb-5 text-left">
-          <p className="font-data text-[11px] tracking-[0.2em] uppercase text-white/38 mb-2">Next steps</p>
+      <div className="auth-card text-center">
+        <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">Verify email</p>
+        <h2 className="mt-4 text-[18px] font-semibold tracking-[-0.03em] text-foreground mb-2">Check your inbox</h2>
+        <p className="font-body text-muted-foreground text-sm mb-1">We sent a confirmation link to</p>
+        <p className="font-body text-foreground font-medium text-sm mb-5">{email}</p>
+        <div className="p-3.5 rounded-xl bg-muted/50 border border-border mb-5 text-left">
+          <p className="font-data text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-2">Next steps</p>
           <ol className="list-decimal list-inside space-y-1">
-            <li className="font-body text-xs text-white/50">Open the email from JobMatch</li>
-            <li className="font-body text-xs text-white/50">Click &quot;Confirm your email&quot;</li>
-            <li className="font-body text-xs text-white/50">Complete your profile</li>
+            <li className="font-body text-xs text-muted-foreground">Open the email from JobMatch</li>
+            <li className="font-body text-xs text-muted-foreground">Click &quot;Confirm your email&quot;</li>
+            <li className="font-body text-xs text-muted-foreground">Complete your profile</li>
           </ol>
         </div>
-        <p className="font-body text-xs text-white/40">
+        <p className="font-body text-xs text-muted-foreground">
           Didn&apos;t receive it? Check spam or{" "}
-          <button type="button" onClick={() => setVerifyMode(false)} className="text-white hover:underline">
+          <button type="button" onClick={() => setVerifyMode(false)} className="text-primary hover:underline font-medium">
             try again
           </button>
         </p>
@@ -153,16 +150,16 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="rounded-2xl border border-white/[0.12] bg-white/[0.06] px-6 py-8 sm:px-8 sm:py-10 backdrop-blur-sm">
+    <div className="auth-card">
       <div className="text-center mb-7">
-        <p className="font-data text-[10px] tracking-[0.25em] uppercase text-white/38 mb-2">Welcome</p>
-        <h1 className="text-[18px] sm:text-[19px] font-semibold tracking-[-0.02em] text-white">Create your account</h1>
-        <p className="font-body text-white/45 text-sm mt-1.5">Free — under a minute</p>
+        <p className="font-data text-[10px] tracking-[0.25em] uppercase text-muted-foreground mb-2">Welcome</p>
+        <h1 className="text-[18px] sm:text-[19px] font-semibold tracking-[-0.02em] text-foreground">Create your account</h1>
+        <p className="font-body text-muted-foreground text-sm mt-1.5">Free — under a minute</p>
       </div>
 
       {/* Role selector */}
       <div className="mb-5">
-        <p className="font-data text-[11px] tracking-[0.2em] uppercase text-white/38 mb-2">I am joining as…</p>
+        <p className="font-data text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-2">I am joining as…</p>
         <div className="grid grid-cols-2 gap-3">
           {(["student", "recruiter"] as SignupRole[]).map((r) => {
             const { label, description } = ROLE_INFO[r]
@@ -172,13 +169,13 @@ export default function SignupPage() {
                 className={cn(
                   "rounded-2xl border px-3.5 py-3 text-left transition-all duration-200",
                   active
-                    ? "border-white/35 bg-white/[0.1]"
-                    : "border-white/[0.1] bg-white/[0.03] hover:border-white/20"
+                    ? "border-primary bg-primary/10"
+                    : "border-border bg-card hover:border-muted-foreground/30"
                 )}>
-                <p className={cn("text-[13px] font-semibold tracking-[-0.02em]", active ? "text-white" : "text-white/80")}>
+                <p className={cn("text-[13px] font-semibold tracking-[-0.02em]", active ? "text-primary" : "text-foreground")}>
                   {label}
                 </p>
-                <p className="mt-1.5 text-[11px] leading-snug text-white/38">{description}</p>
+                <p className="mt-1.5 text-[11px] leading-snug text-muted-foreground">{description}</p>
               </button>
             )
           })}
@@ -187,11 +184,11 @@ export default function SignupPage() {
 
       {/* Global error */}
       {error && (
-        <div className="border-l-2 border-red-400/50 bg-red-500/[0.08] pl-4 pr-3 py-3 rounded-r-xl mb-5">
+        <div className="border-l-2 border-destructive/80 bg-destructive/10 pl-4 pr-3 py-3 rounded-r-xl mb-5">
           <div>
-            <p className="font-body text-[14px] leading-snug text-red-100/90">{error}</p>
+            <p className="font-body text-[14px] leading-snug text-destructive">{error}</p>
             {error.includes("already exists") && (
-              <Link href="/login" className="font-body text-xs text-white mt-1 inline-block hover:underline">
+              <Link href="/login" className="font-body text-xs text-primary mt-1 inline-block hover:underline">
                 Go to sign in →
               </Link>
             )}
@@ -200,51 +197,55 @@ export default function SignupPage() {
       )}
 
       {/* Google */}
-      <button onClick={handleGoogleSignup} disabled={googleLoading || loading}
-        className="w-full flex items-center justify-center gap-3 min-h-[3.25rem] rounded-full border border-white/[0.15] bg-white/[0.05] text-white text-[15px] font-medium hover:bg-white/[0.09] transition-all duration-300 mb-4 disabled:opacity-45">
+      <button
+        type="button"
+        onClick={handleGoogleSignup}
+        disabled={googleLoading || loading}
+        className="auth-btn-google mb-4 disabled:opacity-45"
+      >
         {googleLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <GoogleIcon />}
         Google — {role === "student" ? "Student" : "Recruiter"}
       </button>
 
       <div className="relative flex items-center gap-3 mb-4">
-        <div className="flex-1 h-px bg-white/10" />
-        <span className="font-data text-[10px] tracking-[0.2em] uppercase text-white/38">or email</span>
-        <div className="flex-1 h-px bg-white/10" />
+        <div className="flex-1 h-px bg-border" />
+        <span className="font-data text-[10px] tracking-[0.2em] uppercase text-muted-foreground">or email</span>
+        <div className="flex-1 h-px bg-border" />
       </div>
 
       <form onSubmit={handleSignup} noValidate className="space-y-4">
         {/* Name */}
         <div className="space-y-1.5">
-          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-white/38">Full name</label>
+          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-muted-foreground">Full name</label>
           <input
             placeholder="Jane Smith"
             value={fullName}
             onChange={(e) => { setFullName(e.target.value); clearFieldError("fullName") }}
             autoComplete="name"
-            className={`${inputBase} ${fieldErrors.fullName ? "border-red-400/50" : ""}`}
+            className={`auth-input ${fieldErrors.fullName ? "border-destructive/60" : ""}`}
           />
           {fieldErrors.fullName && (
-            <p className="text-xs text-red-300/90 font-body pl-0.5">{fieldErrors.fullName}</p>
+            <p className="text-xs text-destructive font-body pl-0.5">{fieldErrors.fullName}</p>
           )}
         </div>
 
         <div className="space-y-1.5">
-          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-white/38">Email address</label>
+          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-muted-foreground">Email address</label>
           <input
             type="email"
             placeholder="you@example.com"
             value={email}
             onChange={(e) => { setEmail(e.target.value); clearFieldError("email") }}
             autoComplete="email"
-            className={`${inputBase} ${fieldErrors.email ? "border-red-400/50" : ""}`}
+            className={`auth-input ${fieldErrors.email ? "border-destructive/60" : ""}`}
           />
           {fieldErrors.email && (
-            <p className="text-xs text-red-300/90 font-body pl-0.5">{fieldErrors.email}</p>
+            <p className="text-xs text-destructive font-body pl-0.5">{fieldErrors.email}</p>
           )}
         </div>
 
         <div className="space-y-1.5">
-          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-white/38">Password</label>
+          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-muted-foreground">Password</label>
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
@@ -252,12 +253,12 @@ export default function SignupPage() {
               value={password}
               onChange={(e) => { setPassword(e.target.value); clearFieldError("password") }}
               autoComplete="new-password"
-              className={`${inputBase} pr-11 ${fieldErrors.password ? "border-red-400/50" : ""}`}
+              className={`auth-input pr-11 ${fieldErrors.password ? "border-destructive/60" : ""}`}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors p-1"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
             >
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
@@ -266,27 +267,27 @@ export default function SignupPage() {
             <div className="space-y-1">
               <div className="flex gap-1">
                 {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className={cn("h-1 flex-1 rounded-full transition-all duration-300", i <= strength.score ? strength.color : "bg-white/10")} />
+                  <div key={i} className={cn("h-1 flex-1 rounded-full transition-all duration-300", i <= strength.score ? strength.color : "bg-muted")} />
                 ))}
               </div>
               <div className="flex items-center justify-between">
-                <p className="font-data text-[10px] text-white/40">
+                <p className="font-data text-[10px] text-muted-foreground">
                   {strength.score < 3 && "Use uppercase, numbers & symbols"}
                   {strength.score >= 3 && (
-                    <span className="text-white/55">{strength.label} password</span>
+                    <span className="text-foreground/80">{strength.label} password</span>
                   )}
                 </p>
               </div>
             </div>
           )}
           {fieldErrors.password && (
-            <p className="text-xs text-red-300/90 font-body pl-0.5">{fieldErrors.password}</p>
+            <p className="text-xs text-destructive font-body pl-0.5">{fieldErrors.password}</p>
           )}
         </div>
 
         {role === "recruiter" && (
-          <div className="border-l-2 border-white/15 bg-white/[0.03] pl-3.5 py-2.5 rounded-r-lg">
-            <p className="font-body text-[11px] text-white/42 leading-relaxed">
+          <div className="border-l-2 border-primary/25 bg-muted/40 pl-3.5 py-2.5 rounded-r-lg">
+            <p className="font-body text-[11px] text-muted-foreground leading-relaxed">
               Recruiter accounts are reviewed before you can post jobs.
             </p>
           </div>
@@ -295,26 +296,26 @@ export default function SignupPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full min-h-[3.25rem] rounded-full bg-white text-black font-semibold text-[15px] tracking-[-0.01em] hover:bg-white/90 transition-all duration-300 disabled:opacity-45 disabled:pointer-events-none flex items-center justify-center gap-2"
+          className="auth-btn-primary disabled:opacity-45 disabled:pointer-events-none"
         >
           {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Creating account…</> : "Create account"}
         </button>
       </form>
 
-      <p className="font-body text-center text-sm text-white/45 mt-5">
+      <p className="font-body text-center text-sm text-muted-foreground mt-5">
         Already have an account?{" "}
-        <Link href="/login" className="text-white font-medium hover:text-white/90 transition-colors">
+        <Link href="/login" className="text-primary font-medium hover:opacity-80 transition-colors">
           Sign in
         </Link>
       </p>
 
-      <p className="font-body text-center text-[10px] text-white/30 mt-4">
+      <p className="font-body text-center text-[10px] text-muted-foreground mt-4">
         By signing up you agree to our{" "}
-        <a href="#" className="text-white/45 hover:text-white/65 underline underline-offset-2">
+        <a href="#" className="text-muted-foreground hover:text-foreground underline underline-offset-2">
           Terms
         </a>{" "}
         and{" "}
-        <a href="#" className="text-white/45 hover:text-white/65 underline underline-offset-2">
+        <a href="#" className="text-muted-foreground hover:text-foreground underline underline-offset-2">
           Privacy
         </a>
       </p>

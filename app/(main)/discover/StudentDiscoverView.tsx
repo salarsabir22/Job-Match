@@ -109,7 +109,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
       <div className="flex items-center justify-center py-32">
         <div className="flex flex-col items-center gap-4">
           <div
-            className="h-9 w-9 rounded-full border-2 border-[#e8e8ed] border-t-[#0071e3] animate-spin"
+            className="h-9 w-9 rounded-full border-2 border-muted border-t-primary animate-spin"
             aria-hidden
           />
           <p className="font-body text-sm text-neutral-600">Loading roles…</p>
@@ -134,7 +134,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
             <p className="font-body text-[11px] font-medium uppercase tracking-wide text-[#86868b] mb-1">
               Browse roles
             </p>
-            <h1 className="font-heading font-semibold text-3xl tracking-tight text-[#1d1d1f] sm:text-[34px] sm:leading-[1.1]">
+            <h1 className="font-heading font-semibold text-3xl tracking-tight text-foreground sm:text-[34px] sm:leading-[1.1]">
               Discover
             </h1>
           </div>
@@ -165,7 +165,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
         <div className="rounded-2xl border border-neutral-200 bg-white p-4 sm:p-5 shadow-sm space-y-3">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
             <div>
-              <p className="font-body text-sm font-semibold text-[#1d1d1f] tracking-tight">
+              <p className="font-body text-sm font-semibold text-foreground tracking-tight">
                 Session · Card {sessionPosition} of {jobs.length}
               </p>
               <p className="font-body text-xs text-neutral-500 mt-0.5">
@@ -187,7 +187,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
             aria-label="Progress through this batch"
           >
             <div
-              className="h-full rounded-full bg-[#0071e3] transition-[width] duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
+              className="h-full rounded-full bg-primary transition-[width] duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
               style={{ width: `${sessionProgress}%` }}
             />
           </div>
@@ -195,10 +195,10 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
       )}
 
       <details className="group rounded-[22px] border border-[rgba(60,60,67,0.12)] bg-white/70 open:bg-white open:shadow-[0_2px_16px_rgba(0,0,0,0.06)] backdrop-blur-xl backdrop-saturate-180 transition-all">
-        <summary className="cursor-pointer list-none px-4 py-3.5 sm:px-5 sm:py-4 flex items-center justify-between gap-3 font-body text-[15px] font-semibold text-[#1d1d1f] tracking-tight [&::-webkit-details-marker]:hidden">
+        <summary className="cursor-pointer list-none px-4 py-3.5 sm:px-5 sm:py-4 flex items-center justify-between gap-3 font-body text-[15px] font-semibold text-foreground tracking-tight [&::-webkit-details-marker]:hidden">
           <span>How this feed works</span>
-          <span className="text-[#0071e3] text-[13px] font-medium group-open:hidden">Show</span>
-          <span className="text-[#0071e3] text-[13px] font-medium hidden group-open:inline">Hide</span>
+          <span className="text-primary text-[13px] font-medium group-open:hidden">Show</span>
+          <span className="text-primary text-[13px] font-medium hidden group-open:inline">Hide</span>
         </summary>
         <div className="px-4 pb-4 sm:px-5 sm:pb-5 pt-0 border-t border-[rgba(60,60,67,0.08)] space-y-4">
           <div className="pt-4 grid gap-4 sm:grid-cols-2">
@@ -218,7 +218,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
               <p className="font-body text-sm text-neutral-600 leading-relaxed">
                 The employer can view the profile you&apos;ve built here (bio, skills, education, links). Messaging
                 unlocks only after a <span className="font-medium text-neutral-800">mutual match</span>—check{" "}
-                <Link href="/matches" className="text-[#0071e3] font-medium hover:opacity-80">
+                <Link href="/matches" className="text-primary font-medium hover:opacity-80">
                   Matches
                 </Link>
                 .
@@ -230,7 +230,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
               </p>
               <p className="font-body text-sm text-neutral-600 leading-relaxed">
                 Saved roles live in{" "}
-                <Link href="/saved" className="text-[#0071e3] font-medium hover:opacity-80">
+                <Link href="/saved" className="text-primary font-medium hover:opacity-80">
                   Saved
                 </Link>
                 . Pass simply moves you forward; you can still open a{" "}
@@ -260,7 +260,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
             { label: "Matches", value: stats.matches, hint: "Mutual" },
           ].map(({ label, value, hint }) => (
             <div key={label} className="bg-white px-4 py-4 text-center sm:text-left" title={hint}>
-              <p className="font-heading text-2xl font-semibold tabular-nums text-[#1d1d1f] tracking-tight">{value}</p>
+              <p className="font-heading text-2xl font-semibold tabular-nums text-foreground tracking-tight">{value}</p>
               <p className="font-body text-[11px] text-[#86868b] mt-1 font-medium">{label}</p>
             </div>
           ))}
@@ -274,7 +274,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
             <p className="font-body text-sm text-neutral-600 mt-2 max-w-md mx-auto leading-relaxed">
               Either every active, verified listing is already in your history, or employers haven&apos;t posted new
               roles yet. Saved jobs stay in{" "}
-              <Link href="/saved" className="text-[#0071e3] font-medium hover:opacity-80">
+              <Link href="/saved" className="text-primary font-medium hover:opacity-80">
                 Saved
               </Link>
               .
@@ -291,11 +291,11 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
           <div className="flex flex-col items-center gap-6 text-center py-12 rounded-[22px] border border-[rgba(60,60,67,0.12)] bg-white px-4 shadow-[0_2px_16px_rgba(0,0,0,0.06)]">
             <div className="h-px w-12 bg-[rgba(60,60,67,0.15)]" aria-hidden />
             <div>
-              <h3 className="font-heading text-xl font-semibold text-[#1d1d1f] tracking-tight">Nice—batch finished</h3>
+              <h3 className="font-heading text-xl font-semibold text-foreground tracking-tight">Nice—batch finished</h3>
               <p className="font-body text-sm text-neutral-600 mt-2 max-w-md mx-auto leading-relaxed">
                 You&apos;ve reviewed every role in this load. Hit refresh for up to 20 more (still excluding ones
                 you&apos;ve already swiped). Check{" "}
-                <Link href="/matches" className="text-[#0071e3] font-medium hover:opacity-80">
+                <Link href="/matches" className="text-primary font-medium hover:opacity-80">
                   Matches
                 </Link>{" "}
                 for replies.
@@ -318,7 +318,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
             <button
               type="button"
               onClick={() => void loadJobs()}
-              className="rounded-full bg-[#0071e3] px-7 py-3 font-body text-[15px] font-semibold text-white shadow-[0_2px_8px_rgba(0,113,227,0.35)] transition hover:bg-[#0077ed] active:scale-[0.98]"
+              className="rounded-full bg-primary px-7 py-3 font-body text-[15px] font-semibold text-white shadow-[0_2px_8px_rgba(0,113,227,0.35)] transition hover:bg-[#0077ed] active:scale-[0.98]"
             >
               Refresh feed
             </button>
@@ -370,7 +370,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
                 onClick={() => handleSwipe("right")}
                 disabled={swiping}
                 aria-label="Apply to this role"
-                className="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-[#0071e3] text-white shadow-[0_4px_14px_rgba(0,113,227,0.45)] transition hover:bg-[#0077ed] active:scale-[0.97] disabled:opacity-50"
+                className="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-primary text-white transition hover:bg-[var(--clearpath-navy-hover)] active:scale-[0.97] disabled:opacity-50"
               >
                 <Heart className="h-5 w-5 sm:h-6 sm:w-6 mx-auto" fill="currentColor" stroke="currentColor" strokeWidth={1.5} />
               </button>
@@ -514,7 +514,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
                     type="button"
                     onClick={() => handleSwipe("left")}
                     disabled={swiping}
-                    className="flex-1 rounded-[14px] border border-[rgba(60,60,67,0.18)] py-3.5 font-body text-[15px] font-semibold text-[#0071e3] bg-[#f5f5f7]/80 transition hover:bg-[#e8e8ed] disabled:opacity-50"
+                    className="flex-1 rounded-[14px] border border-[rgba(60,60,67,0.18)] py-3.5 font-body text-[15px] font-semibold text-primary bg-[#f5f5f7]/80 transition hover:bg-[#e8e8ed] disabled:opacity-50"
                   >
                     Pass
                   </button>
@@ -522,7 +522,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
                     type="button"
                     onClick={() => handleSwipe("saved")}
                     disabled={swiping}
-                    className="flex-1 rounded-[14px] border border-[rgba(60,60,67,0.18)] py-3.5 font-body text-[15px] font-semibold text-[#1d1d1f] bg-white transition hover:bg-[#f5f5f7] disabled:opacity-50 sm:max-w-[8rem]"
+                    className="flex-1 rounded-[14px] border border-[rgba(60,60,67,0.18)] py-3.5 font-body text-[15px] font-semibold text-foreground bg-white transition hover:bg-[#f5f5f7] disabled:opacity-50 sm:max-w-[8rem]"
                   >
                     Save
                   </button>
@@ -530,7 +530,7 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
                     type="button"
                     onClick={() => handleSwipe("right")}
                     disabled={swiping}
-                    className="flex-1 rounded-[14px] bg-[#0071e3] py-3.5 font-body text-[15px] font-semibold text-white shadow-[0_2px_8px_rgba(0,113,227,0.35)] transition hover:bg-[#0077ed] active:scale-[0.99] disabled:opacity-50"
+                    className="flex-1 rounded-[14px] bg-primary py-3.5 font-body text-[15px] font-semibold text-primary-foreground transition hover:bg-[var(--clearpath-navy-hover)] active:scale-[0.99] disabled:opacity-50"
                   >
                     Apply
                   </button>
