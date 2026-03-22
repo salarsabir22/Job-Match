@@ -9,7 +9,7 @@ import { WaitlistAudienceSections } from "@/components/waitlist/AudienceSections
 import { WaitlistFaq } from "@/components/waitlist/WaitlistFaq"
 import { WaitlistFooter } from "@/components/waitlist/WaitlistFooter"
 import { WaitlistUspSections } from "@/components/waitlist/UspSections"
-import { HeroCanvas } from "@/components/waitlist/HeroCanvas"
+import { WaitlistEarthCanvas } from "@/components/waitlist/WaitlistEarthCanvas"
 
 const CONTACT_MAIL = "mailto:hello@jobmatch.app"
 
@@ -102,33 +102,26 @@ export function WaitlistForm() {
       {/* ── Hero (full-bleed black) — anchor for footer / deep links ───────── */}
       <div
         id="early-access"
-        className="relative flex min-h-screen scroll-mt-0 flex-col bg-[#02060f] text-white"
+        className="relative flex min-h-screen scroll-mt-0 flex-col overflow-hidden bg-black text-white"
       >
-        {/* Three.js canvas fills the whole hero */}
-        <HeroCanvas />
+        {/* Animated night-Earth — full hero behind copy; opacity high enough to read continents */}
+        <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
+          <div className="absolute inset-0 opacity-[0.64] sm:opacity-[0.7] lg:opacity-[0.76]">
+            <WaitlistEarthCanvas className="block h-full w-full" />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/92 via-black/18 to-black/88" />
+          <div
+            className="absolute inset-0 opacity-60"
+            style={{
+              background:
+                "radial-gradient(ellipse 100% 80% at 50% 40%, transparent 26%, rgba(0,0,0,0.16) 58%, rgba(0,0,0,0.68) 100%)",
+            }}
+          />
+        </div>
 
-        {/* Radial vignette + subtle Apple blue atmosphere */}
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background: [
-              "radial-gradient(ellipse 75% 60% at 50% 42%, rgba(0,113,227,0.14) 0%, transparent 55%)",
-              "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 28%, rgba(0,0,0,0.52) 100%)",
-            ].join(", "),
-          }}
-          aria-hidden
-        />
-
-        {/* Bottom fade into white below */}
-        <div
-          className="pointer-events-none absolute bottom-0 left-0 right-0 h-32"
-          style={{ background: "linear-gradient(to bottom, transparent, #02060f 100%)" }}
-          aria-hidden
-        />
-
-        {/* Header — sits on top of canvas */}
+        {/* Header */}
         <motion.header
-          className="relative z-10 mx-auto flex w-full max-w-[1120px] items-center justify-between gap-6 px-5 pt-7 sm:px-10 sm:pt-9 lg:px-12"
+          className="relative z-20 mx-auto flex w-full max-w-[1120px] items-center justify-between gap-6 px-5 pt-7 sm:px-10 sm:pt-9 lg:px-12"
           initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.48, ease: easeOutExpo }}
@@ -147,20 +140,21 @@ export function WaitlistForm() {
           </a>
         </motion.header>
 
-        {/* Hero content — centered in the remaining space */}
-        <StaggerMount className="relative z-10 flex flex-1 flex-col items-center justify-center px-5 pb-24 pt-8 text-center sm:px-10 sm:pb-28 lg:px-12">
+        <StaggerMount className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center px-5 py-12 text-center sm:px-10 sm:py-16 lg:px-12 lg:py-20">
           <StaggerChild>
-            <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.28em] text-white/38">Early access</p>
-            <h1 className="mx-auto mt-6 max-w-[13ch] text-balance font-heading text-[clamp(2.8rem,7.5vw,5rem)] font-semibold leading-[1.04] tracking-[-0.04em] text-white">
+            <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.28em] text-white/45">
+              Early access
+            </p>
+            <h1 className="mx-auto mt-5 max-w-[13ch] text-balance font-heading text-[clamp(2.8rem,7.5vw,5rem)] font-semibold leading-[1.04] tracking-[-0.04em] text-white">
               Students.&nbsp;Jobs.<br className="hidden sm:block" /> Matches.
             </h1>
-            <p className="mx-auto mt-6 max-w-md text-base font-normal leading-[1.6] text-white/45 sm:mt-8 sm:text-[1.2rem]">
+            <p className="mx-auto mt-5 max-w-md text-base font-normal leading-[1.6] text-white/45 sm:mt-7 sm:text-[1.2rem]">
               Swipe on roles. Match with intent. Chat only when both sides are in.
             </p>
           </StaggerChild>
 
           <StaggerChild>
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:mt-12 sm:flex-row sm:gap-5">
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:mt-11 sm:flex-row sm:gap-5">
               <div className="flex items-center pl-1">
                 {WAITLIST_FACE_AVATARS.map((person, i) => (
                   <div
@@ -201,7 +195,7 @@ export function WaitlistForm() {
                         ? { duration: 0 }
                         : { type: "spring", stiffness: 320, damping: 26, mass: 0.9 }
                     }
-                    className="flex flex-col items-center gap-5 rounded-2xl border border-[#0071e3]/25 bg-white/[0.04] px-8 py-9 backdrop-blur-sm"
+                    className="flex flex-col items-center gap-5 rounded-2xl border border-[var(--waitlist-blue)]/30 bg-white/[0.04] px-8 py-9 backdrop-blur-sm"
                   >
                     <div className="text-center max-w-[22rem]">
                       <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/35">
@@ -244,12 +238,12 @@ export function WaitlistForm() {
                       type="email"
                       autoComplete="email"
                       disabled={submitting}
-                      className="min-h-[3.25rem] w-full min-w-0 flex-1 rounded-full border border-white/[0.15] bg-white/[0.07] px-5 text-[15px] text-white outline-none backdrop-blur-sm transition-all duration-300 placeholder:text-white/30 focus:border-white/35 focus:bg-white/[0.11] focus:ring-2 focus:ring-white/[0.08] disabled:opacity-50 sm:px-6"
+                      className="min-h-[3.25rem] w-full min-w-0 flex-1 rounded-full border border-white/[0.15] bg-white/[0.07] px-5 text-[15px] text-white outline-none backdrop-blur-sm transition-all duration-300 placeholder:text-white/30 focus:border-[var(--waitlist-blue)]/60 focus:bg-white/[0.11] focus:ring-2 focus:ring-[var(--waitlist-blue)]/30 disabled:opacity-50 sm:px-6"
                     />
                     <motion.button
                       type="submit"
                       disabled={submitting}
-                      className="relative min-h-[3.25rem] shrink-0 overflow-hidden rounded-full bg-[#0071e3] px-8 text-[15px] font-semibold tracking-[-0.01em] text-white transition-colors duration-300 hover:bg-[#0077ed] disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:transition-none sm:min-w-[10.5rem]"
+                      className="relative min-h-[3.25rem] shrink-0 overflow-hidden rounded-full bg-[var(--waitlist-blue)] px-8 text-[15px] font-semibold tracking-[-0.01em] text-white shadow-[0_4px_20px_rgba(37,99,235,0.35)] transition-colors duration-300 hover:bg-[var(--waitlist-blue-hover)] disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:transition-none sm:min-w-[10.5rem]"
                       animate={
                         submitting && !reduceMotion
                           ? { scale: [1, 1.02, 1] }

@@ -18,7 +18,7 @@ function PrimaryCta({ href, children }: { href: string; children: ReactNode }) {
   return (
     <a
       href={href}
-      className="group inline-flex items-center gap-2 rounded-full bg-black px-6 py-3 text-[14px] font-semibold tracking-[-0.02em] text-white shadow-sm transition-transform duration-200 hover:bg-black/90 active:scale-[0.98]"
+      className="group inline-flex items-center gap-2 rounded-full bg-[var(--waitlist-blue)] px-6 py-3 text-[14px] font-semibold tracking-[-0.02em] text-white shadow-[0_4px_18px_rgba(37,99,235,0.35)] transition-[transform,background-color] duration-200 hover:bg-[var(--waitlist-blue-hover)] active:scale-[0.98]"
     >
       {children}
       <Chevron />
@@ -56,7 +56,7 @@ function AudienceMetricMockup({
   variant: "recruiter" | "university"
 }) {
   const isRecruiter = variant === "recruiter"
-  const barTint = "bg-black"
+  const barTint = "bg-gradient-to-r from-[var(--waitlist-blue-deep)] to-[var(--waitlist-blue)]"
   const glow = isRecruiter
     ? "bg-[radial-gradient(ellipse_at_75%_15%,rgba(0,0,0,0.06),transparent_55%)]"
     : "bg-[radial-gradient(ellipse_at_25%_20%,rgba(0,0,0,0.06),transparent_55%)]"
@@ -104,8 +104,8 @@ function AudienceMetricMockup({
               {isRecruiter ? "Pipeline health" : "Engagement overview"}
             </p>
           </div>
-          <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/[0.08] px-2 py-0.5 text-[9px] font-semibold text-emerald-800">
-            <span className="size-1.5 rounded-full bg-emerald-500" />
+          <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[var(--waitlist-blue)]/30 bg-[var(--waitlist-blue)]/[0.12] px-2 py-0.5 text-[9px] font-semibold text-[var(--waitlist-blue-deep)]">
+            <span className="size-1.5 rounded-full bg-[var(--waitlist-blue)]" />
             Active
           </span>
         </div>
@@ -198,11 +198,11 @@ export function WaitlistAudienceSections() {
               </p>
               <ul className="mt-6 max-w-[44ch] space-y-3 text-[15px] leading-[1.5] text-black/50">
                 <li className="flex gap-2.5">
-                  <span className="mt-2 size-1 shrink-0 rounded-full bg-black/20" aria-hidden />
+                  <span className="mt-2 size-1 shrink-0 rounded-full bg-[var(--waitlist-blue)]" aria-hidden />
                   <span>Your pipeline reflects who actually raised their hand — not keyword spray-and-pray.</span>
                 </li>
                 <li className="flex gap-2.5">
-                  <span className="mt-2 size-1 shrink-0 rounded-full bg-black/20" aria-hidden />
+                  <span className="mt-2 size-1 shrink-0 rounded-full bg-[var(--waitlist-blue)]" aria-hidden />
                   <span>Early partner access: launch timing, feedback loops, and campus-heavy workflows.</span>
                 </li>
               </ul>
@@ -238,11 +238,11 @@ export function WaitlistAudienceSections() {
               </p>
               <ul className="mt-6 max-w-[44ch] space-y-3 text-[15px] leading-[1.5] text-black/50">
                 <li className="flex gap-2.5">
-                  <span className="mt-2 size-1 shrink-0 rounded-full bg-black/20" aria-hidden />
+                  <span className="mt-2 size-1 shrink-0 rounded-full bg-[var(--waitlist-blue)]" aria-hidden />
                   <span>Aggregate outcomes framing (where policy and consent allow).</span>
                 </li>
                 <li className="flex gap-2.5">
-                  <span className="mt-2 size-1 shrink-0 rounded-full bg-black/20" aria-hidden />
+                  <span className="mt-2 size-1 shrink-0 rounded-full bg-[var(--waitlist-blue)]" aria-hidden />
                   <span>Advisor one-pagers, sessions, and a clear line for partnership questions.</span>
                 </li>
               </ul>

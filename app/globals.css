@@ -13,6 +13,11 @@
   --apple-blue: #0071e3;
   --apple-blue-hover: #0077ed;
   --apple-blue-press: #006edb;
+
+  /* Waitlist / marketing — true blue (not sky cyan, not indigo) */
+  --waitlist-blue: #2563eb;
+  --waitlist-blue-hover: #1d4ed8;
+  --waitlist-blue-deep: #1e40af;
   --apple-label: #1d1d1f;
   --apple-secondary-label: #86868b;
   --apple-separator: rgba(60, 60, 67, 0.12);
@@ -206,11 +211,12 @@ body {
 .footer-premium-surface {
   background-color: #050506;
   background-image:
+    radial-gradient(ellipse 95% 75% at 50% -25%, rgba(37, 99, 235, 0.16), transparent 55%),
     radial-gradient(ellipse 100% 90% at 50% -30%, rgba(255, 255, 255, 0.055), transparent 52%),
     linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
-  background-size: 100% 100%, 72px 72px, 72px 72px;
-  background-position: center top, center center, center center;
+  background-size: 100% 100%, 100% 100%, 72px 72px, 72px 72px;
+  background-position: center top, center top, center center, center center;
 }
 
 /* ─── Glass Morphism ─────────────────────────────────────────────── */

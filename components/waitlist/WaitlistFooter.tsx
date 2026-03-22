@@ -9,13 +9,13 @@ const UNIVERSITY = "mailto:hello@jobmatch.app?subject=University%20partnership"
 const YEAR = new Date().getFullYear()
 
 const focusRing =
-  "rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506]"
+  "rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--waitlist-blue)]/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050506]"
 
 function ExternalArrow({ label }: { label: string }) {
   return (
     <span className="inline-flex items-center gap-1">
       {label}
-      <span className="text-white/35 transition-colors duration-200 group-hover:text-white/60" aria-hidden>
+      <span className="text-white/35 transition-colors duration-200 group-hover:text-[var(--waitlist-blue)]" aria-hidden>
         ↗
       </span>
     </span>
@@ -82,7 +82,7 @@ export function WaitlistFooter() {
               <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-white/30">Contact</p>
               <a
                 href={CONTACT}
-                className={`${focusRing} mt-3 block w-fit text-[17px] font-medium tracking-[-0.02em] text-white transition-colors hover:text-white/90 sm:ml-auto`}
+                className={`${focusRing} mt-3 block w-fit text-[17px] font-medium tracking-[-0.02em] text-white transition-colors hover:text-[var(--waitlist-blue)] sm:ml-auto`}
               >
                 hello@jobmatch.app
               </a>
@@ -120,7 +120,7 @@ export function WaitlistFooter() {
                 <li key={item.href}>
                   <a
                     href={item.href}
-                    className={`${focusRing} text-[14px] text-white/45 transition-colors duration-200 hover:text-white/90`}
+                    className={`${focusRing} text-[14px] text-white/45 transition-colors duration-200 hover:text-[var(--waitlist-blue)]`}
                   >
                     {item.label}
                   </a>
@@ -133,12 +133,12 @@ export function WaitlistFooter() {
             <h3 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/32">Partners</h3>
             <ul className="mt-5 flex flex-col gap-3 text-[14px]">
               <li>
-                <a href={RECRUITER} className={`${focusRing} text-white/45 transition-colors hover:text-white/90`}>
+                <a href={RECRUITER} className={`${focusRing} text-white/45 transition-colors hover:text-[var(--waitlist-blue)]`}>
                   Recruiter early access
                 </a>
               </li>
               <li>
-                <a href={UNIVERSITY} className={`${focusRing} text-white/45 transition-colors hover:text-white/90`}>
+                <a href={UNIVERSITY} className={`${focusRing} text-white/45 transition-colors hover:text-[var(--waitlist-blue)]`}>
                   University partnerships
                 </a>
               </li>
@@ -179,7 +179,7 @@ export function WaitlistFooter() {
                       href={s.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`group ${focusRing} text-[14px] text-white/45 transition-colors hover:text-white/90`}
+                      className={`group ${focusRing} text-[14px] text-white/45 transition-colors hover:text-[var(--waitlist-blue)]`}
                     >
                       <ExternalArrow label={s.label} />
                     </a>
@@ -204,13 +204,13 @@ export function WaitlistFooter() {
           >
             <Link
               href="/privacy"
-              className={`${focusRing} text-white/35 transition-colors hover:text-white/70`}
+              className={`${focusRing} text-white/35 transition-colors hover:text-[var(--waitlist-blue)]`}
             >
               Privacy
             </Link>
             <Link
               href="/terms"
-              className={`${focusRing} text-white/35 transition-colors hover:text-white/70`}
+              className={`${focusRing} text-white/35 transition-colors hover:text-[var(--waitlist-blue)]`}
             >
               Terms
             </Link>

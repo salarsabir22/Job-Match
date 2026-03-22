@@ -68,7 +68,7 @@ function DemoSwipe() {
       {/* Web app chrome — Discover (student) */}
       <header className="flex items-center justify-between gap-2 border-b border-black/[0.06] bg-white px-3 py-2.5 sm:px-3.5">
         <div className="flex min-w-0 flex-1 items-center gap-2.5">
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-[10px] bg-black text-[10px] font-bold tracking-tight text-white">
+          <div className="flex size-8 shrink-0 items-center justify-center rounded-[10px] bg-[var(--waitlist-blue)] text-[10px] font-bold tracking-tight text-white shadow-[0_2px_8px_rgba(37,99,235,0.35)]">
             JM
           </div>
           <div className="min-w-0">
@@ -231,7 +231,7 @@ function DemoChat() {
       <p className="mb-1 text-center text-[9px] font-semibold uppercase tracking-wider text-black/40">
         Brightline · Eng intern
       </p>
-      <div className="usp-demo-chat-a self-end max-w-[90%] rounded-2xl rounded-br-md bg-black px-3 py-2.5 text-[11px] leading-snug text-white shadow-sm">
+      <div className="usp-demo-chat-a self-end max-w-[90%] rounded-2xl rounded-br-md bg-[var(--waitlist-blue)] px-3 py-2.5 text-[11px] leading-snug text-white shadow-[0_2px_10px_rgba(37,99,235,0.3)]">
         Is the hybrid schedule fixed to Tue/Thu in-office, or flexible within the week?
       </div>
       <div className="usp-demo-chat-b self-start max-w-[90%] rounded-2xl rounded-bl-md border border-black/12 bg-white px-3 py-2.5 text-[11px] leading-snug text-black shadow-sm">
@@ -341,7 +341,7 @@ export function WaitlistUspSections() {
         >
           <p
             id="usp-heading"
-            className="text-[11px] font-medium uppercase tracking-[0.22em] text-black/38"
+            className="text-[11px] font-medium uppercase tracking-[0.22em] text-[var(--waitlist-blue)]"
           >
             Why JobMatch
           </p>

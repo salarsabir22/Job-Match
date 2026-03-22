@@ -56,7 +56,7 @@ export function WaitlistFaq() {
         <div className="relative grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-0 xl:gap-x-20">
           {/* Left: intro + CTA */}
           <Reveal className="lg:max-w-md lg:pr-4" variants={slideInLeft}>
-            <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-black/38">FAQ&apos;s</p>
+            <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-[var(--waitlist-blue)]">FAQ&apos;s</p>
             <h2
               id="waitlist-faq-heading"
               className="mt-4 text-[clamp(1.85rem,4vw,2.65rem)] font-semibold leading-[1.1] tracking-[-0.035em] text-black"
@@ -69,10 +69,10 @@ export function WaitlistFaq() {
             </p>
             <a
               href={CONTACT_MAIL}
-              className="mt-9 inline-flex items-center gap-2 rounded-full border border-black/[0.14] bg-white px-6 py-3 text-[14px] font-semibold tracking-[-0.02em] text-black shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-colors hover:border-black/25 hover:bg-black/[0.02]"
+              className="mt-9 inline-flex items-center gap-2 rounded-full bg-[var(--waitlist-blue)] px-6 py-3 text-[14px] font-semibold tracking-[-0.02em] text-white shadow-[0_4px_18px_rgba(37,99,235,0.35)] transition-[background-color,box-shadow] duration-200 hover:bg-[var(--waitlist-blue-hover)] hover:shadow-[0_6px_22px_rgba(37,99,235,0.4)] active:scale-[0.98] motion-reduce:transition-none motion-reduce:active:scale-100"
             >
               Contact us
-              <span className="text-[1.1em] font-light leading-none opacity-80" aria-hidden>
+              <span className="text-[1.1em] font-light leading-none opacity-95" aria-hidden>
                 ›
               </span>
             </a>
@@ -109,8 +109,8 @@ export function WaitlistFaq() {
                     </span>
                     <span
                       className={cn(
-                        "flex size-9 shrink-0 items-center justify-center rounded-full bg-black text-white shadow-sm transition-transform duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:transition-none sm:size-10",
-                        isOpen && "rotate-45"
+                        "flex size-9 shrink-0 items-center justify-center rounded-full bg-[var(--waitlist-blue)] text-white shadow-[0_2px_12px_rgba(37,99,235,0.35)] transition-transform duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:transition-none sm:size-10",
+                        isOpen && "rotate-45 bg-[var(--waitlist-blue-hover)]"
                       )}
                       aria-hidden
                     >
