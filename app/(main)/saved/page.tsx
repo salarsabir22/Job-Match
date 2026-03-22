@@ -61,7 +61,7 @@ export default async function SavedJobsPage() {
                 <div className="flex flex-wrap gap-3 font-data text-[10px] tracking-wider text-neutral-700">
                   <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" />{job?.job_type?.replace("_", " ")}</span>
                   {job?.is_remote ? (
-                    <span className="flex items-center gap-1"><Wifi className="h-3.5 w-3.5 text-neutral-900" />Remote</span>
+                    <span className="flex items-center gap-1"><Wifi className="h-3.5 w-3.5 text-primary" />Remote</span>
                   ) : job?.location ? (
                     <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" />{job.location}</span>
                   ) : null}
@@ -69,7 +69,7 @@ export default async function SavedJobsPage() {
                 {(job?.required_skills?.length ?? 0) > 0 && (
                   <div className="flex flex-wrap gap-1">
                     {(job?.required_skills ?? []).slice(0, 4).map((s: string) => (
-                      <span key={s} className="font-data text-[9px] tracking-wider px-2 py-0.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-neutral-900">{s}</span>
+                      <span key={s} className="font-data text-[9px] tracking-wider px-2 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary">{s}</span>
                     ))}
                   </div>
                 )}

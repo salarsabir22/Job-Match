@@ -48,7 +48,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
     <div className="space-y-8">
       <header className="flex flex-col gap-2 min-w-0">
         <div className="space-y-1 min-w-0">
-          <h1 className="font-heading text-2xl font-bold tracking-tight text-neutral-950 sm:text-[1.75rem]">Matches</h1>
+          <h1 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-[1.75rem]">Matches</h1>
           <p className="font-body text-sm text-neutral-600">
             {matches.length === 0
               ? "When a recruiter likes you back, the conversation starts here."
@@ -65,7 +65,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
           { label: "Active chats", value: withChat },
         ].map(({ label, value }) => (
           <div key={label} className="bg-white px-4 py-4">
-            <p className="font-heading text-xl font-semibold tabular-nums text-neutral-950 sm:text-2xl">{value}</p>
+            <p className="font-heading text-xl font-semibold tabular-nums text-foreground sm:text-2xl">{value}</p>
             <p className="font-body text-xs text-neutral-500 mt-1">{label}</p>
           </div>
         ))}
@@ -84,7 +84,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
               { label: "In chat", value: withChat },
             ].map(({ label, value }) => (
               <div key={label} className="min-w-[4.5rem]">
-                <p className="font-heading text-lg font-semibold tabular-nums text-neutral-950">{value}</p>
+                <p className="font-heading text-lg font-semibold tabular-nums text-foreground">{value}</p>
                 <p className="font-body text-[11px] text-neutral-500 mt-0.5">{label}</p>
               </div>
             ))}
@@ -94,7 +94,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
 
       {!matches.length ? (
         <div className="rounded-2xl border border-neutral-200 bg-neutral-50/50 px-6 py-14 text-center">
-          <h3 className="font-heading text-lg font-semibold text-neutral-950">No matches yet</h3>
+          <h3 className="font-heading text-lg font-semibold text-foreground">No matches yet</h3>
           <p className="font-body text-sm text-neutral-600 mt-2 max-w-md mx-auto">
             A match happens when you apply and the recruiter returns interest. Strong profiles get there faster.
           </p>
@@ -112,7 +112,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
             </Link>
             <Link
               href="/discover"
-              className="inline-flex justify-center rounded-full bg-neutral-950 px-6 py-2.5 font-body text-sm font-medium text-white transition hover:bg-neutral-800"
+              className="inline-flex justify-center rounded-full bg-primary px-6 py-2.5 font-body text-sm font-medium text-primary-foreground transition hover:bg-[var(--clearpath-navy-hover)]"
             >
               Discover jobs
             </Link>
@@ -143,7 +143,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
                     )}
                   </div>
                   <div className="flex-1 min-w-0 text-left">
-                    <p className="font-heading font-semibold text-base text-neutral-950 truncate">{job?.title}</p>
+                    <p className="font-heading font-semibold text-base text-foreground truncate">{job?.title}</p>
                     <p className="font-body text-sm text-neutral-500 truncate">{company?.company_name}</p>
                     <p className="font-body text-xs text-neutral-400 mt-1">{formatDate(match.created_at)}</p>
                     <div className="flex flex-wrap gap-2 mt-3">
@@ -167,7 +167,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
               return (
                 <li key={match.id}>
                   {convId ? (
-                    <Link href={`/chat/${convId}`} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950/20 rounded-2xl">
+                    <Link href={`/chat/${convId}`} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 rounded-2xl">
                       {inner}
                     </Link>
                   ) : (

@@ -57,7 +57,7 @@ export function StudentDashboardCharts({
                   <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
                   <XAxis dataKey="label" tick={axisTick} tickLine={false} axisLine={{ stroke: axisLine }} />
                   <YAxis allowDecimals={false} tick={axisTick} tickLine={false} axisLine={false} width={28} />
-                  <Tooltip contentStyle={tooltipStyle} labelStyle={{ color: "#0a1628", fontWeight: 600 }} />
+                  <Tooltip contentStyle={tooltipStyle} labelStyle={{ color: "var(--foreground)", fontWeight: 600 }} />
                   <Legend wrapperStyle={{ fontSize: 11 }} />
                   <Line type="monotone" dataKey="applied" name="Applied" stroke="#1e3a5f" strokeWidth={2} dot={false} />
                   <Line
@@ -94,7 +94,7 @@ export function StudentDashboardCharts({
                     type="monotone"
                     dataKey="matches"
                     name="Matches"
-                    stroke="#1e3a5f"
+                    stroke="var(--primary)"
                     strokeWidth={2}
                     dot={false}
                     activeDot={{ r: 4 }}

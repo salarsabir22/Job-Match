@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
 import type { Notification } from "@/types"
 import { formatTime } from "@/lib/utils"
+import { resolveChatPath } from "@/lib/chat-navigation"
 import { Loader2, CheckCircle, XCircle } from "lucide-react"
 
 export default function NotificationsPage() {
@@ -49,24 +50,10 @@ export default function NotificationsPage() {
       setItems((prev) => prev.map((x) => (x.id === n.id ? { ...x, is_read: true } : x)))
     }
 
-    // Your chat route is /chat/[matchId], so prefer match_id.
-    if (matchId) {
-      router.push(`/chat/${matchId}`)
+    const chatPath = await resolveChatPath(supabase, { conversationId, matchId })
+    if (chatPath) {
+      router.push(chatPath)
       return
-    }
-
-    // Fallback: if only conversation_id exists, find the match_id via conversations table.
-    if (conversationId) {
-      const { data } = await supabase
-        .from("conversations")
-        .select("match_id")
-        .eq("id", conversationId)
-        .single()
-
-      if (data?.match_id) {
-        router.push(`/chat/${data.match_id}`)
-        return
-      }
     }
 
     // Pre-match notification for recruiters (candidate interested in a specific job).
@@ -84,7 +71,7 @@ export default function NotificationsPage() {
     <div className="space-y-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="font-heading text-xl font-bold text-black sm:text-2xl">Notifications</h1>
+          <h1 className="font-heading text-xl font-bold text-foreground sm:text-2xl">Notifications</h1>
           <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mt-1">
             {unreadCount > 0 ? `${unreadCount} unread` : "All caught up"}
           </p>
@@ -93,7 +80,7 @@ export default function NotificationsPage() {
 
       {loading ? (
         <div className="flex items-center justify-center py-24">
-          <Loader2 className="h-8 w-8 animate-spin text-neutral-900" />
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
       ) : items.length === 0 ? (
         <div className="rounded-2xl bg-white border border-black/10 p-6 text-center">
@@ -122,7 +109,7 @@ export default function NotificationsPage() {
                 </div>
                 <div className="shrink-0 flex items-center gap-2">
                   {!n.is_read ? (
-                    <CheckCircle className="h-4 w-4 text-neutral-900" />
+                    <CheckCircle className="h-4 w-4 text-primary" />
                   ) : (
                     <XCircle className="h-4 w-4 text-neutral-700" />
                   )}

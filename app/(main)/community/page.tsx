@@ -58,7 +58,7 @@ export default async function CommunityPage() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
         <div className="min-w-0">
           <div>
-            <h1 className="font-heading text-2xl font-bold text-black sm:text-[1.75rem]">Community</h1>
+            <h1 className="font-heading text-2xl font-bold text-foreground sm:text-[1.75rem]">Community</h1>
             <p className="font-data text-[10px] tracking-wider uppercase text-neutral-700 mt-0.5">
               {channels?.length || 0} channels · {totalMembers} members
             </p>
@@ -67,8 +67,8 @@ export default async function CommunityPage() {
         <div className="flex items-center gap-2">
           {joinedCount > 0 && (
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/25">
-              <CheckCircle className="h-3.5 w-3.5 text-neutral-900" />
-              <span className="font-data text-[10px] tracking-wider uppercase text-neutral-900">
+              <CheckCircle className="h-3.5 w-3.5 text-primary" />
+              <span className="font-data text-[10px] tracking-wider uppercase text-primary">
                 {joinedCount} joined
               </span>
             </div>
@@ -160,7 +160,7 @@ export default async function CommunityPage() {
                         <div className="flex items-center gap-2 flex-wrap">
                           <p className="font-heading font-semibold text-sm text-black">#{channel.name}</p>
                           {isJoined && (
-                            <span className="font-data text-[9px] tracking-widest uppercase px-1.5 py-0.5 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-neutral-900">
+                            <span className="font-data text-[9px] tracking-widest uppercase px-1.5 py-0.5 rounded-full bg-primary/10 border border-primary/25 text-primary">
                               Joined
                             </span>
                           )}
@@ -199,10 +199,10 @@ export default async function CommunityPage() {
       {!channels?.length && (
         <div className="text-center py-32 space-y-4">
           <div className="w-16 h-16 rounded-2xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center mx-auto">
-            <MessageCircle className="h-8 w-8 text-neutral-900" />
+            <MessageCircle className="h-8 w-8 text-primary" />
           </div>
           <div>
-            <p className="font-heading font-semibold text-black mb-1">No channels yet</p>
+            <p className="font-heading font-semibold text-foreground mb-1">No channels yet</p>
             <p className="font-body text-sm text-neutral-700 max-w-xs mx-auto">
               Community channels haven&apos;t been set up yet. Ask an admin to create some channels to get started.
             </p>

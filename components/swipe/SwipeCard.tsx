@@ -201,7 +201,7 @@ export function SwipeCard({
         style={{ opacity: 0 }}
         className="absolute top-5 left-4 z-20 pointer-events-none"
       >
-        <div className="border-2 border-white/90 text-white font-heading text-sm font-semibold px-3 py-1 rounded-lg -rotate-[18deg] tracking-wide bg-neutral-950/40 backdrop-blur-sm">
+        <div className="border-2 border-white/90 text-white font-heading text-sm font-semibold px-3 py-1 rounded-lg -rotate-[18deg] tracking-wide bg-primary/40 backdrop-blur-sm">
           {rightStampLabel}
         </div>
       </div>
@@ -212,7 +212,7 @@ export function SwipeCard({
         style={{ opacity: 0 }}
         className="absolute top-5 right-4 z-20 pointer-events-none"
       >
-        <div className="border-2 border-neutral-400 text-neutral-200 font-heading text-sm font-semibold px-3 py-1 rounded-lg rotate-[18deg] tracking-wide bg-neutral-950/50 backdrop-blur-sm">
+        <div className="border-2 border-neutral-400 text-neutral-200 font-heading text-sm font-semibold px-3 py-1 rounded-lg rotate-[18deg] tracking-wide bg-neutral-900/50 backdrop-blur-sm">
           {leftStampLabel}
         </div>
       </div>

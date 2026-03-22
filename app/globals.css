@@ -78,6 +78,9 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  /* Semantic aliases for Clearpath navy (same as primary; use for explicit brand surfaces) */
+  --color-navy: var(--clearpath-navy);
+  --color-navy-hover: var(--clearpath-navy-hover);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted-var);

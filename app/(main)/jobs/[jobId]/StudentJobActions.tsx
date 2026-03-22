@@ -4,7 +4,9 @@ import { useCallback, useEffect, useState } from "react"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"
 import { useToast } from "@/lib/hooks/use-toast"
-import { Heart, Bookmark, X } from "lucide-react"
+import { Heart, Bookmark, X, Loader2 } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription } from "@/components/ui/card"
 
 type Direction = "right" | "left" | "saved"
 
@@ -70,94 +72,85 @@ export function StudentJobActions({
   if (loadingState === "fetch") {
     return (
       <div className="flex items-center gap-3 py-2">
-        <div
-          className="h-6 w-6 rounded-full border-2 border-neutral-200 border-t-neutral-900 animate-spin shrink-0"
-          aria-hidden
-        />
-        <span className="font-body text-sm text-neutral-500">Loading your status…</span>
+        <Loader2 className="h-5 w-5 shrink-0 animate-spin text-muted-foreground" aria-hidden />
+        <span className="font-body text-sm text-muted-foreground">Loading your status…</span>
       </div>
     )
   }
 
   if (direction === "right") {
     return (
-      <div className="rounded-2xl border border-neutral-200 bg-neutral-50/80 p-5 space-y-3">
-        <p className="font-body text-sm text-neutral-700">
-          You have applied to this role. Recruiters see your profile when they review applicants.
-        </p>
-        <Link
-          href="/matches"
-          className="inline-flex text-sm font-medium text-neutral-950 underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-950"
-        >
-          View matches
-        </Link>
-      </div>
+      <Card className="border-primary/20 bg-muted/30 shadow-none">
+        <CardContent className="space-y-3 p-5">
+          <CardDescription className="text-foreground/90">
+            You have applied to this role. Recruiters see your profile when they review applicants.
+          </CardDescription>
+          <Button variant="link" className="h-auto p-0 text-primary" asChild>
+            <Link href="/matches">View matches</Link>
+          </Button>
+        </CardContent>
+      </Card>
     )
   }
 
   if (direction === "saved") {
     return (
-      <div className="rounded-2xl border border-neutral-200 bg-neutral-50/80 p-5">
-        <p className="font-body text-sm text-neutral-700">
-          Saved for later. Find it from Discover or your dashboard.
-        </p>
-        <Link
-          href="/discover"
-          className="inline-flex mt-3 text-sm font-medium text-neutral-950 underline decoration-neutral-300 underline-offset-4 hover:decoration-neutral-950"
-        >
-          Back to Discover
-        </Link>
-      </div>
+      <Card className="border-border bg-muted/30 shadow-none">
+        <CardContent className="space-y-3 p-5">
+          <CardDescription className="text-foreground/90">
+            Saved for later. Find it from Discover or your dashboard.
+          </CardDescription>
+          <Button variant="link" className="h-auto p-0 text-primary" asChild>
+            <Link href="/discover">Back to Discover</Link>
+          </Button>
+        </CardContent>
+      </Card>
     )
   }
 
   if (direction === "left") {
     return (
-      <div className="rounded-2xl border border-neutral-200 bg-white p-5 space-y-3">
-        <p className="font-body text-sm text-neutral-600">You passed on this listing.</p>
-        <Link
-          href="/discover"
-          className="inline-flex rounded-full bg-neutral-950 px-5 py-2.5 font-body text-sm font-medium text-white transition hover:bg-neutral-800"
-        >
-          Discover more roles
-        </Link>
-      </div>
+      <Card className="shadow-sm">
+        <CardContent className="space-y-4 p-5">
+          <p className="font-body text-sm text-muted-foreground">You passed on this listing.</p>
+          <Button className="rounded-full" asChild>
+            <Link href="/discover">Discover more roles</Link>
+          </Button>
+        </CardContent>
+      </Card>
     )
   }
 
   const busy = loadingState === "act"
 
   return (
-    <div className="space-y-3">
-      <p className="font-body text-sm text-neutral-500">Apply, save for later, or pass.</p>
+    <div className="space-y-4">
+      <p className="font-body text-sm text-muted-foreground">Apply, save for later, or pass.</p>
       <div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
-        <button
+        <Button
           type="button"
+          variant="outline"
+          className="h-12 flex-1 gap-2 rounded-xl"
           disabled={busy}
           onClick={() => void act("left")}
-          className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-neutral-200 py-3 font-body text-sm font-medium text-neutral-600 transition hover:bg-neutral-50 disabled:opacity-50"
         >
           <X className="h-4 w-4 shrink-0" strokeWidth={1.75} aria-hidden />
           Pass
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
+          variant="secondary"
+          className="h-12 flex-1 gap-2 rounded-xl"
           disabled={busy}
           onClick={() => void act("saved")}
-          className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-neutral-200 py-3 font-body text-sm font-medium text-neutral-700 transition hover:bg-neutral-50 disabled:opacity-50"
         >
           <Bookmark className="h-4 w-4 shrink-0" strokeWidth={1.75} aria-hidden />
           Save
-        </button>
-        <button
-          type="button"
-          disabled={busy}
-          onClick={() => void act("right")}
-          className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-neutral-950 py-3 font-body text-sm font-medium text-white transition hover:bg-neutral-800 disabled:opacity-50"
-        >
+        </Button>
+        <Button type="button" className="h-12 flex-1 gap-2 rounded-xl" disabled={busy} onClick={() => void act("right")}>
           <Heart className="h-4 w-4 shrink-0" fill="currentColor" stroke="currentColor" strokeWidth={1.5} aria-hidden />
           Apply
-        </button>
+        </Button>
       </div>
     </div>
   )

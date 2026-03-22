@@ -3,8 +3,12 @@
 import { useEffect, useMemo, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
 import { getInitials, formatDate } from "@/lib/utils"
 import { useToast } from "@/lib/hooks/use-toast"
+import { Loader2 } from "lucide-react"
 
 interface CandidateItem {
   id: string
@@ -155,120 +159,129 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
   }
 
   return (
-    <section className="rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-sm space-y-4">
-      <div>
-        <h2 className="font-heading text-lg font-semibold text-neutral-950">Applicants</h2>
-        <p className="font-body text-sm text-neutral-500 mt-1">Students who applied to this listing.</p>
-      </div>
+    <Card className="shadow-sm">
+      <CardHeader>
+        <CardTitle className="font-heading text-lg">Applicants</CardTitle>
+        <CardDescription>Students who applied to this listing.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        {loading ? (
+          <div className="flex items-center gap-3 py-6">
+            <Loader2 className="h-5 w-5 shrink-0 animate-spin text-muted-foreground" aria-hidden />
+            <p className="font-body text-sm text-muted-foreground">Loading…</p>
+          </div>
+        ) : items.length === 0 ? (
+          <p className="py-2 font-body text-sm text-muted-foreground">No applications yet.</p>
+        ) : (
+          <ul className="m-0 list-none space-y-3 p-0">
+            {items.map((item) => {
+              const schoolLine = [item.university, item.degree, item.graduation_year].filter(Boolean).join(" · ")
+              const links = [
+                item.resume_url && { href: item.resume_url, label: "Resume" },
+                item.linkedin_url && { href: item.linkedin_url, label: "LinkedIn" },
+                item.github_url && { href: item.github_url, label: "GitHub" },
+                item.portfolio_url && { href: item.portfolio_url, label: "Portfolio" },
+              ].filter(Boolean) as { href: string; label: string }[]
 
-      {loading ? (
-        <div className="flex items-center gap-3 py-6">
-          <div
-            className="h-6 w-6 rounded-full border-2 border-neutral-200 border-t-neutral-900 animate-spin shrink-0"
-            aria-hidden
-          />
-          <p className="font-body text-sm text-neutral-600">Loading…</p>
-        </div>
-      ) : items.length === 0 ? (
-        <p className="font-body text-sm text-neutral-600 py-2">No applications yet.</p>
-      ) : (
-        <ul className="space-y-3 list-none p-0 m-0">
-          {items.map((item) => {
-            const schoolLine = [item.university, item.degree, item.graduation_year].filter(Boolean).join(" · ")
-            const links = [
-              item.resume_url && { href: item.resume_url, label: "Resume" },
-              item.linkedin_url && { href: item.linkedin_url, label: "LinkedIn" },
-              item.github_url && { href: item.github_url, label: "GitHub" },
-              item.portfolio_url && { href: item.portfolio_url, label: "Portfolio" },
-            ].filter(Boolean) as { href: string; label: string }[]
+              return (
+                <li key={item.id}>
+                  <Card className="border-border bg-card shadow-none">
+                    <CardContent className="p-4 sm:p-5">
+                      <div className="flex items-start gap-4">
+                        <Avatar className="h-11 w-11 shrink-0 ring-1 ring-border">
+                          <AvatarImage src={item.avatar_url || undefined} />
+                          <AvatarFallback className="bg-muted text-xs font-semibold text-foreground">
+                            {getInitials(item.full_name || "?")}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="min-w-0">
+                              <p className="truncate font-heading text-sm font-semibold text-foreground">
+                                {item.full_name || "Candidate"}
+                              </p>
+                              {schoolLine ? (
+                                <p className="mt-0.5 truncate font-body text-[11px] text-muted-foreground">{schoolLine}</p>
+                              ) : null}
+                            </div>
+                            <time className="shrink-0 font-body text-[11px] tabular-nums text-muted-foreground">
+                              {formatDate(item.applied_at)}
+                            </time>
+                          </div>
+                          {item.bio ? (
+                            <p className="mt-2 line-clamp-2 font-body text-xs leading-relaxed text-muted-foreground">
+                              {item.bio}
+                            </p>
+                          ) : null}
 
-            return (
-              <li key={item.id} className="rounded-2xl border border-neutral-200 p-4 sm:p-5">
-                <div className="flex items-start gap-4">
-                  <Avatar className="h-11 w-11 shrink-0 ring-1 ring-neutral-200">
-                    <AvatarImage src={item.avatar_url || undefined} />
-                    <AvatarFallback className="bg-neutral-100 text-neutral-800 text-xs font-semibold">
-                      {getInitials(item.full_name || "?")}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0">
-                        <p className="font-heading text-sm font-semibold text-neutral-950 truncate">
-                          {item.full_name || "Candidate"}
+                          {item.skills.length > 0 ? (
+                            <div className="mt-3 flex flex-wrap gap-1.5">
+                              {item.skills.slice(0, 4).map((skill) => (
+                                <span
+                                  key={skill}
+                                  className="rounded-md border border-border bg-muted/50 px-2 py-0.5 font-body text-[11px] text-foreground"
+                                >
+                                  {skill}
+                                </span>
+                              ))}
+                            </div>
+                          ) : null}
+
+                          {links.length > 0 ? (
+                            <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
+                              {links.map(({ href, label }) => (
+                                <a
+                                  key={label}
+                                  href={href}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="font-body text-xs font-medium text-primary underline-offset-4 hover:underline"
+                                >
+                                  {label}
+                                </a>
+                              ))}
+                            </div>
+                          ) : null}
+                        </div>
+                      </div>
+
+                      <Separator className="my-4" />
+
+                      <div className="flex gap-2">
+                        <Button
+                          type="button"
+                          size="sm"
+                          className="flex-1 rounded-xl"
+                          disabled={busyId === item.id}
+                          onClick={() => void setDecision(item.id, "right")}
+                        >
+                          Shortlist
+                        </Button>
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="outline"
+                          className="flex-1 rounded-xl"
+                          disabled={busyId === item.id}
+                          onClick={() => void setDecision(item.id, "left")}
+                        >
+                          Pass
+                        </Button>
+                      </div>
+
+                      {item.decision ? (
+                        <p className="mt-2 font-body text-[11px] text-muted-foreground">
+                          {item.decision === "right" ? "Shortlisted" : "Passed"}
                         </p>
-                        {schoolLine && (
-                          <p className="font-body text-[11px] text-neutral-500 mt-0.5 truncate">{schoolLine}</p>
-                        )}
-                      </div>
-                      <time className="font-body text-[11px] text-neutral-400 shrink-0 tabular-nums">
-                        {formatDate(item.applied_at)}
-                      </time>
-                    </div>
-                    {item.bio && (
-                      <p className="font-body text-xs text-neutral-600 mt-2 line-clamp-2 leading-relaxed">{item.bio}</p>
-                    )}
-
-                    {item.skills.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 mt-3">
-                        {item.skills.slice(0, 4).map((skill) => (
-                          <span
-                            key={skill}
-                            className="rounded-md border border-neutral-200 bg-neutral-50 px-2 py-0.5 font-body text-[11px] text-neutral-700"
-                          >
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-
-                    {links.length > 0 && (
-                      <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
-                        {links.map(({ href, label }) => (
-                          <a
-                            key={label}
-                            href={href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-body text-xs font-medium text-neutral-950 underline decoration-neutral-300 underline-offset-2 hover:decoration-neutral-950"
-                          >
-                            {label}
-                          </a>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="flex gap-2 mt-4 pt-4 border-t border-neutral-100">
-                  <button
-                    type="button"
-                    disabled={busyId === item.id}
-                    onClick={() => void setDecision(item.id, "right")}
-                    className="flex-1 rounded-xl bg-neutral-950 py-2.5 font-body text-xs font-medium text-white transition hover:bg-neutral-800 disabled:opacity-50"
-                  >
-                    Shortlist
-                  </button>
-                  <button
-                    type="button"
-                    disabled={busyId === item.id}
-                    onClick={() => void setDecision(item.id, "left")}
-                    className="flex-1 rounded-xl border border-neutral-200 py-2.5 font-body text-xs font-medium text-neutral-600 transition hover:bg-neutral-50 disabled:opacity-50"
-                  >
-                    Pass
-                  </button>
-                </div>
-
-                {item.decision && (
-                  <p className="font-body text-[11px] text-neutral-500 mt-2">
-                    {item.decision === "right" ? "Shortlisted" : "Passed"}
-                  </p>
-                )}
-              </li>
-            )
-          })}
-        </ul>
-      )}
-    </section>
+                      ) : null}
+                    </CardContent>
+                  </Card>
+                </li>
+              )
+            })}
+          </ul>
+        )}
+      </CardContent>
+    </Card>
   )
 }

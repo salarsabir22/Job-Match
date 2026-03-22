@@ -49,28 +49,37 @@ export default async function ChatPage({ params }: { params: Promise<{ matchId: 
   const jobTitle = match?.jobs?.[0]?.title
 
   return (
-    <div className="flex flex-col rounded-2xl overflow-hidden border border-black/10 bg-white" style={{ height: "calc(100dvh - 10rem)" }}>
-      {/* Chat header */}
-      <div className="flex items-center gap-3 p-4 border-b border-black/10 z-10 shrink-0">
-        <Link href="/matches"
-          className="w-9 h-9 rounded-full bg-white/5 border border-black/10 flex items-center justify-center hover:bg-white/10 transition-colors shrink-0">
-          <ArrowLeft className="h-4 w-4 text-black" />
+    <div
+      className="flex flex-col rounded-2xl overflow-hidden border border-border bg-card shadow-sm"
+      style={{ height: "calc(100dvh - 10rem)" }}
+    >
+      <div className="flex items-center gap-3 p-4 border-b border-primary/20 text-primary-foreground bg-primary z-10 shrink-0">
+        <Link
+          href="/matches"
+          className="w-9 h-9 rounded-full border border-primary-foreground/25 bg-primary-foreground/10 flex items-center justify-center hover:bg-primary-foreground/15 transition-colors shrink-0"
+        >
+          <ArrowLeft className="h-4 w-4" />
         </Link>
-        <Avatar className="h-9 w-9 border border-[#FAFAFA]/30">
+        <Avatar className="h-9 w-9 border border-primary-foreground/25">
           <AvatarImage src={otherUser.avatar_url || undefined} />
-          <AvatarFallback className="bg-white text-neutral-900 text-xs font-bold">
+          <AvatarFallback className="bg-primary-foreground/15 text-xs font-bold text-primary-foreground">
             {getInitials(otherUser.full_name || "?")}
           </AvatarFallback>
         </Avatar>
         <div className="min-w-0 flex-1">
-          <p className="font-heading font-semibold text-sm text-black truncate">{otherUser?.full_name}</p>
+          <p className="font-heading font-semibold text-sm truncate">{otherUser?.full_name}</p>
           {jobTitle && (
-            <p className="font-data text-[10px] text-neutral-700 flex items-center gap-1 truncate">
-              <Briefcase className="h-3 w-3" />{jobTitle}
+            <p className="font-data text-[10px] text-primary-foreground/85 flex items-center gap-1 truncate">
+              <Briefcase className="h-3 w-3 shrink-0 opacity-90" />
+              {jobTitle}
             </p>
           )}
         </div>
-        <div className="w-2 h-2 rounded-full bg-[#FAFAFA] shadow-[0_0_6px_2px_rgba(255,255,255,0.6)] shrink-0" />
+        <div
+          className="w-2 h-2 rounded-full bg-emerald-400/90 shrink-0 ring-2 ring-primary-foreground/30"
+          title="Active"
+          aria-hidden
+        />
       </div>
 
       <ChatWindow conversationId={conversation.id} currentUserId={user.id} otherUser={otherUser} />

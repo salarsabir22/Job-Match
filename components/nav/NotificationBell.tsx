@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { Bell } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { formatTime, cn } from "@/lib/utils"
+import { resolveChatPath } from "@/lib/chat-navigation"
 import type { Notification } from "@/types"
 
 type NotificationBellProps = {
@@ -77,22 +78,10 @@ export function NotificationBell({ variant = "light" }: NotificationBellProps) {
 
     setOpen(false)
 
-    if (matchId) {
-      router.push(`/chat/${matchId}`)
+    const chatPath = await resolveChatPath(supabase, { conversationId, matchId })
+    if (chatPath) {
+      router.push(chatPath)
       return
-    }
-
-    if (conversationId) {
-      const { data } = await supabase
-        .from("conversations")
-        .select("match_id")
-        .eq("id", conversationId)
-        .single()
-
-      if (data?.match_id) {
-        router.push(`/chat/${data.match_id}`)
-        return
-      }
     }
 
     if (jobId && n.type === "candidate_interested") {

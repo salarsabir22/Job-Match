@@ -69,7 +69,7 @@ export function RecruiterDashboardCharts({
                     strokeWidth={2}
                     dot={false}
                   />
-                  <Line type="monotone" dataKey="matches" name="Matches" stroke="#1e3a5f" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="matches" name="Matches" stroke="var(--primary)" strokeWidth={2} dot={false} />
                 </LineChart>
               </ResponsiveContainer>
             )}
@@ -98,7 +98,13 @@ export function RecruiterDashboardCharts({
                     axisLine={false}
                   />
                   <Tooltip contentStyle={tooltipStyle} />
-                  <Bar dataKey="applications" name="Applications" fill="rgba(30, 58, 95, 0.35)" radius={[0, 4, 4, 0]} />
+                  <Bar
+                    dataKey="applications"
+                    name="Applications"
+                    fill="var(--primary)"
+                    fillOpacity={0.35}
+                    radius={[0, 4, 4, 0]}
+                  />
                 </BarChart>
               </ResponsiveContainer>
             )}

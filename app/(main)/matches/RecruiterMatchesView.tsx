@@ -133,7 +133,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
         <div className="p-4 sm:p-5 flex items-start gap-4">
           <Avatar className="h-12 w-12 shrink-0 ring-1 ring-neutral-200">
             <AvatarImage src={profile?.avatar_url || undefined} />
-            <AvatarFallback className="bg-neutral-100 text-neutral-800 text-sm font-semibold">
+            <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">
               {getInitials(profile?.full_name || "?")}
             </AvatarFallback>
           </Avatar>
@@ -141,7 +141,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <p className="font-heading font-semibold text-sm text-neutral-950 truncate">{profile?.full_name}</p>
+                <p className="font-heading font-semibold text-sm text-foreground truncate">{profile?.full_name}</p>
                 <p className="font-body text-xs text-neutral-500 truncate mt-0.5">{match.jobs?.title}</p>
                 {schoolLine && (
                   <p className="font-body text-[11px] text-neutral-500 mt-1 truncate">{schoolLine}</p>
@@ -194,11 +194,11 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
               className={cn(
                 "h-9 w-9 rounded-lg border flex items-center justify-center transition-colors",
                 match.is_shortlisted
-                  ? "border-neutral-300 bg-neutral-100 text-neutral-900"
+                  ? "border-primary/30 bg-primary/10 text-primary"
                   : "border-neutral-200 text-neutral-500 hover:border-neutral-300 hover:bg-neutral-50"
               )}
             >
-              <Star className={cn("h-4 w-4", match.is_shortlisted && "fill-neutral-900 text-neutral-900")} strokeWidth={1.5} />
+              <Star className={cn("h-4 w-4", match.is_shortlisted && "fill-primary text-primary")} strokeWidth={1.5} />
             </button>
             <button
               type="button"
@@ -211,7 +211,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
             {convId ? (
               <Link
                 href={`/chat/${convId}`}
-                className="inline-flex items-center justify-center h-9 px-4 rounded-lg bg-neutral-950 text-white font-body text-xs font-medium transition hover:bg-neutral-800"
+                className="inline-flex items-center justify-center h-9 px-4 rounded-lg bg-primary text-primary-foreground font-body text-xs font-medium transition hover:bg-[var(--clearpath-navy-hover)]"
               >
                 Open chat
               </Link>
@@ -230,7 +230,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
     return (
       <div className="flex flex-col items-center justify-center py-32 gap-4">
         <div
-          className="h-9 w-9 rounded-full border-2 border-neutral-200 border-t-neutral-900 animate-spin"
+          className="h-9 w-9 rounded-full border-2 border-neutral-200 border-t-primary animate-spin"
           aria-hidden
         />
         <p className="font-body text-sm text-neutral-600">Loading matches…</p>
@@ -242,7 +242,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
     <div className="space-y-8">
       <header className="flex flex-col gap-2 min-w-0">
         <div className="space-y-1 min-w-0">
-          <h1 className="font-heading text-2xl font-bold tracking-tight text-neutral-950 sm:text-[1.75rem]">Matches</h1>
+          <h1 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-[1.75rem]">Matches</h1>
           <p className="font-body text-sm text-neutral-600">
             {matches.length === 0
               ? "Mutual interest with candidates shows up here for follow-up."
@@ -259,7 +259,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
           { label: "Archived", value: overallStats.archived },
         ].map(({ label, value }) => (
           <div key={label} className="bg-white px-4 py-4">
-            <p className="font-heading text-xl font-semibold tabular-nums text-neutral-950 sm:text-2xl">{value}</p>
+            <p className="font-heading text-xl font-semibold tabular-nums text-foreground sm:text-2xl">{value}</p>
             <p className="font-body text-xs text-neutral-500 mt-1">{label}</p>
           </div>
         ))}
@@ -278,7 +278,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
               { label: "In chat", value: overallStats.inConversation },
             ].map(({ label, value }) => (
               <div key={label} className="min-w-[4.5rem]">
-                <p className="font-heading text-lg font-semibold tabular-nums text-neutral-950">{value}</p>
+                <p className="font-heading text-lg font-semibold tabular-nums text-foreground">{value}</p>
                 <p className="font-body text-[11px] text-neutral-500 mt-0.5">{label}</p>
               </div>
             ))}
@@ -301,8 +301,8 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
             className={cn(
               "flex-1 py-2 rounded-lg font-body text-xs font-medium transition-colors",
               tab === t.key
-                ? "bg-white text-neutral-950 shadow-sm ring-1 ring-neutral-200/80"
-                : "text-neutral-600 hover:text-neutral-950"
+                ? "bg-white text-foreground shadow-sm ring-1 ring-neutral-200/80"
+                : "text-neutral-600 hover:text-foreground"
             )}
           >
             {t.label}
@@ -323,7 +323,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
             {tab === "all" && (
               <Link
                 href="/discover"
-                className="inline-flex mt-6 rounded-full bg-neutral-950 px-6 py-2.5 font-body text-sm font-medium text-white transition hover:bg-neutral-800"
+                className="inline-flex mt-6 rounded-full bg-primary px-6 py-2.5 font-body text-sm font-medium text-primary-foreground transition hover:bg-[var(--clearpath-navy-hover)]"
               >
                 Discover candidates
               </Link>
