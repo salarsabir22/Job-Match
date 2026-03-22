@@ -161,18 +161,20 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
   return (
     <div className="space-y-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <header className="space-y-1 min-w-0">
-          <h1 className="font-heading font-bold text-3xl tracking-tight text-neutral-950">Discover</h1>
-          <p className="font-body text-sm text-neutral-600">
-            {remaining > 0
-              ? `${remaining} candidate${remaining === 1 ? "" : "s"} left for this role.`
-              : "You're through this list for now."}
-            {selectedJob && (
-              <span className="block sm:inline sm:before:content-['\00a0·\00a0'] mt-0.5 sm:mt-0 font-medium text-neutral-800 truncate">
-                {selectedJob.title}
-              </span>
-            )}
-          </p>
+        <header className="flex flex-col gap-3 min-w-0 sm:flex-row sm:items-start sm:gap-4 sm:flex-1">
+          <PageSymbol icon={UserSearch} className="sm:mt-0.5 shrink-0" />
+          <div className="space-y-1 min-w-0">
+            <h1 className="font-heading font-bold text-3xl tracking-tight text-neutral-950">Discover</h1>
+            <p className="font-body text-sm text-neutral-600">
+              {remaining > 0
+                ? `${remaining} candidate${remaining === 1 ? "" : "s"} left for this role.`
+                : "You're through this list for now."}
+              {selectedJob && (
+                <span className="block sm:inline sm:before:content-['\00a0·\00a0'] mt-0.5 sm:mt-0 font-medium text-neutral-800 truncate">
+                  {selectedJob.title}
+                </span>
+              )}
+            </p>
           </div>
         </header>
 
