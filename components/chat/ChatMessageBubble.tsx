@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import type { ReactNode } from "react"
 import { cn } from "@/lib/utils"
 import type { ChatPayload } from "@/lib/chat-message"
 import { VoiceMessagePlayer } from "@/components/chat/VoiceMessagePlayer"
