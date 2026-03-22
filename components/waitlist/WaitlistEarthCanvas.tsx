@@ -137,7 +137,7 @@ export function WaitlistEarthCanvas({ className }: WaitlistEarthCanvasProps) {
       alpha: false,
       powerPreference: "high-performance",
     })
-    const dpr = Math.min(window.devicePixelRatio, isCoarse ? 1.75 : 2.25)
+    const dpr = Math.min(window.devicePixelRatio, isCoarse ? 1.5 : 2)
     renderer.setPixelRatio(dpr)
     renderer.setClearColor(0x000000, 1)
     renderer.outputColorSpace = THREE.SRGBColorSpace
@@ -368,17 +368,59 @@ export function WaitlistEarthCanvas({ className }: WaitlistEarthCanvasProps) {
 
     let raf = 0
     const t0 = performance.now()
-    const tick = () => {
-      raf = requestAnimationFrame(tick)
+    /** Pause when scrolled away or tab hidden so the rest of the page isn’t competing with WebGL every frame. */
+    let canvasInView = true
+    let tabVisible = !document.hidden
+
+    const shouldAnimate = () => canvasInView && tabVisible && !earthEffectDisposed
+
+    const loop = () => {
+      if (!shouldAnimate()) {
+        raf = 0
+        return
+      }
       const t = (performance.now() - t0) * 0.001
       updateArcColors(t)
       renderFrame()
+      raf = requestAnimationFrame(loop)
     }
-    tick()
+
+    const startLoop = () => {
+      if (raf !== 0 || !shouldAnimate()) return
+      raf = requestAnimationFrame(loop)
+    }
+
+    const stopLoop = () => {
+      if (raf) cancelAnimationFrame(raf)
+      raf = 0
+    }
+
+    const onVisibility = () => {
+      tabVisible = !document.hidden
+      if (shouldAnimate()) startLoop()
+      else stopLoop()
+    }
+    document.addEventListener("visibilitychange", onVisibility)
+
+    const ioVis = new IntersectionObserver(
+      (entries) => {
+        const e = entries[0]
+        if (!e) return
+        canvasInView = e.isIntersecting
+        if (shouldAnimate()) startLoop()
+        else stopLoop()
+      },
+      { root: null, rootMargin: "120px 0px 120px 0px", threshold: 0 },
+    )
+    ioVis.observe(cv)
+
+    startLoop()
 
     return () => {
       earthEffectDisposed = true
-      cancelAnimationFrame(raf)
+      document.removeEventListener("visibilitychange", onVisibility)
+      ioVis.disconnect()
+      stopLoop()
       ro.disconnect()
       composer?.dispose()
       renderer.dispose()
