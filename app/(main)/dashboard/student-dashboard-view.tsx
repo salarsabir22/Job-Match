@@ -7,9 +7,10 @@ import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader"
 import { DashboardKpiCard } from "@/components/dashboard/DashboardKpiCard"
 import { DashboardEmptyState } from "@/components/dashboard/DashboardEmptyState"
 import { StudentDashboardCharts } from "@/components/dashboard/StudentDashboardCharts"
-import { formatDate } from "@/lib/utils"
+import { cn, formatDate } from "@/lib/utils"
 import { daysLastN, shortDayLabel } from "@/lib/dashboard/time-series"
 import { dashTable } from "@/components/dashboard/dashboard-table-styles"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { matchRatePercent, weekOverWeekHint } from "@/lib/dashboard/period-metrics"
 import { conversationChatHref } from "@/lib/dashboard/chat-links"
 import { coalesceRelation } from "@/lib/dashboard/relations"
@@ -213,40 +214,40 @@ export async function StudentDashboardView({ userId, fullName }: { userId: strin
               secondaryAction={{ href: "/saved", label: "Open Saved" }}
             />
           ) : (
-            <div className={dashTable.scroll}>
-              <table className={dashTable.table}>
-                <thead>
-                  <tr>
-                    <th className={dashTable.th}>Role</th>
-                    <th className={dashTable.th}>Company</th>
-                    <th className={dashTable.th}>Type</th>
-                    <th className={dashTable.th}>Saved</th>
-                    <th className={`${dashTable.th} text-right`}> </th>
-                  </tr>
-                </thead>
-                <tbody>
+            <div className={cn(dashTable.frame, "overflow-hidden")}>
+              <Table className="min-w-[640px]">
+                <TableHeader>
+                  <TableRow className={dashTable.headerRow}>
+                    <TableHead className={dashTable.head}>Role</TableHead>
+                    <TableHead className={dashTable.head}>Company</TableHead>
+                    <TableHead className={dashTable.head}>Type</TableHead>
+                    <TableHead className={dashTable.head}>Saved</TableHead>
+                    <TableHead className={cn(dashTable.head, "text-right")} />
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
                   {savedJobs.map((row) => {
-                    const job = row.jobs?.[0]
+                    const job = coalesceRelation(row.jobs)
                     const companyName = job?.recruiter_profiles?.[0]?.company_name || "—"
                     const href = job?.id ? `/jobs/${job.id}` : "/saved"
                     return (
-                      <tr key={row.id} className="hover:bg-muted/50">
-                        <td className={dashTable.td}>
+                      <TableRow key={row.id}>
+                        <TableCell className={dashTable.cell}>
                           <span className="font-medium">{job?.title || "Untitled role"}</span>
-                        </td>
-                        <td className={dashTable.tdMuted}>{companyName}</td>
-                        <td className={dashTable.tdMuted}>{job?.job_type?.replace(/_/g, " ") || "—"}</td>
-                        <td className={dashTable.tdMuted}>{formatDate(row.created_at)}</td>
-                        <td className={`${dashTable.td} text-right`}>
+                        </TableCell>
+                        <TableCell className={dashTable.cellMuted}>{companyName}</TableCell>
+                        <TableCell className={dashTable.cellMuted}>{job?.job_type?.replace(/_/g, " ") || "—"}</TableCell>
+                        <TableCell className={dashTable.cellMuted}>{formatDate(row.created_at)}</TableCell>
+                        <TableCell className={cn(dashTable.cell, "text-right")}>
                           <Link href={href} className={dashTable.link}>
                             View listing
                           </Link>
-                        </td>
-                      </tr>
+                        </TableCell>
+                      </TableRow>
                     )
                   })}
-                </tbody>
-              </table>
+                </TableBody>
+              </Table>
             </div>
           )}
         </DashboardPanel>
@@ -265,31 +266,31 @@ export async function StudentDashboardView({ userId, fullName }: { userId: strin
               secondaryAction={{ href: "/matches", label: "Matches" }}
             />
           ) : (
-            <div className={dashTable.scroll}>
-              <table className={dashTable.table}>
-                <thead>
-                  <tr>
-                    <th className={dashTable.th}>Role</th>
-                    <th className={dashTable.th}>Company</th>
-                    <th className={dashTable.th}>Recruiter</th>
-                    <th className={dashTable.th}>Matched</th>
-                    <th className={`${dashTable.th} text-right`}> </th>
-                  </tr>
-                </thead>
-                <tbody>
+            <div className={cn(dashTable.frame, "overflow-hidden")}>
+              <Table className="min-w-[720px]">
+                <TableHeader>
+                  <TableRow className={dashTable.headerRow}>
+                    <TableHead className={dashTable.head}>Role</TableHead>
+                    <TableHead className={dashTable.head}>Company</TableHead>
+                    <TableHead className={dashTable.head}>Recruiter</TableHead>
+                    <TableHead className={dashTable.head}>Matched</TableHead>
+                    <TableHead className={cn(dashTable.head, "text-right")} />
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
                   {recentMatches.map((m) => {
                     const job = coalesceRelation(m.jobs)
                     const chat = conversationChatHref(m.conversations)
                     const recruiterName = m.profiles?.[0]?.full_name || "—"
                     return (
-                      <tr key={m.id} className="hover:bg-muted/50">
-                        <td className={dashTable.td}>
+                      <TableRow key={m.id}>
+                        <TableCell className={dashTable.cell}>
                           <span className="font-medium">{job?.title || "—"}</span>
-                        </td>
-                        <td className={dashTable.tdMuted}>{job?.recruiter_profiles?.[0]?.company_name || "—"}</td>
-                        <td className={dashTable.tdMuted}>{recruiterName}</td>
-                        <td className={dashTable.tdMuted}>{formatDate(m.created_at)}</td>
-                        <td className={`${dashTable.td} text-right`}>
+                        </TableCell>
+                        <TableCell className={dashTable.cellMuted}>{job?.recruiter_profiles?.[0]?.company_name || "—"}</TableCell>
+                        <TableCell className={dashTable.cellMuted}>{recruiterName}</TableCell>
+                        <TableCell className={dashTable.cellMuted}>{formatDate(m.created_at)}</TableCell>
+                        <TableCell className={cn(dashTable.cell, "text-right")}>
                           {chat ? (
                             <Link href={chat} className={dashTable.link}>
                               Open chat
@@ -299,12 +300,12 @@ export async function StudentDashboardView({ userId, fullName }: { userId: strin
                               Matches
                             </Link>
                           )}
-                        </td>
-                      </tr>
+                        </TableCell>
+                      </TableRow>
                     )
                   })}
-                </tbody>
-              </table>
+                </TableBody>
+              </Table>
             </div>
           )}
         </DashboardPanel>

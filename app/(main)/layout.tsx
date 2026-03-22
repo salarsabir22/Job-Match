@@ -51,7 +51,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
         </div>
 
         <main className="flex-1 pt-16 pb-24 lg:pt-0 lg:pb-0 overflow-y-auto apple-grouped-bg">
-          <div className="px-4 py-5 sm:px-8 lg:px-24 lg:py-8 max-w-[1280px] mx-auto w-full min-h-[calc(100vh-6rem)] lg:min-h-[calc(100vh-3.5rem)]">
+          <div className="w-full max-w-[1728px] mx-auto min-h-[calc(100vh-6rem)] px-4 py-5 sm:px-6 lg:px-10 xl:px-14 lg:py-8 lg:min-h-[calc(100vh-3.5rem)]">
             {children}
           </div>
         </main>
