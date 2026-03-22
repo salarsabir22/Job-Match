@@ -22,6 +22,13 @@ const MAX_DIM_LINES = 220
 const STARS = 420
 const CURVE_SEGS = 36
 
+/** Central hero globe + surface connection arcs */
+const MAIN_GLOBE_R = 4.25
+const NODE_INNER_CLEAR = 6.35
+const GLOBE_PIN_N = 24
+const GLOBE_ARC_SEGS = 22
+const GLOBE_ARC_PAIRS = 26
+
 /** Apple system blue (sRGB hex) */
 const APPLE_BLUE = 0x0071e3
 const APPLE_BLUE_R = ((APPLE_BLUE >> 16) & 0xff) / 255
@@ -99,6 +106,19 @@ function easeInOutQuart(t: number) {
   return x < 0.5 ? 8 * x * x * x * x : 1 - Math.pow(-2 * x + 2, 4) / 2
 }
 
+function fibonacciSpherePoints(n: number, radius: number): THREE.Vector3[] {
+  const pts: THREE.Vector3[] = []
+  if (n < 2) return pts
+  const phi = Math.PI * (3 - Math.sqrt(5))
+  for (let i = 0; i < n; i++) {
+    const y = 1 - (i / (n - 1)) * 2
+    const ri = Math.sqrt(Math.max(0, 1 - y * y))
+    const theta = phi * i
+    pts.push(new THREE.Vector3(Math.cos(theta) * ri * radius, y * radius, Math.sin(theta) * ri * radius))
+  }
+  return pts
+}
+
 interface NodeState {
   pos: THREE.Vector3
   vel: THREE.Vector3
@@ -170,7 +190,7 @@ export function HeroCanvas() {
     renderer.setSize(cv.clientWidth, cv.clientHeight, false)
 
     const scene = new THREE.Scene()
-    scene.fog = new THREE.FogExp2(0x030305, reducedMotion ? 0.012 : 0.017)
+    scene.fog = new THREE.FogExp2(0x030b18, reducedMotion ? 0.012 : 0.017)
 
     const cam = new THREE.PerspectiveCamera(48, cv.clientWidth / cv.clientHeight, 0.08, 140)
     cam.position.set(0, 0, 23.5)
@@ -274,10 +294,69 @@ export function HeroCanvas() {
     cMesh.instanceColor!.needsUpdate = true
     scene.add(cMesh)
 
+    const randomOuterPoint = () => {
+      const zh = FIELD * 0.42
+      for (let t = 0; t < 50; t++) {
+        const p = new THREE.Vector3(rnd(-FIELD, FIELD), rnd(-FIELD, FIELD), rnd(-zh, zh))
+        if (p.length() >= NODE_INNER_CLEAR) return p
+      }
+      return new THREE.Vector3(NODE_INNER_CLEAR * 1.1, 0, 0)
+    }
+
+    // ── Central globe + arcs (pins rotate with the group) ───────────────────
+    const globeGroup = new THREE.Group()
+    const mainGlobeGeo = new THREE.SphereGeometry(MAIN_GLOBE_R, 48, 32)
+    const mainGlobeMesh = new THREE.Mesh(mainGlobeGeo, globeMat)
+    globeGroup.add(mainGlobeMesh)
+
+    const wireGlobeGeo = new THREE.SphereGeometry(MAIN_GLOBE_R * 1.006, 36, 28)
+    const wireGlobeMat = new THREE.MeshBasicMaterial({
+      color: 0x5ac8fa,
+      wireframe: true,
+      transparent: true,
+      opacity: reducedMotion ? 0.06 : 0.1,
+      depthWrite: false,
+    })
+    globeGroup.add(new THREE.Mesh(wireGlobeGeo, wireGlobeMat))
+
+    const globePins = fibonacciSpherePoints(GLOBE_PIN_N, MAIN_GLOBE_R)
+    const globeArcLines: THREE.Line[] = []
+    const globeArcMats: THREE.LineBasicMaterial[] = []
+    const gArcCurve = new THREE.QuadraticBezierCurve3(
+      new THREE.Vector3(),
+      new THREE.Vector3(),
+      new THREE.Vector3(),
+    )
+    const _gCtrl = new THREE.Vector3()
+    const _gMid = new THREE.Vector3()
+
+    for (let k = 0; k < GLOBE_ARC_PAIRS; k++) {
+      const i0 = k % GLOBE_PIN_N
+      const i1 = (i0 + 7 + (k % 5)) % GLOBE_PIN_N
+      const arcGeo = new THREE.BufferGeometry()
+      const arcPos = new Float32Array(GLOBE_ARC_SEGS * 3)
+      arcGeo.setAttribute("position", new THREE.BufferAttribute(arcPos, 3))
+      const arcMat = new THREE.LineBasicMaterial({
+        color: APPLE_BLUE,
+        transparent: true,
+        opacity: 0.2,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      })
+      const arcLine = new THREE.Line(arcGeo, arcMat)
+      arcLine.frustumCulled = false
+      arcLine.userData = { i0, i1 }
+      globeGroup.add(arcLine)
+      globeArcLines.push(arcLine)
+      globeArcMats.push(arcMat)
+    }
+
+    scene.add(globeGroup)
+
     const nodes: NodeState[] = []
     for (let i = 0; i < STUDENT_N; i++) {
       nodes.push({
-        pos: new THREE.Vector3(rnd(-FIELD, FIELD), rnd(-FIELD, FIELD), rnd(-FIELD * 0.42, FIELD * 0.42)),
+        pos: randomOuterPoint(),
         vel: new THREE.Vector3(rnd(-0.007, 0.007), rnd(-0.006, 0.006), rnd(-0.0025, 0.0025)),
         phase: rnd(0, Math.PI * 2),
         type: "s",
@@ -410,6 +489,32 @@ export function HeroCanvas() {
       follow.position.y = camLerpY * 3.2
       follow.position.z = 16 + Math.sin(tSec * 0.4) * 1.2
       follow.intensity = 0.75 + Math.sin(tSec * 0.55) * 0.2
+
+      globeGroup.rotation.y = reducedMotion ? 0 : tSec * 0.065
+      globeGroup.rotation.x = reducedMotion ? 0 : Math.sin(tSec * 0.07) * 0.045
+
+      for (let k = 0; k < globeArcLines.length; k++) {
+        const arcLine = globeArcLines[k]
+        const { i0, i1 } = arcLine.userData as { i0: number; i1: number }
+        const a = globePins[i0]
+        const b = globePins[i1]
+        _gMid.addVectors(a, b).multiplyScalar(0.5)
+        _gCtrl.copy(_gMid).normalize().multiplyScalar(MAIN_GLOBE_R * 1.52)
+        gArcCurve.v0.copy(a)
+        gArcCurve.v1.copy(_gCtrl)
+        gArcCurve.v2.copy(b)
+        const pts = gArcCurve.getPoints(GLOBE_ARC_SEGS - 1)
+        const attr = arcLine.geometry.attributes.position as THREE.BufferAttribute
+        const arr = attr.array as Float32Array
+        for (let p = 0; p < pts.length; p++) {
+          arr[p * 3] = pts[p].x
+          arr[p * 3 + 1] = pts[p].y
+          arr[p * 3 + 2] = pts[p].z
+        }
+        attr.needsUpdate = true
+        arcLine.geometry.setDrawRange(0, pts.length)
+        globeArcMats[k].opacity = (reducedMotion ? 0.1 : 0.08) + 0.22 * (0.5 + 0.5 * Math.sin(tSec * 1.05 + k * 0.38))
+      }
 
       const H = FIELD
       nodes.forEach((n, ni) => {
@@ -601,6 +706,13 @@ export function HeroCanvas() {
       envRt?.texture.dispose()
       sGeo.dispose()
       cGeo.dispose()
+      mainGlobeGeo.dispose()
+      wireGlobeGeo.dispose()
+      wireGlobeMat.dispose()
+      globeArcLines.forEach((ln) => {
+        ln.geometry.dispose()
+        ;(ln.material as THREE.Material).dispose()
+      })
       globeMat.dispose()
       globeTex.dispose()
       starGeo.dispose()
