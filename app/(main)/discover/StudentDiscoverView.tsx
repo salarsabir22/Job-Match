@@ -7,8 +7,7 @@ import { createClient } from "@/lib/supabase/client"
 import { SwipeCard } from "@/components/swipe/SwipeCard"
 import { JobCard } from "@/components/swipe/JobCard"
 import { useToast } from "@/lib/hooks/use-toast"
-import { X, Heart, Bookmark, Building2, Compass } from "lucide-react"
-import { PageSymbol } from "@/components/ui/page-symbol"
+import { X, Heart, Bookmark, Building2 } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import type { Job } from "@/types"
 
@@ -127,18 +126,17 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
 
   return (
     <div className="space-y-8">
-      <header className="flex flex-col gap-3 max-w-3xl sm:flex-row sm:items-start sm:gap-4">
-        <PageSymbol icon={Compass} className="sm:mt-0.5" />
-        <div className="space-y-3 flex-1 min-w-0">
+      <header className="flex flex-col gap-3 max-w-3xl">
+        <div className="space-y-2 flex-1 min-w-0">
           <div>
-            <p className="font-body text-[11px] font-medium uppercase tracking-wide text-[#86868b] mb-1">
+            <p className="font-body text-[10px] font-medium uppercase tracking-wide text-[#86868b] mb-1">
               Browse roles
             </p>
-            <h1 className="font-heading font-semibold text-3xl tracking-tight text-foreground sm:text-[34px] sm:leading-[1.1]">
+            <h1 className="font-heading font-semibold text-2xl tracking-tight text-foreground sm:text-[1.75rem] sm:leading-[1.15]">
               Discover
             </h1>
           </div>
-          <p className="font-body text-[15px] leading-relaxed text-neutral-600">
+          <p className="font-body text-sm leading-relaxed text-neutral-600">
           {noJobsAvailable ? (
             <>
               Nothing new in your queue right now. We show active roles from{" "}

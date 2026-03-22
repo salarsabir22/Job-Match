@@ -1,7 +1,6 @@
 import { createClient } from "@/lib/supabase/server"
 import Link from "next/link"
-import { ArrowLeft, Briefcase } from "lucide-react"
-import { PageSymbol } from "@/components/ui/page-symbol"
+import { ArrowLeft } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import type { Job, RecruiterProfile } from "@/types"
 import { JobToggleButton } from "./JobToggleButton"
@@ -50,9 +49,8 @@ export async function RecruiterJobDetail({
         >
           <ArrowLeft className="h-4 w-4" strokeWidth={1.75} />
         </Link>
-        <PageSymbol icon={Briefcase} className="mt-0.5" />
         <div className="min-w-0 flex-1 space-y-1">
-          <h1 className="font-heading text-2xl font-bold tracking-tight text-neutral-950 sm:text-3xl">{job.title}</h1>
+          <h1 className="font-heading text-xl font-bold tracking-tight text-neutral-950 sm:text-2xl">{job.title}</h1>
           <p className="font-body text-sm text-neutral-500">{metaParts.join(" · ")}</p>
         </div>
       </div>

@@ -4,8 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
 import { useToast } from "@/lib/hooks/use-toast"
-import { ArrowLeft, Loader2, FilePlus2 } from "lucide-react"
-import { PageSymbol } from "@/components/ui/page-symbol"
+import { ArrowLeft, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 
@@ -88,8 +87,7 @@ export default function NewJobPage() {
         >
           <ArrowLeft className="h-4 w-4" strokeWidth={1.75} />
         </Link>
-        <PageSymbol icon={FilePlus2} />
-        <h1 className="font-heading text-3xl font-bold tracking-tight text-neutral-950 min-w-0">Post a job</h1>
+        <h1 className="font-heading text-2xl font-bold tracking-tight text-neutral-950 min-w-0 sm:text-[1.75rem]">Post a job</h1>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6 pb-6">

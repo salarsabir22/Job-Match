@@ -1,6 +1,5 @@
 import Link from "next/link"
-import { ArrowRight, Briefcase, Inbox, LayoutDashboard, Star, Users } from "lucide-react"
-import { PageSymbol } from "@/components/ui/page-symbol"
+import { ArrowRight, Briefcase, Inbox, Star, Users } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { createClient } from "@/lib/supabase/server"
 import { DashboardPanel } from "@/components/dashboard/DashboardPanel"
@@ -139,25 +138,20 @@ export async function RecruiterDashboardView({ userId, fullName }: { userId: str
 
   return (
     <div className="space-y-10">
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
-        <PageSymbol icon={LayoutDashboard} className="shrink-0 lg:mt-1" />
-        <div className="min-w-0 flex-1">
-          <DashboardPageHeader
-            eyebrow="Recruiter overview"
-            title={firstName ? `${firstName}, here’s your pipeline` : "Hiring pipeline"}
-            description="Inbound interest, mutual matches, and role performance — sourced from your live postings and candidate interactions."
-            action={
-              <Link
-                href="/jobs/new"
-                className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 font-body text-sm font-medium text-primary-foreground transition hover:bg-[var(--clearpath-navy-hover)]"
-              >
-                New job
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
-            }
-          />
-        </div>
-      </div>
+      <DashboardPageHeader
+        eyebrow="Recruiter overview"
+        title={firstName ? `${firstName}, here’s your pipeline` : "Hiring pipeline"}
+        description="Inbound interest, mutual matches, and role performance — sourced from your live postings and candidate interactions."
+        action={
+          <Link
+            href="/jobs/new"
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 font-body text-sm font-medium text-primary-foreground transition hover:bg-[var(--clearpath-navy-hover)]"
+          >
+            New job
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </Link>
+        }
+      />
 
       <section aria-labelledby="rec-kpi-heading">
         <h2 id="rec-kpi-heading" className="sr-only">

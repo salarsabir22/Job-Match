@@ -1,7 +1,6 @@
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import { Bookmark, MapPin, Wifi, Calendar, Building2 } from "lucide-react"
-import { PageSymbol } from "@/components/ui/page-symbol"
 import type { Job, RecruiterProfile } from "@/types"
 
 type SavedSwipeRow = {
@@ -23,12 +22,9 @@ export default async function SavedJobsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
-        <PageSymbol icon={Bookmark} className="sm:mt-0.5" />
-        <div>
-          <h1 className="font-heading font-bold text-3xl text-black">Saved Jobs</h1>
-          <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mt-0.5">{saved?.length || 0} saved</p>
-        </div>
+      <div>
+        <h1 className="font-heading text-2xl font-bold text-black sm:text-[1.75rem]">Saved Jobs</h1>
+        <p className="font-data text-[10px] tracking-wider uppercase text-neutral-700 mt-0.5">{saved?.length || 0} saved</p>
       </div>
 
       {!saved?.length ? (

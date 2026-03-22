@@ -4,8 +4,7 @@ import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import Link from "next/link"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Star, Archive, Heart } from "lucide-react"
-import { PageSymbol } from "@/components/ui/page-symbol"
+import { Star, Archive } from "lucide-react"
 import { getInitials, formatDate, cn } from "@/lib/utils"
 import { useToast } from "@/lib/hooks/use-toast"
 
@@ -241,10 +240,9 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
 
   return (
     <div className="space-y-8">
-      <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
-        <PageSymbol icon={Heart} className="sm:mt-0.5" />
+      <header className="flex flex-col gap-2 min-w-0">
         <div className="space-y-1 min-w-0">
-          <h1 className="font-heading font-bold text-3xl tracking-tight text-neutral-950">Matches</h1>
+          <h1 className="font-heading text-2xl font-bold tracking-tight text-neutral-950 sm:text-[1.75rem]">Matches</h1>
           <p className="font-body text-sm text-neutral-600">
             {matches.length === 0
               ? "Mutual interest with candidates shows up here for follow-up."

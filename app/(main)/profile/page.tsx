@@ -6,9 +6,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   GraduationCap, Calendar, Github, Linkedin, FileText, Edit, Building2,
   CheckCircle, Clock, Heart, Layers, Zap, AlertCircle, Globe,
-  BarChart2, TrendingUp, BookOpen, Tag, Mail, Users, UserRound
+  BarChart2, TrendingUp, BookOpen, Tag, Mail, Users
 } from "lucide-react"
-import { PageSymbol } from "@/components/ui/page-symbol"
 import { getInitials } from "@/lib/utils"
 import Link from "next/link"
 import { ProfileVideoBlock } from "@/components/profile/ProfileVideoBlock"
@@ -121,11 +120,10 @@ export default async function ProfilePage() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4 min-w-0">
-          <PageSymbol icon={UserRound} className="sm:mt-0.5 shrink-0" />
+        <div className="min-w-0">
           <div>
-            <h1 className="font-heading font-bold text-3xl text-black">Profile</h1>
-            <p className="font-data text-[11px] tracking-wider uppercase text-neutral-600 mt-0.5">
+            <h1 className="font-heading text-2xl font-bold text-black sm:text-[1.75rem]">Profile</h1>
+            <p className="font-data text-[10px] tracking-wider uppercase text-neutral-600 mt-0.5">
               {profile?.full_name || user.email}
             </p>
           </div>

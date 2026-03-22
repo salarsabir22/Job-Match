@@ -1,8 +1,6 @@
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { Briefcase } from "lucide-react"
-import { PageSymbol } from "@/components/ui/page-symbol"
 import { formatDate } from "@/lib/utils"
 import type { Job } from "@/types"
 
@@ -68,10 +66,9 @@ export default async function JobsPage() {
   return (
     <div className="space-y-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4 min-w-0">
-          <PageSymbol icon={Briefcase} className="sm:mt-0.5 shrink-0" />
+        <header className="flex flex-col gap-2 min-w-0">
           <div className="space-y-1 min-w-0">
-            <h1 className="font-heading font-bold text-3xl tracking-tight text-neutral-950">Jobs</h1>
+            <h1 className="font-heading text-2xl font-bold tracking-tight text-neutral-950 sm:text-[1.75rem]">Jobs</h1>
             <p className="font-body text-sm text-neutral-600">
               {activeJobs} active · {jobs?.length || 0} total listing{(jobs?.length || 0) === 1 ? "" : "s"}
             </p>

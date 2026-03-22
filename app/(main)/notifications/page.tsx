@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
 import type { Notification } from "@/types"
 import { formatTime } from "@/lib/utils"
-import { Bell, Loader2, CheckCircle, XCircle } from "lucide-react"
-import { PageSymbol } from "@/components/ui/page-symbol"
+import { Loader2, CheckCircle, XCircle } from "lucide-react"
 
 export default function NotificationsPage() {
   const supabase = useMemo(() => createClient(), [])
@@ -84,14 +83,11 @@ export default function NotificationsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between gap-4">
-        <div className="flex items-start gap-3">
-          <PageSymbol icon={Bell} className="mt-0.5" />
-          <div>
-          <h1 className="font-heading font-bold text-2xl text-black">Notifications</h1>
-          <p className="font-data text-[11px] tracking-widest uppercase text-neutral-700 mt-1">
+        <div>
+          <h1 className="font-heading text-xl font-bold text-black sm:text-2xl">Notifications</h1>
+          <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mt-1">
             {unreadCount > 0 ? `${unreadCount} unread` : "All caught up"}
           </p>
-          </div>
         </div>
       </div>
 

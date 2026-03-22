@@ -6,8 +6,7 @@ import { SwipeCard } from "@/components/swipe/SwipeCard"
 import { CandidateCard } from "@/components/swipe/CandidateCard"
 import { useToast } from "@/lib/hooks/use-toast"
 import Link from "next/link"
-import { X, Heart, ChevronDown, CheckCircle, UserSearch } from "lucide-react"
-import { PageSymbol } from "@/components/ui/page-symbol"
+import { X, Heart, ChevronDown, CheckCircle } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { getInitials } from "@/lib/utils"
 import type { Profile, StudentProfile } from "@/types"
@@ -131,12 +130,9 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
   if (jobs.length === 0) {
     return (
       <div className="space-y-8">
-        <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
-          <PageSymbol icon={UserSearch} className="sm:mt-0.5" />
-          <div className="space-y-1 min-w-0">
-            <h1 className="font-heading font-bold text-3xl tracking-tight text-neutral-950">Discover</h1>
-            <p className="font-body text-sm text-neutral-600">Review applicants for your open roles.</p>
-          </div>
+        <header className="flex flex-col gap-2 min-w-0">
+          <h1 className="font-heading text-2xl font-bold tracking-tight text-neutral-950 sm:text-[1.75rem]">Discover</h1>
+          <p className="font-body text-sm text-neutral-600">Review applicants for your open roles.</p>
         </header>
         <div className="flex flex-col items-center gap-5 text-center py-20 px-6 rounded-2xl border border-neutral-200 bg-neutral-50/50">
           <div>
@@ -161,10 +157,9 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
   return (
     <div className="space-y-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <header className="flex flex-col gap-3 min-w-0 sm:flex-row sm:items-start sm:gap-4 sm:flex-1">
-          <PageSymbol icon={UserSearch} className="sm:mt-0.5 shrink-0" />
+        <header className="flex flex-col gap-2 min-w-0 sm:flex-1">
           <div className="space-y-1 min-w-0">
-            <h1 className="font-heading font-bold text-3xl tracking-tight text-neutral-950">Discover</h1>
+            <h1 className="font-heading text-2xl font-bold tracking-tight text-neutral-950 sm:text-[1.75rem]">Discover</h1>
             <p className="font-body text-sm text-neutral-600">
               {remaining > 0
                 ? `${remaining} candidate${remaining === 1 ? "" : "s"} left for this role.`

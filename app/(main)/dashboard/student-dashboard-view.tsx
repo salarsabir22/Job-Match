@@ -1,6 +1,5 @@
 import Link from "next/link"
-import { Bookmark, Heart, LayoutDashboard, Percent, Send, ArrowRight } from "lucide-react"
-import { PageSymbol } from "@/components/ui/page-symbol"
+import { Bookmark, Heart, Percent, Send, ArrowRight } from "lucide-react"
 import { createClient } from "@/lib/supabase/server"
 import { DashboardPanel } from "@/components/dashboard/DashboardPanel"
 import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader"
@@ -141,25 +140,20 @@ export async function StudentDashboardView({ userId, fullName }: { userId: strin
 
   return (
     <div className="space-y-10">
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
-        <PageSymbol icon={LayoutDashboard} className="shrink-0 lg:mt-1" />
-        <div className="min-w-0 flex-1">
-          <DashboardPageHeader
-            eyebrow="Student overview"
-            title={firstName ? `Welcome back, ${firstName}` : "Your overview"}
-            description="Track applications, saves, and mutual matches. Everything below is computed from your account — not sample data."
-            action={
-              <Link
-                href="/discover"
-                className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 font-body text-sm font-medium text-primary-foreground transition hover:bg-[var(--clearpath-navy-hover)]"
-              >
-                Discover roles
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
-            }
-          />
-        </div>
-      </div>
+      <DashboardPageHeader
+        eyebrow="Student overview"
+        title={firstName ? `Welcome back, ${firstName}` : "Your overview"}
+        description="Track applications, saves, and mutual matches. Everything below is computed from your account — not sample data."
+        action={
+          <Link
+            href="/discover"
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 font-body text-sm font-medium text-primary-foreground transition hover:bg-[var(--clearpath-navy-hover)]"
+          >
+            Discover roles
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </Link>
+        }
+      />
 
       <section aria-labelledby="kpi-heading">
         <h2 id="kpi-heading" className="sr-only">
