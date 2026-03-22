@@ -21,6 +21,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { SavedJobActions } from "@/components/saved/SavedJobActions"
 import { formatDate } from "@/lib/utils"
 import type { Job, RecruiterProfile } from "@/types"
 import { cn } from "@/lib/utils"
@@ -255,18 +256,17 @@ export default async function SavedJobsPage() {
                   )}
                 </CardContent>
 
-                <CardFooter className="flex flex-col gap-3 border-t border-border bg-muted/20 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="font-data text-[11px] text-muted-foreground">
+                <CardFooter className="flex flex-col gap-4 border-t border-border bg-muted/20 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="font-data shrink-0 text-[11px] text-muted-foreground">
                     Saved <span className="tabular-nums text-foreground/90">{formatDate(swipe.created_at)}</span>
                   </p>
-                  <div className="flex w-full flex-wrap gap-2 sm:w-auto sm:justify-end">
-                    <Button asChild variant="outline" size="sm" className="rounded-full">
-                      <Link href="/discover">Back to Discover</Link>
-                    </Button>
-                    <Button asChild size="sm" className="rounded-full">
-                      <Link href={`/jobs/${job.id}`}>View role</Link>
-                    </Button>
-                  </div>
+                  <SavedJobActions
+                    swipeId={swipe.id}
+                    jobId={job.id}
+                    jobTitle={job.title}
+                    userId={user.id}
+                    isActive={job.is_active}
+                  />
                 </CardFooter>
               </Card>
             )
