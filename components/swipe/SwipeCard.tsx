@@ -202,7 +202,7 @@ export function SwipeCard({
         className="absolute top-5 left-4 z-20 pointer-events-none"
       >
         <div className="border-2 border-white/90 text-white font-heading text-sm font-semibold px-3 py-1 rounded-lg -rotate-[18deg] tracking-wide bg-neutral-950/40 backdrop-blur-sm">
-          Apply
+          {rightStampLabel}
         </div>
       </div>
 
