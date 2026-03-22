@@ -22,6 +22,71 @@ const MAX_DIM_LINES = 220
 const STARS = 420
 const CURVE_SEGS = 36
 
+/** Apple system blue (sRGB hex) */
+const APPLE_BLUE = 0x0071e3
+const APPLE_BLUE_R = ((APPLE_BLUE >> 16) & 0xff) / 255
+const APPLE_BLUE_G = ((APPLE_BLUE >> 8) & 0xff) / 255
+const APPLE_BLUE_B = (APPLE_BLUE & 0xff) / 255
+
+/** One shared equirectangular-style map so student + company nodes read as matching globes. */
+function createGlobeTexture(): THREE.CanvasTexture {
+  const w = 512
+  const h = 256
+  const canvas = document.createElement("canvas")
+  canvas.width = w
+  canvas.height = h
+  const ctx = canvas.getContext("2d")!
+  const sky = ctx.createLinearGradient(0, 0, 0, h)
+  sky.addColorStop(0, "#000814")
+  sky.addColorStop(0.25, "#001e40")
+  sky.addColorStop(0.5, "#0071e3")
+  sky.addColorStop(0.72, "#0050a8")
+  sky.addColorStop(1, "#001a2e")
+  ctx.fillStyle = sky
+  ctx.fillRect(0, 0, w, h)
+
+  ctx.globalCompositeOperation = "screen"
+  const blobs: { x: number; y: number; r: number; a: number }[] = [
+    { x: 118, y: 98, r: 88, a: 0.35 },
+    { x: 268, y: 132, r: 72, a: 0.28 },
+    { x: 392, y: 76, r: 58, a: 0.32 },
+    { x: 60, y: 168, r: 52, a: 0.22 },
+    { x: 440, y: 188, r: 64, a: 0.26 },
+  ]
+  for (const b of blobs) {
+    const g = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r)
+    g.addColorStop(0, `rgba(120, 210, 255, ${b.a})`)
+    g.addColorStop(0.55, `rgba(0, 113, 227, ${b.a * 0.35})`)
+    g.addColorStop(1, "rgba(0, 0, 0, 0)")
+    ctx.fillStyle = g
+    ctx.beginPath()
+    ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2)
+    ctx.fill()
+  }
+
+  ctx.globalCompositeOperation = "overlay"
+  ctx.strokeStyle = "rgba(255, 255, 255, 0.07)"
+  ctx.lineWidth = 1
+  for (let y = 0; y < h; y += 18) {
+    ctx.beginPath()
+    ctx.moveTo(0, y)
+    ctx.lineTo(w, y)
+    ctx.stroke()
+  }
+  for (let x = 0; x < w; x += 36) {
+    ctx.beginPath()
+    ctx.moveTo(x, 0)
+    ctx.lineTo(x, h)
+    ctx.stroke()
+  }
+
+  const tex = new THREE.CanvasTexture(canvas)
+  tex.colorSpace = THREE.SRGBColorSpace
+  tex.wrapS = THREE.RepeatWrapping
+  tex.wrapT = THREE.ClampToEdgeWrapping
+  return tex
+}
+
 function rnd(a: number, b: number) {
   return Math.random() * (b - a) + a
 }
@@ -98,7 +163,7 @@ export function HeroCanvas() {
     })
     const dpr = Math.min(window.devicePixelRatio, isCoarse ? 1.5 : 2)
     renderer.setPixelRatio(dpr)
-    renderer.setClearColor(0x000000, 1)
+    renderer.setClearColor(0x02060f, 1)
     renderer.outputColorSpace = THREE.SRGBColorSpace
     renderer.toneMapping = THREE.ACESFilmicToneMapping
     renderer.toneMappingExposure = reducedMotion ? 0.55 : 0.92
@@ -111,14 +176,14 @@ export function HeroCanvas() {
     cam.position.set(0, 0, 23.5)
 
     // ── Lighting (always) ───────────────────────────────────────────────────
-    scene.add(new THREE.AmbientLight(0x8a8a9a, 0.35))
-    const key = new THREE.DirectionalLight(0xffffff, 1.85)
+    scene.add(new THREE.AmbientLight(0x446688, 0.32))
+    const key = new THREE.DirectionalLight(0xe8f2ff, 1.75)
     key.position.set(10, 14, 12)
     scene.add(key)
-    const rim = new THREE.DirectionalLight(0xb8c8ff, 0.55)
+    const rim = new THREE.DirectionalLight(0x5ac8fa, 0.62)
     rim.position.set(-12, -6, 8)
     scene.add(rim)
-    const follow = new THREE.PointLight(0xf5f0ff, 0.9, 80, 2)
+    const follow = new THREE.PointLight(0x0071e3, 0.85, 80, 2)
     follow.position.set(0, 0, 18)
     scene.add(follow)
 
@@ -172,43 +237,40 @@ export function HeroCanvas() {
           if (d > 0.5) discard;
           float soft = smoothstep(0.5, 0.15, d);
           float tw = 0.85 + 0.15 * sin(uTime * 1.3 + vAlpha * 8.0);
-          gl_FragColor = vec4(vec3(1.0), soft * vAlpha * 0.35 * tw);
+          vec3 starCol = vec3(0.62, 0.82, 1.0);
+          gl_FragColor = vec4(starCol, soft * vAlpha * 0.38 * tw);
         }
       `,
     })
     scene.add(new THREE.Points(starGeo, starMat))
 
-    // ── PBR instanced bodies ────────────────────────────────────────────────
-    const sGeo = new THREE.SphereGeometry(0.095, 20, 16)
-    const sMat = new THREE.MeshPhysicalMaterial({
+    // ── Matching globe instances (shared map + material family) ───────────
+    const globeTex = createGlobeTexture()
+    globeTex.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy())
+    const globeMat = new THREE.MeshPhysicalMaterial({
+      map: globeTex,
       color: new THREE.Color(0xffffff),
-      metalness: 0.92,
-      roughness: 0.28,
-      clearcoat: 0.35,
-      clearcoatRoughness: 0.35,
-      envMapIntensity: 1.15,
-      emissive: new THREE.Color(0x000000),
+      metalness: 0.18,
+      roughness: 0.38,
+      clearcoat: 0.28,
+      clearcoatRoughness: 0.32,
+      envMapIntensity: 1.05,
+      emissive: new THREE.Color(APPLE_BLUE),
+      emissiveIntensity: 0.22,
     })
-    const sMesh = new THREE.InstancedMesh(sGeo, sMat, STUDENT_N)
+
+    const sGeo = new THREE.SphereGeometry(0.09, 28, 20)
+    const sMesh = new THREE.InstancedMesh(sGeo, globeMat, STUDENT_N)
     sMesh.frustumCulled = false
     const _c = new THREE.Color()
-    for (let i = 0; i < STUDENT_N; i++) sMesh.setColorAt(i, _c.setRGB(0.45, 0.42, 0.4))
+    for (let i = 0; i < STUDENT_N; i++) sMesh.setColorAt(i, _c.setRGB(0.78, 0.88, 1.0))
     sMesh.instanceColor!.needsUpdate = true
     scene.add(sMesh)
 
-    const cGeo = new THREE.IcosahedronGeometry(0.125, 1)
-    const cMat = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color(0xffffff),
-      metalness: 0.95,
-      roughness: 0.22,
-      clearcoat: 0.45,
-      clearcoatRoughness: 0.28,
-      envMapIntensity: 1.25,
-      emissive: new THREE.Color(0x020408),
-    })
-    const cMesh = new THREE.InstancedMesh(cGeo, cMat, COMPANY_N)
+    const cGeo = new THREE.SphereGeometry(0.105, 28, 20)
+    const cMesh = new THREE.InstancedMesh(cGeo, globeMat, COMPANY_N)
     cMesh.frustumCulled = false
-    for (let i = 0; i < COMPANY_N; i++) cMesh.setColorAt(i, _c.setRGB(0.38, 0.4, 0.48))
+    for (let i = 0; i < COMPANY_N; i++) cMesh.setColorAt(i, _c.setRGB(0.8, 0.9, 1.0))
     cMesh.instanceColor!.needsUpdate = true
     scene.add(cMesh)
 
@@ -248,9 +310,9 @@ export function HeroCanvas() {
     dimGeo.setAttribute("position", dimAttr)
     dimGeo.setDrawRange(0, 0)
     const dimMat = new THREE.LineBasicMaterial({
-      color: 0xffffff,
+      color: 0x1e4a7a,
       transparent: true,
-      opacity: reducedMotion ? 0.07 : 0.045,
+      opacity: reducedMotion ? 0.09 : 0.065,
     })
     scene.add(new THREE.LineSegments(dimGeo, dimMat))
 
@@ -406,18 +468,26 @@ export function HeroCanvas() {
         dummy.updateMatrix()
 
         if (n.type === "s") {
-          const em = matchT * 0.55
+          const em = matchT * 0.5
           sMesh.setColorAt(
             ni,
-            sColor.setRGB(0.38 + matchT * 0.62 + em * 0.15, 0.35 + matchT * 0.62 + em * 0.08, 0.32 + matchT * 0.6),
+            sColor.setRGB(
+              0.55 + matchT * 0.35 + em * 0.12,
+              0.78 + matchT * 0.18 + em * 0.08,
+              0.98 + matchT * 0.02 + em * 0.02,
+            ),
           )
           sMesh.setMatrixAt(ni, dummy.matrix)
         } else {
           const ci = ni - STUDENT_N
-          const em = matchT * 0.45
+          const em = matchT * 0.5
           cMesh.setColorAt(
             ci,
-            cColor.setRGB(0.32 + matchT * 0.55, 0.34 + matchT * 0.58 + em * 0.1, 0.42 + matchT * 0.52 + em * 0.2),
+            cColor.setRGB(
+              0.55 + matchT * 0.35 + em * 0.12,
+              0.78 + matchT * 0.18 + em * 0.08,
+              0.98 + matchT * 0.02 + em * 0.02,
+            ),
           )
           cMesh.setMatrixAt(ci, dummy.matrix)
         }
@@ -490,9 +560,9 @@ export function HeroCanvas() {
           slot.posBuf[p * 3 + 2] = pt.z
           const edge = Math.sin((p / CURVE_SEGS) * Math.PI)
           const v = edge * op
-          slot.colBuf[p * 3] = v
-          slot.colBuf[p * 3 + 1] = v * 0.98
-          slot.colBuf[p * 3 + 2] = v
+          slot.colBuf[p * 3] = v * (APPLE_BLUE_R * 1.15 + 0.08)
+          slot.colBuf[p * 3 + 1] = v * (APPLE_BLUE_G * 1.05 + 0.12)
+          slot.colBuf[p * 3 + 2] = v * (APPLE_BLUE_B * 1.02 + 0.18)
         }
         slot.posAttr.needsUpdate = true
         slot.colAttr.needsUpdate = true
@@ -530,9 +600,9 @@ export function HeroCanvas() {
       pmrem?.dispose()
       envRt?.texture.dispose()
       sGeo.dispose()
-      sMat.dispose()
       cGeo.dispose()
-      cMat.dispose()
+      globeMat.dispose()
+      globeTex.dispose()
       starGeo.dispose()
       starMat.dispose()
       dimGeo.dispose()

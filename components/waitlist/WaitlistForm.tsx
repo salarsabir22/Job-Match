@@ -100,16 +100,21 @@ export function WaitlistForm() {
     <div className="min-h-screen bg-white text-black flex flex-col selection:bg-white/10">
 
       {/* ── Hero (full-bleed black) — anchor for footer / deep links ───────── */}
-      <div id="early-access" className="relative flex min-h-screen scroll-mt-0 flex-col bg-black text-white">
+      <div
+        id="early-access"
+        className="relative flex min-h-screen scroll-mt-0 flex-col bg-[#02060f] text-white"
+      >
         {/* Three.js canvas fills the whole hero */}
         <HeroCanvas />
 
-        {/* Radial vignette so edges fade into deeper black */}
+        {/* Radial vignette + subtle Apple blue atmosphere */}
         <div
           className="pointer-events-none absolute inset-0"
           style={{
-            background:
-              "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 30%, rgba(0,0,0,0.55) 100%)",
+            background: [
+              "radial-gradient(ellipse 75% 60% at 50% 42%, rgba(0,113,227,0.14) 0%, transparent 55%)",
+              "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 28%, rgba(0,0,0,0.52) 100%)",
+            ].join(", "),
           }}
           aria-hidden
         />
@@ -117,7 +122,7 @@ export function WaitlistForm() {
         {/* Bottom fade into white below */}
         <div
           className="pointer-events-none absolute bottom-0 left-0 right-0 h-32"
-          style={{ background: "linear-gradient(to bottom, transparent, #000 100%)" }}
+          style={{ background: "linear-gradient(to bottom, transparent, #02060f 100%)" }}
           aria-hidden
         />
 
@@ -136,7 +141,7 @@ export function WaitlistForm() {
           </Link>
           <a
             href={CONTACT_MAIL}
-            className="text-[13px] font-medium text-white/40 hover:text-white/80 transition-colors duration-300"
+            className="text-[13px] font-medium text-white/45 hover:text-[#5ac8fa] transition-colors duration-300"
           >
             Contact
           </a>
@@ -196,7 +201,7 @@ export function WaitlistForm() {
                         ? { duration: 0 }
                         : { type: "spring", stiffness: 320, damping: 26, mass: 0.9 }
                     }
-                    className="flex flex-col items-center gap-5 rounded-2xl border border-white/[0.1] bg-white/[0.04] px-8 py-9 backdrop-blur-sm"
+                    className="flex flex-col items-center gap-5 rounded-2xl border border-[#0071e3]/25 bg-white/[0.04] px-8 py-9 backdrop-blur-sm"
                   >
                     <div className="text-center max-w-[22rem]">
                       <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/35">
@@ -212,7 +217,7 @@ export function WaitlistForm() {
                       </p>
                       <Link
                         href="/waitlist?success=1"
-                        className="mt-6 inline-block text-[13px] font-medium text-white/45 underline-offset-[5px] hover:text-white/70 hover:underline"
+                        className="mt-6 inline-block text-[13px] font-medium text-[#5ac8fa] underline-offset-[5px] hover:text-[#7dc8ff] hover:underline"
                       >
                         View confirmation page
                       </Link>
@@ -244,7 +249,7 @@ export function WaitlistForm() {
                     <motion.button
                       type="submit"
                       disabled={submitting}
-                      className="relative min-h-[3.25rem] shrink-0 overflow-hidden rounded-full bg-white px-8 text-[15px] font-semibold tracking-[-0.01em] text-black transition-colors duration-300 hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:transition-none sm:min-w-[10.5rem]"
+                      className="relative min-h-[3.25rem] shrink-0 overflow-hidden rounded-full bg-[#0071e3] px-8 text-[15px] font-semibold tracking-[-0.01em] text-white transition-colors duration-300 hover:bg-[#0077ed] disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:transition-none sm:min-w-[10.5rem]"
                       animate={
                         submitting && !reduceMotion
                           ? { scale: [1, 1.02, 1] }
