@@ -24,10 +24,10 @@
   --apple-blue-hover: #254a73;
   --apple-blue-press: #1a3250;
 
-  /* Waitlist / marketing — true blue (dark hero; unchanged) */
-  --waitlist-blue: #2563eb;
-  --waitlist-blue-hover: #1d4ed8;
-  --waitlist-blue-deep: #1e40af;
+  /* Waitlist / marketing — same primary navy as app shell */
+  --waitlist-blue: #1e3a5f;
+  --waitlist-blue-hover: #254a73;
+  --waitlist-blue-deep: #162d4a;
   --apple-label: #0a1628;
   --apple-secondary-label: #6b7280;
   --apple-separator: var(--clearpath-separator);
@@ -298,7 +298,7 @@ body {
 .footer-premium-surface {
   background-color: #050506;
   background-image:
-    radial-gradient(ellipse 95% 75% at 50% -25%, rgba(37, 99, 235, 0.16), transparent 55%),
+    radial-gradient(ellipse 95% 75% at 50% -25%, rgba(30, 58, 95, 0.2), transparent 55%),
     radial-gradient(ellipse 100% 90% at 50% -30%, rgba(255, 255, 255, 0.055), transparent 52%),
     linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);

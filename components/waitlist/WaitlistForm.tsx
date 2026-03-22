@@ -258,7 +258,7 @@ export function WaitlistForm() {
                     <motion.button
                       type="submit"
                       disabled={submitting}
-                      className="relative min-h-[3.25rem] shrink-0 overflow-hidden rounded-full bg-[var(--waitlist-blue)] px-8 text-[15px] font-semibold tracking-[-0.01em] text-white shadow-[0_4px_20px_rgba(37,99,235,0.35)] transition-colors duration-300 hover:bg-[var(--waitlist-blue-hover)] disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:transition-none sm:min-w-[10.5rem]"
+                      className="relative min-h-[3.25rem] shrink-0 overflow-hidden rounded-full bg-[var(--waitlist-blue)] px-8 text-[15px] font-semibold tracking-[-0.01em] text-white shadow-[0_4px_20px_rgba(30,58,95,0.35)] transition-colors duration-300 hover:bg-[var(--waitlist-blue-hover)] disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:transition-none sm:min-w-[10.5rem]"
                       animate={
                         submitting && !reduceMotion
                           ? { scale: [1, 1.02, 1] }

@@ -69,7 +69,7 @@ export function WaitlistFaq() {
             </p>
             <a
               href={CONTACT_MAIL}
-              className="mt-9 inline-flex items-center gap-2 rounded-full bg-[var(--waitlist-blue)] px-6 py-3 text-[14px] font-semibold tracking-[-0.02em] text-white shadow-[0_4px_18px_rgba(37,99,235,0.35)] transition-[background-color,box-shadow] duration-200 hover:bg-[var(--waitlist-blue-hover)] hover:shadow-[0_6px_22px_rgba(37,99,235,0.4)] active:scale-[0.98] motion-reduce:transition-none motion-reduce:active:scale-100"
+              className="mt-9 inline-flex items-center gap-2 rounded-full bg-[var(--waitlist-blue)] px-6 py-3 text-[14px] font-semibold tracking-[-0.02em] text-white shadow-[0_4px_18px_rgba(30,58,95,0.35)] transition-[background-color,box-shadow] duration-200 hover:bg-[var(--waitlist-blue-hover)] hover:shadow-[0_6px_22px_rgba(30,58,95,0.4)] active:scale-[0.98] motion-reduce:transition-none motion-reduce:active:scale-100"
             >
               Contact us
               <span className="text-[1.1em] font-light leading-none opacity-95" aria-hidden>
@@ -109,7 +109,7 @@ export function WaitlistFaq() {
                     </span>
                     <span
                       className={cn(
-                        "flex size-9 shrink-0 items-center justify-center rounded-full bg-[var(--waitlist-blue)] text-white shadow-[0_2px_12px_rgba(37,99,235,0.35)] transition-transform duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:transition-none sm:size-10",
+                        "flex size-9 shrink-0 items-center justify-center rounded-full bg-[var(--waitlist-blue)] text-white shadow-[0_2px_12px_rgba(30,58,95,0.35)] transition-transform duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:transition-none sm:size-10",
                         isOpen && "rotate-45 bg-[var(--waitlist-blue-hover)]"
                       )}
                       aria-hidden

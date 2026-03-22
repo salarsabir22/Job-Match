@@ -18,7 +18,7 @@ function PrimaryCta({ href, children }: { href: string; children: ReactNode }) {
   return (
     <a
       href={href}
-      className="group inline-flex items-center gap-2 rounded-full bg-[var(--waitlist-blue)] px-6 py-3 text-[14px] font-semibold tracking-[-0.02em] text-white shadow-[0_4px_18px_rgba(37,99,235,0.35)] transition-[transform,background-color] duration-200 hover:bg-[var(--waitlist-blue-hover)] active:scale-[0.98]"
+      className="group inline-flex items-center gap-2 rounded-full bg-[var(--waitlist-blue)] px-6 py-3 text-[14px] font-semibold tracking-[-0.02em] text-white shadow-[0_4px_18px_rgba(30,58,95,0.35)] transition-[transform,background-color] duration-200 hover:bg-[var(--waitlist-blue-hover)] active:scale-[0.98]"
     >
       {children}
       <Chevron />
