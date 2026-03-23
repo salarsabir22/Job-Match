@@ -30,6 +30,7 @@ import { getInitials } from "@/lib/utils"
 import Link from "next/link"
 import { ProfileVideoBlock } from "@/components/profile/ProfileVideoBlock"
 
+
 import { DiscoverHeader } from "@/components/discover"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
