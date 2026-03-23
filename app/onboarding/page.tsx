@@ -6,7 +6,7 @@ import {
   Loader2, X, Plus, GraduationCap, Building2, CheckCircle2,
   AlertCircle, Info, ExternalLink, FileText, ImageIcon,
   Heart, Briefcase, MessageCircle, Star, TrendingUp, Users,
-  ChevronRight, ArrowRight, Send, Bell, Video
+  ChevronRight, Send, Bell, Video
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { UserRole } from "@/types"
@@ -250,9 +250,9 @@ function StudentMatchScreen() {
         <div className="font-data text-[10px] tracking-[0.2em] uppercase text-neutral-900 mb-1.5 bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 rounded-full px-3 py-0.5">
           New Match
         </div>
-        <h3 className="font-heading font-bold text-2xl text-black mb-1">It&apos;s a Match!</h3>
-        <p className="font-body text-xs text-[#4A5568] text-center mb-1">
-          <span className="text-black font-medium">You</span> and <span className="text-[#635BFF] font-medium">Stripe</span> both liked each other
+        <h3 className="font-heading font-bold text-2xl text-black mb-1">Match</h3>
+        <p className="font-body text-xs text-[#4A5568] mb-1 text-center">
+          You and Stripe both expressed interest
         </p>
 
         {/* Job preview */}
@@ -327,7 +327,7 @@ function StudentChatScreen() {
       </div>
       <div className="px-3 pb-8 pt-2">
         <div className="flex items-center gap-2 bg-white/5 border border-black/10 rounded-2xl px-3 py-2.5">
-          <span className="font-body text-[11px] text-[#1E293B] flex-1">Message Sarah…</span>
+          <span className="font-body text-[11px] text-[#1E293B] flex-1">Write a message…</span>
           <div className="w-7 h-7 rounded-xl flex items-center justify-center shadow-[0_0_10px_-2px_rgba(255,255,255,0.4)]"
             style={{ background: "#525252" }}>
             <Send className="h-3.5 w-3.5 text-black" />
@@ -761,8 +761,9 @@ function ProductDemo({ role }: { role: UserRole | null }) {
   return (
     <div className="h-full flex flex-col items-center justify-center gap-4 relative py-6 px-4 overflow-hidden">
       {/* Ambient glow behind phone */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full blur-[80px] opacity-20 pointer-events-none"
-        style={{ background: isRecruiter ? "#f5f5f5" : "#fafafa" }} />
+      <div
+        className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/25 opacity-90 blur-[80px]"
+      />
 
       {/* Screen label */}
       <div className="text-center space-y-1 relative z-10">
@@ -1013,41 +1014,24 @@ export default function OnboardingPage() {
       <div className="pointer-events-none absolute bottom-0 left-0 h-[400px] w-[400px] rounded-full bg-muted opacity-[0.25] blur-[120px]" />
 
       {/* ── Top bar ── */}
-      <header className="relative z-10 flex items-center justify-between border-b border-border px-6 py-4">
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-muted">
+      <header className="relative z-10 flex items-center justify-between gap-4 border-b border-border bg-card/90 px-4 py-3.5 backdrop-blur-md sm:px-6">
+        <div className="flex min-w-0 items-center gap-2.5">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border bg-muted/80">
             {role === "recruiter" ? (
-              <Building2 className="h-4 w-4 text-foreground" />
+              <Building2 className="h-4 w-4 text-primary" />
             ) : (
-              <GraduationCap className="h-4 w-4 text-foreground" />
+              <GraduationCap className="h-4 w-4 text-primary" />
             )}
           </div>
-          <span className="font-heading text-base font-semibold tracking-tight text-foreground">JobMatch</span>
+          <div className="min-w-0">
+            <span className="font-heading text-base font-semibold tracking-tight text-foreground">JobMatch</span>
+            <p className="truncate font-data text-[10px] uppercase tracking-wide text-muted-foreground">Set up your account</p>
+          </div>
         </div>
 
-        {/* Step dots */}
-        <div className="flex items-center gap-1.5">
-          {steps.map((_, i) => (
-            <div
-              key={i}
-              className={cn(
-                "h-1.5 rounded-full transition-all duration-400",
-                i < step ? "w-4 bg-muted-foreground/40" : i === step ? "w-6 bg-primary" : "w-1.5 bg-muted"
-              )}
-            />
-          ))}
-        </div>
-
-        <div className="flex items-center gap-2 text-right">
-          <div className="hidden sm:block">
-            <p className="font-data text-[10px] tracking-wider text-muted-foreground">
-              Step {step + 1} of {totalSteps}
-            </p>
-            <p className="font-body text-xs font-medium text-foreground">{currentStep.title}</p>
-          </div>
-          <div className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-muted">
-            <span className="font-data text-[11px] font-semibold text-foreground">{progress}%</span>
-          </div>
+        <div className="flex shrink-0 items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-3 py-1.5">
+          <span className="font-data text-[10px] font-medium uppercase tracking-wide text-muted-foreground">Progress</span>
+          <span className="font-heading text-sm font-semibold tabular-nums text-primary">{progress}%</span>
         </div>
       </header>
 
@@ -1055,87 +1039,82 @@ export default function OnboardingPage() {
       <div className="flex-1 flex flex-col lg:flex-row relative z-10 min-h-0">
 
         {/* ──────── LEFT: Form (50%) ──────── */}
-        <div className="w-full lg:w-1/2 flex flex-col justify-start lg:justify-center px-5 py-8 lg:px-10 xl:px-14 overflow-y-auto">
-
-          {/* Breadcrumb */}
-          <div className="mb-6 flex items-center gap-1.5 overflow-x-auto">
-            {steps.map((s, i) => (
-              <div key={i} className="flex shrink-0 items-center gap-1.5">
+        <div className="flex w-full flex-col justify-start overflow-y-auto px-4 py-8 sm:px-6 lg:w-1/2 lg:justify-center lg:px-10 xl:px-12">
+          <div className="mx-auto w-full max-w-lg">
+            {/* Step overview */}
+            <div className="mb-6 space-y-4">
+              <div className="flex items-start justify-between gap-4">
+                <div className="min-w-0 space-y-1">
+                  <p className="font-data text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                    Step {step + 1} of {totalSteps}
+                  </p>
+                  <h1 className="font-heading text-2xl font-semibold tracking-tight text-foreground sm:text-[1.65rem]">
+                    {currentStep.title}
+                  </h1>
+                  <div className="flex flex-wrap items-center gap-2 pt-0.5">
+                    {!currentStep.required ? (
+                      <span className="rounded-md border border-border bg-muted/80 px-2 py-0.5 font-data text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                        Optional
+                      </span>
+                    ) : (
+                      <span className="rounded-md border border-primary/20 bg-primary/5 px-2 py-0.5 font-data text-[10px] font-medium uppercase tracking-wide text-primary">
+                        Required
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <p className="font-body text-sm leading-relaxed text-muted-foreground">{currentStep.description}</p>
+              <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
                 <div
-                  className={cn(
-                    "flex items-center gap-1.5 rounded-full px-2.5 py-1 font-data text-[10px] tracking-wide transition-all",
-                    i < step
-                      ? "text-muted-foreground"
-                      : i === step
-                        ? "border border-border bg-muted text-foreground"
-                        : "text-muted-foreground"
-                  )}
-                >
-                  {i < step ? (
-                    <CheckCircle2 className="h-3 w-3 text-primary" />
-                  ) : i === step ? (
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
-                  ) : (
-                    <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/30" />
-                  )}
-                  {s.title}
-                </div>
-                {i < steps.length - 1 && <ArrowRight className="h-3 w-3 shrink-0 text-muted-foreground" />}
-              </div>
-            ))}
-          </div>
-
-          <div className="rounded-xl border border-border bg-card shadow-sm">
-            <div className="flex items-start gap-3 border-b border-border px-6 py-5">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-muted">
-                {role === "student" ? (
-                  <GraduationCap className="h-5 w-5 text-foreground" />
-                ) : (
-                  <Building2 className="h-5 w-5 text-foreground" />
-                )}
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <h2 className="font-heading text-lg font-semibold text-foreground">{currentStep.title}</h2>
-                  {!currentStep.required && (
-                    <span className="rounded-full border border-border bg-muted px-2 py-0.5 font-data text-[9px] uppercase tracking-wide text-muted-foreground">
-                      Optional
-                    </span>
-                  )}
-                </div>
-                <p className="mt-0.5 font-body text-xs text-muted-foreground">{currentStep.description}</p>
+                  className="h-full rounded-full bg-primary transition-all duration-500 ease-out"
+                  style={{ width: `${progress}%` }}
+                />
               </div>
             </div>
 
-            {/* Form fields */}
-            <div className="px-6 py-5 space-y-4">
+            <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-md">
+              {/* Form fields */}
+              <div className="space-y-5 px-5 py-6 sm:px-6">
 
               {/* ── STUDENT STEP 0: Photo & Bio ── */}
               {role === "student" && step === 0 && (
-                <div className="space-y-5">
+                <div className="space-y-6">
                   <div>
-                    <label className={labelClass}>Profile Photo</label>
-                    <div className="flex items-center gap-4">
+                    <label className={labelClass}>Profile photo</label>
+                    <label className="group relative flex cursor-pointer flex-col items-center gap-4 rounded-2xl border-2 border-dashed border-border bg-muted/30 p-5 transition-colors hover:border-primary/30 hover:bg-muted/50 sm:flex-row sm:items-center sm:gap-5">
                       <div className="relative shrink-0">
-                        <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl border-2 border-border bg-muted">
-                          {avatarPreview
-                            ? <img src={avatarPreview} alt="Avatar" className="h-full w-full object-cover" />
-                            : <ImageIcon className="h-7 w-7 text-muted-foreground" />}
+                        <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl border-2 border-border bg-background shadow-sm">
+                          {avatarPreview ? (
+                            <img src={avatarPreview} alt="" className="h-full w-full object-cover" />
+                          ) : (
+                            <ImageIcon className="h-9 w-9 text-muted-foreground/80" />
+                          )}
                         </div>
-                        <label className="absolute -bottom-1.5 -right-1.5 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-primary text-primary-foreground transition-transform hover:scale-105">
-                          <Plus className="h-3.5 w-3.5" />
-                          <input type="file" accept="image/*" className="hidden" onChange={(e) => {
+                        <span className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md ring-2 ring-card transition-transform group-hover:scale-105">
+                          <Plus className="h-4 w-4" />
+                        </span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="sr-only"
+                          onChange={(e) => {
                             const f = e.target.files?.[0]
-                            if (f) { setAvatarFile(f); setAvatarPreview(URL.createObjectURL(f)) }
-                          }} />
-                        </label>
+                            if (f) {
+                              setAvatarFile(f)
+                              setAvatarPreview(URL.createObjectURL(f))
+                            }
+                          }}
+                        />
                       </div>
-                      <div>
-                        <p className="font-body text-sm font-medium text-foreground">Profile photo</p>
-                        <p className="mt-0.5 font-body text-xs text-muted-foreground">JPG, PNG, or GIF · max 5MB</p>
-                        <p className="mt-1 font-body text-[11px] text-muted-foreground">Shown on your profile and in chat.</p>
+                      <div className="min-w-0 flex-1 text-center sm:text-left">
+                        <p className="font-body text-sm font-semibold text-foreground">Tap to upload</p>
+                        <p className="mt-1 font-body text-xs text-muted-foreground">JPG, PNG, or GIF · max 5MB</p>
+                        <p className="mt-2 font-body text-xs leading-relaxed text-muted-foreground">
+                          Appears on your profile and when you message recruiters.
+                        </p>
                       </div>
-                    </div>
+                    </label>
                   </div>
                   <div>
                     <label className={labelClass}>Short Bio</label>
@@ -1234,7 +1213,7 @@ export default function OnboardingPage() {
                         ))}
                       </div>
                     )}
-                    <HelpText>More skills = better job matches. Add up to 20.</HelpText>
+                    <HelpText>Add up to 20 skills so we can match you to relevant roles.</HelpText>
                   </div>
 
                   <div>
@@ -1253,7 +1232,7 @@ export default function OnboardingPage() {
                         </button>
                       ))}
                     </div>
-                    <HelpText>You can update these anytime from your profile</HelpText>
+                    <HelpText>You can change these later in your profile.</HelpText>
                   </div>
                 </div>
               )}
@@ -1288,7 +1267,7 @@ export default function OnboardingPage() {
                         : <div><p className="font-body text-sm text-muted-foreground">Upload CV (PDF)</p><p className="font-body text-xs text-muted-foreground">Max 10MB</p></div>}
                       <input type="file" accept=".pdf" className="hidden" onChange={(e) => setResumeFile(e.target.files?.[0] || null)} />
                     </label>
-                    <HelpText>Profiles with a resume get 5× more recruiter outreach</HelpText>
+                    <HelpText>Recruiters can download your CV when you apply to a role.</HelpText>
                   </div>
                   <div>
                     <label className={labelClass}>Profile video (optional)</label>
@@ -1327,9 +1306,9 @@ export default function OnboardingPage() {
                       rows={4}
                       maxLength={500}
                     />
-                    <div className="flex items-start justify-between mt-1.5">
-                      <HelpText>Students read this before swiping — make it compelling</HelpText>
-                      <span className="font-data text-[10px] text-[#334155] shrink-0 ml-2">{companyDescription.length}/500</span>
+                    <div className="mt-1.5 flex items-start justify-between">
+                      <HelpText>Shown on your company card before candidates swipe.</HelpText>
+                      <span className="ml-2 shrink-0 font-data text-[10px] text-muted-foreground">{companyDescription.length}/500</span>
                     </div>
                   </div>
                   <div>
@@ -1393,57 +1372,91 @@ export default function OnboardingPage() {
                 </div>
               )}
 
-              {/* Error */}
-              {stepError && (
-                <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/8 border border-neutral-500/20">
-                  <AlertCircle className="h-4 w-4 text-neutral-500 shrink-0 mt-0.5" />
-                  <p className="font-body text-sm text-neutral-400">{stepError}</p>
-                </div>
-              )}
+              </div>
 
-              {/* Navigation */}
-              <div className="flex gap-3 pt-1">
-                {step > 0 && (
-                  <button type="button" onClick={() => { setStep(step - 1); setStepError(null) }}
-                    className="h-11 rounded-xl border border-border px-5 font-body text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
-                    Back
-                  </button>
+              <div className="border-t border-border bg-muted/30 px-5 py-4 sm:px-6">
+                {stepError && (
+                  <div className="mb-4 flex items-start gap-2.5 rounded-xl border border-destructive/25 bg-destructive/10 p-3.5">
+                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
+                    <p className="font-body text-sm text-destructive">{stepError}</p>
+                  </div>
                 )}
 
-                {step < totalSteps - 1 ? (
-                  <>
-                    {!currentStep.required && (
-                      <button type="button" onClick={() => { setStep(step + 1); setStepError(null) }}
-                        className="h-11 rounded-xl px-4 font-body text-sm text-muted-foreground transition-colors hover:text-foreground">
-                        Skip
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex flex-wrap items-center gap-2">
+                    {step > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setStep(step - 1)
+                          setStepError(null)
+                        }}
+                        className="h-11 rounded-xl border border-border bg-background px-5 font-body text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-muted"
+                      >
+                        Back
                       </button>
                     )}
-                    <button type="button" onClick={() => { if (canProceed()) setStep(step + 1) }}
-                      className="flex-1 h-11 rounded-xl bg-black text-white font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.35)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.5)] transition-all duration-300">
-                      Continue →
-                    </button>
-                  </>
-                ) : (
-                  <button type="button" onClick={handleComplete} disabled={loading || uploading}
-                    className="flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-primary font-body text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-40">
-                    {loading || uploading
-                      ? <><Loader2 className="h-4 w-4 animate-spin" />{uploading ? "Uploading…" : "Saving…"}</>
-                      : <><CheckCircle2 className="h-4 w-4" /> Finish</>}
-                  </button>
-                )}
+                    {step < totalSteps - 1 && !currentStep.required && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setStep(step + 1)
+                          setStepError(null)
+                        }}
+                        className="h-11 rounded-xl px-3 font-body text-sm text-muted-foreground transition-colors hover:text-foreground"
+                      >
+                        Skip this step
+                      </button>
+                    )}
+                  </div>
+                  <div className="flex w-full min-w-0 sm:w-auto sm:justify-end">
+                    {step < totalSteps - 1 ? (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (canProceed()) setStep(step + 1)
+                        }}
+                        className="h-11 w-full rounded-xl bg-primary px-8 font-body text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 sm:w-auto"
+                      >
+                        Continue
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={handleComplete}
+                        disabled={loading || uploading}
+                        className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-primary px-8 font-body text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-40 sm:w-auto"
+                      >
+                        {loading || uploading ? (
+                          <>
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            {uploading ? "Uploading…" : "Saving…"}
+                          </>
+                        ) : (
+                          <>
+                            <CheckCircle2 className="h-4 w-4" /> Finish
+                          </>
+                        )}
+                      </button>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Skip all (students only) */}
-          {role === "student" && (
-            <div className="text-center mt-4">
-              <button onClick={() => handleComplete()} disabled={loading}
-                className="font-body text-xs text-[#1E293B] hover:text-[#334155] transition-colors">
-                Skip setup — I&apos;ll complete my profile later
-              </button>
-            </div>
-          )}
+            {/* Skip all (students only) */}
+            {role === "student" && (
+              <div className="mt-6 text-center">
+                <button
+                  onClick={() => handleComplete()}
+                  disabled={loading}
+                  className="font-body text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline disabled:opacity-40"
+                >
+                  Finish later — go to Discover with what you have
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* ──────── RIGHT: Product demo (50%, desktop only) ──────── */}
