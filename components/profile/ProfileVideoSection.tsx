@@ -49,7 +49,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
       const { error: updateError } = await supabase.from("profiles").update({ profile_video_url: url }).eq("id", userId)
       if (updateError) throw updateError
       onUpdate(url)
-      toast({ title: "Video updated", description: "Your profile video is live." })
+      toast({ title: "Video updated", description: "Saved to your profile." })
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : "Try again"
       toast({ title: "Upload failed", description: msg, variant: "destructive" })
@@ -134,14 +134,16 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
 
   return (
     <>
-      <div className="rounded-2xl bg-white border border-black/10 overflow-hidden">
-        <div className="flex items-center gap-2 p-4 border-b border-black/10">
-          <Video className="h-4 w-4 text-neutral-900" />
-          <h3 className="font-data text-[11px] tracking-widest uppercase text-neutral-700">Profile Video</h3>
+      <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+        <div className="flex items-center gap-2 border-b border-border p-4">
+          <Video className="h-4 w-4 text-muted-foreground" />
+          <h3 className="font-data text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+            Profile video
+          </h3>
         </div>
-        <div className="p-4 space-y-4">
+        <div className="space-y-4 p-4">
           {profileVideoUrl ? (
-            <div className="relative rounded-xl overflow-hidden bg-white aspect-video max-h-[280px]">
+            <div className="relative aspect-video max-h-[280px] overflow-hidden rounded-xl bg-muted/30">
               <video
                 src={profileVideoUrl}
                 controls
@@ -153,7 +155,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={uploading}
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-black text-xs font-body backdrop-blur-sm"
+                  className="flex items-center gap-1.5 rounded-lg bg-background/90 px-2.5 py-1.5 font-body text-xs text-foreground shadow-sm backdrop-blur-sm hover:bg-background"
                 >
                   {uploading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Upload className="h-3 w-3" />}
                   Replace
@@ -177,15 +179,15 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
               </div>
             </div>
           ) : (
-            <div className="rounded-xl border border-dashed border-white/15 bg-white/[0.02] aspect-video max-h-[200px] flex flex-col items-center justify-center gap-3 p-4">
-              <div className="w-12 h-12 rounded-full bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center">
-                <Video className="h-6 w-6 text-neutral-900" />
+            <div className="flex aspect-video max-h-[200px] flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border bg-muted/20 p-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-background">
+                <Video className="h-6 w-6 text-muted-foreground" />
               </div>
-              <p className="font-body text-sm text-neutral-700 text-center">
-                Add a short intro video so recruiters can get to know you
+              <p className="text-center font-body text-sm text-muted-foreground">
+                Optional short intro (≤2 min · {MAX_FILE_MB}MB max)
               </p>
               <div className="flex flex-wrap items-center justify-center gap-2">
-                <label className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 text-neutral-900 font-body text-sm font-medium cursor-pointer hover:bg-[#FAFAFA]/25 transition-colors">
+                <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-border bg-background px-4 py-2 font-body text-sm font-medium text-foreground transition-colors hover:bg-muted">
                   <Upload className="h-4 w-4" />
                   Upload video
                   <input
@@ -200,7 +202,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
                   type="button"
                   onClick={() => setShowRecordModal(true)}
                   disabled={uploading}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-black/10 text-black font-body text-sm font-medium hover:bg-white/10 transition-colors"
+                  className="flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2 font-body text-sm font-medium text-foreground transition-colors hover:bg-muted"
                 >
                   <Mic className="h-4 w-4" /> Record video
                 </button>
@@ -209,9 +211,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
           )}
 
           {!profileVideoUrl && (
-            <p className="font-data text-[10px] text-neutral-700">
-              Max {MAX_FILE_MB}MB · MP4, WebM or MOV · Up to 2 min recommended
-            </p>
+            <p className="font-data text-[10px] text-muted-foreground">MP4, WebM, or MOV</p>
           )}
         </div>
       </div>
@@ -261,7 +261,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
                   <button
                     type="button"
                     onClick={startRecording}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-black text-white font-body font-semibold"
+                    className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary py-3 font-body font-semibold text-primary-foreground"
                   >
                     Start recording
                   </button>
@@ -269,7 +269,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
                   <button
                     type="button"
                     onClick={stopRecording}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-red-500/20 border border-neutral-500/40 text-neutral-500 font-body font-semibold"
+                    className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-destructive/30 bg-destructive/10 py-3 font-body font-semibold text-destructive"
                   >
                     Stop & save
                   </button>
@@ -277,7 +277,7 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
                 <button
                   type="button"
                   onClick={() => setShowRecordModal(false)}
-                  className="px-4 py-3 rounded-xl border border-black/10 text-neutral-700 font-body"
+                  className="rounded-xl border border-border px-4 py-3 font-body text-muted-foreground hover:bg-muted"
                 >
                   Cancel
                 </button>
