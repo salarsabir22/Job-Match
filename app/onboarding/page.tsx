@@ -39,24 +39,37 @@ const STEPS_RECRUITER = [
 ───────────────────────────────────────────── */
 
 /* ─────────────────────────────────────────────
-   Browser-style preview (theme: white surface + navy accents)
+   Browser-style preview (clean tab + omnibar)
 ───────────────────────────────────────────── */
 function BrowserFrame({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mx-auto w-full max-w-[360px] overflow-hidden rounded-xl border border-border bg-card shadow-lg ring-1 ring-black/[0.04]">
-      <div className="flex items-center gap-3 border-b border-border bg-muted/50 px-3 py-2.5 sm:px-4">
+    <div className="mx-auto w-full max-w-[20rem] overflow-hidden rounded-xl border border-border/90 bg-card shadow-[0_22px_44px_-14px_rgba(15,23,42,0.2)] ring-1 ring-black/[0.04] sm:max-w-[21rem]">
+      {/* Title bar */}
+      <div className="flex h-8 items-center border-b border-border bg-muted/55 px-3">
         <div className="flex gap-1.5" aria-hidden>
-          <span className="h-2.5 w-2.5 rounded-full bg-red-400/90" />
-          <span className="h-2.5 w-2.5 rounded-full bg-amber-400/90" />
-          <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80" />
-        </div>
-        <div className="flex min-w-0 flex-1 items-center gap-2 rounded-lg border border-border bg-background px-2.5 py-1.5 shadow-sm">
-          <Lock className="h-3 w-3 shrink-0 text-muted-foreground" aria-hidden />
-          <Globe className="h-3 w-3 shrink-0 text-primary" aria-hidden />
-          <span className="truncate font-data text-[10px] text-muted-foreground">jobmatch.app</span>
+          <span className="size-2.5 rounded-full bg-[#FF5F57] ring-1 ring-black/[0.08]" />
+          <span className="size-2.5 rounded-full bg-[#FEBC2E] ring-1 ring-black/[0.08]" />
+          <span className="size-2.5 rounded-full bg-[#28C840] ring-1 ring-black/[0.08]" />
         </div>
       </div>
-      <div className="h-[420px] overflow-hidden bg-background sm:h-[440px]">{children}</div>
+      {/* Tab strip — single active tab */}
+      <div className="border-b border-border bg-muted/75 px-1.5 pt-1.5">
+        <div className="flex max-w-full items-center gap-2 rounded-t-lg border border-b-0 border-border bg-background px-3 py-2 shadow-[0_-1px_0_0_var(--background)]">
+          <Globe className="size-3.5 shrink-0 text-primary" aria-hidden />
+          <span className="truncate font-data text-[11px] font-medium tracking-tight text-foreground">jobmatch.app</span>
+        </div>
+      </div>
+      {/* Omnibox */}
+      <div className="border-b border-border bg-muted/30 px-2 py-2">
+        <div className="flex h-8 items-center gap-2 rounded-lg border border-border bg-background px-2.5 shadow-sm">
+          <Lock className="size-3 shrink-0 text-emerald-600" aria-hidden />
+          <span className="min-w-0 flex-1 truncate font-data text-[10px] text-muted-foreground tabular-nums">
+            https://jobmatch.app/discover
+          </span>
+        </div>
+      </div>
+      {/* Viewport */}
+      <div className="h-[408px] w-full overflow-hidden bg-background sm:h-[428px]">{children}</div>
     </div>
   )
 }
@@ -769,20 +782,28 @@ function ProductDemo({ role }: { role: UserRole | null }) {
   const screen = screens[screenIdx]
 
   return (
-    <div className="relative flex h-full flex-col items-center justify-center gap-5 overflow-hidden px-4 py-6">
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-primary/[0.06] to-transparent" />
+    <div className="relative flex min-h-0 flex-1 flex-col items-center justify-center gap-6 overflow-y-auto overflow-x-hidden px-5 py-8 lg:gap-7 lg:py-10">
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-primary/[0.04] via-transparent to-transparent" />
 
       {/* Screen label */}
-      <div className="relative z-10 space-y-1.5 text-center">
-        <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1">
-          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
-          <span className="font-data text-[10px] font-medium uppercase tracking-widest text-primary">{screen.tag}</span>
+      <div className="relative z-10 max-w-[21rem] space-y-1 text-center">
+        <div className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/[0.06] px-3 py-1">
+          <span className="size-1.5 shrink-0 animate-pulse rounded-full bg-primary" />
+          <span className="font-data text-[10px] font-medium uppercase tracking-[0.18em] text-primary">{screen.tag}</span>
+          <span className="text-muted-foreground/40" aria-hidden>
+            ·
+          </span>
+          <span className="font-body text-[10px] text-muted-foreground">{screen.label}</span>
         </div>
-        <p className="font-heading text-sm font-semibold text-foreground">{screen.label}</p>
       </div>
 
-      {/* Phone */}
-      <div className={cn("relative z-10 transition-all duration-300", visible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-3 scale-[0.98]")}>
+      {/* Browser preview */}
+      <div
+        className={cn(
+          "relative z-10 w-full transition-[opacity,transform] duration-300 ease-out",
+          visible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+        )}
+      >
         <BrowserFrame>
           {isRecruiter ? (
             <>
@@ -803,7 +824,7 @@ function ProductDemo({ role }: { role: UserRole | null }) {
       </div>
 
       {/* Dot nav */}
-      <div className="relative z-10 flex items-center gap-1.5">
+      <div className="relative z-10 flex shrink-0 items-center gap-1.5">
         {screens.map((_, i) => (
           <button
             key={i}
@@ -820,7 +841,7 @@ function ProductDemo({ role }: { role: UserRole | null }) {
       </div>
 
       {/* Feature list */}
-      <div className="relative z-10 w-full max-w-[280px] space-y-1.5">
+      <div className="relative z-10 w-full max-w-[21rem] space-y-1.5 pb-4">
         {features.map(({ icon: Icon, text }, i) => (
           <div
             key={text}
@@ -1049,10 +1070,10 @@ export default function OnboardingPage() {
       </header>
 
       {/* ── Main two-column layout ── */}
-      <div className="flex-1 flex flex-col lg:flex-row relative z-10 min-h-0">
+      <div className="relative z-10 flex min-h-0 flex-1 flex-col lg:flex-row">
 
         {/* ──────── LEFT: Form (50%) ──────── */}
-        <div className="flex w-full flex-col justify-start overflow-y-auto px-4 py-8 sm:px-6 lg:w-1/2 lg:justify-center lg:px-10 xl:px-12">
+        <div className="flex w-full min-h-0 flex-col justify-start overflow-y-auto px-4 py-8 sm:px-6 lg:w-1/2 lg:justify-center lg:px-10 xl:px-12">
           <div className="mx-auto w-full max-w-lg">
             {/* Step overview */}
             <div className="mb-6 space-y-4">
@@ -1473,11 +1494,10 @@ export default function OnboardingPage() {
         </div>
 
         {/* ──────── RIGHT: Product demo (50%, desktop only) ──────── */}
-        <div className="relative hidden overflow-hidden border-l border-border bg-background lg:flex lg:w-1/2">
-          <div className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-[0.4]" />
-          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.07] blur-[120px]" />
-          <div className="pointer-events-none absolute right-0 top-0 h-[280px] w-[280px] rounded-full bg-white/80 blur-3xl" />
-          <div className="relative w-full h-full">
+        <div className="relative hidden min-h-0 flex-1 flex-col overflow-hidden border-l border-border bg-background lg:flex lg:w-1/2">
+          <div className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-[0.22]" />
+          <div className="pointer-events-none absolute left-1/2 top-[42%] h-[min(420px,55vh)] w-[min(420px,55vh)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.06] blur-[90px]" />
+          <div className="relative flex min-h-0 flex-1 flex-col">
             <ProductDemo key={role ?? "none"} role={role} />
           </div>
         </div>
