@@ -1005,6 +1005,83 @@ function HelpText({ children }: { children: React.ReactNode }) {
   )
 }
 
+function OnboardingGuidancePanel({
+  role,
+  step,
+  totalSteps,
+}: {
+  role: UserRole
+  step: number
+  totalSteps: number
+}) {
+  const roleTips =
+    role === "student"
+      ? [
+          "Use skills recruiters actively search for (React, SQL, Python).",
+          "Keep bio clear and specific to the roles you want.",
+          "Add at least one trusted profile link or CV.",
+        ]
+      : [
+          "Company summary should explain mission and hiring style.",
+          "Hiring focus should name exact roles and seniority.",
+          "Use a professional intro video only if it adds value.",
+        ]
+
+  const nextUp =
+    role === "student"
+      ? ["Role matching in Discover", "Direct recruiter messages", "Profile visibility insights"]
+      : ["Candidate feed in Discover", "Mutual matches", "Pipeline and chat workflows"]
+
+  return (
+    <aside className="hidden w-full lg:flex lg:w-1/2">
+      <div className="w-full border-l border-border bg-muted/20 px-8 py-10 xl:px-12">
+        <div className="mx-auto max-w-xl space-y-5">
+          <Card className="rounded-2xl border-border bg-card">
+            <CardContent className="space-y-3 p-6">
+              <p className="font-data text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+                Onboarding guidance
+              </p>
+              <h3 className="font-heading text-xl font-semibold text-foreground">
+                Step {step + 1} of {totalSteps}
+              </h3>
+              <p className="font-body text-sm leading-relaxed text-muted-foreground">
+                Complete this form carefully. Higher quality details improve matching and trust in the first session.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="rounded-2xl border-border bg-card">
+            <CardContent className="space-y-3 p-6">
+              <p className="font-data text-[10px] uppercase tracking-[0.14em] text-muted-foreground">Quality tips</p>
+              <div className="space-y-2">
+                {roleTips.map((tip) => (
+                  <div key={tip} className="flex items-start gap-2">
+                    <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary" />
+                    <p className="font-body text-sm text-muted-foreground">{tip}</p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="rounded-2xl border-border bg-card">
+            <CardContent className="space-y-3 p-6">
+              <p className="font-data text-[10px] uppercase tracking-[0.14em] text-muted-foreground">What happens next</p>
+              <div className="space-y-2">
+                {nextUp.map((item) => (
+                  <Badge key={item} variant="secondary" className="mr-2 rounded-full px-3 py-1 text-xs font-normal">
+                    {item}
+                  </Badge>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </aside>
+  )
+}
+
 /* ─────────────────────────────────────────────
    Main page
 ───────────────────────────────────────────── */
@@ -1791,14 +1868,7 @@ export default function OnboardingPage() {
           </div>
         </div>
 
-        {/* ──────── RIGHT: Product demo (50%, desktop only) ──────── */}
-        <div className="relative hidden min-h-0 flex-1 flex-col overflow-hidden border-l border-border bg-background lg:flex lg:w-1/2">
-          <div className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-[0.22]" />
-          <div className="pointer-events-none absolute left-1/2 top-[42%] h-[min(420px,55vh)] w-[min(420px,55vh)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.06] blur-[90px]" />
-          <div className="relative flex min-h-0 flex-1 flex-col">
-            <ProductDemo key={role ?? "none"} role={role} />
-          </div>
-        </div>
+        <OnboardingGuidancePanel role={role} step={step} totalSteps={totalSteps} />
       </div>
     </div>
   )
