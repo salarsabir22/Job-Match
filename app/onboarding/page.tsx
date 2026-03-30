@@ -10,6 +10,19 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { UserRole } from "@/types"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 /* ─────────────────────────────────────────────
    Constants
@@ -25,8 +38,8 @@ const JOB_CATEGORIES = [
 ]
 const STEPS_STUDENT = [
   { title: "Photo & bio", description: "Photo and short bio (optional).", required: false },
-  { title: "Education", description: "School, degree, and graduation year.", required: false },
-  { title: "Skills & interests", description: "Skills and preferred role categories.", required: false },
+  { title: "Education", description: "School, degree, and graduation year.", required: true },
+  { title: "Skills & interests", description: "Skills and preferred role categories.", required: true },
   { title: "Links & resume", description: "Links, CV, and optional intro video.", required: false },
 ]
 const STEPS_RECRUITER = [
@@ -43,7 +56,7 @@ const STEPS_RECRUITER = [
 ───────────────────────────────────────────── */
 function BrowserFrame({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mx-auto w-full max-w-[20rem] overflow-hidden rounded-xl border border-border/90 bg-card shadow-[0_22px_44px_-14px_rgba(15,23,42,0.2)] ring-1 ring-black/[0.04] sm:max-w-[21rem]">
+    <div className="mx-auto w-full max-w-[1728px] overflow-hidden rounded-xl border border-border/90 bg-card shadow-[0_22px_44px_-14px_rgba(15,23,42,0.2)] ring-1 ring-black/[0.04]">
       {/* Title bar */}
       <div className="flex h-8 items-center border-b border-border bg-muted/55 px-3">
         <div className="flex gap-1.5" aria-hidden>
@@ -68,8 +81,10 @@ function BrowserFrame({ children }: { children: React.ReactNode }) {
           </span>
         </div>
       </div>
-      {/* Viewport */}
-      <div className="h-[408px] w-full overflow-hidden bg-background sm:h-[428px]">{children}</div>
+      {/* Viewport — comfortable desktop preview (Discover-style) */}
+      <div className="h-[min(540px,52vh)] min-h-[440px] w-full overflow-x-auto overflow-y-hidden bg-background xl:h-[min(580px,54vh)] xl:min-h-[480px]">
+        {children}
+      </div>
     </div>
   )
 }
@@ -723,6 +738,103 @@ function RecruiterChatScreen() {
   )
 }
 
+/** Same grid as Discover desktop: `lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)]` */
+function DesktopDiscoverSplit({
+  variant,
+  cardIdx,
+  children,
+}: {
+  variant: "student" | "recruiter"
+  cardIdx: number
+  children: React.ReactNode
+}) {
+  const job = STUDENT_JOBS[cardIdx % STUDENT_JOBS.length]
+  const cand = RECRUITER_CANDIDATES[cardIdx % RECRUITER_CANDIDATES.length]
+
+  return (
+    <div className="flex h-full min-h-0 w-full min-w-[660px]">
+      <div className="flex h-full w-[380px] shrink-0 flex-col overflow-hidden border-r border-border bg-background">
+        {children}
+      </div>
+      <div className="min-h-0 min-w-0 flex-1 basis-0 overflow-y-auto bg-muted/25 p-3 sm:p-4">
+        {variant === "student" ? (
+          <div className="flex h-full min-h-[12rem] flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm ring-1 ring-black/[0.04]">
+            <div className="apple-vibrancy-header flex h-[7.5rem] shrink-0 items-end px-5 pb-4">
+              <div className="min-w-0 pb-0.5">
+                <h2 className="font-heading text-base font-semibold leading-snug tracking-tight text-white sm:text-lg">{job.title}</h2>
+                <p className="mt-1 truncate font-body text-sm text-white/65">{job.company}</p>
+                <p className="mt-0.5 font-body text-xs text-white/50">{job.type}</p>
+              </div>
+            </div>
+            <div className="flex-1 space-y-4 overflow-y-auto p-4">
+              <div>
+                <p className="mb-1 font-data text-[10px] font-medium uppercase tracking-wide text-muted-foreground">Compensation</p>
+                <p className="font-body text-sm font-semibold text-foreground">{job.salary}</p>
+              </div>
+              <div>
+                <p className="mb-1.5 font-data text-[10px] font-medium uppercase tracking-wide text-muted-foreground">Role</p>
+                <ul className="space-y-1.5">
+                  {job.perks.map((p) => (
+                    <li key={p} className="flex items-start gap-2 font-body text-xs leading-relaxed text-muted-foreground">
+                      <span className="mt-1.5 size-1 shrink-0 rounded-full bg-primary/70" />
+                      {p}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="flex h-full min-h-[12rem] flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm ring-1 ring-black/[0.04]">
+            <div className="apple-vibrancy-header flex h-28 shrink-0 items-end px-5 pb-4">
+              <div className="flex min-w-0 items-end gap-3">
+                <div
+                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/15 bg-white/10 font-heading text-lg font-bold text-white"
+                  style={{ background: `${cand.accent}44` }}
+                >
+                  {cand.name[0]}
+                </div>
+                <div className="min-w-0 pb-0.5">
+                  <h2 className="truncate font-heading text-base font-semibold text-white sm:text-lg">{cand.name}</h2>
+                  <p className="truncate font-body text-sm text-white/65">{cand.university}</p>
+                  <p className="mt-0.5 font-body text-xs text-white/50">
+                    {cand.degree} · {cand.grad}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex-1 space-y-4 overflow-y-auto p-4">
+              <div>
+                <p className="mb-1.5 font-data text-[10px] font-medium uppercase tracking-wide text-muted-foreground">About</p>
+                <p className="font-body text-xs leading-relaxed text-muted-foreground">{cand.highlight}</p>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {cand.skills.map((s) => (
+                  <span key={s} className="rounded-full border border-border bg-muted/50 px-2 py-0.5 font-data text-[10px] text-foreground">
+                    {s}
+                  </span>
+                ))}
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { l: "GPA", v: cand.gpa },
+                  { l: "Projects", v: String(cand.projects) },
+                  { l: "Match", v: `${cand.match}%` },
+                ].map(({ l, v }) => (
+                  <div key={l} className="rounded-lg border border-border bg-muted/40 py-2 text-center">
+                    <p className="font-heading text-sm font-bold text-foreground">{v}</p>
+                    <p className="font-data text-[9px] text-muted-foreground">{l}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 /* ─────────────────────────────────────────────
    ProductDemo — role-aware
 ───────────────────────────────────────────── */
@@ -782,11 +894,11 @@ function ProductDemo({ role }: { role: UserRole | null }) {
   const screen = screens[screenIdx]
 
   return (
-    <div className="relative flex min-h-0 flex-1 flex-col items-center justify-center gap-6 overflow-y-auto overflow-x-hidden px-5 py-8 lg:gap-7 lg:py-10">
+    <div className="relative flex min-h-0 flex-1 flex-col items-center justify-center gap-6 overflow-y-auto overflow-x-hidden px-4 py-8 sm:px-6 lg:gap-7 lg:py-10 xl:px-10">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-primary/[0.04] via-transparent to-transparent" />
 
       {/* Screen label */}
-      <div className="relative z-10 max-w-[21rem] space-y-1 text-center">
+      <div className="relative z-10 w-full max-w-[1728px] space-y-1 text-center">
         <div className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/[0.06] px-3 py-1">
           <span className="size-1.5 shrink-0 animate-pulse rounded-full bg-primary" />
           <span className="font-data text-[10px] font-medium uppercase tracking-[0.18em] text-primary">{screen.tag}</span>
@@ -797,24 +909,32 @@ function ProductDemo({ role }: { role: UserRole | null }) {
         </div>
       </div>
 
-      {/* Browser preview */}
+      {/* Browser preview — max width matches (main) layout shell */}
       <div
         className={cn(
-          "relative z-10 w-full transition-[opacity,transform] duration-300 ease-out",
+          "relative z-10 w-full max-w-[1728px] transition-[opacity,transform] duration-300 ease-out",
           visible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
         )}
       >
         <BrowserFrame>
           {isRecruiter ? (
             <>
-              {screenIdx === 0 && <RecruiterSwipeScreen cardIdx={cardIdx} />}
+              {screenIdx === 0 && (
+                <DesktopDiscoverSplit variant="recruiter" cardIdx={cardIdx}>
+                  <RecruiterSwipeScreen cardIdx={cardIdx} />
+                </DesktopDiscoverSplit>
+              )}
               {screenIdx === 1 && <RecruiterMatchScreen />}
               {screenIdx === 2 && <RecruiterPipelineScreen />}
               {screenIdx === 3 && <RecruiterChatScreen />}
             </>
           ) : (
             <>
-              {screenIdx === 0 && <StudentSwipeScreen cardIdx={cardIdx} />}
+              {screenIdx === 0 && (
+                <DesktopDiscoverSplit variant="student" cardIdx={cardIdx}>
+                  <StudentSwipeScreen cardIdx={cardIdx} />
+                </DesktopDiscoverSplit>
+              )}
               {screenIdx === 1 && <StudentMatchScreen />}
               {screenIdx === 2 && <StudentChatScreen />}
               {screenIdx === 3 && <StudentProfileScreen />}
@@ -841,7 +961,7 @@ function ProductDemo({ role }: { role: UserRole | null }) {
       </div>
 
       {/* Feature list */}
-      <div className="relative z-10 w-full max-w-[21rem] space-y-1.5 pb-4">
+      <div className="relative z-10 w-full max-w-[1728px] space-y-1.5 pb-4 sm:max-w-xl">
         {features.map(({ icon: Icon, text }, i) => (
           <div
             key={text}
@@ -870,10 +990,10 @@ function ProductDemo({ role }: { role: UserRole | null }) {
 /* ─────────────────────────────────────────────
    Micro helpers
 ───────────────────────────────────────────── */
-const inputClass =
-  "w-full h-11 rounded-xl border border-border bg-background px-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/40 transition-colors"
-const textareaClass =
-  "w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/40 transition-colors"
+const inputFieldClass =
+  "h-11 rounded-xl border-border px-4 text-sm text-foreground placeholder:text-muted-foreground focus-visible:ring-ring/40"
+const textareaFieldClass =
+  "min-h-[100px] resize-none rounded-xl border-border px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus-visible:ring-ring/40"
 const labelClass = "mb-1.5 block font-data text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground"
 
 function HelpText({ children }: { children: React.ReactNode }) {
@@ -955,11 +1075,106 @@ export default function OnboardingPage() {
     return data.publicUrl
   }
 
+  const isValidHttpUrl = (value: string) => {
+    if (!value.trim()) return true
+    try {
+      const url = new URL(value)
+      return url.protocol === "http:" || url.protocol === "https:"
+    } catch {
+      return false
+    }
+  }
+
+  const stepChecklist = (() => {
+    if (role === "student") {
+      if (step === 0) {
+        return [
+          { label: "Short bio added", done: bio.trim().length >= 30 },
+          { label: "Photo uploaded (recommended)", done: Boolean(avatarPreview || avatarFile) },
+        ]
+      }
+      if (step === 1) {
+        return [
+          { label: "University entered", done: university.trim().length > 1 },
+          { label: "Degree entered", done: degree.trim().length > 1 },
+          { label: "Graduation year selected", done: Boolean(graduationYear) },
+        ]
+      }
+      if (step === 2) {
+        return [
+          { label: "At least 3 skills", done: skills.length >= 3 },
+          { label: "At least 1 preferred category", done: preferredCategories.length >= 1 },
+        ]
+      }
+      return [
+        { label: "At least one link or CV", done: Boolean(linkedinUrl || githubUrl || portfolioUrl || resumeFile) },
+        { label: "All entered links use https://", done: [linkedinUrl, githubUrl, portfolioUrl].every(isValidHttpUrl) },
+      ]
+    }
+
+    if (step === 0) {
+      return [
+        { label: "Company name entered", done: companyName.trim().length > 1 },
+        { label: "Description has enough detail", done: companyDescription.trim().length >= 30 },
+        { label: "Website URL is valid", done: isValidHttpUrl(websiteUrl) },
+      ]
+    }
+    return [
+      { label: "Hiring focus defined", done: hiringFocus.trim().length >= 10 },
+      { label: "Recruiter bio added", done: bio.trim().length >= 20 },
+    ]
+  })()
+
   const canProceed = () => {
     setStepError(null)
-    if (role === "recruiter" && step === 0 && !companyName.trim()) {
-      setStepError("Company name is required to continue")
-      return false
+    if (role === "student") {
+      if (step === 1) {
+        if (!university.trim() || !degree.trim() || !graduationYear) {
+          setStepError("Please complete your university, degree, and graduation year.")
+          return false
+        }
+      }
+      if (step === 2) {
+        if (skills.length < 3) {
+          setStepError("Add at least 3 skills so matching works properly.")
+          return false
+        }
+        if (preferredCategories.length < 1) {
+          setStepError("Select at least one preferred job category.")
+          return false
+        }
+      }
+      if (step === 3) {
+        if (!linkedinUrl && !githubUrl && !portfolioUrl && !resumeFile) {
+          setStepError("Add at least one link or upload your CV.")
+          return false
+        }
+        if (![linkedinUrl, githubUrl, portfolioUrl].every(isValidHttpUrl)) {
+          setStepError("Please use valid URLs starting with http:// or https://.")
+          return false
+        }
+      }
+    }
+
+    if (role === "recruiter") {
+      if (step === 0) {
+        if (!companyName.trim()) {
+          setStepError("Company name is required to continue.")
+          return false
+        }
+        if (companyDescription.trim().length < 30) {
+          setStepError("Add at least 30 characters in company description.")
+          return false
+        }
+        if (!isValidHttpUrl(websiteUrl)) {
+          setStepError("Please enter a valid website URL.")
+          return false
+        }
+      }
+      if (step === 1 && hiringFocus.trim().length < 10) {
+        setStepError("Hiring focus should be at least 10 characters.")
+        return false
+      }
     }
     return true
   }
@@ -1049,24 +1264,15 @@ export default function OnboardingPage() {
 
       {/* ── Top bar ── */}
       <header className="relative z-10 flex items-center justify-between gap-4 border-b border-border bg-card/90 px-4 py-3.5 backdrop-blur-md sm:px-6">
-        <div className="flex min-w-0 items-center gap-2.5">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border bg-muted/80">
-            {role === "recruiter" ? (
-              <Building2 className="h-4 w-4 text-primary" />
-            ) : (
-              <GraduationCap className="h-4 w-4 text-primary" />
-            )}
-          </div>
-          <div className="min-w-0">
-            <span className="font-heading text-base font-semibold tracking-tight text-foreground">JobMatch</span>
-            <p className="truncate font-data text-[10px] uppercase tracking-wide text-muted-foreground">Set up your account</p>
-          </div>
+        <div className="min-w-0">
+          <span className="font-heading text-base font-semibold tracking-tight text-foreground">JobMatch</span>
+          <p className="truncate font-data text-[10px] uppercase tracking-wide text-muted-foreground">Set up your account</p>
         </div>
 
-        <div className="flex shrink-0 items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-3 py-1.5">
+        <Badge variant="outline" className="flex shrink-0 items-center gap-2 rounded-full border-primary/15 bg-primary/5 px-3 py-1.5">
           <span className="font-data text-[10px] font-medium uppercase tracking-wide text-muted-foreground">Progress</span>
           <span className="font-heading text-sm font-semibold tabular-nums text-primary">{progress}%</span>
-        </div>
+        </Badge>
       </header>
 
       {/* ── Main two-column layout ── */}
@@ -1087,13 +1293,16 @@ export default function OnboardingPage() {
                   </h1>
                   <div className="flex flex-wrap items-center gap-2 pt-0.5">
                     {!currentStep.required ? (
-                      <span className="rounded-md border border-border bg-muted/80 px-2 py-0.5 font-data text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                      <Badge variant="secondary" className="rounded-md px-2 py-0.5 font-data text-[10px] font-medium uppercase tracking-wide">
                         Optional
-                      </span>
+                      </Badge>
                     ) : (
-                      <span className="rounded-md border border-primary/20 bg-primary/5 px-2 py-0.5 font-data text-[10px] font-medium uppercase tracking-wide text-primary">
+                      <Badge
+                        variant="outline"
+                        className="rounded-md border-primary/20 bg-primary/5 px-2 py-0.5 font-data text-[10px] font-medium uppercase tracking-wide text-primary"
+                      >
                         Required
-                      </span>
+                      </Badge>
                     )}
                   </div>
                 </div>
@@ -1105,18 +1314,36 @@ export default function OnboardingPage() {
                   style={{ width: `${progress}%` }}
                 />
               </div>
+              <div className="rounded-xl border border-border bg-card p-3">
+                <div className="mb-2 flex items-center justify-between">
+                  <p className="font-data text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+                    Step checklist
+                  </p>
+                  <p className="font-data text-[10px] text-muted-foreground">
+                    {stepChecklist.filter((item) => item.done).length}/{stepChecklist.length}
+                  </p>
+                </div>
+                <div className="space-y-1.5">
+                  {stepChecklist.map((item) => (
+                    <div key={item.label} className="flex items-center gap-2">
+                      <span className={cn("h-1.5 w-1.5 rounded-full", item.done ? "bg-primary" : "bg-muted-foreground/40")} />
+                      <span className={cn("font-body text-xs", item.done ? "text-foreground" : "text-muted-foreground")}>
+                        {item.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
 
-            <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-md">
-              {/* Form fields */}
-              <div className="space-y-5 px-5 py-6 sm:px-6">
-
+            <Card className="overflow-hidden rounded-2xl shadow-md">
+              <CardContent className="space-y-5 px-5 pb-6 pt-6 sm:px-6">
               {/* ── STUDENT STEP 0: Photo & Bio ── */}
               {role === "student" && step === 0 && (
                 <div className="space-y-6">
                   <div>
-                    <label className={labelClass}>Profile photo</label>
-                    <label className="group relative flex cursor-pointer flex-col items-center gap-4 rounded-2xl border-2 border-dashed border-border bg-muted/30 p-5 transition-colors hover:border-primary/30 hover:bg-muted/50 sm:flex-row sm:items-center sm:gap-5">
+                    <Label className={labelClass}>Profile photo</Label>
+                    <label className="group relative mt-1.5 flex cursor-pointer flex-col items-center gap-4 rounded-2xl border-2 border-dashed border-border bg-muted/30 p-5 transition-colors hover:border-primary/30 hover:bg-muted/50 sm:flex-row sm:items-center sm:gap-5">
                       <div className="relative shrink-0">
                         <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl border-2 border-border bg-background shadow-sm">
                           {avatarPreview ? (
@@ -1151,9 +1378,9 @@ export default function OnboardingPage() {
                     </label>
                   </div>
                   <div>
-                    <label className={labelClass}>Short Bio</label>
-                    <textarea
-                      className={textareaClass}
+                    <Label className={labelClass}>Short Bio</Label>
+                    <Textarea
+                      className={textareaFieldClass}
                       placeholder="Brief background and what you are looking for next."
                       value={bio}
                       onChange={(e) => setBio(e.target.value)}
@@ -1172,25 +1399,39 @@ export default function OnboardingPage() {
               {role === "student" && step === 1 && (
                 <div className="space-y-4">
                   <div>
-                    <label className={labelClass}>University / Institution</label>
-                    <input className={inputClass} placeholder="e.g. MIT, Stanford, Oxford" value={university} onChange={(e) => setUniversity(e.target.value)} />
+                    <Label className={labelClass}>University / Institution</Label>
+                    <Input
+                      className={inputFieldClass}
+                      placeholder="e.g. MIT, Stanford, Oxford"
+                      value={university}
+                      onChange={(e) => setUniversity(e.target.value)}
+                    />
                     <HelpText>Include country if outside the US</HelpText>
                   </div>
                   <div>
-                    <label className={labelClass}>Degree & Field of Study</label>
-                    <input className={inputClass} placeholder="e.g. B.Sc. Computer Science" value={degree} onChange={(e) => setDegree(e.target.value)} />
+                    <Label className={labelClass}>Degree & Field of Study</Label>
+                    <Input
+                      className={inputFieldClass}
+                      placeholder="e.g. B.Sc. Computer Science"
+                      value={degree}
+                      onChange={(e) => setDegree(e.target.value)}
+                    />
                     <HelpText>Include both the level (B.Sc. / M.Sc. / PhD) and the field</HelpText>
                   </div>
                   <div>
-                    <label className={labelClass}>Expected Graduation Year</label>
-                    <select className={inputClass} value={graduationYear} onChange={(e) => setGraduationYear(e.target.value)}>
-                      <option value="">Select year…</option>
-                      {[2024, 2025, 2026, 2027, 2028, 2029, 2030].map((y) => (
-                        <option key={y} value={String(y)}>
-                          {y}
-                        </option>
-                      ))}
-                    </select>
+                    <Label className={labelClass}>Expected Graduation Year</Label>
+                    <Select value={graduationYear || undefined} onValueChange={setGraduationYear}>
+                      <SelectTrigger className={cn(inputFieldClass, "w-full justify-between pr-3")}>
+                        <SelectValue placeholder="Select year…" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {[2024, 2025, 2026, 2027, 2028, 2029, 2030].map((y) => (
+                          <SelectItem key={y} value={String(y)}>
+                            {y}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
               )}
@@ -1199,51 +1440,69 @@ export default function OnboardingPage() {
               {role === "student" && step === 2 && (
                 <div className="space-y-5">
                   <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <label className={cn(labelClass, "mb-0")}>Skills</label>
+                    <div className="mb-1.5 flex items-center justify-between">
+                      <Label className={cn(labelClass, "mb-0")}>Skills</Label>
                       <span className="font-data text-[10px] text-muted-foreground">{skills.length}/20</span>
                     </div>
                     <div className="flex gap-2">
-                      <input
-                        className={inputClass}
+                      <Input
+                        className={inputFieldClass}
                         placeholder="Type a skill and press Enter"
                         value={skillInput}
                         onChange={(e) => setSkillInput(e.target.value)}
-                        onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addSkill(skillInput) } }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault()
+                            addSkill(skillInput)
+                          }
+                        }}
                       />
-                      <button
+                      <Button
                         type="button"
+                        variant="secondary"
+                        size="icon"
+                        className="h-11 w-11 shrink-0 rounded-xl"
                         onClick={() => addSkill(skillInput)}
                         disabled={!skillInput.trim()}
-                        className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border border-border bg-muted text-foreground transition-colors hover:bg-muted/80 disabled:opacity-40"
+                        aria-label="Add skill"
                       >
                         <Plus className="h-4 w-4" />
-                      </button>
+                      </Button>
                     </div>
-                    <div className="flex flex-wrap gap-1.5 mt-2">
-                      {SKILL_SUGGESTIONS.filter(s => !skills.includes(s)).slice(0, 8).map(s => (
-                        <button key={s} type="button" onClick={() => addSkill(s)}
-                          className="rounded-full border border-dashed border-border px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:border-border hover:bg-muted hover:text-foreground">
-                          + {s}
-                        </button>
-                      ))}
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      {SKILL_SUGGESTIONS.filter((s) => !skills.includes(s))
+                        .slice(0, 8)
+                        .map((s) => (
+                          <Button
+                            key={s}
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="h-auto rounded-full border-dashed px-2.5 py-1 text-xs font-normal text-muted-foreground"
+                            onClick={() => addSkill(s)}
+                          >
+                            + {s}
+                          </Button>
+                        ))}
                     </div>
                     {skills.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 mt-2.5">
-                        {skills.map(s => (
-                          <span
+                      <div className="mt-2.5 flex flex-wrap gap-1.5">
+                        {skills.map((s) => (
+                          <Badge
                             key={s}
-                            className="flex items-center gap-1 rounded-full border border-border bg-muted px-2.5 py-1 text-xs text-foreground"
+                            variant="secondary"
+                            className="gap-1 rounded-full border border-border bg-muted px-2.5 py-1 text-xs font-normal"
                           >
                             {s}
                             <button
                               type="button"
                               onClick={() => setSkills(skills.filter((sk) => sk !== s))}
-                              className="ml-0.5 transition-colors hover:text-muted-foreground"
+                              className="ml-0.5 rounded-sm hover:text-muted-foreground"
+                              aria-label={`Remove ${s}`}
                             >
                               <X className="h-3 w-3" />
                             </button>
-                          </span>
+                          </Badge>
                         ))}
                       </div>
                     )}
@@ -1251,19 +1510,23 @@ export default function OnboardingPage() {
                   </div>
 
                   <div>
-                    <label className={labelClass}>Preferred Job Categories</label>
-                    <div className="flex flex-wrap gap-1.5">
-                      {JOB_CATEGORIES.map(c => (
-                        <button key={c} type="button"
-                          onClick={() => setPreferredCategories(prev => prev.includes(c) ? prev.filter(x => x !== c) : [...prev, c])}
-                          className={cn(
-                            "rounded-full border px-2.5 py-1 text-xs transition-colors",
-                            preferredCategories.includes(c)
-                              ? "border-border bg-muted text-foreground"
-                              : "border-border text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-                          )}>
+                    <Label className={labelClass}>Preferred Job Categories</Label>
+                    <div className="mt-1.5 flex flex-wrap gap-1.5">
+                      {JOB_CATEGORIES.map((c) => (
+                        <Button
+                          key={c}
+                          type="button"
+                          variant={preferredCategories.includes(c) ? "secondary" : "outline"}
+                          size="sm"
+                          className="h-auto rounded-full px-2.5 py-1 text-xs font-normal"
+                          onClick={() =>
+                            setPreferredCategories((prev) =>
+                              prev.includes(c) ? prev.filter((x) => x !== c) : [...prev, c]
+                            )
+                          }
+                        >
                           {c}
-                        </button>
+                        </Button>
                       ))}
                     </div>
                     <HelpText>You can change these later in your profile.</HelpText>
@@ -1278,21 +1541,28 @@ export default function OnboardingPage() {
                     { label: "LinkedIn URL", value: linkedinUrl, setter: setLinkedinUrl, placeholder: "https://linkedin.com/in/your-name" },
                     { label: "GitHub URL", value: githubUrl, setter: setGithubUrl, placeholder: "https://github.com/your-username" },
                     { label: "Portfolio / Website", value: portfolioUrl, setter: setPortfolioUrl, placeholder: "https://yourportfolio.com" },
-                  ].map(({ label, value, setter, placeholder }) => (
-                    <div key={label}>
-                      <label className={labelClass}>{label}</label>
-                      <div className="relative">
-                        <input className={cn(inputClass, "pl-10")} placeholder={placeholder} value={value} onChange={(e) => setter(e.target.value)} />
+                  ].map(({ label: fieldLabel, value, setter, placeholder }) => (
+                    <div key={fieldLabel}>
+                      <Label className={labelClass}>{fieldLabel}</Label>
+                      <div className="relative mt-1.5">
+                        <Input
+                          className={cn(inputFieldClass, "pl-10")}
+                          placeholder={placeholder}
+                          value={value}
+                          onChange={(e) => setter(e.target.value)}
+                        />
                         <ExternalLink className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       </div>
                     </div>
                   ))}
                   <div>
-                    <label className={labelClass}>Resume / CV (PDF)</label>
-                    <label className={cn(
-                      "flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed p-4 transition-all",
-                      resumeFile ? "border-border bg-muted/40" : "border-border hover:bg-muted/30"
-                    )}>
+                    <Label className={labelClass}>Resume / CV (PDF)</Label>
+                    <label
+                      className={cn(
+                        "mt-1.5 flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed p-4 transition-all",
+                        resumeFile ? "border-border bg-muted/40" : "border-border hover:bg-muted/30"
+                      )}
+                    >
                       <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-xl", resumeFile ? "bg-muted" : "bg-muted/50")}>
                         <FileText className={cn("h-5 w-5", resumeFile ? "text-foreground" : "text-muted-foreground")} />
                       </div>
@@ -1304,11 +1574,13 @@ export default function OnboardingPage() {
                     <HelpText>Recruiters can download your CV when you apply to a role.</HelpText>
                   </div>
                   <div>
-                    <label className={labelClass}>Profile video (optional)</label>
-                    <label className={cn(
-                      "flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed p-4 transition-all",
-                      profileVideoFile ? "border-border bg-muted/40" : "border-border hover:bg-muted/30"
-                    )}>
+                    <Label className={labelClass}>Profile video (optional)</Label>
+                    <label
+                      className={cn(
+                        "mt-1.5 flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed p-4 transition-all",
+                        profileVideoFile ? "border-border bg-muted/40" : "border-border hover:bg-muted/30"
+                      )}
+                    >
                       <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-xl", profileVideoFile ? "bg-muted" : "bg-muted/50")}>
                         <Video className={cn("h-5 w-5", profileVideoFile ? "text-foreground" : "text-muted-foreground")} />
                       </div>
@@ -1325,15 +1597,24 @@ export default function OnboardingPage() {
               {role === "recruiter" && step === 0 && (
                 <div className="space-y-4">
                   <div>
-                    <label className={labelClass}>Company Name <span className="text-neutral-500/80">*</span></label>
-                    <input className={inputClass} placeholder="e.g. Acme Corp" value={companyName}
-                      onChange={(e) => { setCompanyName(e.target.value); setStepError(null) }} />
+                    <Label className={labelClass}>
+                      Company Name <span className="text-muted-foreground">*</span>
+                    </Label>
+                    <Input
+                      className={inputFieldClass}
+                      placeholder="e.g. Acme Corp"
+                      value={companyName}
+                      onChange={(e) => {
+                        setCompanyName(e.target.value)
+                        setStepError(null)
+                      }}
+                    />
                     <HelpText>Displayed on all your job postings</HelpText>
                   </div>
                   <div>
-                    <label className={labelClass}>Company Description</label>
-                    <textarea
-                      className={textareaClass}
+                    <Label className={labelClass}>Company Description</Label>
+                    <Textarea
+                      className={textareaFieldClass}
                       placeholder="What you do, who you hire, and what candidates should know."
                       value={companyDescription}
                       onChange={(e) => setCompanyDescription(e.target.value)}
@@ -1346,9 +1627,14 @@ export default function OnboardingPage() {
                     </div>
                   </div>
                   <div>
-                    <label className={labelClass}>Website URL</label>
-                    <div className="relative">
-                      <input className={cn(inputClass, "pl-10")} placeholder="https://yourcompany.com" value={websiteUrl} onChange={(e) => setWebsiteUrl(e.target.value)} />
+                    <Label className={labelClass}>Website URL</Label>
+                    <div className="relative mt-1.5">
+                      <Input
+                        className={cn(inputFieldClass, "pl-10")}
+                        placeholder="https://yourcompany.com"
+                        value={websiteUrl}
+                        onChange={(e) => setWebsiteUrl(e.target.value)}
+                      />
                       <ExternalLink className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     </div>
                   </div>
@@ -1359,9 +1645,9 @@ export default function OnboardingPage() {
               {role === "recruiter" && step === 1 && (
                 <div className="space-y-4">
                   <div>
-                    <label className={labelClass}>Your Bio</label>
-                    <textarea
-                      className={textareaClass}
+                    <Label className={labelClass}>Your Bio</Label>
+                    <Textarea
+                      className={textareaFieldClass}
                       placeholder="Tell candidates about yourself and your role at the company…"
                       value={bio}
                       onChange={(e) => setBio(e.target.value)}
@@ -1370,9 +1656,9 @@ export default function OnboardingPage() {
                     />
                   </div>
                   <div>
-                    <label className={labelClass}>Hiring Focus</label>
-                    <input
-                      className={inputClass}
+                    <Label className={labelClass}>Hiring Focus</Label>
+                    <Input
+                      className={inputFieldClass}
                       placeholder="e.g. Software engineering interns, Full-stack developers"
                       value={hiringFocus}
                       onChange={(e) => setHiringFocus(e.target.value)}
@@ -1380,11 +1666,13 @@ export default function OnboardingPage() {
                     <HelpText>Helps candidates judge fit before they apply.</HelpText>
                   </div>
                   <div>
-                    <label className={labelClass}>Profile video (optional)</label>
-                    <label className={cn(
-                      "flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed p-4 transition-all",
-                      profileVideoFile ? "border-border bg-muted/40" : "border-border hover:bg-muted/30"
-                    )}>
+                    <Label className={labelClass}>Profile video (optional)</Label>
+                    <label
+                      className={cn(
+                        "mt-1.5 flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed p-4 transition-all",
+                        profileVideoFile ? "border-border bg-muted/40" : "border-border hover:bg-muted/30"
+                      )}
+                    >
                       <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-xl", profileVideoFile ? "bg-muted" : "bg-muted/50")}>
                         <Video className={cn("h-5 w-5", profileVideoFile ? "text-foreground" : "text-muted-foreground")} />
                       </div>
@@ -1406,88 +1694,98 @@ export default function OnboardingPage() {
                 </div>
               )}
 
-              </div>
+              </CardContent>
 
-              <div className="border-t border-border bg-muted/30 px-5 py-4 sm:px-6">
-                {stepError && (
-                  <div className="mb-4 flex items-start gap-2.5 rounded-xl border border-destructive/25 bg-destructive/10 p-3.5">
-                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
-                    <p className="font-body text-sm text-destructive">{stepError}</p>
-                  </div>
-                )}
+              <CardFooter className="flex flex-col items-stretch border-t border-border bg-muted/30 p-0">
+                <div className="w-full px-5 py-4 sm:px-6">
+                  {stepError && (
+                    <div
+                      role="alert"
+                      className="mb-4 flex items-start gap-2.5 rounded-xl border border-destructive/25 bg-destructive/10 p-3.5"
+                    >
+                      <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
+                      <p className="font-body text-sm text-destructive">{stepError}</p>
+                    </div>
+                  )}
 
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="flex flex-wrap items-center gap-2">
-                    {step > 0 && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setStep(step - 1)
-                          setStepError(null)
-                        }}
-                        className="h-11 rounded-xl border border-border bg-background px-5 font-body text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-muted"
-                      >
-                        Back
-                      </button>
-                    )}
-                    {step < totalSteps - 1 && !currentStep.required && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setStep(step + 1)
-                          setStepError(null)
-                        }}
-                        className="h-11 rounded-xl px-3 font-body text-sm text-muted-foreground transition-colors hover:text-foreground"
-                      >
-                        Skip this step
-                      </button>
-                    )}
-                  </div>
-                  <div className="flex w-full min-w-0 sm:w-auto sm:justify-end">
-                    {step < totalSteps - 1 ? (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (canProceed()) setStep(step + 1)
-                        }}
-                        className="h-11 w-full rounded-xl bg-primary px-8 font-body text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 sm:w-auto"
-                      >
-                        Continue
-                      </button>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={handleComplete}
-                        disabled={loading || uploading}
-                        className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-primary px-8 font-body text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-40 sm:w-auto"
-                      >
-                        {loading || uploading ? (
-                          <>
-                            <Loader2 className="h-4 w-4 animate-spin" />
-                            {uploading ? "Uploading…" : "Saving…"}
-                          </>
-                        ) : (
-                          <>
-                            <CheckCircle2 className="h-4 w-4" /> Finish
-                          </>
-                        )}
-                      </button>
-                    )}
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex flex-wrap items-center gap-2">
+                      {step > 0 && (
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          className="h-11 rounded-xl px-5 font-body text-sm"
+                          onClick={() => {
+                            setStep(step - 1)
+                            setStepError(null)
+                          }}
+                        >
+                          Back
+                        </Button>
+                      )}
+                      {step < totalSteps - 1 && !currentStep.required && (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          className="h-11 rounded-xl px-3 font-body text-sm text-muted-foreground"
+                          onClick={() => {
+                            setStep(step + 1)
+                            setStepError(null)
+                          }}
+                        >
+                          Skip this step
+                        </Button>
+                      )}
+                    </div>
+                    <div className="flex w-full min-w-0 sm:w-auto sm:justify-end">
+                      {step < totalSteps - 1 ? (
+                        <Button
+                          type="button"
+                          className="h-11 w-full rounded-xl px-8 font-body text-sm font-semibold sm:w-auto"
+                          onClick={() => {
+                            if (canProceed()) setStep(step + 1)
+                          }}
+                        >
+                          Continue
+                        </Button>
+                      ) : (
+                        <Button
+                          type="button"
+                          className="h-11 w-full gap-2 rounded-xl px-8 font-body text-sm font-semibold sm:w-auto"
+                          onClick={handleComplete}
+                          disabled={loading || uploading}
+                        >
+                          {loading || uploading ? (
+                            <>
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                              {uploading ? "Uploading…" : "Saving…"}
+                            </>
+                          ) : (
+                            <>
+                              <CheckCircle2 className="h-4 w-4" />
+                              Finish
+                            </>
+                          )}
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </CardFooter>
+            </Card>
 
             {/* Skip all (students only) */}
             {role === "student" && (
               <div className="mt-6 text-center">
-                <button
+                <Button
+                  type="button"
+                  variant="link"
+                  className="h-auto p-0 font-body text-sm text-muted-foreground"
                   onClick={() => handleComplete()}
                   disabled={loading}
-                  className="font-body text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline disabled:opacity-40"
                 >
                   Finish later — go to Discover with what you have
-                </button>
+                </Button>
               </div>
             )}
           </div>
