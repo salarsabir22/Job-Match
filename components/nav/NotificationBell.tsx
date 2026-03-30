@@ -19,9 +19,10 @@ export function NotificationBell({ variant = "light" }: NotificationBellProps) {
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [items, setItems] = useState<Notification[]>([])
+  const [streamUnreadCount, setStreamUnreadCount] = useState(0)
   const rootRef = useRef<HTMLDivElement | null>(null)
 
-  const unreadCount = items.filter((n) => !n.is_read).length
+  const unreadCount = items.filter((n) => !n.is_read).length + streamUnreadCount
 
   const loadItems = async () => {
     setLoading(true)
@@ -42,9 +43,20 @@ export function NotificationBell({ variant = "light" }: NotificationBellProps) {
     setLoading(false)
   }
 
+  const loadStreamUnread = async () => {
+    try {
+      const res = await fetch("/api/stream/unread", { method: "GET" })
+      const data = (await res.json().catch(() => ({}))) as { totalUnreadCount?: number }
+      setStreamUnreadCount(Number(data.totalUnreadCount ?? 0))
+    } catch {
+      setStreamUnreadCount(0)
+    }
+  }
+
   useEffect(() => {
     startTransition(() => {
       void loadItems()
+      void loadStreamUnread()
     })
   }, [])
 
@@ -52,6 +64,7 @@ export function NotificationBell({ variant = "light" }: NotificationBellProps) {
     if (!open) return
     startTransition(() => {
       void loadItems()
+      void loadStreamUnread()
     })
   }, [open])
 

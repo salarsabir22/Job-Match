@@ -2,7 +2,6 @@ import { createClient } from "@/lib/supabase/server"
 import { AppNav } from "@/components/nav/AppNav"
 import type { UserRole } from "@/types"
 import { NotificationBell } from "@/components/nav/NotificationBell"
-import { ChatDockGate } from "@/components/chat/ChatDockGate"
 
 export default async function MainLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -56,7 +55,6 @@ export default async function MainLayout({ children }: { children: React.ReactNo
             {children}
           </div>
         </main>
-        <ChatDockGate />
       </div>
     </div>
   )

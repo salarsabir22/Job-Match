@@ -14,6 +14,7 @@ export default function NotificationsPage() {
 
   const [loading, setLoading] = useState(true)
   const [items, setItems] = useState<Notification[]>([])
+  const [streamUnreadCount, setStreamUnreadCount] = useState(0)
 
   const unreadCount = useMemo(() => items.filter((n) => !n.is_read).length, [items])
 
@@ -31,6 +32,14 @@ export default function NotificationsPage() {
         .from("notifications")
         .select("*")
         .order("created_at", { ascending: false })
+
+      try {
+        const res = await fetch("/api/stream/unread")
+        const stream = (await res.json().catch(() => ({}))) as { totalUnreadCount?: number }
+        setStreamUnreadCount(Number(stream.totalUnreadCount ?? 0))
+      } catch {
+        setStreamUnreadCount(0)
+      }
 
       setItems((notifications || []) as Notification[])
       setLoading(false)
@@ -74,6 +83,9 @@ export default function NotificationsPage() {
           <h1 className="font-heading text-xl font-bold text-foreground sm:text-2xl">Notifications</h1>
           <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mt-1">
             {unreadCount > 0 ? `${unreadCount} unread` : "All caught up"}
+          </p>
+          <p className="font-data text-[10px] tracking-widest uppercase text-neutral-600 mt-1">
+            {streamUnreadCount > 0 ? `${streamUnreadCount} unread chat message${streamUnreadCount > 1 ? "s" : ""}` : "No unread chat messages"}
           </p>
         </div>
       </div>
