@@ -1333,7 +1333,7 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="relative flex h-screen flex-col overflow-hidden bg-background">
+    <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-background">
       {/* Background glows */}
       <div className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-50" />
       <div className="pointer-events-none absolute right-0 top-0 h-[600px] w-[600px] rounded-full bg-muted opacity-[0.35] blur-[160px]" />
@@ -1353,10 +1353,10 @@ export default function OnboardingPage() {
       </header>
 
       {/* ── Main two-column layout ── */}
-      <div className="relative z-10 flex min-h-0 flex-1 flex-col lg:flex-row">
+      <div className="relative z-10 flex flex-1 flex-col lg:flex-row">
 
         {/* ──────── LEFT: Form (50%) ──────── */}
-        <div className="flex w-full min-h-0 flex-col justify-start overflow-y-auto px-4 py-8 sm:px-6 lg:w-1/2 lg:justify-center lg:px-10 xl:px-12">
+        <div className="flex w-full flex-col justify-start px-4 py-8 sm:px-6 lg:w-1/2 lg:justify-center lg:px-10 xl:px-12">
           <div className="mx-auto w-full max-w-lg">
             {/* Step overview */}
             <div className="mb-6 space-y-4">
