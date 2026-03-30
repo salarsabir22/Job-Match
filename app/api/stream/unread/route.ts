@@ -25,8 +25,8 @@ export async function GET() {
     )
 
     const streamUser = users[0]
-    const totalUnreadCount = Number(streamUser?.total_unread_count ?? 0)
-    const unreadChannels = Number(streamUser?.unread_channels ?? 0)
+    const totalUnreadCount = Number((streamUser as any)?.total_unread_count ?? 0)
+    const unreadChannels = Number((streamUser as any)?.unread_channels ?? 0)
 
     return NextResponse.json({ totalUnreadCount, unreadChannels })
   } catch (error) {

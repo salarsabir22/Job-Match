@@ -5,7 +5,6 @@ import { StreamChat } from "stream-chat"
 import {
   Channel,
   ChannelHeader,
-  ChannelList,
   Chat,
   LoadingIndicator,
   MessageInput,
@@ -123,24 +122,14 @@ export function StreamChatClient({
     <Chat client={client} theme="str-chat__theme-light">
       <div className="str-chat h-full">
         <div className="str-chat__container h-full">
-          <div className="grid h-full min-h-0 grid-cols-1 lg:grid-cols-[320px_minmax(0,1fr)]">
-            <div className="hidden border-r border-border bg-card lg:block">
-              <ChannelList
-                filters={filters}
-                sort={sort}
-                options={{ state: true, watch: true, presence: true, limit: 20 }}
-                setActiveChannel={setActiveChannel}
-              />
-            </div>
-            <Channel channel={activeChannel}>
-              <Window>
-                <ChannelHeader />
-                <MessageList />
-                <MessageInput focus />
-              </Window>
-              <Thread />
-            </Channel>
-          </div>
+          <Channel channel={activeChannel}>
+            <Window>
+              <ChannelHeader />
+              <MessageList />
+              <MessageInput focus />
+            </Window>
+            <Thread />
+          </Channel>
         </div>
       </div>
     </Chat>

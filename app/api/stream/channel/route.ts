@@ -65,11 +65,15 @@ export async function POST(request: Request) {
     }
 
     const channelId = `conversation-${conversationId}`
-    const channel = stream.channel("messaging", channelId, {
+    // Stream's SDK types for `ChannelData` don't include `name` in our installed version.
+    // Keep it as a custom field via `as any` so we still have a friendly label.
+    const channelData = {
       members: memberIds,
-      name: name || undefined,
       created_by_id: user.id,
-    })
+      ...(name ? { name } : {}),
+    } as any
+
+    const channel = stream.channel("messaging", channelId, channelData)
 
     try {
       await channel.create()
@@ -98,12 +102,8 @@ export async function POST(request: Request) {
         if (!senderId || !text) continue
 
         await channel.sendMessage(
-          {
-            text,
-            // Mark this content as migrated legacy text.
-            migrated_from_supabase: true,
-          },
-          senderId
+          { text } as any,
+          { user_id: senderId } as any
         )
       }
     }
