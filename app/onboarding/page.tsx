@@ -6,7 +6,7 @@ import {
   Loader2, X, Plus, GraduationCap, Building2, CheckCircle2,
   AlertCircle, Info, ExternalLink, FileText, ImageIcon,
   Heart, Briefcase, MessageCircle, Star, TrendingUp, Users,
-  ChevronRight, Send, Bell, Video
+  ChevronRight, Send, Bell, Video, Lock, Globe
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { UserRole } from "@/types"
@@ -39,30 +39,24 @@ const STEPS_RECRUITER = [
 ───────────────────────────────────────────── */
 
 /* ─────────────────────────────────────────────
-   Shared phone shell
+   Browser-style preview (theme: white surface + navy accents)
 ───────────────────────────────────────────── */
-function PhoneFrame({ children }: { children: React.ReactNode }) {
+function BrowserFrame({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative mx-auto" style={{ width: 272, height: 556 }}>
-      {/* Outer shell */}
-      <div className="absolute inset-0 rounded-[44px] bg-[#0D0F13] border border-black/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.95),0_0_0_1px_rgba(255,255,255,0.05),inset_0_1px_0_rgba(255,255,255,0.08)]" />
-      {/* Side buttons */}
-      <div className="absolute -right-[3px] top-24 w-[3px] h-8 rounded-r-sm bg-[#2A2D35]" />
-      <div className="absolute -left-[3px] top-20 w-[3px] h-6 rounded-l-sm bg-[#2A2D35]" />
-      <div className="absolute -left-[3px] top-28 w-[3px] h-10 rounded-l-sm bg-[#2A2D35]" />
-      {/* Dynamic island */}
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-6 rounded-full bg-white z-20 flex items-center justify-center gap-1.5 border border-black/10">
-        <div className="w-1.5 h-1.5 rounded-full bg-[#1C2128]" />
-        <div className="w-3 h-3 rounded-full bg-[#0D0F13] border border-black/10 flex items-center justify-center">
-          <div className="w-1.5 h-1.5 rounded-full bg-[#1C2128]" />
+    <div className="mx-auto w-full max-w-[360px] overflow-hidden rounded-xl border border-border bg-card shadow-lg ring-1 ring-black/[0.04]">
+      <div className="flex items-center gap-3 border-b border-border bg-muted/50 px-3 py-2.5 sm:px-4">
+        <div className="flex gap-1.5" aria-hidden>
+          <span className="h-2.5 w-2.5 rounded-full bg-red-400/90" />
+          <span className="h-2.5 w-2.5 rounded-full bg-amber-400/90" />
+          <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80" />
+        </div>
+        <div className="flex min-w-0 flex-1 items-center gap-2 rounded-lg border border-border bg-background px-2.5 py-1.5 shadow-sm">
+          <Lock className="h-3 w-3 shrink-0 text-muted-foreground" aria-hidden />
+          <Globe className="h-3 w-3 shrink-0 text-primary" aria-hidden />
+          <span className="truncate font-data text-[10px] text-muted-foreground">jobmatch.app</span>
         </div>
       </div>
-      {/* Screen area */}
-      <div className="absolute top-2 inset-x-2 bottom-2 rounded-[36px] overflow-hidden bg-[#07090C]">
-        {children}
-      </div>
-      {/* Home bar */}
-      <div className="absolute bottom-[14px] left-1/2 -translate-x-1/2 w-28 h-[4px] rounded-full bg-white/25" />
+      <div className="h-[420px] overflow-hidden bg-background sm:h-[440px]">{children}</div>
     </div>
   )
 }
@@ -98,20 +92,20 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
   const card = STUDENT_JOBS[cardIdx % STUDENT_JOBS.length]
   const back = STUDENT_JOBS[(cardIdx + 1) % STUDENT_JOBS.length]
   return (
-    <div className="h-full flex flex-col bg-[#07090C]">
+    <div className="h-full flex flex-col bg-background">
       {/* Top bar */}
-      <div className="flex items-center justify-between px-5 pt-10 pb-3">
+      <div className="flex items-center justify-between border-b border-border px-4 pb-3 pt-4">
         <div>
-          <p className="font-heading font-bold text-sm text-black">Discover</p>
-          <p className="font-body text-[10px] text-[#4A5568]">Open roles</p>
+          <p className="font-heading text-sm font-bold text-foreground">Discover</p>
+          <p className="font-body text-[10px] text-muted-foreground">Open roles</p>
         </div>
         <div className="flex items-center gap-2">
           <div className="relative">
-            <div className="w-8 h-8 rounded-xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/25 flex items-center justify-center">
-              <Bell className="h-3.5 w-3.5 text-neutral-900" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-border bg-muted">
+              <Bell className="h-3.5 w-3.5 text-foreground" />
             </div>
-            <div className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-red-500 border border-[#07090C] flex items-center justify-center">
-              <span className="font-data text-[7px] text-black font-bold">3</span>
+            <div className="absolute -right-0.5 -top-0.5 flex h-3 w-3 items-center justify-center rounded-full border border-background bg-red-500">
+              <span className="font-data text-[7px] font-bold text-primary-foreground">3</span>
             </div>
           </div>
         </div>
@@ -120,10 +114,12 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
       {/* Card stack */}
       <div className="flex-1 relative mx-4 mb-3">
         {/* Back card (peeking) */}
-        <div className="absolute inset-x-3 top-2 bottom-0 rounded-3xl border border-black/10 overflow-hidden"
-          style={{ background: back.accentBg, transform: "scale(0.95) translateY(6px)", zIndex: 1 }}>
+        <div
+          className="absolute inset-x-3 top-2 bottom-0 z-[1] overflow-hidden rounded-3xl border border-border"
+          style={{ background: back.accentBg, transform: "scale(0.95) translateY(6px)" }}
+        >
           <div className="p-4 pt-5">
-            <div className="w-9 h-9 rounded-2xl border border-black/10 flex items-center justify-center mb-2"
+            <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-2xl border border-border"
               style={{ background: back.accentBg }}>
               <Briefcase className="h-4 w-4 text-[#64748B]" />
             </div>
@@ -133,8 +129,8 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
         </div>
 
         {/* Front card */}
-        <div className="absolute inset-0 rounded-3xl border border-black/10 overflow-hidden flex flex-col"
-          style={{ background: card.accentBg, boxShadow: `0 24px 48px -10px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06), 0 0 40px -15px ${card.accent}40`, zIndex: 2 }}>
+        <div className="absolute inset-0 z-[2] flex flex-col overflow-hidden rounded-3xl border border-border"
+          style={{ background: card.accentBg, boxShadow: `0 20px 40px -12px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(15, 23, 42, 0.06), 0 0 32px -12px ${card.accent}35` }}>
 
           {/* Card top accent bar */}
           <div className="h-1 w-full" style={{ background: card.accent }} />
@@ -143,7 +139,7 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
             {/* Company row */}
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center gap-2.5">
-                <div className="w-11 h-11 rounded-2xl border border-black/10 flex items-center justify-center shrink-0"
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-border"
                   style={{ background: card.accentBg, boxShadow: `0 0 20px -5px ${card.accent}50` }}>
                   <Briefcase className="h-5 w-5" style={{ color: card.accent === "#000000" ? "#94A3B8" : card.accent }} />
                 </div>
@@ -173,7 +169,7 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
             </div>
 
             {/* Divider */}
-            <div className="h-px bg-white/6 mb-3" />
+            <div className="mb-3 h-px bg-border" />
 
             {/* Perks */}
             <div className="space-y-1.5 flex-1">
@@ -187,16 +183,18 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
           </div>
 
           {/* Swipe buttons */}
-          <div className="flex items-center justify-center gap-5 px-4 py-3 border-t border-black/10">
-            <button className="w-11 h-11 rounded-full flex items-center justify-center border border-neutral-500/30 bg-red-500/10 shadow-[0_0_12px_-4px_rgba(255,255,255,0.4)]">
-              <X className="h-4.5 w-4.5 text-neutral-500" style={{ width: 18, height: 18 }} />
+          <div className="mt-3 flex items-center justify-center gap-5 border-t border-border px-4 py-3">
+            <button type="button" className="flex h-11 w-11 items-center justify-center rounded-full border border-destructive/30 bg-destructive/10">
+              <X className="h-[18px] w-[18px] text-destructive" />
             </button>
-            <button className="w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_24px_-4px_rgba(255,255,255,0.7)]"
-              style={{ background: `#525252` }}>
-              <Heart className="h-6 w-6 text-black fill-white" />
+            <button
+              type="button"
+              className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md ring-2 ring-primary/20"
+            >
+              <Heart className="h-6 w-6 fill-current" />
             </button>
-            <button className="w-11 h-11 rounded-full flex items-center justify-center border border-neutral-500/30 bg-neutral-500/10 shadow-[0_0_12px_-4px_rgba(255,255,255,0.4)]">
-              <Star className="h-4.5 w-4.5 text-neutral-400" style={{ width: 18, height: 18 }} />
+            <button type="button" className="flex h-11 w-11 items-center justify-center rounded-full border border-border bg-muted">
+              <Star className="h-[18px] w-[18px] text-muted-foreground" />
             </button>
           </div>
         </div>
@@ -204,18 +202,18 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
 
       {/* Bottom hint */}
       <div className="flex items-center justify-center gap-4 pb-8 pt-1">
-        <div className="flex items-center gap-1.5 text-[#334155]">
-          <X className="h-3 w-3 text-neutral-500/50" />
+        <div className="flex items-center gap-1.5 text-muted-foreground">
+          <X className="h-3 w-3 opacity-70" />
           <span className="font-body text-[10px]">Pass</span>
         </div>
-        <div className="w-1 h-1 rounded-full bg-white/10" />
-        <div className="flex items-center gap-1.5 text-[#334155]">
-          <Heart className="h-3 w-3 text-neutral-900/50" />
+        <div className="h-1 w-1 rounded-full bg-muted-foreground/25" />
+        <div className="flex items-center gap-1.5 text-muted-foreground">
+          <Heart className="h-3 w-3 opacity-70" />
           <span className="font-body text-[10px]">Apply</span>
         </div>
-        <div className="w-1 h-1 rounded-full bg-white/10" />
-        <div className="flex items-center gap-1.5 text-[#334155]">
-          <Star className="h-3 w-3 text-neutral-400/50" />
+        <div className="h-1 w-1 rounded-full bg-muted-foreground/25" />
+        <div className="flex items-center gap-1.5 text-muted-foreground">
+          <Star className="h-3 w-3 opacity-70" />
           <span className="font-body text-[10px]">Save</span>
         </div>
       </div>
@@ -225,7 +223,7 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
 
 function StudentMatchScreen() {
   return (
-    <div className="h-full flex flex-col bg-[#07090C] relative overflow-hidden">
+    <div className="h-full flex flex-col bg-background relative overflow-hidden">
       {/* Burst rings */}
       {[80, 130, 190].map((size, i) => (
         <div key={i} className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#FAFAFA] opacity-[0.08] animate-ping"
@@ -236,13 +234,13 @@ function StudentMatchScreen() {
       <div className="flex-1 flex flex-col items-center justify-center px-5 relative z-10">
         {/* Avatars */}
         <div className="flex items-center gap-0 mb-5">
-          <div className="w-16 h-16 rounded-full bg-neutral-200 border-[3px] border-[#07090C] flex items-center justify-center shadow-[0_0_20px_-4px_rgba(255,255,255,0.6)] z-10">
+          <div className="w-16 h-16 rounded-full bg-neutral-200 border-[3px] border-border flex items-center justify-center shadow-[0_0_20px_-4px_rgba(255,255,255,0.6)] z-10">
             <GraduationCap className="h-8 w-8 text-black" />
           </div>
-          <div className="w-9 h-9 rounded-full bg-neutral-200 border-2 border-[#07090C] flex items-center justify-center -mx-1 z-20 shadow-[0_0_16px_-4px_rgba(255,255,255,0.8)]">
+          <div className="w-9 h-9 rounded-full bg-neutral-200 border-2 border-border flex items-center justify-center -mx-1 z-20 shadow-[0_0_16px_-4px_rgba(255,255,255,0.8)]">
             <Heart className="h-4 w-4 text-black fill-white" />
           </div>
-          <div className="w-16 h-16 rounded-full bg-neutral-700 border-[3px] border-[#07090C] flex items-center justify-center shadow-md z-10">
+          <div className="w-16 h-16 rounded-full bg-neutral-700 border-[3px] border-border flex items-center justify-center shadow-md z-10">
             <Building2 className="h-8 w-8 text-black" />
           </div>
         </div>
@@ -256,24 +254,26 @@ function StudentMatchScreen() {
         </p>
 
         {/* Job preview */}
-        <div className="w-full bg-white/4 border border-black/10 rounded-2xl p-3 mb-5 mt-3 flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-[#635BFF]/20 flex items-center justify-center shrink-0">
-            <Briefcase className="h-4 w-4 text-[#635BFF]" />
+        <div className="mb-5 mt-3 flex w-full items-center gap-3 rounded-2xl border border-border bg-card p-3">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/15">
+            <Briefcase className="h-4 w-4 text-primary" />
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="font-body text-xs font-semibold text-black">Frontend Engineer</p>
-            <p className="font-body text-[10px] text-[#4A5568]">Stripe · $120–150k</p>
+          <div className="min-w-0 flex-1">
+            <p className="font-body text-xs font-semibold text-foreground">Frontend Engineer</p>
+            <p className="font-body text-[10px] text-muted-foreground">Stripe · $120–150k</p>
           </div>
-          <span className="font-data text-[9px] text-neutral-400 bg-neutral-500/10 border border-neutral-500/20 rounded-full px-2 py-0.5">95%</span>
+          <span className="font-data rounded-full border border-border bg-muted px-2 py-0.5 text-[9px] text-muted-foreground">
+            95%
+          </span>
         </div>
 
-        <button className="w-full h-10 rounded-2xl text-black font-body font-semibold text-sm shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] mb-2.5"
-          style={{ background: "#525252" }}
+        <button
           type="button"
+          className="mb-2.5 h-10 w-full rounded-xl bg-primary font-body text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90"
         >
           Send message
         </button>
-        <button className="w-full h-10 rounded-2xl border border-black/10 text-[#64748B] font-body text-sm" type="button">
+        <button type="button" className="h-10 w-full rounded-xl border border-border bg-card font-body text-sm text-muted-foreground hover:bg-muted">
           Continue browsing
         </button>
       </div>
@@ -290,20 +290,20 @@ function StudentChatScreen() {
     { from: "them", text: "Sending a calendar invite." },
   ]
   return (
-    <div className="h-full flex flex-col bg-[#07090C]">
-      <div className="flex items-center gap-3 px-4 pt-10 pb-3 border-b border-black/10">
-        <div className="w-9 h-9 rounded-2xl bg-neutral-700 flex items-center justify-center shrink-0">
-          <Building2 className="h-4.5 w-4.5 text-black" style={{ width: 18, height: 18 }} />
+    <div className="h-full flex flex-col bg-background">
+      <div className="flex items-center gap-3 border-b border-border px-4 pb-3 pt-4">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl border border-border bg-primary text-primary-foreground">
+          <Building2 className="h-[18px] w-[18px]" />
         </div>
         <div className="flex-1">
-          <p className="font-body text-xs font-bold text-black">Sarah · Stripe Recruiter</p>
+          <p className="font-body text-xs font-bold text-foreground">Sarah · Stripe Recruiter</p>
           <div className="flex items-center gap-1">
-            <div className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
-            <span className="font-data text-[9px] text-neutral-400">Online now</span>
+            <div className="h-1.5 w-1.5 rounded-full bg-primary/80" />
+            <span className="font-data text-[9px] text-muted-foreground">Online now</span>
           </div>
         </div>
-        <div className="w-7 h-7 rounded-xl bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 flex items-center justify-center">
-          <Briefcase className="h-3.5 w-3.5 text-neutral-900" />
+        <div className="flex h-7 w-7 items-center justify-center rounded-xl border border-border bg-muted">
+          <Briefcase className="h-3.5 w-3.5 text-muted-foreground" />
         </div>
       </div>
       <div className="flex-1 px-3 py-3 space-y-2 overflow-hidden flex flex-col justify-end">
@@ -314,23 +314,24 @@ function StudentChatScreen() {
                 <Building2 className="h-3 w-3 text-black" />
               </div>
             )}
-            <div className={cn(
-              "max-w-[78%] px-3 py-2 font-body text-[11px] leading-relaxed",
-              m.from === "me"
-                ? "rounded-2xl rounded-br-sm text-black shadow-[0_4px_12px_-3px_rgba(255,255,255,0.3)]"
-                : "rounded-2xl rounded-bl-sm bg-white/6 text-neutral-700"
-            )} style={m.from === "me" ? { background: "#525252" } : {}}>
+            <div
+              className={cn(
+                "max-w-[78%] px-3 py-2 font-body text-[11px] leading-relaxed",
+                m.from === "me"
+                  ? "rounded-2xl rounded-br-sm bg-primary text-primary-foreground shadow-sm"
+                  : "rounded-2xl rounded-bl-sm border border-border bg-muted text-foreground"
+              )}
+            >
               {m.text}
             </div>
           </div>
         ))}
       </div>
-      <div className="px-3 pb-8 pt-2">
-        <div className="flex items-center gap-2 bg-white/5 border border-black/10 rounded-2xl px-3 py-2.5">
-          <span className="font-body text-[11px] text-[#1E293B] flex-1">Write a message…</span>
-          <div className="w-7 h-7 rounded-xl flex items-center justify-center shadow-[0_0_10px_-2px_rgba(255,255,255,0.4)]"
-            style={{ background: "#525252" }}>
-            <Send className="h-3.5 w-3.5 text-black" />
+      <div className="px-3 pb-6 pt-2">
+        <div className="flex items-center gap-2 rounded-xl border border-border bg-muted/50 px-3 py-2.5">
+          <span className="flex-1 font-body text-[11px] text-muted-foreground">Write a message…</span>
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
+            <Send className="h-3.5 w-3.5" />
           </div>
         </div>
       </div>
@@ -340,12 +341,11 @@ function StudentChatScreen() {
 
 function StudentProfileScreen() {
   return (
-    <div className="h-full flex flex-col bg-[#07090C]">
+    <div className="h-full flex flex-col bg-background">
       <div className="h-28 relative bg-neutral-100">
         <div className="absolute inset-x-0 top-8 flex items-center justify-center">
-          <div className="w-16 h-16 rounded-2xl border-[3px] border-[#07090C] flex items-center justify-center shadow-[0_0_20px_-5px_rgba(255,255,255,0.6)]"
-            style={{ background: "#525252" }}>
-            <GraduationCap className="h-8 w-8 text-black" />
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl border-[3px] border-border bg-primary text-primary-foreground shadow-md">
+            <GraduationCap className="h-8 w-8" />
           </div>
         </div>
       </div>
@@ -359,27 +359,27 @@ function StudentProfileScreen() {
             ))}
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-2 mb-3">
-          {[{ l: "Matches", v: "12", c: "text-neutral-900" }, { l: "Views", v: "84", c: "text-neutral-400" }, { l: "Score", v: "94%", c: "text-neutral-400" }].map(({ l, v, c }) => (
-            <div key={l} className="bg-white/4 border border-black/10 rounded-2xl p-2 text-center">
-              <p className={cn("font-heading font-bold text-base", c)}>{v}</p>
-              <p className="font-data text-[9px] text-[#4A5568]">{l}</p>
+        <div className="mb-3 grid grid-cols-3 gap-2">
+          {[{ l: "Matches", v: "12", c: "text-foreground" }, { l: "Views", v: "84", c: "text-muted-foreground" }, { l: "Score", v: "94%", c: "text-muted-foreground" }].map(({ l, v, c }) => (
+            <div key={l} className="rounded-2xl border border-border bg-card p-2 text-center">
+              <p className={cn("font-heading text-base font-bold", c)}>{v}</p>
+              <p className="font-data text-[9px] text-muted-foreground">{l}</p>
             </div>
           ))}
         </div>
-        <p className="font-data text-[9px] tracking-wider uppercase text-[#334155] mb-2">Activity</p>
+        <p className="mb-2 font-data text-[9px] uppercase tracking-wider text-muted-foreground">Activity</p>
         <div className="space-y-1.5">
           {[
-            { icon: Heart, text: "Stripe liked your profile", t: "2m ago", c: "text-neutral-900", bg: "bg-[#FAFAFA]/10" },
-            { icon: MessageCircle, text: "New message from Notion", t: "1h ago", c: "text-neutral-400", bg: "bg-neutral-500/10" },
-            { icon: TrendingUp, text: "Profile views +23% this week", t: "Today", c: "text-neutral-400", bg: "bg-neutral-500/10" },
+            { icon: Heart, text: "Stripe liked your profile", t: "2m ago", c: "text-foreground", bg: "bg-primary/10" },
+            { icon: MessageCircle, text: "New message from Notion", t: "1h ago", c: "text-muted-foreground", bg: "bg-muted" },
+            { icon: TrendingUp, text: "Profile views +23% this week", t: "Today", c: "text-muted-foreground", bg: "bg-muted" },
           ].map(({ icon: Icon, text, t, c, bg }) => (
-            <div key={text} className="flex items-center gap-2.5 p-2 rounded-xl bg-white/3 border border-black/10">
-              <div className={cn("w-6 h-6 rounded-lg flex items-center justify-center shrink-0", bg)}>
+            <div key={text} className="flex items-center gap-2.5 rounded-xl border border-border bg-card p-2">
+              <div className={cn("flex h-6 w-6 shrink-0 items-center justify-center rounded-lg", bg)}>
                 <Icon className={cn("h-3 w-3", c)} />
               </div>
-              <span className="font-body text-[10px] text-[#4A5568] flex-1 leading-tight">{text}</span>
-              <span className="font-data text-[9px] text-[#1E293B] shrink-0">{t}</span>
+              <span className="flex-1 font-body text-[10px] leading-tight text-muted-foreground">{text}</span>
+              <span className="shrink-0 font-data text-[9px] text-muted-foreground">{t}</span>
             </div>
           ))}
         </div>
@@ -416,11 +416,11 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
   const card = RECRUITER_CANDIDATES[cardIdx % RECRUITER_CANDIDATES.length]
   const back = RECRUITER_CANDIDATES[(cardIdx + 1) % RECRUITER_CANDIDATES.length]
   return (
-    <div className="h-full flex flex-col bg-[#07090C]">
-      <div className="flex items-center justify-between px-5 pt-10 pb-3">
+    <div className="h-full flex flex-col bg-background">
+      <div className="flex items-center justify-between border-b border-border px-4 pb-3 pt-4">
         <div>
-          <p className="font-heading font-bold text-sm text-black">Find Talent</p>
-          <p className="font-body text-[10px] text-[#4A5568]">Candidates matching your roles</p>
+          <p className="font-heading text-sm font-bold text-foreground">Find Talent</p>
+          <p className="font-body text-[10px] text-muted-foreground">Candidates matching your roles</p>
         </div>
         <div className="flex items-center gap-1 bg-neutral-500/10 border border-neutral-500/20 rounded-full px-2.5 py-1">
           <div className="w-1.5 h-1.5 rounded-full bg-neutral-400 animate-pulse" />
@@ -430,11 +430,11 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
 
       <div className="flex-1 relative mx-4 mb-3">
         {/* Back card */}
-        <div className="absolute inset-x-3 top-2 bottom-0 rounded-3xl border border-black/10 bg-[#0D0F13] overflow-hidden"
+        <div className="absolute inset-x-3 top-2 bottom-0 rounded-3xl border border-border bg-muted overflow-hidden"
           style={{ transform: "scale(0.95) translateY(6px)", zIndex: 1 }}>
-          <div className="h-16 bg-[#0D0F13]" />
+          <div className="h-16 bg-muted" />
           <div className="px-3 -mt-6">
-            <div className="w-12 h-12 rounded-full bg-neutral-800 border-2 border-[#0D0F13] flex items-center justify-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-border bg-muted-foreground/15">
               <span className="font-heading font-bold text-base text-black/40">{back.name[0]}</span>
             </div>
             <p className="font-heading font-semibold text-sm text-black/40 mt-2">{back.name}</p>
@@ -443,23 +443,27 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
         </div>
 
         {/* Front card */}
-        <div className="absolute inset-0 rounded-3xl border border-black/10 overflow-hidden flex flex-col"
-          style={{ background: "#0D0F13", boxShadow: `0 24px 48px -10px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06), 0 0 40px -20px ${card.accent}40`, zIndex: 2 }}>
+        <div
+          className="absolute inset-0 z-[2] flex flex-col overflow-hidden rounded-3xl border border-border bg-card"
+          style={{ boxShadow: `0 20px 40px -12px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(15, 23, 42, 0.06), 0 0 32px -12px ${card.accent}35` }}
+        >
 
           {/* Cover */}
-          <div className="relative h-[90px] shrink-0" style={{ background: "#0D0F13" }}>
-            <div className="absolute inset-x-0 bottom-0 h-px bg-black/20" />
+          <div className="relative h-[90px] shrink-0 bg-muted">
+            <div className="absolute inset-x-0 bottom-0 h-px bg-border" />
             {/* School badge */}
-            <div className="absolute top-3 right-3 bg-white/40 border border-black/10 rounded-xl px-2 py-1 flex items-center gap-1.5 backdrop-blur-sm">
-              <GraduationCap className="h-3 w-3 text-neutral-700" />
-              <span className="font-data text-[9px] text-[#64748B]">{card.university}</span>
+            <div className="absolute right-3 top-3 flex items-center gap-1.5 rounded-xl border border-border bg-background/90 px-2 py-1 backdrop-blur-sm">
+              <GraduationCap className="h-3 w-3 text-muted-foreground" />
+              <span className="font-data text-[9px] text-muted-foreground">{card.university}</span>
             </div>
           </div>
 
           {/* Avatar overlapping cover */}
-          <div className="px-4 -mt-7 mb-2 flex items-end gap-3">
-            <div className="w-14 h-14 rounded-2xl border-[3px] border-[#0D0F13] flex items-center justify-center shrink-0 shadow-[0_8px_20px_-6px_rgba(0,0,0,0.6)]"
-              style={{ background: `${card.accent}40` }}>
+          <div className="mb-2 -mt-7 flex items-end gap-3 px-4">
+            <div
+              className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-[3px] border-card shadow-md"
+              style={{ background: `${card.accent}35` }}
+            >
               <span className="font-heading font-bold text-xl text-black">{card.name[0]}</span>
             </div>
             <div className="mb-1 flex-1">
@@ -477,13 +481,13 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
 
           <div className="px-4 flex-1 flex flex-col">
             {/* Highlight */}
-            <div className="bg-white/3 border border-black/10 rounded-xl px-3 py-2 mb-3 flex items-start gap-2">
-              <Star className="h-3 w-3 shrink-0 mt-0.5" style={{ color: card.accent }} />
-              <p className="font-body text-[10px] text-neutral-700 leading-relaxed">{card.highlight}</p>
+            <div className="mb-3 flex items-start gap-2 rounded-xl border border-border bg-muted/50 px-3 py-2">
+              <Star className="mt-0.5 h-3 w-3 shrink-0" style={{ color: card.accent }} />
+              <p className="font-body text-[10px] leading-relaxed text-muted-foreground">{card.highlight}</p>
             </div>
 
             {/* Skills */}
-            <div className="flex flex-wrap gap-1.5 mb-3">
+            <div className="mb-3 flex flex-wrap gap-1.5">
               {card.skills.map(s => (
                 <span key={s} className="font-data text-[10px] px-2 py-0.5 rounded-full"
                   style={{ background: `${card.accent}12`, border: `1px solid ${card.accent}25`, color: card.accent }}>
@@ -493,9 +497,9 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
             </div>
 
             {/* Stats row */}
-            <div className="grid grid-cols-3 gap-2 mb-auto">
+            <div className="mb-auto grid grid-cols-3 gap-2">
               {[{ l: "GPA", v: card.gpa }, { l: "Projects", v: card.projects.toString() }, { l: "Match", v: `${card.match}%` }].map(({ l, v }) => (
-                <div key={l} className="bg-white/3 border border-black/10 rounded-xl p-2 text-center">
+                <div key={l} className="rounded-xl border border-border bg-muted/40 p-2 text-center">
                   <p className="font-heading font-bold text-sm text-black">{v}</p>
                   <p className="font-data text-[9px] text-[#334155]">{l}</p>
                 </div>
@@ -504,27 +508,29 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
           </div>
 
           {/* Swipe buttons */}
-          <div className="flex items-center justify-center gap-5 px-4 py-3 border-t border-black/10 mt-3">
-            <button className="w-11 h-11 rounded-full flex items-center justify-center border border-neutral-500/30 bg-red-500/10">
-              <X className="h-[18px] w-[18px] text-neutral-500" />
+          <div className="mt-3 flex items-center justify-center gap-5 border-t border-border px-4 py-3">
+            <button type="button" className="flex h-11 w-11 items-center justify-center rounded-full border border-destructive/30 bg-destructive/10">
+              <X className="h-[18px] w-[18px] text-destructive" />
             </button>
-            <button className="w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_24px_-4px_rgba(255,255,255,0.7)]"
-              style={{ background: "#525252" }}>
-              <Heart className="h-6 w-6 text-black fill-white" />
+            <button
+              type="button"
+              className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md ring-2 ring-primary/20"
+            >
+              <Heart className="h-6 w-6 fill-current" />
             </button>
-            <button className="w-11 h-11 rounded-full flex items-center justify-center border border-neutral-500/30 bg-neutral-500/10">
-              <Star className="h-[18px] w-[18px] text-neutral-400" />
+            <button type="button" className="flex h-11 w-11 items-center justify-center rounded-full border border-border bg-muted">
+              <Star className="h-[18px] w-[18px] text-muted-foreground" />
             </button>
           </div>
         </div>
       </div>
 
       <div className="flex items-center justify-center gap-4 pb-8 pt-1">
-        <span className="font-body text-[10px] text-[#1E293B]">Pass</span>
-        <div className="w-1 h-1 rounded-full bg-white/8" />
-        <span className="font-body text-[10px] text-neutral-900/40">Interested</span>
-        <div className="w-1 h-1 rounded-full bg-white/8" />
-        <span className="font-body text-[10px] text-[#1E293B]">Save</span>
+        <span className="font-body text-[10px] text-muted-foreground">Pass</span>
+        <div className="h-1 w-1 rounded-full bg-muted-foreground/25" />
+        <span className="font-body text-[10px] text-muted-foreground/80">Interested</span>
+        <div className="h-1 w-1 rounded-full bg-muted-foreground/25" />
+        <span className="font-body text-[10px] text-muted-foreground">Save</span>
       </div>
     </div>
   )
@@ -532,7 +538,7 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
 
 function RecruiterMatchScreen() {
   return (
-    <div className="h-full flex flex-col bg-[#07090C] relative overflow-hidden">
+    <div className="h-full flex flex-col bg-background relative overflow-hidden">
       {[80, 130, 190].map((size, i) => (
         <div key={i} className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-neutral-500 opacity-[0.06] animate-ping"
           style={{ width: size, height: size, animationDelay: `${i * 0.5}s`, animationDuration: "2.5s" }} />
@@ -540,18 +546,15 @@ function RecruiterMatchScreen() {
       <div className="absolute inset-0 bg-neutral-100/40" />
 
       <div className="flex-1 flex flex-col items-center justify-center px-5 relative z-10">
-        <div className="flex items-center gap-0 mb-4">
-          <div className="w-16 h-16 rounded-2xl border-[3px] border-[#07090C] flex items-center justify-center shadow-[0_0_20px_-4px_rgba(34,197,94,0.4)] z-10"
-            style={{ background: "rgba(34,197,94,0.35)" }}>
-            <span className="font-heading font-bold text-xl text-black">A</span>
+        <div className="mb-4 flex items-center gap-0">
+          <div className="z-10 flex h-16 w-16 items-center justify-center rounded-2xl border-[3px] border-border bg-primary/15 shadow-sm">
+            <span className="font-heading text-xl font-bold text-primary">A</span>
           </div>
-          <div className="w-9 h-9 rounded-full border-2 border-[#07090C] flex items-center justify-center -mx-1 z-20"
-            style={{ background: "#525252", boxShadow: "0 0 16px -4px rgba(255,255,255,0.8)" }}>
-            <Heart className="h-4 w-4 text-black fill-white" />
+          <div className="z-20 -mx-1 flex h-9 w-9 items-center justify-center rounded-full border-2 border-border bg-primary text-primary-foreground shadow-md">
+            <Heart className="h-4 w-4 fill-current" />
           </div>
-          <div className="w-16 h-16 rounded-2xl border-[3px] border-[#07090C] flex items-center justify-center z-10"
-            style={{ background: "#525252", boxShadow: "0 0 20px -4px rgba(255,255,255,0.5)" }}>
-            <Building2 className="h-8 w-8 text-black" />
+          <div className="z-10 flex h-16 w-16 items-center justify-center rounded-2xl border-[3px] border-border bg-muted shadow-sm">
+            <Building2 className="h-8 w-8 text-foreground" />
           </div>
         </div>
 
@@ -564,21 +567,23 @@ function RecruiterMatchScreen() {
         </p>
 
         {/* Candidate preview */}
-        <div className="w-full bg-white/4 border border-black/10 rounded-2xl p-3 mb-5 flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-neutral-500/20 flex items-center justify-center shrink-0">
-            <span className="font-heading font-bold text-sm text-neutral-400">A</span>
+        <div className="mb-5 flex w-full items-center gap-3 rounded-2xl border border-border bg-card p-3">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-muted">
+            <span className="font-heading text-sm font-bold text-muted-foreground">A</span>
           </div>
           <div className="flex-1">
-            <p className="font-body text-xs font-semibold text-black">Alex Chen · MIT</p>
-            <p className="font-body text-[10px] text-[#4A5568]">React · TypeScript · Node.js</p>
+            <p className="font-body text-xs font-semibold text-foreground">Alex Chen · MIT</p>
+            <p className="font-body text-[10px] text-muted-foreground">React · TypeScript · Node.js</p>
           </div>
-          <span className="font-data text-[9px] text-neutral-400 bg-neutral-500/10 border border-neutral-500/20 rounded-full px-2 py-0.5">97%</span>
+          <span className="font-data rounded-full border border-border bg-muted px-2 py-0.5 text-[9px] text-muted-foreground">
+            97%
+          </span>
         </div>
 
-        <button className="w-full h-10 rounded-2xl text-black font-body font-semibold text-sm mb-2.5" style={{ background: "#525252" }} type="button">
+        <button type="button" className="mb-2.5 h-10 w-full rounded-xl bg-primary font-body text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90">
           Start conversation
         </button>
-        <button className="w-full h-10 rounded-2xl border border-black/10 text-[#64748B] font-body text-sm" type="button">
+        <button type="button" className="h-10 w-full rounded-xl border border-border bg-card font-body text-sm text-muted-foreground hover:bg-muted">
           View profile
         </button>
       </div>
@@ -589,52 +594,56 @@ function RecruiterMatchScreen() {
 function RecruiterPipelineScreen() {
   const candidates = [
     { name: "Alex Chen", role: "Frontend Eng", match: 97, status: "Matched", dot: "bg-neutral-400", uni: "MIT" },
-    { name: "Sara Kim",  role: "Data Analyst",  match: 93, status: "Interview", dot: "bg-[#FAFAFA]", uni: "Stanford" },
+    { name: "Sara Kim",  role: "Data Analyst",  match: 93, status: "Interview", dot: "bg-primary", uni: "Stanford" },
     { name: "Jake Moore", role: "Backend Eng", match: 89, status: "Reviewing", dot: "bg-blue-400", uni: "UC Berkeley" },
     { name: "Priya Patel", role: "PM Intern",  match: 84, status: "New",       dot: "bg-neutral-400", uni: "CMU" },
   ]
   return (
-    <div className="h-full flex flex-col bg-[#07090C]">
-      <div className="px-5 pt-10 pb-3">
-        <p className="font-heading font-bold text-sm text-black">Your Pipeline</p>
-        <p className="font-body text-[10px] text-[#4A5568]">Frontend Engineer · 34 matches</p>
+    <div className="h-full flex flex-col bg-background">
+      <div className="border-b border-border px-4 pb-3 pt-4">
+        <p className="font-heading text-sm font-bold text-foreground">Your Pipeline</p>
+        <p className="font-body text-[10px] text-muted-foreground">Frontend Engineer · 34 matches</p>
       </div>
 
       {/* Stats row */}
-      <div className="grid grid-cols-3 gap-2 px-4 mb-3">
-        {[{ l: "Total", v: "34", c: "text-black" }, { l: "Interviews", v: "6", c: "text-neutral-900" }, { l: "Hired", v: "2", c: "text-neutral-400" }].map(({ l, v, c }) => (
-          <div key={l} className="bg-white/4 border border-black/10 rounded-2xl py-2.5 text-center">
-            <p className={cn("font-heading font-bold text-lg", c)}>{v}</p>
-            <p className="font-data text-[9px] text-[#334155]">{l}</p>
+      <div className="mb-3 grid grid-cols-3 gap-2 px-4">
+        {[{ l: "Total", v: "34", c: "text-foreground" }, { l: "Interviews", v: "6", c: "text-foreground" }, { l: "Hired", v: "2", c: "text-muted-foreground" }].map(({ l, v, c }) => (
+          <div key={l} className="rounded-2xl border border-border bg-card py-2.5 text-center">
+            <p className={cn("font-heading text-lg font-bold", c)}>{v}</p>
+            <p className="font-data text-[9px] text-muted-foreground">{l}</p>
           </div>
         ))}
       </div>
 
-      <div className="px-4 flex-1 space-y-2 overflow-hidden">
-        <p className="font-data text-[9px] tracking-wider uppercase text-[#334155]">Candidates</p>
+      <div className="flex-1 space-y-2 overflow-hidden px-4">
+        <p className="font-data text-[9px] uppercase tracking-wider text-muted-foreground">Candidates</p>
         {candidates.map((c) => (
-          <div key={c.name} className="flex items-center gap-2.5 p-2.5 bg-white/3 border border-black/10 rounded-2xl">
-            <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center shrink-0 font-heading font-bold text-sm text-neutral-700">
+          <div key={c.name} className="flex items-center gap-2.5 rounded-2xl border border-border bg-card p-2.5">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-muted font-heading text-sm font-bold text-muted-foreground">
               {c.name[0]}
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-body text-xs font-semibold text-black truncate">{c.name}</p>
-              <p className="font-body text-[10px] text-[#4A5568] truncate">{c.uni} · {c.role}</p>
+            <div className="min-w-0 flex-1">
+              <p className="truncate font-body text-xs font-semibold text-foreground">{c.name}</p>
+              <p className="truncate font-body text-[10px] text-muted-foreground">
+                {c.uni} · {c.role}
+              </p>
             </div>
-            <div className="text-right shrink-0">
-              <p className="font-data text-[10px] text-neutral-900 font-bold">{c.match}%</p>
-              <div className="flex items-center gap-1 justify-end">
-                <div className={cn("w-1.5 h-1.5 rounded-full", c.dot)} />
-                <span className="font-data text-[9px] text-[#334155]">{c.status}</span>
+            <div className="shrink-0 text-right">
+              <p className="font-data text-[10px] font-bold text-foreground">{c.match}%</p>
+              <div className="flex items-center justify-end gap-1">
+                <div className={cn("h-1.5 w-1.5 rounded-full", c.dot)} />
+                <span className="font-data text-[9px] text-muted-foreground">{c.status}</span>
               </div>
             </div>
-            <ChevronRight className="h-3.5 w-3.5 text-[#1E293B] shrink-0" />
+            <ChevronRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
           </div>
         ))}
       </div>
-      <div className="pb-8 pt-2 px-4">
-        <button className="w-full h-9 rounded-2xl border border-[#FAFAFA]/25 text-neutral-900 font-body text-xs"
-          style={{ background: "rgba(255,255,255,0.06)" }}>
+      <div className="px-4 pb-8 pt-2">
+        <button
+          type="button"
+          className="h-9 w-full rounded-2xl border border-border bg-muted font-body text-xs text-foreground hover:bg-muted/80"
+        >
           + Post Another Job
         </button>
       </div>
@@ -651,21 +660,21 @@ function RecruiterChatScreen() {
     { from: "them", text: "Friday works." },
   ]
   return (
-    <div className="h-full flex flex-col bg-[#07090C]">
-      <div className="flex items-center gap-3 px-4 pt-10 pb-3 border-b border-black/10">
-        <div className="w-9 h-9 rounded-2xl bg-neutral-500/20 border border-neutral-500/20 flex items-center justify-center shrink-0">
-          <span className="font-heading font-bold text-sm text-neutral-400">A</span>
+    <div className="h-full flex flex-col bg-background">
+      <div className="flex items-center gap-3 border-b border-border px-4 pb-3 pt-4">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl border border-border bg-muted">
+          <span className="font-heading text-sm font-bold text-muted-foreground">A</span>
         </div>
         <div className="flex-1">
-          <p className="font-body text-xs font-bold text-black">Alex Chen · MIT</p>
+          <p className="font-body text-xs font-bold text-foreground">Alex Chen · MIT</p>
           <div className="flex items-center gap-1">
             <div className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
             <span className="font-data text-[9px] text-neutral-400">97% match · Online</span>
           </div>
         </div>
-        <div className="flex items-center gap-1 bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 rounded-xl px-2 py-1">
-          <Star className="h-3 w-3 text-neutral-900" />
-          <span className="font-data text-[9px] text-neutral-900">Top</span>
+        <div className="flex items-center gap-1 rounded-xl border border-border bg-muted px-2 py-1">
+          <Star className="h-3 w-3 text-primary" />
+          <span className="font-data text-[9px] text-foreground">Top</span>
         </div>
       </div>
       <div className="flex-1 px-3 py-3 space-y-2 overflow-hidden flex flex-col justify-end">
@@ -676,23 +685,24 @@ function RecruiterChatScreen() {
                 <span className="font-heading font-bold text-[9px] text-neutral-400">A</span>
               </div>
             )}
-            <div className={cn(
-              "max-w-[78%] px-3 py-2 font-body text-[11px] leading-relaxed",
-              m.from === "me"
-                ? "rounded-2xl rounded-br-sm text-black"
-                : "rounded-2xl rounded-bl-sm bg-white/6 text-neutral-700"
-            )} style={m.from === "me" ? { background: "#525252" } : {}}>
+            <div
+              className={cn(
+                "max-w-[78%] px-3 py-2 font-body text-[11px] leading-relaxed",
+                m.from === "me"
+                  ? "rounded-2xl rounded-br-sm bg-primary text-primary-foreground shadow-sm"
+                  : "rounded-2xl rounded-bl-sm border border-border bg-muted text-foreground"
+              )}
+            >
               {m.text}
             </div>
           </div>
         ))}
       </div>
-      <div className="px-3 pb-8 pt-2">
-        <div className="flex items-center gap-2 bg-white/5 border border-black/10 rounded-2xl px-3 py-2.5">
-          <span className="font-body text-[11px] text-[#1E293B] flex-1">Message…</span>
-          <div className="w-7 h-7 rounded-xl flex items-center justify-center"
-            style={{ background: "#525252" }}>
-            <Send className="h-3.5 w-3.5 text-black" />
+      <div className="px-3 pb-6 pt-2">
+        <div className="flex items-center gap-2 rounded-xl border border-border bg-muted/50 px-3 py-2.5">
+          <span className="flex-1 font-body text-[11px] text-muted-foreground">Message…</span>
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
+            <Send className="h-3.5 w-3.5" />
           </div>
         </div>
       </div>
@@ -759,25 +769,21 @@ function ProductDemo({ role }: { role: UserRole | null }) {
   const screen = screens[screenIdx]
 
   return (
-    <div className="h-full flex flex-col items-center justify-center gap-4 relative py-6 px-4 overflow-hidden">
-      {/* Ambient glow behind phone */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/25 opacity-90 blur-[80px]"
-      />
+    <div className="relative flex h-full flex-col items-center justify-center gap-5 overflow-hidden px-4 py-6">
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-primary/[0.06] to-transparent" />
 
       {/* Screen label */}
-      <div className="text-center space-y-1 relative z-10">
-        <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 border"
-          style={{ background: isRecruiter ? "rgba(34,197,94,0.08)" : "rgba(255,255,255,0.08)", borderColor: isRecruiter ? "rgba(34,197,94,0.2)" : "rgba(255,255,255,0.2)" }}>
-          <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: isRecruiter ? "#D4D4D4" : "#FAFAFA" }} />
-          <span className="font-data text-[10px] tracking-widest uppercase" style={{ color: isRecruiter ? "#D4D4D4" : "#FAFAFA" }}>{screen.tag}</span>
+      <div className="relative z-10 space-y-1.5 text-center">
+        <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1">
+          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
+          <span className="font-data text-[10px] font-medium uppercase tracking-widest text-primary">{screen.tag}</span>
         </div>
-        <p className="font-heading text-sm font-semibold text-zinc-100">{screen.label}</p>
+        <p className="font-heading text-sm font-semibold text-foreground">{screen.label}</p>
       </div>
 
       {/* Phone */}
       <div className={cn("relative z-10 transition-all duration-300", visible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-3 scale-[0.98]")}>
-        <PhoneFrame>
+        <BrowserFrame>
           {isRecruiter ? (
             <>
               {screenIdx === 0 && <RecruiterSwipeScreen cardIdx={cardIdx} />}
@@ -793,39 +799,46 @@ function ProductDemo({ role }: { role: UserRole | null }) {
               {screenIdx === 3 && <StudentProfileScreen />}
             </>
           )}
-        </PhoneFrame>
+        </BrowserFrame>
       </div>
 
       {/* Dot nav */}
-      <div className="flex items-center gap-1.5 relative z-10">
+      <div className="relative z-10 flex items-center gap-1.5">
         {screens.map((_, i) => (
-          <button key={i} onClick={() => goTo(i)} disabled={animating}
-            className="rounded-full transition-all duration-300"
-            style={{
-              width: i === screenIdx ? 20 : 6,
-              height: 6,
-              background: i === screenIdx ? (isRecruiter ? "#D4D4D4" : "#FAFAFA") : "rgba(255,255,255,0.12)",
-            }} />
+          <button
+            key={i}
+            type="button"
+            onClick={() => goTo(i)}
+            disabled={animating}
+            className={cn(
+              "rounded-full transition-all duration-300",
+              i === screenIdx ? "h-1.5 w-5 bg-primary" : "h-1.5 w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+            )}
+            aria-label={`Preview slide ${i + 1}`}
+          />
         ))}
       </div>
 
       {/* Feature list */}
-      <div className="w-full max-w-[260px] space-y-1.5 relative z-10">
+      <div className="relative z-10 w-full max-w-[280px] space-y-1.5">
         {features.map(({ icon: Icon, text }, i) => (
-          <div key={text} className={cn(
-            "flex items-center gap-2.5 rounded-xl border px-3 py-2 transition-all duration-300",
-            i === screenIdx
-              ? "border-white/10 bg-white/[0.06]"
-              : "border-transparent"
-          )}>
-            <div className={cn(
-              "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg transition-all duration-300",
-              i === screenIdx ? "bg-white/15" : "bg-white/[0.03]"
-            )}>
-              <Icon className={cn("h-3 w-3", i === screenIdx ? "text-zinc-200" : "text-zinc-500")} />
+          <div
+            key={text}
+            className={cn(
+              "flex items-center gap-2.5 rounded-xl border px-3 py-2.5 transition-all duration-300",
+              i === screenIdx ? "border-primary/20 bg-card shadow-sm" : "border-transparent bg-transparent"
+            )}
+          >
+            <div
+              className={cn(
+                "flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-all duration-300",
+                i === screenIdx ? "bg-primary/10" : "bg-muted/50"
+              )}
+            >
+              <Icon className={cn("h-3.5 w-3.5", i === screenIdx ? "text-primary" : "text-muted-foreground")} />
             </div>
-            <span className={cn("font-body text-xs transition-colors duration-300", i === screenIdx ? "text-zinc-200" : "text-zinc-500")}>{text}</span>
-            {i === screenIdx && <CheckCircle2 className="ml-auto h-3.5 w-3.5 shrink-0 text-zinc-300" />}
+            <span className={cn("font-body text-xs", i === screenIdx ? "font-medium text-foreground" : "text-muted-foreground")}>{text}</span>
+            {i === screenIdx && <CheckCircle2 className="ml-auto h-4 w-4 shrink-0 text-primary" />}
           </div>
         ))}
       </div>
@@ -1460,13 +1473,19 @@ export default function OnboardingPage() {
         </div>
 
         {/* ──────── RIGHT: Product demo (50%, desktop only) ──────── */}
-        <div className="relative hidden overflow-hidden border-l border-border bg-[#060809] lg:flex lg:w-1/2">
-          <div className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-20" />
-          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-muted opacity-[0.12] blur-[140px]" />
-          <div className="pointer-events-none absolute right-1/4 top-1/4 h-[300px] w-[300px] rounded-full bg-muted opacity-[0.08] blur-[100px]" />
+        <div className="relative hidden overflow-hidden border-l border-border bg-background lg:flex lg:w-1/2">
+          <div className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-[0.4]" />
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.07] blur-[120px]" />
+          <div className="pointer-events-none absolute right-0 top-0 h-[280px] w-[280px] rounded-full bg-white/80 blur-3xl" />
           <div className="relative w-full h-full">
             <ProductDemo key={role ?? "none"} role={role} />
           </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+</div>
         </div>
       </div>
     </div>
