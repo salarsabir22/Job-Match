@@ -33,7 +33,7 @@ export function StreamChatInboxClient({ currentUserId }: { currentUserId: string
     [currentUserId]
   )
 
-  const sort = useMemo(() => ({ last_message_at: -1 }), [])
+  const sort = useMemo(() => ({ last_message_at: -1 as const }), [])
 
   useEffect(() => {
     let mounted = true
