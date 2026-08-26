@@ -9,21 +9,21 @@ import type { UserRole } from "@/types"
 import { NotificationBell } from "@/components/nav/NotificationBell"
 
 const studentLinks = [
-  { href: "/dashboard", label: "Dashboard", desc: "Overview" },
-  { href: "/discover", label: "Discover", desc: "Browse roles" },
-  { href: "/matches", label: "Matches", desc: "Conversations" },
-  { href: "/saved", label: "Saved", desc: "Bookmarks" },
+  { href: "/discover", label: "Discover", desc: "Swipe roles" },
+  { href: "/matches", label: "Matches", desc: "Mutual yes" },
+  { href: "/chat", label: "Messages", desc: "Inbox" },
   { href: "/community", label: "Community", desc: "Channels" },
-  { href: "/profile", label: "Profile", desc: "Account" },
+  { href: "/profile", label: "Profile", desc: "You" },
+  { href: "/feedback", label: "Feedback", desc: "Tell us" },
 ]
 
 const recruiterLinks = [
-  { href: "/dashboard", label: "Dashboard", desc: "Overview" },
-  { href: "/jobs", label: "Jobs", desc: "Postings" },
-  { href: "/discover", label: "Discover", desc: "Candidates" },
-  { href: "/matches", label: "Matches", desc: "Pipeline" },
+  { href: "/jobs", label: "Jobs", desc: "Listings + pipeline" },
+  { href: "/discover", label: "Discover", desc: "Talent" },
+  { href: "/chat", label: "Messages", desc: "Inbox" },
   { href: "/community", label: "Community", desc: "Channels" },
-  { href: "/profile", label: "Profile", desc: "Account" },
+  { href: "/profile", label: "Profile", desc: "Company" },
+  { href: "/feedback", label: "Feedback", desc: "Tell us" },
 ]
 
 const adminLinks = [
@@ -57,8 +57,9 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
 
   const displayName = fullName ?? email?.split("@")[0] ?? "User"
   const initials = displayName.charAt(0).toUpperCase()
-
   const roleLabel = role === "admin" ? "Admin" : role === "recruiter" ? "Recruiter" : "Student"
+
+  const mobileLinks = links.filter((l) => l.href !== "/feedback")
 
   return (
     <>
@@ -154,7 +155,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
 
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-[#ffffff]/90 backdrop-blur-2xl backdrop-saturate-180 supports-[backdrop-filter]:bg-[#ffffff]/85 safe-area-pb">
         <div className="flex">
-          {links.map(({ href, label }) => {
+          {mobileLinks.map(({ href, label }) => {
             const active = isActive(href)
             return (
               <Link

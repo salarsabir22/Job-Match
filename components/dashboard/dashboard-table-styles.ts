@@ -1,11 +1,11 @@
 import { cn } from "@/lib/utils"
 
-/** Shared class names for dashboard data tables — use with shadcn `Table`, `TableHead`, `TableCell` */
+/** Shared class names for dashboard data tables - use with shadcn `Table`, `TableHead`, `TableCell` */
 export const dashTable = {
   /** Outer scroll + frame inside a panel */
   frame: "rounded-xl border border-border bg-muted/20",
 
-  /** TableHead — use with `TableRow` using `headerRow` on the header row */
+  /** TableHead - use with `TableRow` using `headerRow` on the header row */
   head: "font-data text-[9px] font-medium uppercase tracking-wider text-muted-foreground",
   headerRow: "border-b border-border bg-muted/50 hover:bg-muted/50",
 

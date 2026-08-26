@@ -1,18 +1,13 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { StreamChat } from "stream-chat"
-import {
-  Channel,
-  ChannelHeader,
-  Chat,
-  LoadingIndicator,
-  MessageInput,
-  MessageList,
-  Thread,
-  Window,
-} from "stream-chat-react"
+import { Chat } from "stream-chat-react"
+import type { Channel as StreamChannel } from "stream-chat"
 import "stream-chat-react/dist/css/v2/index.css"
+import "@/components/chat/stream-chat.css"
+import { useStreamClient } from "@/components/chat/useStreamClient"
+import { ChatErrorState, ChatLoadingState } from "@/components/chat/ChatEmptyState"
+import { ChatThreadPane } from "@/components/chat/ChatThreadPane"
 
 type StreamChatClientProps = {
   conversationId: string
@@ -21,44 +16,24 @@ type StreamChatClientProps = {
   title?: string | null
 }
 
-type TokenResponse = {
-  token: string
-  apiKey: string
-  user: {
-    id: string
-    name: string
-    image?: string
-  }
-}
-
 export function StreamChatClient({
   conversationId,
   currentUserId,
   otherUserId,
   title,
 }: StreamChatClientProps) {
-  const [client, setClient] = useState<StreamChat | null>(null)
-  const [activeChannel, setActiveChannel] = useState<ReturnType<StreamChat["channel"]> | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  const { client, error } = useStreamClient()
+  const [activeChannel, setActiveChannel] = useState<StreamChannel | null>(null)
+  const [channelError, setChannelError] = useState<string | null>(null)
 
   const channelId = useMemo(() => `conversation-${conversationId}`, [conversationId])
 
   useEffect(() => {
+    if (!client) return
     let disposed = false
-    let mountedClient: StreamChat | null = null
 
-    const init = async () => {
+    const open = async () => {
       try {
-        const tokenRes = await fetch("/api/stream/token", { method: "POST" })
-        const tokenData = (await tokenRes.json()) as TokenResponse | { error?: string }
-        if (!tokenRes.ok || !("token" in tokenData) || !tokenData.token || !tokenData.apiKey) {
-          throw new Error(("error" in tokenData && tokenData.error) || "Could not initialize chat.")
-        }
-
-        const chatClient = StreamChat.getInstance(tokenData.apiKey)
-        mountedClient = chatClient
-        await chatClient.connectUser(tokenData.user, tokenData.token)
-
         const ensureRes = await fetch("/api/stream/channel", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -73,64 +48,29 @@ export function StreamChatClient({
           throw new Error(body.error || "Could not open channel.")
         }
 
-        const ensured = chatClient.channel("messaging", channelId)
+        const ensured = client.channel("messaging", channelId)
         await ensured.watch()
-
-        if (!disposed) {
-          setClient(chatClient)
-          setActiveChannel(ensured)
-        }
+        if (!disposed) setActiveChannel(ensured)
       } catch (e) {
         if (!disposed) {
-          const message = e instanceof Error ? e.message : "Unable to load chat."
-          setError(message)
+          setChannelError(e instanceof Error ? e.message : "Unable to load chat.")
         }
       }
     }
 
-    void init()
-
+    void open()
     return () => {
       disposed = true
-      if (mountedClient) {
-        void mountedClient.disconnectUser()
-      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [conversationId, currentUserId, otherUserId, title, channelId])
+  }, [client, conversationId, currentUserId, otherUserId, title, channelId])
 
-  if (error) {
-    return (
-      <div className="flex h-full items-center justify-center p-6 text-center text-sm text-muted-foreground">
-        {error}
-      </div>
-    )
-  }
-
-  if (!client || !activeChannel) {
-    return (
-      <div className="flex h-full items-center justify-center p-6">
-        <LoadingIndicator />
-      </div>
-    )
-  }
-
-  const filters = { type: "messaging", members: { $in: [currentUserId] } }
-  const sort = { last_message_at: -1 as const }
+  if (error || channelError) return <ChatErrorState message={error || channelError || "Unable to load chat."} />
+  if (!client || !activeChannel) return <ChatLoadingState />
 
   return (
     <Chat client={client} theme="str-chat__theme-light">
-      <div className="str-chat h-full">
-        <div className="str-chat__container h-full">
-          <Channel channel={activeChannel}>
-            <Window>
-              <ChannelHeader />
-              <MessageList />
-              <MessageInput focus />
-            </Window>
-            <Thread />
-          </Channel>
-        </div>
+      <div className="jm-chat str-chat h-full min-h-0">
+        <ChatThreadPane channel={activeChannel} backHref="/chat" subtitle={title} />
       </div>
     </Chat>
   )

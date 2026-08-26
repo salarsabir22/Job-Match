@@ -1,31 +1,29 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
-import { StreamChat } from "stream-chat"
-import {
-  Channel,
-  ChannelHeader,
-  ChannelList,
-  Chat,
-  LoadingIndicator,
-  MessageInput,
-  MessageList,
-  Thread,
-  Window,
-} from "stream-chat-react"
+import { useMemo, useState } from "react"
+import { ChannelList, Chat, useChatContext } from "stream-chat-react"
+import { Search } from "lucide-react"
+import type { Channel } from "stream-chat"
 import "stream-chat-react/dist/css/v2/index.css"
+import "@/components/chat/stream-chat.css"
+import { useStreamClient } from "@/components/chat/useStreamClient"
+import { ChatChannelPreview } from "@/components/chat/ChatChannelPreview"
+import {
+  ChatErrorState,
+  ChatInboxEmpty,
+  ChatLoadingState,
+  ChatSelectPlaceholder,
+} from "@/components/chat/ChatEmptyState"
+import { ChatThreadPane } from "@/components/chat/ChatThreadPane"
+import { channelJobTitle, getPeerUser, lastMessagePreview, useIsDesktop } from "@/components/chat/chat-helpers"
+import { cn } from "@/lib/utils"
 
-type TokenResponse = {
-  token: string
-  apiKey: string
-  user: { id: string; name: string; image?: string }
-}
+function InboxBody({ currentUserId }: { currentUserId: string }) {
+  const { channel } = useChatContext("InboxBody")
+  const isDesktop = useIsDesktop()
+  const [query, setQuery] = useState("")
 
-export function StreamChatInboxClient({ currentUserId }: { currentUserId: string }) {
-  const [client, setClient] = useState<StreamChat | null>(null)
-  const [error, setError] = useState<string | null>(null)
-
-  const channelFilters = useMemo(
+  const filters = useMemo(
     () => ({
       type: "messaging",
       members: { $in: [currentUserId] },
@@ -35,83 +33,71 @@ export function StreamChatInboxClient({ currentUserId }: { currentUserId: string
 
   const sort = useMemo(() => ({ last_message_at: -1 as const }), [])
 
-  useEffect(() => {
-    let mounted = true
+  const channelRenderFilterFn = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    if (!q) return undefined
+    return (channels: Channel[]) =>
+      channels.filter((ch) => {
+        const peer = getPeerUser(ch, currentUserId)
+        const haystack = [
+          peer?.name,
+          channelJobTitle(ch),
+          lastMessagePreview(ch.state.messages.at(-1), currentUserId),
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase()
+        return haystack.includes(q)
+      })
+  }, [query, currentUserId])
 
-    const init = async () => {
-      try {
-        const tokenRes = await fetch("/api/stream/token", { method: "POST" })
-        const tokenData = (await tokenRes.json()) as TokenResponse | { error?: string }
-        if (!tokenRes.ok || !("token" in tokenData) || !tokenData.token) {
-          throw new Error("Could not initialize chat.")
-        }
-
-        const chatClient = StreamChat.getInstance(tokenData.apiKey)
-        await chatClient.connectUser(tokenData.user, tokenData.token)
-
-        if (mounted) setClient(chatClient)
-      } catch (e) {
-        if (!mounted) return
-        const message = e instanceof Error ? e.message : "Unable to load chat."
-        setError(message)
-      }
-    }
-
-    void init()
-
-    return () => {
-      mounted = false
-      if (client) {
-        void client.disconnectUser()
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUserId])
-
-  if (error) {
-    return (
-      <div className="flex h-full items-center justify-center p-6 text-center text-sm text-muted-foreground">
-        {error}
+  return (
+    <div className={cn("jm-chat-inbox", channel && "jm-chat-inbox--open")}>
+      <div className="jm-chat-inbox__list">
+        <div className="shrink-0 bg-white px-4 pb-2 pt-3">
+          <h1 className="text-[34px] font-bold leading-none tracking-tight text-black">Messages</h1>
+          <label className="mt-3 flex items-center gap-2 rounded-[10px] bg-[#E5E5EA] px-2.5 py-1.5">
+            <Search className="h-4 w-4 text-[#8E8E93]" strokeWidth={2.25} />
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search"
+              className="w-full bg-transparent text-[17px] text-black outline-none placeholder:text-[#8E8E93]"
+            />
+          </label>
+        </div>
+        <div className="min-h-0 flex-1 overflow-y-auto">
+          <ChannelList
+            filters={filters}
+            sort={sort}
+            options={{ state: true, watch: true, presence: true, limit: 30 }}
+            showChannelSearch={false}
+            setActiveChannelOnMount={isDesktop}
+            Preview={ChatChannelPreview}
+            EmptyStateIndicator={ChatInboxEmpty}
+            channelRenderFilterFn={channelRenderFilterFn}
+          />
+        </div>
       </div>
-    )
-  }
 
-  if (!client) {
-    return (
-      <div className="flex h-full items-center justify-center p-6">
-        <LoadingIndicator />
+      <div className="jm-chat-inbox__pane min-h-0">
+        <ChatThreadPane emptyPlaceholder={<ChatSelectPlaceholder />} />
       </div>
-    )
-  }
+    </div>
+  )
+}
+
+export function StreamChatInboxClient({ currentUserId }: { currentUserId: string }) {
+  const { client, error } = useStreamClient()
+
+  if (error) return <ChatErrorState message={error} />
+  if (!client) return <ChatLoadingState />
 
   return (
     <Chat client={client} theme="str-chat__theme-light">
-      <div className="str-chat h-full">
-        <div className="str-chat__container h-full">
-          <div className="grid h-full min-h-0 grid-cols-1 lg:grid-cols-[320px_minmax(0,1fr)]">
-            <div className="flex min-h-0 flex-col border-b border-border bg-card lg:border-b-0 lg:border-r">
-              <ChannelList
-                filters={channelFilters}
-                sort={sort}
-                options={{ state: true, watch: true, presence: true, limit: 20 }}
-                showChannelSearch={false}
-              />
-            </div>
-
-            <div className="min-h-0 flex flex-col">
-              <Channel>
-                <Window>
-                  <ChannelHeader />
-                  <MessageList />
-                  <MessageInput focus />
-                </Window>
-                <Thread />
-              </Channel>
-            </div>
-          </div>
-        </div>
+      <div className="jm-chat str-chat h-full min-h-0">
+        <InboxBody currentUserId={currentUserId} />
       </div>
     </Chat>
   )
 }
-

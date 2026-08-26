@@ -143,7 +143,7 @@ export async function StudentDashboardView({ userId, fullName }: { userId: strin
       <DashboardPageHeader
         eyebrow="Student overview"
         title={firstName ? `Welcome back, ${firstName}` : "Your overview"}
-        description="Track applications, saves, and mutual matches. Everything below is computed from your account — not sample data."
+        description="Track applications, saves, and mutual matches. Everything below is computed from your account - not sample data."
         action={
           <Link
             href="/discover"
@@ -175,7 +175,7 @@ export async function StudentDashboardView({ userId, fullName }: { userId: strin
           <DashboardKpiCard
             icon={Percent}
             label="Match rate"
-            value={applied > 0 ? `${matchRate}%` : "—"}
+            value={applied > 0 ? `${matchRate}%` : " - "}
             hint={applied > 0 ? "Matches ÷ applications (lifetime)" : "Apply to at least one role to see a rate"}
           />
         </div>
@@ -196,7 +196,7 @@ export async function StudentDashboardView({ userId, fullName }: { userId: strin
       <div className="space-y-6">
         <DashboardPanel
           title="Saved jobs"
-          description="Most recently bookmarked roles — same list you maintain in Saved."
+          description="Most recently bookmarked roles - same list you maintain in Saved."
           badge={`${savedJobs.length} saved`}
         >
           {savedJobs.length === 0 ? (
@@ -222,7 +222,7 @@ export async function StudentDashboardView({ userId, fullName }: { userId: strin
                 <TableBody>
                   {savedJobs.map((row) => {
                     const job = coalesceRelation(row.jobs)
-                    const companyName = job?.recruiter_profiles?.[0]?.company_name || "—"
+                    const companyName = job?.recruiter_profiles?.[0]?.company_name || " - "
                     const href = job?.id ? `/jobs/${job.id}` : "/saved"
                     return (
                       <TableRow key={row.id}>
@@ -230,7 +230,7 @@ export async function StudentDashboardView({ userId, fullName }: { userId: strin
                           <span className="font-medium">{job?.title || "Untitled role"}</span>
                         </TableCell>
                         <TableCell className={dashTable.cellMuted}>{companyName}</TableCell>
-                        <TableCell className={dashTable.cellMuted}>{job?.job_type?.replace(/_/g, " ") || "—"}</TableCell>
+                        <TableCell className={dashTable.cellMuted}>{job?.job_type?.replace(/_/g, " ") || " - "}</TableCell>
                         <TableCell className={dashTable.cellMuted}>{formatDate(row.created_at)}</TableCell>
                         <TableCell className={cn(dashTable.cell, "text-right")}>
                           <Link href={href} className={dashTable.link}>
@@ -248,7 +248,7 @@ export async function StudentDashboardView({ userId, fullName }: { userId: strin
 
         <DashboardPanel
           title="Recent matches"
-          description="Mutual interest — open a thread when chat is available."
+          description="Mutual interest - open a thread when chat is available."
           badge={`${recentMatches.length} shown`}
         >
           {recentMatches.length === 0 ? (
@@ -275,13 +275,13 @@ export async function StudentDashboardView({ userId, fullName }: { userId: strin
                   {recentMatches.map((m) => {
                     const job = coalesceRelation(m.jobs)
                     const chat = conversationChatHref(m.conversations)
-                    const recruiterName = m.profiles?.[0]?.full_name || "—"
+                    const recruiterName = m.profiles?.[0]?.full_name || " - "
                     return (
                       <TableRow key={m.id}>
                         <TableCell className={dashTable.cell}>
-                          <span className="font-medium">{job?.title || "—"}</span>
+                          <span className="font-medium">{job?.title || " - "}</span>
                         </TableCell>
-                        <TableCell className={dashTable.cellMuted}>{job?.recruiter_profiles?.[0]?.company_name || "—"}</TableCell>
+                        <TableCell className={dashTable.cellMuted}>{job?.recruiter_profiles?.[0]?.company_name || " - "}</TableCell>
                         <TableCell className={dashTable.cellMuted}>{recruiterName}</TableCell>
                         <TableCell className={dashTable.cellMuted}>{formatDate(m.created_at)}</TableCell>
                         <TableCell className={cn(dashTable.cell, "text-right")}>

@@ -3,7 +3,7 @@
 import type { ReactNode } from "react"
 import { motion, useReducedMotion, type Variants } from "framer-motion"
 
-/** Premium ease — fast out, no bounce */
+/** Premium ease - fast out, no bounce */
 export const easeOutExpo = [0.16, 1, 0.3, 1] as const
 
 export const viewportOnce = {

@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
       },
-      /* Waitlist landing — portrait avatars (Unsplash) */
+      /* Waitlist landing - portrait avatars (Unsplash) */
       {
         protocol: "https",
         hostname: "images.unsplash.com",

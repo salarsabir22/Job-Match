@@ -9,13 +9,5 @@ export default async function ChatIndexPage() {
 
   if (!user) redirect("/login")
 
-  return (
-    <div
-      className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
-      style={{ height: "calc(100dvh - 10rem)" }}
-    >
-      <StreamChatInboxClient currentUserId={user.id} />
-    </div>
-  )
+  return <StreamChatInboxClient currentUserId={user.id} />
 }
-

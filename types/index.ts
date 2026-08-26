@@ -37,6 +37,8 @@ export interface RecruiterProfile {
   description: string | null
   hiring_focus: string | null
   website_url: string | null
+  employee_count: string | null
+  industry: string | null
   is_approved: boolean
   created_at: string
   updated_at: string
@@ -52,6 +54,7 @@ export interface Job {
   required_skills: string[]
   nice_to_have_skills: string[]
   location: string | null
+  category: string | null
   is_remote: boolean
   is_active: boolean
   created_at: string

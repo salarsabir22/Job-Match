@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { Bell } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { formatTime, cn } from "@/lib/utils"
-import { resolveChatPath } from "@/lib/chat-navigation"
+import { resolveNotificationPath } from "@/lib/chat-navigation"
 import type { Notification } from "@/types"
 
 type NotificationBellProps = {
@@ -80,29 +80,13 @@ export function NotificationBell({ variant = "light" }: NotificationBellProps) {
   }, [])
 
   const openNotification = async (n: Notification) => {
-    const conversationId = (n.data as Record<string, unknown> | null)?.conversation_id as string | undefined
-    const matchId = (n.data as Record<string, unknown> | null)?.match_id as string | undefined
-    const jobId = (n.data as Record<string, unknown> | null)?.job_id as string | undefined
-
     if (!n.is_read) {
       await supabase.from("notifications").update({ is_read: true }).eq("id", n.id)
       setItems((prev) => prev.map((x) => (x.id === n.id ? { ...x, is_read: true } : x)))
     }
 
     setOpen(false)
-
-    const chatPath = await resolveChatPath(supabase, { conversationId, matchId })
-    if (chatPath) {
-      router.push(chatPath)
-      return
-    }
-
-    if (jobId && n.type === "candidate_interested") {
-      router.push("/discover")
-      return
-    }
-
-    router.push("/notifications")
+    router.push(await resolveNotificationPath(supabase, n))
   }
 
   const isLight = variant === "light"

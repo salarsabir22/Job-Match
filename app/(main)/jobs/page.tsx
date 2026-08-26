@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { formatDate } from "@/lib/utils"
+import { ShareButton } from "@/components/share/ShareButton"
+import { RecruiterJobsHub } from "@/components/jobs/RecruiterJobsHub"
 import type { Job } from "@/types"
 
 type JobIdRow = { job_id: string }
@@ -15,7 +17,12 @@ function formatJobType(raw: string) {
   return raw.replace(/_/g, " ")
 }
 
-export default async function JobsPage() {
+export default async function JobsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tab?: string }>
+}) {
+  const { tab } = await searchParams
   const supabase = await createClient()
   const {
     data: { user },
@@ -76,11 +83,17 @@ export default async function JobsPage() {
         title="Jobs"
         description={`${activeJobs} active · ${jobs?.length || 0} total listing${(jobs?.length || 0) === 1 ? "" : "s"}`}
         action={
-          <Button asChild className="rounded-full">
-            <Link href="/jobs/new">Post a job</Link>
-          </Button>
+          <div className="flex items-center gap-2">
+            <ShareButton path={`/company/${user.id}`} title="Company profile" label="Share company" />
+            <Button asChild className="rounded-full">
+              <Link href="/jobs/new">Post a job</Link>
+            </Button>
+          </div>
         }
       />
+
+      <RecruiterJobsHub userId={user.id} defaultTab={tab === "pipeline" ? "pipeline" : "jobs"}>
+      <div className="space-y-10">
 
       {!isApproved ? (
         <Card className="border-amber-200/80 bg-amber-50/50 dark:border-amber-900/40 dark:bg-amber-950/20">
@@ -167,7 +180,7 @@ export default async function JobsPage() {
               <CardContent className="pt-0">
                 <ol className="list-inside list-decimal space-y-2 font-body text-sm leading-relaxed text-muted-foreground">
                   <li>List must-have skills so the right students self-select.</li>
-                  <li>Describe impact and learning — not only requirements.</li>
+                  <li>Describe impact and learning - not only requirements.</li>
                   <li>Remote-friendly roles reach more qualified applicants.</li>
                   <li>Keep requirements realistic to avoid empty pipelines.</li>
                 </ol>
@@ -255,6 +268,8 @@ export default async function JobsPage() {
           </ul>
         </div>
       )}
+      </div>
+      </RecruiterJobsHub>
     </div>
   )
 }

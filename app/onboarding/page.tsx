@@ -8,6 +8,8 @@ import {
   Heart, Briefcase, MessageCircle, Star, TrendingUp, Users,
   ChevronRight, Send, Bell, Video, Lock, Globe
 } from "lucide-react"
+import { UniversityPicker } from "@/components/profile/UniversityPicker"
+import { COMPANY_INDUSTRIES, EMPLOYEE_RANGES } from "@/lib/company-options"
 import { cn } from "@/lib/utils"
 import type { UserRole } from "@/types"
 import { Badge } from "@/components/ui/badge"
@@ -65,7 +67,7 @@ function BrowserFrame({ children }: { children: React.ReactNode }) {
           <span className="size-2.5 rounded-full bg-[#28C840] ring-1 ring-black/[0.08]" />
         </div>
       </div>
-      {/* Tab strip — single active tab */}
+      {/* Tab strip - single active tab */}
       <div className="border-b border-border bg-muted/75 px-1.5 pt-1.5">
         <div className="flex max-w-full items-center gap-2 rounded-t-lg border border-b-0 border-border bg-background px-3 py-2 shadow-[0_-1px_0_0_var(--background)]">
           <Globe className="size-3.5 shrink-0 text-primary" aria-hidden />
@@ -81,7 +83,7 @@ function BrowserFrame({ children }: { children: React.ReactNode }) {
           </span>
         </div>
       </div>
-      {/* Viewport — comfortable desktop preview (Discover-style) */}
+      {/* Viewport - comfortable desktop preview (Discover-style) */}
       <div className="h-[min(540px,52vh)] min-h-[440px] w-full overflow-x-auto overflow-y-hidden bg-background xl:h-[min(580px,54vh)] xl:min-h-[480px]">
         {children}
       </div>
@@ -94,21 +96,21 @@ function BrowserFrame({ children }: { children: React.ReactNode }) {
 ───────────────────────────────────────────── */
 const STUDENT_JOBS = [
   {
-    title: "Frontend Engineer", company: "Stripe", salary: "$120–150k",
+    title: "Frontend Engineer", company: "Stripe", salary: "$120-150k",
     type: "Full-time · Remote", match: 95,
     accent: "#635BFF", accentBg: "rgba(99,91,255,0.15)",
     skills: ["React", "TypeScript", "GraphQL"],
     perks: ["Remote-first", "Equity + RSUs", "Top-tier benefits"],
   },
   {
-    title: "Product Manager", company: "Notion", salary: "$90–110k",
+    title: "Product Manager", company: "Notion", salary: "$90-110k",
     type: "Internship · SF", match: 91,
     accent: "#000000", accentBg: "rgba(255,255,255,0.06)",
     skills: ["Product", "Figma", "Analytics"],
     perks: ["Housing stipend", "Mentorship", "Return offer potential"],
   },
   {
-    title: "Data Analyst", company: "Airbnb", salary: "$100–130k",
+    title: "Data Analyst", company: "Airbnb", salary: "$100-130k",
     type: "Full-time · NYC", match: 88,
     accent: "#FF5A5F", accentBg: "rgba(255,90,95,0.12)",
     skills: ["Python", "SQL", "Tableau"],
@@ -288,7 +290,7 @@ function StudentMatchScreen() {
           </div>
           <div className="min-w-0 flex-1">
             <p className="font-body text-xs font-semibold text-foreground">Frontend Engineer</p>
-            <p className="font-body text-[10px] text-muted-foreground">Stripe · $120–150k</p>
+            <p className="font-body text-[10px] text-muted-foreground">Stripe · $120-150k</p>
           </div>
           <span className="font-data rounded-full border border-border bg-muted px-2 py-0.5 text-[9px] text-muted-foreground">
             95%
@@ -311,7 +313,7 @@ function StudentMatchScreen() {
 
 function StudentChatScreen() {
   const msgs = [
-    { from: "them", text: "Hi — we liked your profile. Are you free to chat?" },
+    { from: "them", text: "Hi - we liked your profile. Are you free to chat?" },
     { from: "me", text: "Yes, I am interested in the role." },
     { from: "them", text: "Can you do a call Thursday at 3pm?" },
     { from: "me", text: "Thursday works." },
@@ -421,22 +423,22 @@ function StudentProfileScreen() {
 ───────────────────────────────────────────── */
 const RECRUITER_CANDIDATES = [
   {
-    name: "Alex Chen", university: "MIT", degree: "B.Sc. CS", grad: "2026",
+    name: "Ayesha Khan", university: "LUMS", degree: "B.Sc. CS", grad: "2026",
     match: 97, skills: ["React", "TypeScript", "Node.js"],
     gpa: "3.9", projects: 12, accent: "#D4D4D4",
-    highlight: "Built a 10k user SaaS during sophomore year",
+    highlight: "Shipped a campus app used by 10k students",
   },
   {
-    name: "Sara Kim", university: "Stanford", degree: "M.Sc. Data Science", grad: "2025",
+    name: "Hamza Ali", university: "NUST", degree: "M.Sc. Data Science", grad: "2025",
     match: 93, skills: ["Python", "ML", "SQL"],
     gpa: "4.0", projects: 8, accent: "#A3A3A3",
-    highlight: "Published ML research in NeurIPS 2024",
+    highlight: "Published ML research and interned at a local fintech",
   },
   {
-    name: "Jake Moore", university: "UC Berkeley", degree: "B.Sc. EECS", grad: "2026",
+    name: "Fatima Zahra", university: "FAST-NUCES", degree: "B.Sc. CS", grad: "2026",
     match: 89, skills: ["Java", "Go", "Kubernetes"],
     gpa: "3.8", projects: 15, accent: "#8B5CF6",
-    highlight: "OSS contributor · 2.4k GitHub stars",
+    highlight: "OSS contributor with 2.4k GitHub stars",
   },
 ]
 
@@ -681,7 +683,7 @@ function RecruiterPipelineScreen() {
 
 function RecruiterChatScreen() {
   const msgs = [
-    { from: "them", text: "Hi — I am interested in this role." },
+    { from: "them", text: "Hi - I am interested in this role." },
     { from: "me", text: "Thanks for applying. Your background looks strong." },
     { from: "them", text: "Happy to share more detail on my projects." },
     { from: "me", text: "Can you do a technical interview Friday at 2pm?" },
@@ -836,7 +838,7 @@ function DesktopDiscoverSplit({
 }
 
 /* ─────────────────────────────────────────────
-   ProductDemo — role-aware
+   ProductDemo - role-aware
 ───────────────────────────────────────────── */
 const STUDENT_SCREENS = [
   { tag: "Apply", label: "Job feed" },
@@ -909,7 +911,7 @@ function ProductDemo({ role }: { role: UserRole | null }) {
         </div>
       </div>
 
-      {/* Browser preview — max width matches (main) layout shell */}
+      {/* Browser preview - max width matches (main) layout shell */}
       <div
         className={cn(
           "relative z-10 w-full max-w-[1728px] transition-[opacity,transform] duration-300 ease-out",
@@ -1113,6 +1115,8 @@ export default function OnboardingPage() {
   const [companyDescription, setCompanyDescription] = useState("")
   const [hiringFocus, setHiringFocus] = useState("")
   const [websiteUrl, setWebsiteUrl] = useState("")
+  const [employeeCount, setEmployeeCount] = useState("")
+  const [industry, setIndustry] = useState("")
 
   useEffect(() => {
     const supabase = createClient()
@@ -1303,12 +1307,20 @@ export default function OnboardingPage() {
         if (!updated || updated.length === 0) await supabase.from("student_profiles").insert(studentData)
         window.location.href = "/discover"
       } else if (role === "recruiter") {
-        const recruiterData = {
+        const recruiterData: Record<string, unknown> = {
           id: user.id, company_name: companyName, description: companyDescription,
           hiring_focus: hiringFocus, website_url: websiteUrl || null,
+          employee_count: employeeCount || null, industry: industry || null,
         }
         const { data: updated } = await supabase.from("recruiter_profiles").update(recruiterData).eq("id", user.id).select()
-        if (!updated || updated.length === 0) await supabase.from("recruiter_profiles").insert(recruiterData)
+        if (!updated || updated.length === 0) {
+          const insert = await supabase.from("recruiter_profiles").insert(recruiterData)
+          if (insert.error && (employeeCount || industry)) {
+            delete recruiterData.employee_count
+            delete recruiterData.industry
+            await supabase.from("recruiter_profiles").insert(recruiterData)
+          }
+        }
         window.location.href = "/jobs"
       }
     } catch {
@@ -1477,13 +1489,8 @@ export default function OnboardingPage() {
                 <div className="space-y-4">
                   <div>
                     <Label className={labelClass}>University / Institution</Label>
-                    <Input
-                      className={inputFieldClass}
-                      placeholder="e.g. MIT, Stanford, Oxford"
-                      value={university}
-                      onChange={(e) => setUniversity(e.target.value)}
-                    />
-                    <HelpText>Include country if outside the US</HelpText>
+                    <UniversityPicker value={university} onChange={setUniversity} />
+                    <HelpText>Pick from Pakistani universities, or type your own.</HelpText>
                   </div>
                   <div>
                     <Label className={labelClass}>Degree & Field of Study</Label>
@@ -1715,6 +1722,36 @@ export default function OnboardingPage() {
                       <ExternalLink className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     </div>
                   </div>
+                  <div>
+                    <Label className={labelClass}>Industry</Label>
+                    <Select value={industry || undefined} onValueChange={setIndustry}>
+                      <SelectTrigger className={cn(inputFieldClass, "w-full justify-between pr-3")}>
+                        <SelectValue placeholder="What space are you in?" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {COMPANY_INDUSTRIES.map((item) => (
+                          <SelectItem key={item} value={item}>
+                            {item}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label className={labelClass}>Employees</Label>
+                    <Select value={employeeCount || undefined} onValueChange={setEmployeeCount}>
+                      <SelectTrigger className={cn(inputFieldClass, "w-full justify-between pr-3")}>
+                        <SelectValue placeholder="Team size" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {EMPLOYEE_RANGES.map((item) => (
+                          <SelectItem key={item} value={item}>
+                            {item}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
               )}
 
@@ -1861,7 +1898,7 @@ export default function OnboardingPage() {
                   onClick={() => handleComplete()}
                   disabled={loading}
                 >
-                  Finish later — go to Discover with what you have
+                  Finish later - go to Discover with what you have
                 </Button>
               </div>
             )}

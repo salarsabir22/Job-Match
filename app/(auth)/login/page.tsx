@@ -1,9 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"
 import { Loader2, Eye, EyeOff } from "lucide-react"
+import { safeInternalPath } from "@/lib/utils"
 
 const GoogleIcon = () => (
   <svg className="h-4 w-4" viewBox="0 0 24 24">
@@ -23,6 +24,17 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null)
   const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string }>({})
   const [success, setSuccess] = useState(false)
+
+  useEffect(() => {
+    const raw = new URLSearchParams(window.location.search).get("error")
+    if (!raw) return
+    const decoded = decodeURIComponent(raw.replace(/\+/g, " "))
+    if (decoded === "auth_callback_error") {
+      setError("Google sign-in did not complete. Check that Google is enabled in Supabase and try again.")
+      return
+    }
+    setError(decoded)
+  }, [])
 
   const validate = () => {
     const errs: { email?: string; password?: string } = {}
@@ -48,8 +60,10 @@ export default function LoginPage() {
       return
     }
     setSuccess(true)
+    const next = safeInternalPath(new URLSearchParams(window.location.search).get("next"))
     const { data: profile } = await supabase.from("profiles").select("role").eq("id", data.user.id).maybeSingle()
     if (!profile) window.location.href = "/onboarding"
+    else if (next) window.location.href = next
     else if (profile.role === "student") window.location.href = "/discover"
     else if (profile.role === "recruiter") window.location.href = "/jobs"
     else if (profile.role === "admin") window.location.href = "/admin/users"
@@ -62,10 +76,16 @@ export default function LoginPage() {
     const supabase = createClient()
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback${
+          safeInternalPath(new URLSearchParams(window.location.search).get("next"))
+            ? `?next=${encodeURIComponent(new URLSearchParams(window.location.search).get("next") || "")}`
+            : ""
+        }`,
+      },
     })
     if (error) {
-      setError("Google sign-in failed. Please try again.")
+      setError(error.message || "Google sign-in failed. Please try again.")
       setGoogleLoading(false)
     }
   }

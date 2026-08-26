@@ -11,7 +11,7 @@ import {
   viewportOnce,
 } from "@/components/motion/waitlist-motion"
 
-/** Unsplash — one coherent “modern office / early-career” set (same energy, natural light) */
+/** Unsplash - one coherent “modern office / early-career” set (same energy, natural light) */
 const IMG = {
   swipeFront:
     "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=520&h=650&q=75",
@@ -19,7 +19,7 @@ const IMG = {
     "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=480&h=600&q=75",
   swipeBack:
     "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=480&h=600&q=75",
-  /** Neutral office texture — reads as company mark in a circle */
+  /** Neutral office texture - reads as company mark in a circle */
   companyMark:
     "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=128&h=128&q=75",
   studentFace:
@@ -36,13 +36,13 @@ const usps: {
   {
     title: "Swipe-first discovery",
     body:
-      "See pay band, location, and team context on every card. Pass in one tap or mark interested — your feed learns what you actually want, not what keyword parsers think you meant.",
+      "See pay band, location, and team context on every card. Pass in one tap or mark interested - your feed learns what you actually want, not what keyword parsers think you meant.",
     demo: "swipe",
   },
   {
     title: "Chat only when it’s mutual",
     body:
-      "You swipe right on a role; the recruiter shortlists you back. Until both sides say yes, there’s no inbox — so nobody wastes time on one-way outreach.",
+      "You swipe right on a role; the recruiter shortlists you back. Until both sides say yes, there’s no inbox - so nobody wastes time on one-way outreach.",
     demo: "mutual",
   },
   {
@@ -65,7 +65,7 @@ function DemoSwipe() {
       className="mx-auto w-full max-w-[min(380px,100%)] overflow-hidden rounded-[14px] border border-black/[0.08] bg-white shadow-[0_28px_56px_-28px_rgba(0,0,0,0.14),0_0_0_1px_rgba(0,0,0,0.03)_inset]"
       aria-hidden
     >
-      {/* Web app chrome — Discover (student) */}
+      {/* Web app chrome - Discover (student) */}
       <header className="flex items-center justify-between gap-2 border-b border-black/[0.06] bg-white px-3 py-2.5 sm:px-3.5">
         <div className="flex min-w-0 flex-1 items-center gap-2.5">
           <div className="flex size-8 shrink-0 items-center justify-center rounded-[10px] bg-[var(--waitlist-blue)] text-[10px] font-bold tracking-tight text-white shadow-[0_2px_8px_rgba(30,58,95,0.35)]">
@@ -97,7 +97,7 @@ function DemoSwipe() {
 
       {/* Card deck + Pass / Interested flanking (not below) */}
       <div className="flex items-center justify-center gap-1.5 px-2 pb-4 pt-4 sm:gap-2 sm:px-3 sm:pb-5 sm:pt-5">
-        {/* Pass — left of stack */}
+        {/* Pass - left of stack */}
         <div className="flex w-11 shrink-0 flex-col items-center justify-center gap-1 self-center sm:w-12">
           <span className="flex size-8 items-center justify-center rounded-full border border-black/12 bg-white text-[15px] font-light leading-none text-black/45 shadow-sm sm:size-9">
             ×
@@ -131,7 +131,7 @@ function DemoSwipe() {
             />
             <div className="absolute inset-0 bg-black/18" />
           </div>
-          {/* Front — animated swipe */}
+          {/* Front - animated swipe */}
           <div className="absolute inset-x-0 top-0 z-10 flex justify-center">
             <div className="usp-demo-swipe-card relative w-[92%] max-w-[260px] aspect-[3/4] overflow-hidden rounded-[16px] border border-black/[0.12] bg-white shadow-[0_24px_48px_-22px_rgba(0,0,0,0.28)] flex flex-col ring-1 ring-black/[0.04]">
               <div className="relative min-h-0 flex-[1.12] border-b border-black/[0.08]">
@@ -152,7 +152,7 @@ function DemoSwipe() {
                   Brightline Analytics
                 </p>
                 <p className="text-center text-[11px] font-medium tabular-nums text-black/48">
-                  Austin · Hybrid · $28–32/hr
+                  Austin · Hybrid · $28-32/hr
                 </p>
                 <div className="mt-3 flex w-full items-center justify-between gap-3 border-t border-black/[0.06] pt-3">
                   <div className="relative size-9 shrink-0 overflow-hidden rounded-full border border-black/[0.1] bg-black/[0.04] shadow-sm">
@@ -174,7 +174,7 @@ function DemoSwipe() {
           </div>
         </div>
 
-        {/* Interested — right of stack */}
+        {/* Interested - right of stack */}
         <div className="flex w-11 shrink-0 flex-col items-center justify-center gap-1 self-center sm:w-12">
           <span className="flex size-8 items-center justify-center rounded-full bg-[#E11D48] text-[15px] font-medium leading-none text-white shadow-[0_8px_18px_-4px_rgba(225,29,72,0.35)] ring-2 ring-[#E11D48]/12 sm:size-9">
             ♥
@@ -221,7 +221,7 @@ function DemoMutual() {
       <div className="max-w-[260px] text-center">
         <p className="text-[11px] font-semibold text-black">You &amp; Jordan · Brightline</p>
         <p className="mt-1 text-[10px] leading-snug text-black/50">
-          Both opted in — chat is open for this role only.
+          Both opted in - chat is open for this role only.
         </p>
       </div>
     </div>
@@ -238,7 +238,7 @@ function DemoChat() {
         Is the hybrid schedule fixed to Tue/Thu in-office, or flexible within the week?
       </div>
       <div className="usp-demo-chat-b self-start max-w-[90%] rounded-2xl rounded-bl-md border border-black/12 bg-white px-3 py-2.5 text-[11px] leading-snug text-black shadow-sm">
-        Tue/Thu anchor days — we can flex one day per month for exams. Want a short call Thursday?
+        Tue/Thu anchor days - we can flex one day per month for exams. Want a short call Thursday?
       </div>
       <div className="usp-demo-chat-c flex items-center gap-1 self-start rounded-full border border-black/10 bg-white px-3 py-2 shadow-sm">
         <span className="usp-demo-typing-dot size-1.5 rounded-full bg-black/40" />
@@ -295,7 +295,7 @@ function DemoFrame({ children }: { children: ReactNode }) {
 function renderDemo(kind: (typeof usps)[number]["demo"]) {
   switch (kind) {
     case "swipe":
-      /* Self-contained web shell — avoid double frame */
+      /* Self-contained web shell - avoid double frame */
       return <DemoSwipe />
     case "mutual":
       return (

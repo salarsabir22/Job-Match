@@ -29,7 +29,7 @@ export function SwipeCard({
   const likeRef  = useRef<HTMLDivElement>(null)
   const nopeRef  = useRef<HTMLDivElement>(null)
 
-  // All drag state lives in a ref — zero re-renders during drag
+  // All drag state lives in a ref - zero re-renders during drag
   const drag = useRef({
     active:   false,
     leaving:  false,

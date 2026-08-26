@@ -2,7 +2,7 @@ import { createClient } from "@supabase/supabase-js"
 
 /**
  * Server-only Supabase client with the service role / secret key.
- * Bypasses RLS — use only in Route Handlers, Server Actions, etc.
+ * Bypasses RLS - use only in Route Handlers, Server Actions, etc.
  */
 export function createAdminClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL

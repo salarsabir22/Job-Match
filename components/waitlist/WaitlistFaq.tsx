@@ -17,7 +17,7 @@ const CONTACT_MAIL = "mailto:hello@jobmatch.app"
 const faqs: { q: string; a: string }[] = [
   {
     q: "How does JobMatch work for students?",
-    a: "You browse roles with context on pay band, location, and team. Swipe to pass or show interest. If a recruiter shortlists you back, it’s a mutual match — only then can you message in-app, tied to that job.",
+    a: "You browse roles with context on pay band, location, and team. Swipe to pass or show interest. If a recruiter shortlists you back, it’s a mutual match - only then can you message in-app, tied to that job.",
   },
   {
     q: "Why mutual match before chat?",
@@ -25,15 +25,15 @@ const faqs: { q: string; a: string }[] = [
   },
   {
     q: "Is JobMatch only for internships?",
-    a: "We’re focused on early-career and campus-heavy hiring — internships and new grad roles are the sweet spot. Other full-time roles may appear as we grow.",
+    a: "We’re focused on early-career and campus-heavy hiring - internships and new grad roles are the sweet spot. Other full-time roles may appear as we grow.",
   },
   {
     q: "When does early access open?",
-    a: "We’re onboarding in waves. Join the waitlist with your email and we’ll notify you once — no spam. Recruiters and universities can also reach out via Contact for partner timing.",
+    a: "We’re onboarding in waves. Join the waitlist with your email and we’ll notify you once - no spam. Recruiters and universities can also reach out via Contact for partner timing.",
   },
   {
     q: "How do recruiters get on JobMatch?",
-    a: "We’re working with a small set of hiring teams first. Email us from the recruiters section (or Contact) with your volume and target schools — we’ll share early-access details.",
+    a: "We’re working with a small set of hiring teams first. Email us from the recruiters section (or Contact) with your volume and target schools - we’ll share early-access details.",
   },
   {
     q: "Can career centers or universities partner?",

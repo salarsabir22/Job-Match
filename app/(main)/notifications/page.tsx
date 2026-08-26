@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
 import type { Notification } from "@/types"
 import { formatTime } from "@/lib/utils"
-import { resolveChatPath } from "@/lib/chat-navigation"
+import { resolveNotificationPath } from "@/lib/chat-navigation"
 import { Loader2, CheckCircle, XCircle } from "lucide-react"
+import { PushOptIn } from "@/components/nav/PushOptIn"
 
 export default function NotificationsPage() {
   const supabase = useMemo(() => createClient(), [])
@@ -48,45 +49,28 @@ export default function NotificationsPage() {
   }, [supabase])
 
   const actOnNotification = async (n: Notification) => {
-    const payload = (n.data && typeof n.data === "object" ? n.data : {}) as Record<string, unknown>
-    const conversationId = typeof payload.conversation_id === "string" ? payload.conversation_id : undefined
-    const matchId = typeof payload.match_id === "string" ? payload.match_id : undefined
-    const jobId = typeof payload.job_id === "string" ? payload.job_id : undefined
-
-    // Mark as read first so UI updates immediately.
     if (!n.is_read) {
       await supabase.from("notifications").update({ is_read: true }).eq("id", n.id)
       setItems((prev) => prev.map((x) => (x.id === n.id ? { ...x, is_read: true } : x)))
     }
 
-    const chatPath = await resolveChatPath(supabase, { conversationId, matchId })
-    if (chatPath) {
-      router.push(chatPath)
-      return
-    }
-
-    // Pre-match notification for recruiters (candidate interested in a specific job).
-    // No match exists yet, so take them to candidate discovery.
-    if (jobId && (n.type === "candidate_interested" || n.type === "candidate_interested")) {
-      router.push("/discover")
-      return
-    }
-
-    // Last fallback.
-    router.push("/matches")
+    router.push(await resolveNotificationPath(supabase, n))
   }
 
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="font-heading text-xl font-bold text-foreground sm:text-2xl">Notifications</h1>
+          <h1 className="font-heading text-xl font-bold text-foreground sm:text-2xl">Pings 🔔</h1>
           <p className="font-data text-[10px] tracking-widest uppercase text-neutral-700 mt-1">
-            {unreadCount > 0 ? `${unreadCount} unread` : "All caught up"}
+            {unreadCount > 0 ? `${unreadCount} unread` : "You're all caught up"}
           </p>
           <p className="font-data text-[10px] tracking-widest uppercase text-neutral-600 mt-1">
             {streamUnreadCount > 0 ? `${streamUnreadCount} unread chat message${streamUnreadCount > 1 ? "s" : ""}` : "No unread chat messages"}
           </p>
+          <div className="mt-3">
+            <PushOptIn />
+          </div>
         </div>
       </div>
 
@@ -96,7 +80,7 @@ export default function NotificationsPage() {
         </div>
       ) : items.length === 0 ? (
         <div className="rounded-2xl bg-white border border-black/10 p-6 text-center">
-          <p className="font-body text-sm text-neutral-700">No notifications yet.</p>
+          <p className="font-body text-sm text-neutral-700">No pings yet. Go swipe. Make some noise. ✨</p>
         </div>
       ) : (
         <div className="rounded-2xl bg-white border border-black/10 overflow-hidden">

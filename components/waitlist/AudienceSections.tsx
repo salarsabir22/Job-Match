@@ -159,7 +159,7 @@ function AudienceMetricMockup({
         <div className="mt-4 border-t border-black/[0.06] pt-3 font-mono text-[9px] leading-relaxed text-black/38">
           {isRecruiter ? (
             <>
-              <p>Posting · Summer intern — Engineering</p>
+              <p>Posting · Summer intern - Engineering</p>
               <p>Channel · JobMatch · Mutual-only chat</p>
             </>
           ) : (
@@ -193,13 +193,13 @@ export function WaitlistAudienceSections() {
                 Hire from real intent, not inbox noise
               </h2>
               <p className="mt-5 max-w-[42ch] text-[16px] leading-[1.55] text-black/48 sm:text-[17px]">
-                JobMatch is built for teams that want signal before the first message — especially for internships, new
+                JobMatch is built for teams that want signal before the first message - especially for internships, new
                 grad, and high-volume campus pipelines. Swipe interest, mutual match, then chat tied to the role.
               </p>
               <ul className="mt-6 max-w-[44ch] space-y-3 text-[15px] leading-[1.5] text-black/50">
                 <li className="flex gap-2.5">
                   <span className="mt-2 size-1 shrink-0 rounded-full bg-[var(--waitlist-blue)]" aria-hidden />
-                  <span>Your pipeline reflects who actually raised their hand — not keyword spray-and-pray.</span>
+                  <span>Your pipeline reflects who actually raised their hand - not keyword spray-and-pray.</span>
                 </li>
                 <li className="flex gap-2.5">
                   <span className="mt-2 size-1 shrink-0 rounded-full bg-[var(--waitlist-blue)]" aria-hidden />
@@ -233,7 +233,7 @@ export function WaitlistAudienceSections() {
                 Career services & partnerships
               </h2>
               <p className="mt-5 max-w-[42ch] text-[16px] leading-[1.55] text-black/48 sm:text-[17px]">
-                We fit alongside your office — students opt in, you stay in the loop on partnership-friendly reporting
+                We fit alongside your office - students opt in, you stay in the loop on partnership-friendly reporting
                 and co-branded touchpoints when you&apos;re ready.
               </p>
               <ul className="mt-6 max-w-[44ch] space-y-3 text-[15px] leading-[1.5] text-black/50">

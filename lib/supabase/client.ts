@@ -10,7 +10,8 @@ export function createClient() {
         fetch: createSupabaseFetch(),
       },
       auth: {
-        flowType: "implicit",
+        flowType: "pkce",
+        detectSessionInUrl: true,
       },
     }
   )

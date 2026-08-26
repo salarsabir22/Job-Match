@@ -11,11 +11,11 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: "JobMatch – Swipe Right on Your Dream Career",
+  title: "JobMatch - Swipe Right on Your Dream Career",
   description:
     "The Tinder-style job platform connecting students and recruiters through mutual swipe-based matching, real-time chat, and community channels.",
   openGraph: {
-    title: "JobMatch – Swipe Right on Your Dream Career",
+    title: "JobMatch - Swipe Right on Your Dream Career",
     description:
       "Swipe on jobs. Match with recruiters. Chat directly. No cold emails. No ghosting.",
     type: "website",

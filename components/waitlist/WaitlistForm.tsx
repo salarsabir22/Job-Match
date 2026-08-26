@@ -33,7 +33,7 @@ const formShake = {
   transition: { duration: 0.45, ease: "easeInOut" as const },
 }
 
-/** Stock portraits (Unsplash) — face-cropped, stable IDs */
+/** Stock portraits (Unsplash) - face-cropped, stable IDs */
 const WAITLIST_FACE_AVATARS: { src: string; alt: string }[] = [
   {
     src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&crop=faces&w=128&h=128&q=75",
@@ -114,12 +114,12 @@ export function WaitlistForm() {
   return (
     <div className="min-h-screen bg-white text-black flex flex-col selection:bg-white/10">
 
-      {/* ── Hero (full-bleed black) — anchor for footer / deep links ───────── */}
+      {/* ── Hero (full-bleed black) - anchor for footer / deep links ───────── */}
       <div
         id="early-access"
         className="relative flex min-h-screen scroll-mt-0 flex-col overflow-hidden bg-black text-white"
       >
-        {/* Animated night-Earth — full hero behind copy; opacity high enough to read continents */}
+        {/* Animated night-Earth - full hero behind copy; opacity high enough to read continents */}
         <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
           <div className="absolute inset-0 opacity-[0.64] sm:opacity-[0.7] lg:opacity-[0.76]">
             <WaitlistEarthCanvas className="block h-full w-full" />

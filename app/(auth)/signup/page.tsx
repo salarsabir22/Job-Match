@@ -43,7 +43,7 @@ const ROLE_INFO: Record<SignupRole, { label: string; description: string }> = {
   },
   recruiter: {
     label: "Recruiter",
-    description: "Post jobs and shortlist candidates — account review may apply.",
+    description: "Post jobs and shortlist candidates. Account review may apply.",
   },
 }
 
@@ -115,7 +115,7 @@ export default function SignupPage() {
     const supabase = createClient()
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: { redirectTo: `${window.location.origin}/auth/callback?role=${role}` },
     })
     if (error) {
       localStorage.removeItem("pending_role")
@@ -154,7 +154,7 @@ export default function SignupPage() {
       <div className="text-center mb-7">
         <p className="font-data text-[10px] tracking-[0.25em] uppercase text-muted-foreground mb-2">Welcome</p>
         <h1 className="text-[18px] sm:text-[19px] font-semibold tracking-[-0.02em] text-foreground">Create your account</h1>
-        <p className="font-body text-muted-foreground text-sm mt-1.5">Free — under a minute</p>
+        <p className="font-body text-muted-foreground text-sm mt-1.5">Free - under a minute</p>
       </div>
 
       {/* Role selector */}
@@ -204,7 +204,7 @@ export default function SignupPage() {
         className="auth-btn-google mb-4 disabled:opacity-45"
       >
         {googleLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <GoogleIcon />}
-        Google — {role === "student" ? "Student" : "Recruiter"}
+        Google - {role === "student" ? "Student" : "Recruiter"}
       </button>
 
       <div className="relative flex items-center gap-3 mb-4">

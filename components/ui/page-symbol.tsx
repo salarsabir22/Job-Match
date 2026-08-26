@@ -8,7 +8,7 @@ type PageSymbolProps = {
   variant?: "tint" | "neutral"
 }
 
-/** SF Symbols–style page glyph: thin stroke, rounded plate. Use on page content only, not sidebar nav. */
+/** SF Symbols-style page glyph: thin stroke, rounded plate. Use on page content only, not sidebar nav. */
 export function PageSymbol({ icon: Icon, className, variant = "tint" }: PageSymbolProps) {
   return (
     <span

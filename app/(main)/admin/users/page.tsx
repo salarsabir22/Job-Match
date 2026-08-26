@@ -5,7 +5,7 @@ import { formatDate, getInitials } from "@/lib/utils"
 import { Users, GraduationCap, Building2, Shield, TrendingUp, Calendar, ArrowRight } from "lucide-react"
 import Link from "next/link"
 
-/** Cutoff for “new this week” — computed once per server module load, not per React render. */
+/** Cutoff for “new this week” - computed once per server module load, not per React render. */
 const WEEK_AGO_ISO = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
 
 export default async function AdminUsersPage() {
@@ -138,13 +138,13 @@ export default async function AdminUsersPage() {
                         </AvatarFallback>
                       </Avatar>
                       <p className="font-body font-medium text-sm text-black truncate max-w-[120px]">
-                        {profile.full_name || "—"}
+                        {profile.full_name || " - "}
                       </p>
                     </div>
                   </td>
                   <td className="px-4 py-3">
                     <span className={`font-data text-[9px] tracking-widest uppercase px-2 py-0.5 rounded-full border ${roleBadge(profile.role || "")}`}>
-                      {profile.role || "—"}
+                      {profile.role || " - "}
                     </span>
                   </td>
                   <td className="px-4 py-3 font-data text-[10px] text-neutral-700 hidden sm:table-cell whitespace-nowrap">

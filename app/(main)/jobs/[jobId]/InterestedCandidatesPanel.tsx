@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator"
 import { getInitials, formatDate } from "@/lib/utils"
 import { useToast } from "@/lib/hooks/use-toast"
 import { Loader2 } from "lucide-react"
+import Link from "next/link"
 
 interface CandidateItem {
   id: string
@@ -197,9 +198,11 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
                         <div className="min-w-0 flex-1">
                           <div className="flex items-start justify-between gap-3">
                             <div className="min-w-0">
-                              <p className="truncate font-heading text-sm font-semibold text-foreground">
-                                {item.full_name || "Candidate"}
-                              </p>
+                          <p className="truncate font-heading text-sm font-semibold text-foreground">
+                            <Link href={`/candidates/${item.id}`} className="hover:underline">
+                              {item.full_name || "Candidate"}
+                            </Link>
+                          </p>
                               {schoolLine ? (
                                 <p className="mt-0.5 truncate font-body text-[11px] text-muted-foreground">{schoolLine}</p>
                               ) : null}
@@ -248,6 +251,9 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
                       <Separator className="my-4" />
 
                       <div className="flex gap-2">
+                        <Button asChild size="sm" variant="secondary" className="rounded-xl">
+                          <Link href={`/candidates/${item.id}?job=${jobId}`}>Profile</Link>
+                        </Button>
                         <Button
                           type="button"
                           size="sm"

@@ -29,3 +29,11 @@ export function getInitials(name: string) {
     .toUpperCase()
     .slice(0, 2)
 }
+
+/** Only allow same-origin relative paths (share links after login). */
+export function safeInternalPath(path: string | null | undefined): string | null {
+  if (!path) return null
+  if (!path.startsWith("/") || path.startsWith("//")) return null
+  if (path.includes("://")) return null
+  return path
+}

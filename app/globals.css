@@ -584,3 +584,29 @@ body {
     transform: scaleX(0.88) !important;
   }
 }
+
+@keyframes jm-confetti-fall {
+  0% {
+    transform: translate3d(0, -12vh, 0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 110vh, 0) rotate(540deg);
+    opacity: 0;
+  }
+}
+
+.jm-confetti {
+  position: absolute;
+  top: -8px;
+  border-radius: 1px;
+  animation-name: jm-confetti-fall;
+  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  animation-fill-mode: forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jm-confetti {
+    display: none;
+  }
+}

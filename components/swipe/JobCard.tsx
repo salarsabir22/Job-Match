@@ -12,9 +12,10 @@ const JOB_TYPE_LABEL: Record<string, string> = {
 interface JobCardProps {
   job: Job
   className?: string
+  onOpenCompany?: () => void
 }
 
-export function JobCard({ job, className }: JobCardProps) {
+export function JobCard({ job, className, onOpenCompany }: JobCardProps) {
   const company = job.recruiter_profiles
   const typeLabel = JOB_TYPE_LABEL[job.job_type] ?? job.job_type
   const locationOrRemote = job.is_remote ? "Remote" : job.location
@@ -22,7 +23,7 @@ export function JobCard({ job, className }: JobCardProps) {
   return (
     <div
       className={cn(
-        "w-full select-none overflow-hidden rounded-2xl border border-border bg-card text-card-foreground shadow-lg ring-1 ring-black/[0.04]",
+        "w-full select-none overflow-hidden rounded-3xl border border-border bg-card text-card-foreground shadow-lg ring-1 ring-black/[0.04]",
         className
       )}
     >
@@ -58,43 +59,50 @@ export function JobCard({ job, className }: JobCardProps) {
         <div>
           <h2 className="font-heading text-lg font-semibold leading-snug tracking-tight text-foreground">{job.title}</h2>
           {company?.company_name ? (
-            <p className="mt-1 font-body text-sm text-muted-foreground">{company.company_name}</p>
+            onOpenCompany ? (
+              <button
+                type="button"
+                className="mt-1 font-body text-sm font-medium text-primary underline-offset-4 hover:underline"
+                onPointerDown={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onOpenCompany()
+                }}
+              >
+                {company.company_name} →
+              </button>
+            ) : (
+              <p className="mt-1 font-body text-sm text-muted-foreground">{company.company_name}</p>
+            )
           ) : null}
         </div>
 
         {job.description ? (
-          <p className="line-clamp-3 font-body text-sm leading-relaxed text-muted-foreground">{job.description}</p>
+          <p className="line-clamp-4 font-body text-sm leading-relaxed text-muted-foreground">{job.description}</p>
         ) : null}
 
         {(job.required_skills?.length ?? 0) > 0 ? (
-          <div className="space-y-2">
-            <p className="font-data text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">Focus</p>
-            <div className="flex flex-wrap gap-1.5">
-              {job.required_skills.slice(0, 5).map((s) => (
-                <span
-                  key={s}
-                  className="rounded-md border border-border bg-muted/50 px-2 py-0.5 font-body text-[11px] text-foreground"
-                >
-                  {s}
-                </span>
-              ))}
-              {job.required_skills.length > 5 ? (
-                <span className="rounded-md border border-transparent px-2 py-0.5 font-body text-[11px] text-muted-foreground">
-                  +{job.required_skills.length - 5}
-                </span>
-              ) : null}
-            </div>
+          <div className="flex flex-wrap gap-1.5">
+            {job.required_skills.slice(0, 6).map((s) => (
+              <span
+                key={s}
+                className="rounded-md border border-border bg-muted/50 px-2 py-0.5 font-body text-[11px] text-foreground"
+              >
+                {s}
+              </span>
+            ))}
+            {job.required_skills.length > 6 ? (
+              <span className="rounded-md border border-transparent px-2 py-0.5 font-body text-[11px] text-muted-foreground">
+                +{job.required_skills.length - 6}
+              </span>
+            ) : null}
           </div>
-        ) : null}
-
-        {company?.website_url ? (
-          <p className="font-body text-xs text-muted-foreground">Full detail panel → website &amp; role</p>
         ) : null}
       </div>
 
       <div className="flex items-center justify-between border-t border-border bg-muted/20 px-5 py-3">
-        <span className="font-body text-[11px] text-muted-foreground">Pass</span>
-        <span className="font-body text-[11px] font-medium text-primary">Apply</span>
+        <span className="font-body text-[11px] font-medium text-muted-foreground">← Pass</span>
+        <span className="font-body text-[11px] font-medium text-primary">Apply →</span>
       </div>
     </div>
   )

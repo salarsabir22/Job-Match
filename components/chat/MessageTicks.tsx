@@ -7,7 +7,7 @@ export type MessageDeliveryStatus = "sending" | "sent" | "read"
 
 type MessageTicksProps = {
   status: MessageDeliveryStatus
-  /** Own bubble on primary (navy) — ticks use light/blue contrast */
+  /** Own bubble on primary (navy) - ticks use light/blue contrast */
   onPrimaryBubble?: boolean
   /** Dark image overlay (time chip on photo) */
   variant?: "default" | "overlay"

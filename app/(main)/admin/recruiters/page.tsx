@@ -62,7 +62,7 @@ export default async function AdminRecruitersPage() {
                     Joined{" "}
                     {(() => {
                       const p = recruiter.profiles as ProfileEmbed | null
-                      return p?.created_at ? formatDate(p.created_at) : "—"
+                      return p?.created_at ? formatDate(p.created_at) : " - "
                     })()}
                   </p>
                 </div>

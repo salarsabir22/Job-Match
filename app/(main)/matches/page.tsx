@@ -1,7 +1,6 @@
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import { StudentMatchesView } from "./StudentMatchesView"
-import { RecruiterMatchesView } from "./RecruiterMatchesView"
 
 export default async function MatchesPage() {
   const supabase = await createClient()
@@ -14,6 +13,6 @@ export default async function MatchesPage() {
     .eq("id", user.id)
     .single()
 
-  if (profile?.role === "recruiter") return <RecruiterMatchesView userId={user.id} />
+  if (profile?.role === "recruiter") redirect("/jobs?tab=pipeline")
   return <StudentMatchesView userId={user.id} />
 }

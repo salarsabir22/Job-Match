@@ -81,7 +81,7 @@ export function VoiceMessagePlayer({ src, durationSec, isOwn }: VoiceMessagePlay
     <div
       className={cn(
         "flex items-center gap-2.5 w-full min-w-[200px] max-w-[min(100%,268px)] py-1",
-        isOwn ? "text-primary-foreground" : "text-foreground"
+        isOwn ? "text-white" : "text-black"
       )}
     >
       <audio ref={audioRef} src={src} preload="metadata" className="hidden" />
@@ -92,8 +92,8 @@ export function VoiceMessagePlayer({ src, durationSec, isOwn }: VoiceMessagePlay
         className={cn(
           "flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-transform active:scale-95",
           isOwn
-            ? "bg-primary-foreground/20 hover:bg-primary-foreground/30"
-            : "bg-primary/15 text-primary hover:bg-primary/25"
+            ? "bg-white/25 hover:bg-white/35"
+            : "bg-black/10 text-black hover:bg-black/15"
         )}
         aria-label={playing ? "Pause" : "Play"}
       >
@@ -114,7 +114,7 @@ export function VoiceMessagePlayer({ src, durationSec, isOwn }: VoiceMessagePlay
           aria-valuemax={100}
           className={cn(
             "relative h-1.5 w-full rounded-full cursor-pointer",
-            isOwn ? "bg-primary-foreground/25" : "bg-primary/15"
+            isOwn ? "bg-white/30" : "bg-black/15"
           )}
           onClick={seek}
           onKeyDown={(e) => {
@@ -127,7 +127,7 @@ export function VoiceMessagePlayer({ src, durationSec, isOwn }: VoiceMessagePlay
           <div
             className={cn(
               "absolute inset-y-0 left-0 rounded-full transition-[width] duration-100",
-              isOwn ? "bg-primary-foreground/90" : "bg-primary"
+              isOwn ? "bg-white" : "bg-black/50"
             )}
             style={{ width: `${progress * 100}%` }}
           />
@@ -142,7 +142,7 @@ export function VoiceMessagePlayer({ src, durationSec, isOwn }: VoiceMessagePlay
                 key={i}
                 className={cn(
                   "w-[2.5px] shrink-0 rounded-full",
-                  isOwn ? "bg-primary-foreground/45" : "bg-primary/40"
+                  isOwn ? "bg-white/50" : "bg-black/30"
                 )}
                 style={{ height: px }}
               />
@@ -151,7 +151,7 @@ export function VoiceMessagePlayer({ src, durationSec, isOwn }: VoiceMessagePlay
           <span
             className={cn(
               "font-data text-[11px] tabular-nums shrink-0",
-              isOwn ? "text-primary-foreground/85" : "text-muted-foreground"
+              isOwn ? "text-white/85" : "text-[#8E8E93]"
             )}
           >
             {formatDur(playing ? current : duration)}

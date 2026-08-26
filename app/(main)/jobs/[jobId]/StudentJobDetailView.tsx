@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator"
 import { formatDate } from "@/lib/utils"
 import type { Job, RecruiterProfile } from "@/types"
 import { StudentJobActions } from "./StudentJobActions"
+import { ShareButton } from "@/components/share/ShareButton"
 
 const JOB_TYPE_LABEL: Record<string, string> = {
   internship: "Internship",
@@ -31,8 +32,15 @@ export function StudentJobDetailView({ job, userId }: { job: JobRow; userId: str
         </Button>
         <div className="min-w-0 flex-1 space-y-1">
           <h1 className="font-heading text-xl font-semibold tracking-tight text-foreground sm:text-2xl">{job.title}</h1>
-          {company?.company_name ? <p className="font-body text-sm text-muted-foreground">{company.company_name}</p> : null}
+          {company?.company_name ? (
+            <p className="font-body text-sm text-muted-foreground">
+              <Link href={`/company/${job.recruiter_id}`} className="text-primary underline-offset-4 hover:underline">
+                {company.company_name}
+              </Link>
+            </p>
+          ) : null}
         </div>
+        <ShareButton path={`/jobs/${job.id}`} title={job.title} label="Share job" />
       </div>
 
       <Card className="overflow-hidden shadow-lg ring-1 ring-black/[0.04]">
@@ -52,7 +60,12 @@ export function StudentJobDetailView({ job, userId }: { job: JobRow; userId: str
             <div className="min-w-0 pb-0.5">
               <p className="truncate font-heading text-lg font-semibold leading-snug text-white">{job.title}</p>
               {company?.company_name ? (
-                <p className="mt-1 truncate font-body text-sm text-white/65">{company.company_name}</p>
+                <Link
+                  href={`/company/${job.recruiter_id}`}
+                  className="mt-1 truncate font-body text-sm text-white/80 underline-offset-4 hover:underline"
+                >
+                  {company.company_name}
+                </Link>
               ) : null}
             </div>
           </div>

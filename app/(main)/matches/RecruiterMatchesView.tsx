@@ -142,7 +142,9 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <p className="font-heading font-semibold text-sm text-foreground truncate">{profile?.full_name}</p>
-                <p className="font-body text-xs text-neutral-500 truncate mt-0.5">{match.jobs?.title}</p>
+                <p className="font-body text-xs text-neutral-500 truncate mt-0.5">
+                  {match.jobs?.title ? `For ${match.jobs.title}` : "Role"}
+                </p>
                 {schoolLine && (
                   <p className="font-body text-[11px] text-neutral-500 mt-1 truncate">{schoolLine}</p>
                 )}
@@ -176,7 +178,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
           <div className="flex flex-wrap gap-2">
             {match.is_shortlisted && (
               <span className="rounded-full bg-neutral-100 px-2.5 py-0.5 font-body text-[11px] font-medium text-neutral-700">
-                Shortlisted
+                Shortlisted for {match.jobs?.title || "this role"}
               </span>
             )}
             {convId && (
@@ -208,18 +210,20 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
             >
               <Archive className="h-4 w-4" strokeWidth={1.5} />
             </button>
-            {convId ? (
+            {profile?.id ? (
               <Link
-                href={`/chat/${convId}`}
-                className="inline-flex items-center justify-center h-9 px-4 rounded-lg bg-primary text-primary-foreground font-body text-xs font-medium transition hover:bg-[var(--clearpath-navy-hover)]"
+                href={`/candidates/${profile.id}`}
+                className="inline-flex items-center justify-center h-9 px-3 rounded-lg border border-neutral-200 font-body text-xs font-medium text-neutral-700 hover:bg-neutral-50"
               >
-                Open chat
+                Profile
               </Link>
-            ) : (
-              <span className="inline-flex items-center h-9 px-3 rounded-lg border border-neutral-100 font-body text-[11px] text-neutral-500">
-                No thread yet
-              </span>
-            )}
+            ) : null}
+            <Link
+              href={`/chat/${convId || match.id}`}
+              className="inline-flex items-center justify-center h-9 px-4 rounded-lg bg-primary text-primary-foreground font-body text-xs font-medium transition hover:bg-[var(--clearpath-navy-hover)]"
+            >
+              Open chat
+            </Link>
           </div>
         </div>
       </div>
@@ -240,15 +244,23 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
 
   return (
     <div className="space-y-8">
-      <header className="flex flex-col gap-2 min-w-0">
+      <header className="flex flex-col gap-3 min-w-0 sm:flex-row sm:items-end sm:justify-between">
         <div className="space-y-1 min-w-0">
           <h1 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-[1.75rem]">Matches</h1>
           <p className="font-body text-sm text-neutral-600">
             {matches.length === 0
-              ? "Mutual interest with candidates shows up here for follow-up."
-              : `${matches.length} candidate match${matches.length !== 1 ? "es" : ""} across your roles.`}
+              ? "When you shortlist someone, they land here with the job attached."
+              : `${matches.length} candidate${matches.length !== 1 ? "s" : ""} across your roles.`}
           </p>
         </div>
+        {overallStats.inConversation > 0 ? (
+          <Link
+            href="/chat"
+            className="inline-flex shrink-0 items-center justify-center rounded-full bg-primary px-4 py-2 font-body text-sm font-medium text-primary-foreground transition hover:bg-[var(--clearpath-navy-hover)]"
+          >
+            Open inbox
+          </Link>
+        ) : null}
       </header>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-px rounded-2xl bg-neutral-200/80 overflow-hidden border border-neutral-200/80">

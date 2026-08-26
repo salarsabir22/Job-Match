@@ -46,15 +46,23 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
 
   return (
     <div className="space-y-8">
-      <header className="flex flex-col gap-2 min-w-0">
+      <header className="flex flex-col gap-3 min-w-0 sm:flex-row sm:items-end sm:justify-between">
         <div className="space-y-1 min-w-0">
           <h1 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-[1.75rem]">Matches</h1>
           <p className="font-body text-sm text-neutral-600">
             {matches.length === 0
               ? "When a recruiter likes you back, the conversation starts here."
-              : `${matches.length} mutual match${matches.length !== 1 ? "es" : ""} — open a thread to keep momentum.`}
+              : `${matches.length} mutual match${matches.length !== 1 ? "es" : ""} - open a thread to keep momentum.`}
           </p>
         </div>
+        {withChat > 0 ? (
+          <Link
+            href="/chat"
+            className="inline-flex shrink-0 items-center justify-center rounded-full bg-primary px-4 py-2 font-body text-sm font-medium text-primary-foreground transition hover:bg-[var(--clearpath-navy-hover)]"
+          >
+            Open inbox
+          </Link>
+        ) : null}
       </header>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-px rounded-2xl bg-neutral-200/80 overflow-hidden border border-neutral-200/80">
@@ -99,7 +107,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
             A match happens when you apply and the recruiter returns interest. Strong profiles get there faster.
           </p>
           <ol className="mt-8 max-w-md mx-auto text-left list-decimal list-inside space-y-2 font-body text-sm text-neutral-600">
-            <li>Finish your profile — bio, skills, and education.</li>
+            <li>Finish your profile - bio, skills, and education.</li>
             <li>Add a resume or portfolio link if you have one.</li>
             <li>Apply to roles that fit; quality beats volume.</li>
           </ol>

@@ -43,13 +43,13 @@ export function WaitlistFooter() {
       aria-labelledby="footer-brand-heading"
       className="footer-premium-surface relative w-full overflow-hidden text-white"
     >
-      {/* Top hairline — full viewport width */}
+      {/* Top hairline - full viewport width */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 z-20 h-px bg-gradient-to-r from-transparent via-white/[0.18] to-transparent"
         aria-hidden
       />
 
-      {/* Ambient wordmark — decorative, never steals focus */}
+      {/* Ambient wordmark - decorative, never steals focus */}
       <div
         className="pointer-events-none absolute -bottom-[18%] left-1/2 z-0 -translate-x-1/2 select-none whitespace-nowrap font-semibold tracking-[-0.06em] text-white/[0.022]"
         style={{ fontSize: "clamp(5rem, 22vw, 16rem)" }}
@@ -73,7 +73,7 @@ export function WaitlistFooter() {
             </Link>
             <p className="mt-5 text-pretty text-[15px] leading-[1.65] text-white/48 sm:text-base sm:leading-relaxed">
               Early-access hiring for students, recruiters, and university partners. Swipe with context, match with
-              intent — chat opens only when both sides opt in, tied to the role.
+              intent - chat opens only when both sides opt in, tied to the role.
             </p>
           </div>
 
@@ -87,7 +87,7 @@ export function WaitlistFooter() {
                 hello@jobmatch.app
               </a>
               <p className="mt-2 max-w-xs text-[13px] leading-snug text-white/38 sm:ml-auto sm:text-right">
-                We read every message — typically within two to three business days.
+                We read every message - typically within two to three business days.
               </p>
             </div>
 
@@ -109,7 +109,7 @@ export function WaitlistFooter() {
             <h3 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/32">About</h3>
             <p className="mt-5 text-pretty text-[14px] leading-[1.7] text-white/48 sm:text-[15px]">
               Less noise, more signal. JobMatch is built for early-career pipelines where spray-and-pray inboxes
-              don&apos;t scale — for students who want clarity and teams who want intent they can trust.
+              don&apos;t scale - for students who want clarity and teams who want intent they can trust.
             </p>
           </section>
 
@@ -149,10 +149,10 @@ export function WaitlistFooter() {
             <h3 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/32">Availability</h3>
             <ul className="mt-5 space-y-3 text-[14px] leading-[1.55] text-white/45">
               <li>
-                <span className="text-white/55">Waitlist:</span> open — join anytime
+                <span className="text-white/55">Waitlist:</span> open - join anytime
               </li>
               <li>
-                <span className="text-white/55">Replies:</span> usually 2–3 business days
+                <span className="text-white/55">Replies:</span> usually 2-3 business days
               </li>
               <li>
                 <span className="text-white/55">Invites:</span> rolling waves

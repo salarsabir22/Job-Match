@@ -1,52 +1,92 @@
 import { createClient } from "@/lib/supabase/server"
 import { notFound, redirect } from "next/navigation"
 import { StreamChatClient } from "@/components/chat/StreamChatClient"
-import type { Profile } from "@/types"
+import { coalesceRelation } from "@/lib/dashboard/relations"
 
-type MatchQueryRow = {
+type MatchJoin = {
   id: string
   job_id: string
-  jobs?: { title?: string | null }[] | null
-  student?: Pick<Profile, "id" | "full_name" | "avatar_url">[] | null
-  recruiter?: Pick<Profile, "id" | "full_name" | "avatar_url">[] | null
+  student_id: string
+  recruiter_id: string
+  jobs?: { title?: string | null } | { title?: string | null }[] | null
 }
+
+const CONVERSATION_SELECT = `
+  id,
+  match_id,
+  matches(
+    id,
+    job_id,
+    student_id,
+    recruiter_id,
+    jobs(title)
+  )
+`
 
 export default async function ChatPage({ params }: { params: Promise<{ matchId: string }> }) {
   const { matchId } = await params
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) redirect("/login")
 
-  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single()
-
-  const { data: conversation } = await supabase
+  let { data: conversation } = await supabase
     .from("conversations")
-    .select(`id, matches(id, job_id, jobs(title), student_id, recruiter_id, student:profiles!matches_student_id_fkey(id, full_name, avatar_url), recruiter:profiles!matches_recruiter_id_fkey(id, full_name, avatar_url))`)
+    .select(CONVERSATION_SELECT)
     .eq("id", matchId)
-    .single()
+    .maybeSingle()
+
+  if (!conversation) {
+    const byMatch = await supabase
+      .from("conversations")
+      .select(CONVERSATION_SELECT)
+      .eq("match_id", matchId)
+      .maybeSingle()
+    conversation = byMatch.data
+  }
+
+  if (!conversation) {
+    const { data: matchRow } = await supabase
+      .from("matches")
+      .select("id, student_id, recruiter_id")
+      .eq("id", matchId)
+      .maybeSingle()
+
+    const isParty = matchRow && (matchRow.student_id === user.id || matchRow.recruiter_id === user.id)
+    if (isParty) {
+      const inserted = await supabase
+        .from("conversations")
+        .insert({ match_id: matchRow.id })
+        .select(CONVERSATION_SELECT)
+        .maybeSingle()
+      conversation = inserted.data
+      if (!conversation) {
+        const retry = await supabase
+          .from("conversations")
+          .select(CONVERSATION_SELECT)
+          .eq("match_id", matchRow.id)
+          .maybeSingle()
+        conversation = retry.data
+      }
+    }
+  }
 
   if (!conversation) notFound()
 
-  const rawMatches = conversation.matches as unknown
-  const match = (Array.isArray(rawMatches) ? rawMatches[0] : rawMatches) as MatchQueryRow | null | undefined
-  const student = match?.student?.[0]
-  const recruiter = match?.recruiter?.[0]
-  const otherUserPartial = profile?.role === "student" ? recruiter : student
-  if (!otherUserPartial?.id) notFound()
+  const match = coalesceRelation(conversation.matches as MatchJoin | MatchJoin[] | null)
+  if (!match?.student_id || !match?.recruiter_id) notFound()
+  if (match.student_id !== user.id && match.recruiter_id !== user.id) notFound()
 
-  const jobTitle = match?.jobs?.[0]?.title
+  const otherUserId = user.id === match.student_id ? match.recruiter_id : match.student_id
+  const job = coalesceRelation(match.jobs)
 
   return (
-    <div
-      className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
-      style={{ height: "calc(100dvh - 10rem)" }}
-    >
-      <StreamChatClient
-        conversationId={conversation.id}
-        currentUserId={user.id}
-        otherUserId={otherUserPartial.id}
-        title={jobTitle}
-      />
-    </div>
+    <StreamChatClient
+      conversationId={conversation.id}
+      currentUserId={user.id}
+      otherUserId={otherUserId}
+      title={job?.title}
+    />
   )
 }

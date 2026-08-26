@@ -10,11 +10,11 @@ const ARC_COUNT = 40
 const ARC_DIV = 48
 const BG_STARS = 260
 
-/** World size of the night map plane — large so framed view is mostly Earth, not empty space. */
+/** World size of the night map plane - large so framed view is mostly Earth, not empty space. */
 const PANEL_W = 54
 const PANEL_H = 28
 
-/** NASA SVS equirectangular “Earth at Night” (public domain) — bundled in /public for offline loads. */
+/** NASA SVS equirectangular “Earth at Night” (public domain) - bundled in /public for offline loads. */
 const NIGHT_MAP_PATH = "/waitlist/earth-night.png"
 
 /** Brighter pulses along arcs (vertex colors); scaled again in the update loop. */

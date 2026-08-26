@@ -5,7 +5,7 @@ type DashboardPanelProps = {
   children: React.ReactNode
 }
 
-/** Primary content section — always expanded (no accordion) for scan-friendly dashboards */
+/** Primary content section - always expanded (no accordion) for scan-friendly dashboards */
 export function DashboardPanel({ title, description, badge, children }: DashboardPanelProps) {
   return (
     <section className="overflow-hidden rounded-2xl border border-border bg-card">

@@ -10,6 +10,7 @@ import { formatDate } from "@/lib/utils"
 import type { Job, RecruiterProfile } from "@/types"
 import { JobToggleButton } from "./JobToggleButton"
 import { InterestedCandidatesPanel } from "./InterestedCandidatesPanel"
+import { ShareButton } from "@/components/share/ShareButton"
 
 function formatJobType(raw: string) {
   return raw.replace(/_/g, " ")
@@ -53,6 +54,7 @@ export async function RecruiterJobDetail({
           <h1 className="font-heading text-xl font-semibold tracking-tight text-foreground sm:text-2xl">{job.title}</h1>
           <p className="font-body text-sm text-muted-foreground">{metaParts.join(" · ")}</p>
         </div>
+        <ShareButton path={`/jobs/${jobId}`} title={job.title} label="Share job" />
       </div>
 
       <DiscoverStatStrip

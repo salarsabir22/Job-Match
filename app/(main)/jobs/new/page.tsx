@@ -14,6 +14,9 @@ import { Separator } from "@/components/ui/separator"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 
+import { JOB_CATEGORIES } from "@/lib/company-options"
+import { notifyNewJobsInCategory } from "@/lib/engagement"
+
 const SKILL_SUGGESTIONS = [
   "JavaScript",
   "TypeScript",
@@ -40,6 +43,7 @@ export default function NewJobPage() {
   const [isRemote, setIsRemote] = useState(false)
   const [requiredSkills, setRequiredSkills] = useState<string[]>([])
   const [niceToHaveSkills, setNiceToHaveSkills] = useState<string[]>([])
+  const [category, setCategory] = useState("")
   const [reqSkillInput, setReqSkillInput] = useState("")
   const [nthSkillInput, setNthSkillInput] = useState("")
 
@@ -60,7 +64,7 @@ export default function NewJobPage() {
     const {
       data: { user },
     } = await supabase.auth.getUser()
-    const { error } = await supabase.from("jobs").insert({
+    const payload: Record<string, unknown> = {
       recruiter_id: user!.id,
       title,
       description: description || null,
@@ -69,13 +73,27 @@ export default function NewJobPage() {
       is_remote: isRemote,
       required_skills: requiredSkills,
       nice_to_have_skills: niceToHaveSkills,
-    })
-    if (error) {
+    }
+    if (category) payload.category = category
+
+    const { error } = await supabase.from("jobs").insert(payload)
+    if (error && category) {
+      delete payload.category
+      const retry = await supabase.from("jobs").insert(payload)
+      if (retry.error) {
+        toast({ variant: "destructive", title: "Failed to post job", description: retry.error.message })
+        setLoading(false)
+        return
+      }
+    } else if (error) {
       toast({ variant: "destructive", title: "Failed to post job", description: error.message })
       setLoading(false)
       return
     }
-    toast({ title: "Job posted", description: "Your listing is live in your dashboard." })
+    if (category) {
+      void notifyNewJobsInCategory(supabase, { category })
+    }
+    toast({ title: "Job posted 🎉", description: "It's live. Time to watch the applications roll in." })
     router.push("/jobs")
   }
 
@@ -132,6 +150,22 @@ export default function NewJobPage() {
             </div>
 
             <div className="space-y-2">
+              <Label htmlFor="job-category">Category</Label>
+              <Select value={category || undefined} onValueChange={setCategory}>
+                <SelectTrigger id="job-category" className="h-11 rounded-xl">
+                  <SelectValue placeholder="e.g. Sales, Engineering" />
+                </SelectTrigger>
+                <SelectContent>
+                  {JOB_CATEGORIES.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
               <Label htmlFor="job-desc">Description</Label>
               <Textarea
                 id="job-desc"
@@ -149,7 +183,7 @@ export default function NewJobPage() {
                 <Input
                   id="job-location"
                   className="h-11 rounded-xl"
-                  placeholder="e.g. San Francisco, CA"
+                  placeholder="e.g. Karachi, Lahore, or Remote"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   disabled={isRemote}

@@ -61,7 +61,7 @@ export default function ResetPasswordPage() {
     setError(null)
 
     if (password.length < 8) { setError("Password must be at least 8 characters"); return }
-    if (password !== confirm) { setError("Passwords don't match — please try again"); return }
+    if (password !== confirm) { setError("Passwords don't match - please try again"); return }
     if (strength.score < 2) { setError("Choose a stronger password"); return }
 
     setLoading(true)

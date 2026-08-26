@@ -76,7 +76,7 @@ export default async function WaitlistSuccessPage({
               You&apos;re on the waitlist
             </h1>
             <p className="mt-3 text-[14px] text-white/42 leading-relaxed">
-              Check your inbox for a confirmation email. We’ll reach out again when early access opens — one note, no
+              Check your inbox for a confirmation email. We’ll reach out again when early access opens - one note, no
               spam.
             </p>
           </div>

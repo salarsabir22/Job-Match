@@ -5,17 +5,18 @@ import { createSupabaseFetch } from "@/lib/supabase/fetch"
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  const publicPaths = ["/", "/login", "/signup", "/auth", "/forgot-password", "/reset-password"]
+  const publicPaths = ["/", "/login", "/signup", "/auth", "/forgot-password", "/reset-password", "/waitlist", "/privacy", "/terms"]
   const isPublicPath =
     pathname === "/" || publicPaths.some((p) => p !== "/" && pathname.startsWith(p))
-  // Route handlers (e.g. POST /api/waitlist) must not be redirected to /login — that yields 405 on /login
+  const isAuthCallback = pathname.startsWith("/auth/callback")
+  // Route handlers (e.g. POST /api/waitlist) must not be redirected to /login - that yields 405 on /login
   const isApiRoute = pathname.startsWith("/api")
 
   // Guard: if env vars are missing, fail open (don't crash the site)
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   if (!supabaseUrl || !supabaseKey) {
-    console.error("[middleware] Supabase env vars missing — skipping auth check")
+    console.error("[middleware] Supabase env vars missing - skipping auth check")
     return NextResponse.next({ request })
   }
 
@@ -51,11 +52,18 @@ export async function middleware(request: NextRequest) {
 
   // Unauthenticated user hitting a protected page → send to login (not API routes)
   if (!user && !isPublicPath && !isApiRoute) {
-    return NextResponse.redirect(new URL("/login", request.url))
+    const login = new URL("/login", request.url)
+    login.searchParams.set("next", pathname + request.nextUrl.search)
+    return NextResponse.redirect(login)
   }
 
+  const stayPublicWhenAuthed =
+    pathname.startsWith("/waitlist") ||
+    pathname.startsWith("/privacy") ||
+    pathname.startsWith("/terms")
+
   // Authenticated user hitting a public/auth page → redirect to their dashboard
-  if (user && isPublicPath) {
+  if (user && isPublicPath && !isAuthCallback && !stayPublicWhenAuthed) {
     try {
       const { data: profile } = await supabase
         .from("profiles")
@@ -70,7 +78,7 @@ export async function middleware(request: NextRequest) {
       if (profile.role === "admin") return NextResponse.redirect(new URL("/admin", request.url))
     } catch (err) {
       console.error("[middleware] profile lookup failed:", err)
-      // Don't crash — just let the request through
+      // Don't crash - just let the request through
     }
   }
 

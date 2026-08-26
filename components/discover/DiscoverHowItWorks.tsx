@@ -33,7 +33,7 @@ export function DiscoverHowItWorks({ className }: { className?: string }) {
               </p>
               <p className="font-body text-sm leading-relaxed text-muted-foreground">
                 The employer can view the profile you&apos;ve built here. Messaging unlocks after a{" "}
-                <span className="font-medium text-foreground">mutual match</span> — see{" "}
+                <span className="font-medium text-foreground">mutual match</span> - see{" "}
                 <Link href="/matches" className="font-medium text-primary underline-offset-4 hover:underline">
                   Matches
                 </Link>

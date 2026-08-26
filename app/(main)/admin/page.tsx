@@ -201,7 +201,7 @@ export default async function AdminOverviewPage() {
                     <p className="font-body text-sm text-black font-medium">{recruiter.company_name}</p>
                     <p className="font-data text-[10px] text-neutral-700">
                       {recruiter.profiles?.full_name} ·{" "}
-                      {recruiter.profiles?.created_at ? formatDate(recruiter.profiles.created_at) : "—"}
+                      {recruiter.profiles?.created_at ? formatDate(recruiter.profiles.created_at) : " - "}
                     </p>
                   </div>
                 </div>
@@ -239,9 +239,9 @@ export default async function AdminOverviewPage() {
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
-                <p className="font-body text-sm text-black truncate">{u.full_name || "—"}</p>
+                <p className="font-body text-sm text-black truncate">{u.full_name || " - "}</p>
                 <p className="font-data text-[10px] text-neutral-700">
-                  {u.created_at ? formatDate(u.created_at) : "—"}
+                  {u.created_at ? formatDate(u.created_at) : " - "}
                 </p>
               </div>
               <span className={`font-data text-[9px] tracking-widest uppercase px-2 py-0.5 rounded-full border shrink-0 ${

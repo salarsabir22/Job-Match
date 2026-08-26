@@ -141,7 +141,7 @@ export async function RecruiterDashboardView({ userId, fullName }: { userId: str
       <DashboardPageHeader
         eyebrow="Recruiter overview"
         title={firstName ? `${firstName}, here’s your pipeline` : "Hiring pipeline"}
-        description="Inbound interest, mutual matches, and role performance — sourced from your live postings and candidate interactions."
+        description="Inbound interest, mutual matches, and role performance - sourced from your live postings and candidate interactions."
         action={
           <Link
             href="/jobs/new"
@@ -247,7 +247,7 @@ export async function RecruiterDashboardView({ userId, fullName }: { userId: str
 
         <DashboardPanel
           title="Recent matches"
-          description="New mutual matches — message candidates when chat is ready."
+          description="New mutual matches - message candidates when chat is ready."
           badge={`${recentMatches.length} recent`}
         >
           {recentMatches.length === 0 ? (
@@ -272,7 +272,7 @@ export async function RecruiterDashboardView({ userId, fullName }: { userId: str
                 <TableBody>
                   {recentMatches.map((m) => {
                     const chat = conversationChatHref(m.conversations)
-                    const roleTitle = coalesceRelation(m.jobs)?.title || "—"
+                    const roleTitle = coalesceRelation(m.jobs)?.title || " - "
                     return (
                       <TableRow key={m.id}>
                         <TableCell className={dashTable.cell}>

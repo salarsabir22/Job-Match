@@ -35,13 +35,13 @@ export default async function JobDetailPage({ params }: { params: Promise<{ jobI
   const isOwner = row.recruiter_id === user.id
   const company = row.recruiter_profiles
 
-  if (profile?.role === "recruiter") {
-    if (!isOwner) notFound()
+  const listingVisible = row.is_active && company?.is_approved === true
+
+  if (profile?.role === "recruiter" && isOwner) {
     return <RecruiterJobDetail job={row} jobId={jobId} userId={user.id} />
   }
 
-  const listingVisible = row.is_active && company?.is_approved === true
-  if (!listingVisible) notFound()
+  if (!listingVisible && !isOwner) notFound()
 
   return <StudentJobDetailView job={row} userId={user.id} />
 }

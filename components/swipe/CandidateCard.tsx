@@ -86,8 +86,8 @@ export function CandidateCard({ profile, studentProfile, className }: CandidateC
       </div>
 
       <div className="flex items-center justify-between border-t border-border bg-muted/20 px-5 py-3">
-        <span className="font-body text-[11px] text-muted-foreground">Pass</span>
-        <span className="font-body text-[11px] font-medium text-primary">Like</span>
+        <span className="font-body text-[11px] font-medium text-muted-foreground">← Pass</span>
+        <span className="font-body text-[11px] font-medium text-primary">Shortlist →</span>
       </div>
     </div>
   )

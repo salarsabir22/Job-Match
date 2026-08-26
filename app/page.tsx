@@ -255,7 +255,7 @@ function Hero() {
 
       <div className="max-w-7xl mx-auto px-5 w-full">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-0">
-          {/* Left – Copy */}
+          {/* Left - Copy */}
           <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left">
             <OrangeBadge>Now live · 10,000+ students matched</OrangeBadge>
 
@@ -305,7 +305,7 @@ function Hero() {
             </div>
           </div>
 
-          {/* Right – Orb + floating cards */}
+          {/* Right - Orb + floating cards */}
           <div className="flex-1 relative flex items-center justify-center min-h-[360px] md:min-h-[500px] w-full">
             <HeroOrb />
 
@@ -362,7 +362,7 @@ const STEPS = [
     n: "01",
     icon: FileText,
     title: "Build Your Profile",
-    desc: "Upload your resume, add skills and a bio. Recruiters see your full story—not just a keyword list.",
+    desc: "Upload your resume, add skills and a bio. Recruiters see your full story - not just a keyword list.",
     studentNote: "Resume, skills, education, links",
     recruiterNote: "Company, logo, team culture, job focus",
   },
@@ -474,13 +474,13 @@ const FEATURES = [
   {
     icon: MessageCircle,
     title: "Real-time Chat",
-    desc: "Powered by Supabase Realtime. Every matched conversation updates instantly—no refresh required.",
+    desc: "Powered by Supabase Realtime. Every matched conversation updates instantly - no refresh required.",
     color: "#525252",
   },
   {
     icon: Users,
     title: "Community Channels",
-    desc: "Join interest-based groups—Tech, Design, Finance, and more. Connect with peers and get early access to opportunities.",
+    desc: "Join interest-based groups - Tech, Design, Finance, and more. Connect with peers and get early access to opportunities.",
     color: "#D4D4D4",
   },
   {
@@ -492,13 +492,13 @@ const FEATURES = [
   {
     icon: FileText,
     title: "Resume Upload",
-    desc: "Students upload their PDF resume once. It travels with every swipe—visible to matched recruiters on demand.",
+    desc: "Students upload their PDF resume once. It travels with every swipe - visible to matched recruiters on demand.",
     color: "#525252",
   },
   {
     icon: Bell,
     title: "Live Notifications",
-    desc: "Get notified the moment someone swipes right on you. No more refreshing—your next opportunity arrives in real time.",
+    desc: "Get notified the moment someone swipes right on you. No more refreshing - your next opportunity arrives in real time.",
     color: "#D4D4D4",
   },
 ]
@@ -516,7 +516,7 @@ function Features() {
             <span className="gradient-text">nothing you don&apos;t</span>
           </h2>
           <p className="font-body text-neutral-700 text-lg max-w-xl mx-auto">
-            An MVP built for speed. No fluff, no bloat—just the tools that matter.
+            An MVP built for speed. No fluff, no bloat - just the tools that matter.
           </p>
         </div>
 
@@ -699,7 +699,7 @@ function Community() {
             </PrimaryButton>
           </div>
 
-          {/* Right – channel grid */}
+          {/* Right - channel grid */}
           <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {CHANNELS.map((ch) => (
               <div
@@ -734,7 +734,7 @@ function Community() {
 const TESTIMONIALS = [
   {
     quote:
-      "I landed my first internship in 3 days. The recruiter messaged me the same day we matched—no LinkedIn cold DM needed.",
+      "I landed my first internship in 3 days. The recruiter messaged me the same day we matched - no LinkedIn cold DM needed.",
     name: "Ava T.",
     role: "CS Student, Stanford",
     initials: "AT",
