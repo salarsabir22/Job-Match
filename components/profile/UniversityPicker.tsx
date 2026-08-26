@@ -20,7 +20,7 @@ export function UniversityPicker({
     const list = q
       ? PAKISTANI_UNIVERSITIES.filter((u) => u.toLowerCase().includes(q))
       : [...PAKISTANI_UNIVERSITIES]
-    return [...list.slice(0, 12), UNIVERSITY_OTHER]
+    return [...list.slice(0, 40), UNIVERSITY_OTHER]
   }, [query])
 
   const known = (PAKISTANI_UNIVERSITIES as readonly string[]).includes(value)
@@ -29,7 +29,7 @@ export function UniversityPicker({
     <div className="relative">
       <Input
         className="h-11 rounded-xl"
-        placeholder="Search Pakistani universities"
+        placeholder="Search any university in Pakistan"
         value={open ? query : value}
         onFocus={() => {
           setQuery(value && !known ? value : "")
@@ -45,7 +45,7 @@ export function UniversityPicker({
         }}
       />
       {open ? (
-        <ul className="absolute z-30 mt-1 max-h-56 w-full overflow-auto rounded-xl border border-border bg-card p-1 shadow-lg">
+        <ul className="absolute z-30 mt-1 max-h-72 w-full overflow-auto rounded-xl border border-border bg-card p-1 shadow-lg">
           {filtered.map((uni) => (
             <li key={uni}>
               <button

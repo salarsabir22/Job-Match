@@ -1490,7 +1490,7 @@ export default function OnboardingPage() {
                   <div>
                     <Label className={labelClass}>University / Institution</Label>
                     <UniversityPicker value={university} onChange={setUniversity} />
-                    <HelpText>Pick from Pakistani universities, or type your own.</HelpText>
+                    <HelpText>All HEC-recognized universities in Pakistan. Type to search, or pick Other to enter your own.</HelpText>
                   </div>
                   <div>
                     <Label className={labelClass}>Degree & Field of Study</Label>
