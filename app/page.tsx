@@ -736,7 +736,7 @@ const TESTIMONIALS = [
     quote:
       "I landed my first internship in 3 days. The recruiter messaged me the same day we matched - no LinkedIn cold DM needed.",
     name: "Ava T.",
-    role: "CS Student, Stanford",
+    role: "CS Student, LUMS",
     initials: "AT",
     color: "#FAFAFA",
   },
@@ -744,7 +744,7 @@ const TESTIMONIALS = [
     quote:
       "We hired two interns last quarter entirely through JobMatch. The mutual match filter cut our screening time by 60%.",
     name: "Marcus L.",
-    role: "Head of Talent, Fintech Startup",
+    role: "Head of Talent, Karachi Fintech",
     initials: "ML",
     color: "#D4D4D4",
   },

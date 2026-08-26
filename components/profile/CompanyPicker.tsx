@@ -1,9 +1,9 @@
 "use client"
 
 import { SearchablePicker } from "@/components/ui/searchable-picker"
-import { PAKISTANI_UNIVERSITIES, UNIVERSITY_OTHER } from "@/lib/pakistan-universities"
+import { COMPANY_OTHER, PAKISTANI_COMPANIES } from "@/lib/pakistan-companies"
 
-export function UniversityPicker({
+export function CompanyPicker({
   value,
   onChange,
 }: {
@@ -12,11 +12,11 @@ export function UniversityPicker({
 }) {
   return (
     <SearchablePicker
-      options={PAKISTANI_UNIVERSITIES}
+      options={PAKISTANI_COMPANIES}
       value={value}
       onChange={onChange}
-      placeholder="Search any university in Pakistan"
-      otherLabel={UNIVERSITY_OTHER}
+      placeholder="Search companies in Pakistan"
+      otherLabel={COMPANY_OTHER}
     />
   )
 }

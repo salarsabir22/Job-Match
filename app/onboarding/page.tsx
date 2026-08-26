@@ -8,6 +8,7 @@ import {
   Heart, Briefcase, MessageCircle, Star, TrendingUp, Users,
   ChevronRight, Send, Bell, Video, Lock, Globe
 } from "lucide-react"
+import { CompanyPicker } from "@/components/profile/CompanyPicker"
 import { UniversityPicker } from "@/components/profile/UniversityPicker"
 import { COMPANY_INDUSTRIES, EMPLOYEE_RANGES } from "@/lib/company-options"
 import { cn } from "@/lib/utils"
@@ -96,25 +97,25 @@ function BrowserFrame({ children }: { children: React.ReactNode }) {
 ───────────────────────────────────────────── */
 const STUDENT_JOBS = [
   {
-    title: "Frontend Engineer", company: "Stripe", salary: "$120-150k",
-    type: "Full-time · Remote", match: 95,
-    accent: "#635BFF", accentBg: "rgba(99,91,255,0.15)",
+    title: "Frontend Engineer", company: "Systems Limited", salary: "PKR 180-250k",
+    type: "Full-time · Hybrid, Lahore", match: 95,
+    accent: "#1E3A8A", accentBg: "rgba(30,58,138,0.15)",
     skills: ["React", "TypeScript", "GraphQL"],
-    perks: ["Remote-first", "Equity + RSUs", "Top-tier benefits"],
+    perks: ["Hybrid", "Health cover", "Learning budget"],
   },
   {
-    title: "Product Manager", company: "Notion", salary: "$90-110k",
-    type: "Internship · SF", match: 91,
+    title: "Product Manager", company: "Jazz (VEON Pakistan)", salary: "PKR 150-200k",
+    type: "Internship · Islamabad", match: 91,
     accent: "#000000", accentBg: "rgba(255,255,255,0.06)",
     skills: ["Product", "Figma", "Analytics"],
-    perks: ["Housing stipend", "Mentorship", "Return offer potential"],
+    perks: ["Mentorship", "Return offer potential", "Office perks"],
   },
   {
-    title: "Data Analyst", company: "Airbnb", salary: "$100-130k",
-    type: "Full-time · NYC", match: 88,
-    accent: "#FF5A5F", accentBg: "rgba(255,90,95,0.12)",
+    title: "Data Analyst", company: "Daraz Pakistan", salary: "PKR 120-180k",
+    type: "Full-time · Karachi", match: 88,
+    accent: "#F57224", accentBg: "rgba(245,114,36,0.12)",
     skills: ["Python", "SQL", "Tableau"],
-    perks: ["Travel credits", "Flexible hours", "Learning budget"],
+    perks: ["Flexible hours", "Learning budget", "Team offsites"],
   },
 ]
 
@@ -280,7 +281,7 @@ function StudentMatchScreen() {
         </div>
         <h3 className="font-heading font-bold text-2xl text-black mb-1">Match</h3>
         <p className="font-body text-xs text-[#4A5568] mb-1 text-center">
-          You and Stripe both expressed interest
+          You and Systems Limited both expressed interest
         </p>
 
         {/* Job preview */}
@@ -290,7 +291,7 @@ function StudentMatchScreen() {
           </div>
           <div className="min-w-0 flex-1">
             <p className="font-body text-xs font-semibold text-foreground">Frontend Engineer</p>
-            <p className="font-body text-[10px] text-muted-foreground">Stripe · $120-150k</p>
+            <p className="font-body text-[10px] text-muted-foreground">Systems Limited · PKR 180-250k</p>
           </div>
           <span className="font-data rounded-full border border-border bg-muted px-2 py-0.5 text-[9px] text-muted-foreground">
             95%
@@ -326,7 +327,7 @@ function StudentChatScreen() {
           <Building2 className="h-[18px] w-[18px]" />
         </div>
         <div className="flex-1">
-          <p className="font-body text-xs font-bold text-foreground">Sarah · Stripe Recruiter</p>
+          <p className="font-body text-xs font-bold text-foreground">Sarah · Systems Limited Recruiter</p>
           <div className="flex items-center gap-1">
             <div className="h-1.5 w-1.5 rounded-full bg-primary/80" />
             <span className="font-data text-[9px] text-muted-foreground">Online now</span>
@@ -382,7 +383,7 @@ function StudentProfileScreen() {
       <div className="flex-1 px-4 pt-2 pb-4 flex flex-col overflow-hidden">
         <div className="text-center mb-3">
           <p className="font-heading font-bold text-sm text-black">Alex Johnson</p>
-          <p className="font-body text-[10px] text-[#4A5568]">B.Sc. Computer Science · MIT · 2026</p>
+          <p className="font-body text-[10px] text-[#4A5568]">B.Sc. Computer Science · NUST · 2026</p>
           <div className="flex items-center justify-center gap-1.5 mt-2">
             {["React", "Python", "Node.js", "+4"].map(s => (
               <span key={s} className="font-data text-[9px] px-1.5 py-0.5 rounded-full bg-[#FAFAFA]/10 border border-[#FAFAFA]/20 text-neutral-900">{s}</span>
@@ -400,8 +401,8 @@ function StudentProfileScreen() {
         <p className="mb-2 font-data text-[9px] uppercase tracking-wider text-muted-foreground">Activity</p>
         <div className="space-y-1.5">
           {[
-            { icon: Heart, text: "Stripe liked your profile", t: "2m ago", c: "text-foreground", bg: "bg-primary/10" },
-            { icon: MessageCircle, text: "New message from Notion", t: "1h ago", c: "text-muted-foreground", bg: "bg-muted" },
+            { icon: Heart, text: "Systems Limited liked your profile", t: "2m ago", c: "text-foreground", bg: "bg-primary/10" },
+            { icon: MessageCircle, text: "New message from Jazz", t: "1h ago", c: "text-muted-foreground", bg: "bg-muted" },
             { icon: TrendingUp, text: "Profile views +23% this week", t: "Today", c: "text-muted-foreground", bg: "bg-muted" },
           ].map(({ icon: Icon, text, t, c, bg }) => (
             <div key={text} className="flex items-center gap-2.5 rounded-xl border border-border bg-card p-2">
@@ -602,7 +603,7 @@ function RecruiterMatchScreen() {
             <span className="font-heading text-sm font-bold text-muted-foreground">A</span>
           </div>
           <div className="flex-1">
-            <p className="font-body text-xs font-semibold text-foreground">Alex Chen · MIT</p>
+            <p className="font-body text-xs font-semibold text-foreground">Alex Chen · NUST</p>
             <p className="font-body text-[10px] text-muted-foreground">React · TypeScript · Node.js</p>
           </div>
           <span className="font-data rounded-full border border-border bg-muted px-2 py-0.5 text-[9px] text-muted-foreground">
@@ -623,10 +624,10 @@ function RecruiterMatchScreen() {
 
 function RecruiterPipelineScreen() {
   const candidates = [
-    { name: "Alex Chen", role: "Frontend Eng", match: 97, status: "Matched", dot: "bg-neutral-400", uni: "MIT" },
-    { name: "Sara Kim",  role: "Data Analyst",  match: 93, status: "Interview", dot: "bg-primary", uni: "Stanford" },
-    { name: "Jake Moore", role: "Backend Eng", match: 89, status: "Reviewing", dot: "bg-blue-400", uni: "UC Berkeley" },
-    { name: "Priya Patel", role: "PM Intern",  match: 84, status: "New",       dot: "bg-neutral-400", uni: "CMU" },
+    { name: "Alex Chen", role: "Frontend Eng", match: 97, status: "Matched", dot: "bg-neutral-400", uni: "NUST" },
+    { name: "Sara Kim",  role: "Data Analyst",  match: 93, status: "Interview", dot: "bg-primary", uni: "LUMS" },
+    { name: "Jake Moore", role: "Backend Eng", match: 89, status: "Reviewing", dot: "bg-blue-400", uni: "FAST-NUCES" },
+    { name: "Priya Patel", role: "PM Intern",  match: 84, status: "New",       dot: "bg-neutral-400", uni: "IBA Karachi" },
   ]
   return (
     <div className="h-full flex flex-col bg-background">
@@ -696,7 +697,7 @@ function RecruiterChatScreen() {
           <span className="font-heading text-sm font-bold text-muted-foreground">A</span>
         </div>
         <div className="flex-1">
-          <p className="font-body text-xs font-bold text-foreground">Alex Chen · MIT</p>
+          <p className="font-body text-xs font-bold text-foreground">Alex Chen · NUST</p>
           <div className="flex items-center gap-1">
             <div className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
             <span className="font-data text-[9px] text-neutral-400">97% match · Online</span>
@@ -1684,16 +1685,14 @@ export default function OnboardingPage() {
                     <Label className={labelClass}>
                       Company Name <span className="text-muted-foreground">*</span>
                     </Label>
-                    <Input
-                      className={inputFieldClass}
-                      placeholder="e.g. Acme Corp"
+                    <CompanyPicker
                       value={companyName}
-                      onChange={(e) => {
-                        setCompanyName(e.target.value)
+                      onChange={(next) => {
+                        setCompanyName(next)
                         setStepError(null)
                       }}
                     />
-                    <HelpText>Displayed on all your job postings</HelpText>
+                    <HelpText>Search Pakistani employers, or pick Other to type your own. Shown on all your job postings.</HelpText>
                   </div>
                   <div>
                     <Label className={labelClass}>Company Description</Label>

@@ -149,10 +149,10 @@ function DemoSwipe() {
                   Engineering intern · Summer &apos;26
                 </p>
                 <p className="text-[17px] font-semibold leading-[1.15] tracking-[-0.03em] text-black sm:text-lg">
-                  Brightline Analytics
+                  Systems Limited
                 </p>
                 <p className="text-center text-[11px] font-medium tabular-nums text-black/48">
-                  Austin · Hybrid · $28-32/hr
+                  Lahore · Hybrid · PKR 80-120k
                 </p>
                 <div className="mt-3 flex w-full items-center justify-between gap-3 border-t border-black/[0.06] pt-3">
                   <div className="relative size-9 shrink-0 overflow-hidden rounded-full border border-black/[0.1] bg-black/[0.04] shadow-sm">
@@ -219,7 +219,7 @@ function DemoMutual() {
         </div>
       </div>
       <div className="max-w-[260px] text-center">
-        <p className="text-[11px] font-semibold text-black">You &amp; Jordan · Brightline</p>
+        <p className="text-[11px] font-semibold text-black">You &amp; Jordan · Systems Limited</p>
         <p className="mt-1 text-[10px] leading-snug text-black/50">
           Both opted in - chat is open for this role only.
         </p>
@@ -232,7 +232,7 @@ function DemoChat() {
   return (
     <div className="flex flex-col gap-2 px-2 py-4 sm:px-4" aria-hidden>
       <p className="mb-1 text-center text-[9px] font-semibold uppercase tracking-wider text-black/40">
-        Brightline · Eng intern
+        Systems Limited · Eng intern
       </p>
       <div className="usp-demo-chat-a self-end max-w-[90%] rounded-2xl rounded-br-md bg-[var(--waitlist-blue)] px-3 py-2.5 text-[11px] leading-snug text-white shadow-[0_2px_10px_rgba(30,58,95,0.3)]">
         Is the hybrid schedule fixed to Tue/Thu in-office, or flexible within the week?
