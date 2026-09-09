@@ -23,7 +23,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
   }
 
   return (
-    <div className="min-h-screen apple-grouped-bg text-foreground flex selection:bg-primary/15">
+    <div className="dark min-h-screen apple-grouped-bg text-foreground flex selection:bg-primary/20">
       <AppNav
         role={role}
         fullName={fullName}
@@ -32,7 +32,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
       />
 
       <div className="flex-1 lg:ml-56 min-h-screen flex flex-col apple-grouped-bg">
-        <div className="hidden lg:flex h-[52px] shrink-0 items-center border-b border-border bg-[#ffffff] backdrop-blur-2xl backdrop-saturate-180 sticky top-0 z-30 px-6 supports-[backdrop-filter]:bg-[#ffffff]/95">
+        <div className="hidden lg:flex h-[52px] shrink-0 items-center border-b border-border bg-background/80 backdrop-blur-2xl sticky top-0 z-30 px-6">
           <div className="flex-1" />
           <div className="flex items-center gap-3">
             <NotificationBell />

@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/client"
 import { ChatChannelHeader } from "@/components/chat/ChatChannelHeader"
 import { ChatEmojiPicker } from "@/components/chat/ChatEmojiPicker"
 import { ChatEmptyConversation, ChatErrorState, ChatLoadingState } from "@/components/chat/ChatEmptyState"
+import { ChatUserAvatar } from "@/components/chat/ChatUserAvatar"
 import { formatDaySeparator, shouldShowDaySeparator } from "@/components/chat/chat-helpers"
 import { MessageTicks, messageTimeLabel, type MessageDeliveryStatus } from "@/components/chat/MessageTicks"
 import { cn } from "@/lib/utils"
@@ -183,7 +184,7 @@ export function ChatThread({
   if (error) return <ChatErrorState message={error} />
 
   return (
-    <div className="jm-chat flex h-full min-h-0 flex-col bg-white">
+    <div className="jm-chat flex h-full min-h-0 flex-col">
       <ChatChannelHeader
         peer={peer}
         jobTitle={jobTitle}
@@ -192,46 +193,75 @@ export function ChatThread({
         onBack={onBack}
       />
 
-      <div className="min-h-0 flex-1 overflow-y-auto px-3 py-3">
+      <div className="jm-chat-thread min-h-0 flex-1 overflow-y-auto px-3 py-5 sm:px-6">
         {messages.length === 0 ? (
           <ChatEmptyConversation onPick={(text) => void sendMessage(text)} />
         ) : (
           messages.map((msg, i) => {
             const isOwn = msg.sender_id === currentUserId
             const prev = messages[i - 1]
+            const next = messages[i + 1]
             const showDay = shouldShowDaySeparator(msg.created_at, prev?.created_at)
-            const grouped = prev && prev.sender_id === msg.sender_id && !showDay
+            const grouped = Boolean(prev && prev.sender_id === msg.sender_id && !showDay)
+            const lastInGroup = !next || next.sender_id !== msg.sender_id || shouldShowDaySeparator(next.created_at, msg.created_at)
             const status: MessageDeliveryStatus =
               msg._status || (msg.is_read ? "read" : "sent")
+            const peerName = peer.full_name || "Match"
 
             return (
               <div key={msg.id}>
                 {showDay ? (
-                  <div className="my-3 flex items-center justify-center px-4">
-                    <span className="text-center text-[12px] font-semibold tracking-tight text-[#8E8E93]">
+                  <div className="my-5 flex items-center gap-3" role="separator">
+                    <span className="h-px flex-1 bg-border" />
+                    <span className="font-data text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
                       {formatDaySeparator(new Date(msg.created_at))}
                     </span>
+                    <span className="h-px flex-1 bg-border" />
                   </div>
                 ) : null}
-                <div className={cn("flex", isOwn ? "justify-end" : "justify-start", grouped ? "mt-0.5" : "mt-2")}>
-                  <div
-                    className={cn(
-                      "max-w-[78%] px-3.5 py-2 text-[17px] leading-snug",
-                      isOwn
-                        ? "rounded-[18px] rounded-br-[5px] bg-[#007AFF] text-white"
-                        : "rounded-[18px] rounded-bl-[5px] bg-[#E9E9EB] text-black"
-                    )}
-                  >
-                    <p className="whitespace-pre-wrap break-words">{msg.content}</p>
-                    <span
+                <div
+                  className={cn(
+                    "flex gap-2.5",
+                    isOwn ? "justify-end" : "justify-start",
+                    grouped ? "mt-1" : "mt-4"
+                  )}
+                >
+                  {!isOwn ? (
+                    <div className="flex w-8 shrink-0 justify-center pt-0.5">
+                      {lastInGroup ? (
+                        <ChatUserAvatar name={peerName} image={peer.avatar_url} size="sm" />
+                      ) : (
+                        <span className="h-8 w-8" aria-hidden />
+                      )}
+                    </div>
+                  ) : null}
+                  <div className={cn("max-w-[min(78%,36rem)]", isOwn && "items-end")}>
+                    {!isOwn && !grouped ? (
+                      <p className="mb-1 px-1 font-heading text-[11px] font-medium text-muted-foreground">
+                        {peerName}
+                      </p>
+                    ) : null}
+                    <div
                       className={cn(
-                        "mt-1 flex items-center justify-end gap-1 text-[11px]",
-                        isOwn ? "text-white/75" : "text-[#8E8E93]"
+                        "px-3.5 py-2.5 font-body text-[15px] leading-relaxed",
+                        isOwn
+                          ? "rounded-[18px] bg-primary text-primary-foreground shadow-[0_8px_24px_rgba(201,163,106,0.18)]"
+                          : "rounded-[18px] border border-border bg-card/90 text-foreground"
                       )}
                     >
-                      {messageTimeLabel(msg.created_at)}
-                      {isOwn ? <MessageTicks status={status} onPrimaryBubble /> : null}
-                    </span>
+                      <p className="whitespace-pre-wrap break-words">{msg.content}</p>
+                    </div>
+                    {lastInGroup ? (
+                      <span
+                        className={cn(
+                          "mt-1 flex items-center gap-1 px-1 font-data text-[10px] text-muted-foreground",
+                          isOwn && "justify-end"
+                        )}
+                      >
+                        {messageTimeLabel(msg.created_at)}
+                        {isOwn ? <MessageTicks status={status} onPrimaryBubble={false} /> : null}
+                      </span>
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -239,12 +269,13 @@ export function ChatThread({
           })
         )}
         {peerTyping ? (
-          <div className="mt-2 flex justify-start">
-            <div className="flex h-[34px] items-center gap-[5px] rounded-[18px] rounded-bl-[4px] bg-[#E9E9EB] px-3.5">
-              <span className="jm-imessage-dot" />
-              <span className="jm-imessage-dot jm-imessage-dot--2" />
-              <span className="jm-imessage-dot jm-imessage-dot--3" />
-              <span className="sr-only">Typing</span>
+          <div className="mt-4 flex items-center gap-2.5" aria-live="polite">
+            <ChatUserAvatar name={peer.full_name} image={peer.avatar_url} size="sm" />
+            <div className="flex h-9 items-center gap-1 rounded-[18px] border border-border bg-card/90 px-3">
+              <span className="jm-typing-bar" />
+              <span className="jm-typing-bar jm-typing-bar--2" />
+              <span className="jm-typing-bar jm-typing-bar--3" />
+              <span className="sr-only">{peer.full_name || "Match"} is typing</span>
             </div>
           </div>
         ) : null}
@@ -256,34 +287,37 @@ export function ChatThread({
           e.preventDefault()
           void sendMessage()
         }}
-        className="flex shrink-0 items-end gap-2 border-t border-black/[0.08] bg-white px-2 py-2 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))]"
+        className="shrink-0 bg-gradient-to-t from-background via-background/95 to-transparent px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] pt-2 sm:px-5"
       >
-        <ChatEmojiPicker onPick={(emoji) => setDraft((prev) => `${prev}${emoji}`)} />
-        <TextareaAutosize
-          value={draft}
-          onChange={(e) => {
-            setDraft(e.target.value)
-            sendTyping()
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault()
-              void sendMessage()
-            }
-          }}
-          minRows={1}
-          maxRows={5}
-          placeholder="iMessage"
-          className="max-h-36 min-h-[36px] flex-1 resize-none rounded-[20px] border border-[#C7C7CC] bg-white px-3.5 py-2 text-[17px] text-black outline-none placeholder:text-[#8E8E93]"
-        />
-        <button
-          type="submit"
-          disabled={sending || !draft.trim()}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#007AFF] text-white disabled:bg-[#C7C7CC]"
-          aria-label="Send"
-        >
-          <ArrowUp className="h-5 w-5" strokeWidth={2.5} />
-        </button>
+        <div className="flex items-end gap-2 rounded-2xl border border-border bg-card px-2 py-2 shadow-[0_16px_40px_rgba(0,0,0,0.28)] focus-within:border-primary/40">
+          <ChatEmojiPicker onPick={(emoji) => setDraft((prev) => `${prev}${emoji}`)} />
+          <TextareaAutosize
+            value={draft}
+            onChange={(e) => {
+              setDraft(e.target.value)
+              sendTyping()
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault()
+                void sendMessage()
+              }
+            }}
+            minRows={1}
+            maxRows={5}
+            placeholder="Message"
+            aria-label="Message"
+            className="max-h-36 min-h-[40px] flex-1 resize-none bg-transparent px-1.5 py-2 font-body text-sm text-foreground outline-none placeholder:text-muted-foreground"
+          />
+          <button
+            type="submit"
+            disabled={sending || !draft.trim()}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground transition hover:bg-[var(--clearpath-navy-hover)] disabled:opacity-35"
+            aria-label="Send message"
+          >
+            <ArrowUp className="h-5 w-5" strokeWidth={2.25} />
+          </button>
+        </div>
       </form>
     </div>
   )

@@ -6,9 +6,9 @@ import { ICEBREAKERS } from "@/components/chat/chat-helpers"
 export function ChatInboxEmpty() {
   return (
     <div className="flex h-full flex-col items-center justify-center px-8 py-12 text-center">
-      <p className="text-[20px] font-semibold tracking-tight text-black">No Messages</p>
-      <p className="mt-1 max-w-[240px] text-[15px] leading-snug text-[#8E8E93]">
-        When you match, chats land here.
+      <p className="font-heading text-lg font-semibold tracking-tight text-foreground">No threads yet</p>
+      <p className="mt-2 max-w-[240px] font-body text-sm leading-relaxed text-muted-foreground">
+        Match with someone and the conversation lands here.
       </p>
     </div>
   )
@@ -16,18 +16,18 @@ export function ChatInboxEmpty() {
 
 export function ChatEmptyConversation({ onPick }: { onPick: (text: string) => void }) {
   return (
-    <div className="flex h-full flex-col items-center justify-end px-6 pb-8 text-center">
-      <p className="text-[13px] font-semibold text-[#8E8E93]">Messages</p>
-      <p className="mt-1 max-w-sm text-[15px] text-[#8E8E93]">
-        This is the beginning of your conversation.
+    <div className="flex h-full flex-col items-center justify-center px-6 pb-6 text-center">
+      <p className="font-heading text-base font-semibold text-foreground">Start the thread</p>
+      <p className="mt-1 max-w-sm font-body text-sm text-muted-foreground">
+        No messages yet. Send a line, or pick a starter.
       </p>
-      <div className="mt-5 flex w-full max-w-sm flex-col items-end gap-2">
+      <div className="mt-5 flex w-full max-w-md flex-wrap justify-center gap-2">
         {ICEBREAKERS.map((line) => (
           <button
             key={line}
             type="button"
             onClick={() => onPick(line)}
-            className="max-w-[85%] rounded-[18px] rounded-br-[4px] border border-[#007AFF]/40 bg-white px-3.5 py-2 text-left text-[15px] leading-snug text-[#007AFF] transition active:bg-[#007AFF]/8"
+            className="rounded-full border border-border bg-card/80 px-3.5 py-2 text-left font-body text-[13px] leading-snug text-foreground transition hover:border-primary/40 hover:bg-primary/10"
           >
             {line}
           </button>
@@ -39,13 +39,13 @@ export function ChatEmptyConversation({ onPick }: { onPick: (text: string) => vo
 
 export function ChatSelectPlaceholder() {
   return (
-    <div className="flex h-full flex-col items-center justify-center bg-white px-6 text-center">
-      <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-[#E9E9EB] text-[#8E8E93]">
-        <MessageCircle className="h-7 w-7" />
+    <div className="jm-chat flex h-full flex-col items-center justify-center px-6 text-center">
+      <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-border bg-card text-primary">
+        <MessageCircle className="h-7 w-7" aria-hidden />
       </div>
-      <p className="text-[20px] font-semibold tracking-tight text-black">Messages</p>
-      <p className="mt-1 max-w-xs text-[15px] text-[#8E8E93]">
-        Select a conversation to start messaging.
+      <p className="font-heading text-lg font-semibold tracking-tight text-foreground">Pick a conversation</p>
+      <p className="mt-1 max-w-xs font-body text-sm text-muted-foreground">
+        Your matches live in the list. Open one to keep the thread going.
       </p>
     </div>
   )
@@ -53,8 +53,8 @@ export function ChatSelectPlaceholder() {
 
 export function ChatLoadingState() {
   return (
-    <div className="flex h-full items-center justify-center bg-white">
-      <div className="h-5 w-5 animate-spin rounded-full border-2 border-[#C7C7CC] border-t-[#007AFF]" />
+    <div className="flex h-full items-center justify-center bg-background">
+      <div className="h-5 w-5 animate-spin rounded-full border-2 border-border border-t-primary" />
       <span className="sr-only">Loading chat</span>
     </div>
   )
@@ -62,8 +62,8 @@ export function ChatLoadingState() {
 
 export function ChatErrorState({ message }: { message: string }) {
   return (
-    <div className="flex h-full items-center justify-center bg-white px-6 text-center">
-      <p className="max-w-sm text-[15px] text-[#8E8E93]">{message}</p>
+    <div className="flex h-full items-center justify-center bg-background px-6 text-center">
+      <p className="max-w-sm font-body text-sm text-muted-foreground">{message}</p>
     </div>
   )
 }

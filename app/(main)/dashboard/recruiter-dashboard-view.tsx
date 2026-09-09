@@ -126,9 +126,10 @@ export async function RecruiterDashboardView({ userId, fullName }: { userId: str
       name: j.title.length > 24 ? `${j.title.slice(0, 24)}…` : j.title,
       applications: perJobApps.get(j.id) || 0,
     }))
-    .filter((x) => x.applications > 0)
     .sort((a, b) => b.applications - a.applications)
     .slice(0, 8)
+
+  const conversionRate = applications > 0 ? Math.round((matches / applications) * 100) : 0
 
   const sumInb30 = timeline.reduce((a, d) => a + d.applications, 0)
   const sumMatch30 = timeline.reduce((a, d) => a + d.matches, 0)
@@ -168,13 +169,20 @@ export async function RecruiterDashboardView({ userId, fullName }: { userId: str
             icon={Inbox}
             label="Inbound (30d)"
             value={applications30d}
+            trend={timeline.map((d) => d.applications)}
             hint={
               wowInbound
                 ? `${wowInbound} · ${inbLast7} applications in the last 7 days`
                 : `${inbLast7} applications in the last 7 days`
             }
           />
-          <DashboardKpiCard icon={Users} label="Mutual matches" value={matches} hint="Candidates where both sides matched" />
+          <DashboardKpiCard
+            icon={Users}
+            label="Mutual matches"
+            value={matches}
+            trend={timeline.map((d) => d.matches)}
+            hint="Candidates where both sides matched"
+          />
           <DashboardKpiCard icon={Star} label="Shortlisted" value={shortlisted} hint="Candidates marked shortlisted in Matches" />
         </div>
       </section>
@@ -188,7 +196,12 @@ export async function RecruiterDashboardView({ userId, fullName }: { userId: str
             Trends are computed from inbound applications (right swipes on your roles) and new mutual matches.
           </p>
         </div>
-        <RecruiterDashboardCharts timeline={timeline} jobBars={jobBars} footnote={chartFootnote} />
+        <RecruiterDashboardCharts
+          timeline={timeline}
+          jobBars={jobBars}
+          conversionRate={conversionRate}
+          footnote={chartFootnote}
+        />
       </section>
 
       <div className="space-y-6">

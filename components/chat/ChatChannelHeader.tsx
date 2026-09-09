@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft } from "lucide-react"
 import { ChatUserAvatar } from "@/components/chat/ChatUserAvatar"
 import type { ChatPeer } from "@/lib/chat/inbox"
 
@@ -23,38 +23,46 @@ export function ChatChannelHeader({
   const name = peer.full_name || "Match"
 
   return (
-    <header className="relative flex shrink-0 items-end justify-center border-b border-black/[0.08] bg-[#F9F9F9]/90 px-2 pb-2 pt-1.5 backdrop-blur-xl">
+    <header className="relative flex shrink-0 items-center gap-3 border-b border-border bg-card/70 px-3 py-3 backdrop-blur-xl">
       {backHref ? (
         <Link
           href={backHref}
-          className="absolute bottom-2 left-1 flex h-9 w-9 items-center justify-center text-[#007AFF]"
+          className="flex h-9 w-9 items-center justify-center rounded-full text-foreground hover:bg-muted"
           aria-label="Back to messages"
         >
-          <ChevronLeft className="h-7 w-7" strokeWidth={2.25} />
+          <ChevronLeft className="h-6 w-6" strokeWidth={2} />
         </Link>
       ) : onBack ? (
         <button
           type="button"
           onClick={onBack}
-          className="absolute bottom-2 left-1 flex h-9 w-9 items-center justify-center text-[#007AFF] lg:hidden"
+          className="flex h-9 w-9 items-center justify-center rounded-full text-foreground hover:bg-muted lg:hidden"
           aria-label="Back to inbox"
         >
-          <ChevronLeft className="h-7 w-7" strokeWidth={2.25} />
+          <ChevronLeft className="h-6 w-6" strokeWidth={2} />
         </button>
-      ) : null}
+      ) : (
+        <span className="hidden w-9 lg:block" />
+      )}
 
-      <div className="flex flex-col items-center pt-1">
-        <ChatUserAvatar name={name} image={peer.avatar_url} size="md" />
-        <p className="mt-1 flex max-w-[220px] items-center gap-0.5 truncate text-[12px] font-semibold tracking-tight text-black">
-          <span className="truncate">{name}</span>
-          <ChevronRight className="h-3 w-3 shrink-0 text-[#C7C7CC]" strokeWidth={2.5} />
-        </p>
+      <ChatUserAvatar name={name} image={peer.avatar_url} size="md" />
+      <div className="min-w-0 flex-1">
+        <p className="truncate font-heading text-sm font-semibold tracking-tight text-foreground">{name}</p>
         {typing ? (
-          <p className="text-[11px] text-[#8E8E93]">typing…</p>
+          <p className="text-xs text-primary" aria-live="polite">
+            typing
+          </p>
         ) : jobTitle ? (
-          <p className="max-w-[220px] truncate text-[11px] text-[#8E8E93]">{jobTitle}</p>
-        ) : null}
+          <p className="truncate text-xs text-muted-foreground">{jobTitle}</p>
+        ) : (
+          <p className="text-xs text-muted-foreground">Direct message</p>
+        )}
       </div>
+      {jobTitle ? (
+        <span className="hidden max-w-[10rem] truncate rounded-full border border-border bg-muted/80 px-2.5 py-1 font-data text-[10px] uppercase tracking-[0.12em] text-muted-foreground sm:inline">
+          {jobTitle}
+        </span>
+      ) : null}
     </header>
   )
 }

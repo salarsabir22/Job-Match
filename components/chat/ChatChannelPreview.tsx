@@ -28,37 +28,42 @@ export function ChatChannelPreview({
       type="button"
       onClick={onSelect}
       className={cn(
-        "flex w-full items-center gap-0 text-left",
-        active ? "bg-[#D1D1D6]/55" : "bg-white hover:bg-[#F2F2F7]"
+        "mx-2 mb-1 flex w-[calc(100%-1rem)] items-center gap-3 rounded-xl px-3 py-2.5 text-left transition",
+        active ? "bg-primary/12 ring-1 ring-primary/25" : "hover:bg-muted/70"
       )}
     >
-      <div className="flex w-6 shrink-0 items-center justify-center">
-        {hasUnread ? <span className="h-[9px] w-[9px] rounded-full bg-[#007AFF]" /> : null}
-      </div>
-      <div className="flex min-w-0 flex-1 items-center gap-3 border-b border-black/[0.08] py-2.5 pr-4">
-        <ChatUserAvatar name={name} image={conversation.peer.avatar_url} size="lg" />
-        <div className="min-w-0 flex-1">
-          <div className="flex items-baseline gap-2">
-            <p
-              className={cn(
-                "truncate text-[17px] tracking-tight text-black",
-                hasUnread ? "font-semibold" : "font-medium"
-              )}
-            >
-              {name}
-            </p>
-            <span className="ml-auto shrink-0 text-[14px] text-[#8E8E93]">{time}</span>
-          </div>
+      <ChatUserAvatar name={name} image={conversation.peer.avatar_url} size="md" />
+      <div className="min-w-0 flex-1">
+        <div className="flex items-baseline gap-2">
           <p
             className={cn(
-              "mt-0.5 truncate text-[15px] leading-snug",
-              hasUnread ? "font-medium text-black" : "text-[#8E8E93]"
+              "truncate font-heading text-[14px] tracking-tight text-foreground",
+              hasUnread ? "font-semibold" : "font-medium"
             )}
           >
-            {preview}
+            {name}
           </p>
+          <span className="ml-auto shrink-0 font-data text-[10px] text-muted-foreground">{time}</span>
         </div>
+        {conversation.jobTitle ? (
+          <p className="truncate font-data text-[10px] uppercase tracking-[0.12em] text-primary/80">
+            {conversation.jobTitle}
+          </p>
+        ) : null}
+        <p
+          className={cn(
+            "mt-0.5 truncate font-body text-[13px]",
+            hasUnread ? "text-foreground" : "text-muted-foreground"
+          )}
+        >
+          {preview}
+        </p>
       </div>
+      {hasUnread ? (
+        <span className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-primary px-1.5 font-data text-[10px] font-semibold text-primary-foreground">
+          {conversation.unreadCount > 9 ? "9+" : conversation.unreadCount}
+        </span>
+      ) : null}
     </button>
   )
 }

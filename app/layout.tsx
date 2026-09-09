@@ -1,12 +1,12 @@
 import type { Metadata, Viewport } from "next"
-import { Inter } from "next/font/google"
+import { Outfit } from "next/font/google"
 import "./globals.css"
 import { Providers } from "@/components/providers"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
-const inter = Inter({
+const outfit = Outfit({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-outfit",
   display: "swap",
 })
 
@@ -26,7 +26,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor: "#f5f5f5",
+  themeColor: "#12141a",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -36,7 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
       </head>
       <body
-        className={`${inter.variable} antialiased bg-background text-foreground font-sans selection:bg-primary/15`}
+        className={`${outfit.variable} antialiased bg-background text-foreground font-sans selection:bg-primary/15`}
       >
         <Providers>{children}</Providers>
         <SpeedInsights />

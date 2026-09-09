@@ -12,6 +12,7 @@ const studentLinks = [
   { href: "/discover", label: "Discover", desc: "Swipe roles" },
   { href: "/matches", label: "Matches", desc: "Mutual yes" },
   { href: "/chat", label: "Messages", desc: "Inbox" },
+  { href: "/dashboard", label: "Insights", desc: "Charts" },
   { href: "/community", label: "Community", desc: "Channels" },
   { href: "/profile", label: "Profile", desc: "You" },
   { href: "/feedback", label: "Feedback", desc: "Tell us" },
@@ -21,6 +22,7 @@ const recruiterLinks = [
   { href: "/jobs", label: "Jobs", desc: "Listings + pipeline" },
   { href: "/discover", label: "Discover", desc: "Talent" },
   { href: "/chat", label: "Messages", desc: "Inbox" },
+  { href: "/dashboard", label: "Insights", desc: "Charts" },
   { href: "/community", label: "Community", desc: "Channels" },
   { href: "/profile", label: "Profile", desc: "Company" },
   { href: "/feedback", label: "Feedback", desc: "Tell us" },
@@ -63,7 +65,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
 
   return (
     <>
-      <aside className="hidden lg:flex flex-col fixed left-0 top-0 h-full w-56 z-40 bg-[#ffffff] border-r border-border">
+      <aside className="hidden lg:flex flex-col fixed left-0 top-0 h-full w-56 z-40 bg-card border-r border-border">
         <div className="h-[52px] flex items-center px-5 border-b border-border shrink-0">
           <Link
             href="/"
@@ -137,7 +139,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
         </div>
       </aside>
 
-      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 h-[52px] flex items-center justify-between px-4 border-b border-border bg-[#ffffff]/90 backdrop-blur-2xl backdrop-saturate-180 supports-[backdrop-filter]:bg-[#ffffff]/85">
+      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 h-[52px] flex items-center justify-between px-4 border-b border-border bg-background/90 backdrop-blur-2xl">
         <Link href="/" className="text-[17px] font-semibold tracking-tight text-foreground">
           jobmatch<span className="text-muted-foreground">.</span>
         </Link>
@@ -153,7 +155,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
         </div>
       </header>
 
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-[#ffffff]/90 backdrop-blur-2xl backdrop-saturate-180 supports-[backdrop-filter]:bg-[#ffffff]/85 safe-area-pb">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/90 backdrop-blur-2xl safe-area-pb">
         <div className="flex">
           {mobileLinks.map(({ href, label }) => {
             const active = isActive(href)

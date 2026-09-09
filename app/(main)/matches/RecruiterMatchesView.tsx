@@ -129,9 +129,9 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
     const schoolLine = [sp?.university, sp?.graduation_year].filter(Boolean).join(" · ")
 
     return (
-      <div className="rounded-2xl border border-neutral-200 bg-white shadow-sm overflow-hidden transition hover:border-neutral-300">
+      <div className="rounded-2xl border border-border bg-card shadow-sm overflow-hidden transition hover:border-border">
         <div className="p-4 sm:p-5 flex items-start gap-4">
-          <Avatar className="h-12 w-12 shrink-0 ring-1 ring-neutral-200">
+          <Avatar className="h-12 w-12 shrink-0 ring-1 ring-border">
             <AvatarImage src={profile?.avatar_url || undefined} />
             <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">
               {getInitials(profile?.full_name || "?")}
@@ -142,14 +142,14 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <p className="font-heading font-semibold text-sm text-foreground truncate">{profile?.full_name}</p>
-                <p className="font-body text-xs text-neutral-500 truncate mt-0.5">
+                <p className="font-body text-xs text-muted-foreground truncate mt-0.5">
                   {match.jobs?.title ? `For ${match.jobs.title}` : "Role"}
                 </p>
                 {schoolLine && (
-                  <p className="font-body text-[11px] text-neutral-500 mt-1 truncate">{schoolLine}</p>
+                  <p className="font-body text-[11px] text-muted-foreground mt-1 truncate">{schoolLine}</p>
                 )}
               </div>
-              <time className="font-body text-[11px] text-neutral-400 shrink-0 tabular-nums">
+              <time className="font-body text-[11px] text-muted-foreground shrink-0 tabular-nums">
                 {formatDate(match.created_at)}
               </time>
             </div>
@@ -159,13 +159,13 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
                 {skills.map((s: string) => (
                   <span
                     key={s}
-                    className="rounded-md border border-neutral-200 bg-neutral-50 px-2 py-0.5 font-body text-[11px] text-neutral-700"
+                    className="rounded-md border border-border bg-muted px-2 py-0.5 font-body text-[11px] text-foreground"
                   >
                     {s}
                   </span>
                 ))}
                 {(sp?.skills?.length || 0) > 3 && (
-                  <span className="rounded-md border border-neutral-100 px-2 py-0.5 font-body text-[11px] text-neutral-500">
+                  <span className="rounded-md border border-border px-2 py-0.5 font-body text-[11px] text-muted-foreground">
                     +{(sp?.skills?.length || 0) - 3}
                   </span>
                 )}
@@ -174,15 +174,15 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
           </div>
         </div>
 
-        <div className="px-4 sm:px-5 pb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t border-neutral-100 pt-4">
+        <div className="px-4 sm:px-5 pb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t border-border pt-4">
           <div className="flex flex-wrap gap-2">
             {match.is_shortlisted && (
-              <span className="rounded-full bg-neutral-100 px-2.5 py-0.5 font-body text-[11px] font-medium text-neutral-700">
+              <span className="rounded-full bg-muted px-2.5 py-0.5 font-body text-[11px] font-medium text-foreground">
                 Shortlisted for {match.jobs?.title || "this role"}
               </span>
             )}
             {convId && (
-              <span className="rounded-full border border-neutral-200 px-2.5 py-0.5 font-body text-[11px] text-neutral-600">
+              <span className="rounded-full border border-border px-2.5 py-0.5 font-body text-[11px] text-muted-foreground">
                 In chat
               </span>
             )}
@@ -197,7 +197,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
                 "h-9 w-9 rounded-lg border flex items-center justify-center transition-colors",
                 match.is_shortlisted
                   ? "border-primary/30 bg-primary/10 text-primary"
-                  : "border-neutral-200 text-neutral-500 hover:border-neutral-300 hover:bg-neutral-50"
+                  : "border-border text-muted-foreground hover:border-border hover:bg-muted"
               )}
             >
               <Star className={cn("h-4 w-4", match.is_shortlisted && "fill-primary text-primary")} strokeWidth={1.5} />
@@ -206,14 +206,14 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
               type="button"
               onClick={() => toggleArchive(match.id, !!match.is_archived)}
               aria-label={match.is_archived ? "Unarchive" : "Archive"}
-              className="h-9 w-9 rounded-lg border border-neutral-200 text-neutral-500 flex items-center justify-center hover:bg-neutral-50 transition-colors"
+              className="h-9 w-9 rounded-lg border border-border text-muted-foreground flex items-center justify-center hover:bg-muted transition-colors"
             >
               <Archive className="h-4 w-4" strokeWidth={1.5} />
             </button>
             {profile?.id ? (
               <Link
                 href={`/candidates/${profile.id}`}
-                className="inline-flex items-center justify-center h-9 px-3 rounded-lg border border-neutral-200 font-body text-xs font-medium text-neutral-700 hover:bg-neutral-50"
+                className="inline-flex items-center justify-center h-9 px-3 rounded-lg border border-border font-body text-xs font-medium text-foreground hover:bg-muted"
               >
                 Profile
               </Link>
@@ -234,10 +234,10 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
     return (
       <div className="flex flex-col items-center justify-center py-32 gap-4">
         <div
-          className="h-9 w-9 rounded-full border-2 border-neutral-200 border-t-primary animate-spin"
+          className="h-9 w-9 rounded-full border-2 border-border border-t-primary animate-spin"
           aria-hidden
         />
-        <p className="font-body text-sm text-neutral-600">Loading matches…</p>
+        <p className="font-body text-sm text-muted-foreground">Loading matches…</p>
       </div>
     )
   }
@@ -247,7 +247,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
       <header className="flex flex-col gap-3 min-w-0 sm:flex-row sm:items-end sm:justify-between">
         <div className="space-y-1 min-w-0">
           <h1 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-[1.75rem]">Matches</h1>
-          <p className="font-body text-sm text-neutral-600">
+          <p className="font-body text-sm text-muted-foreground">
             {matches.length === 0
               ? "When you shortlist someone, they land here with the job attached."
               : `${matches.length} candidate${matches.length !== 1 ? "s" : ""} across your roles.`}
@@ -263,23 +263,23 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
         ) : null}
       </header>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-px rounded-2xl bg-neutral-200/80 overflow-hidden border border-neutral-200/80">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-px rounded-2xl bg-border overflow-hidden border border-border/80">
         {[
           { label: "Total", value: overallStats.totalMatches },
           { label: "Shortlisted", value: overallStats.shortlisted },
           { label: "In conversation", value: overallStats.inConversation },
           { label: "Archived", value: overallStats.archived },
         ].map(({ label, value }) => (
-          <div key={label} className="bg-white px-4 py-4">
+          <div key={label} className="bg-card px-4 py-4">
             <p className="font-heading text-xl font-semibold tabular-nums text-foreground sm:text-2xl">{value}</p>
-            <p className="font-body text-xs text-neutral-500 mt-1">{label}</p>
+            <p className="font-body text-xs text-muted-foreground mt-1">{label}</p>
           </div>
         ))}
       </div>
 
       {matches.length > 0 && (
-        <section className="rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-sm">
-          <h2 className="font-heading text-xs font-semibold uppercase tracking-wide text-neutral-400 mb-4">
+        <section className="rounded-2xl border border-border bg-card p-5 sm:p-6 shadow-sm">
+          <h2 className="font-heading text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-4">
             Pipeline
           </h2>
           <div className="flex flex-wrap items-end gap-x-6 gap-y-4">
@@ -291,14 +291,14 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
             ].map(({ label, value }) => (
               <div key={label} className="min-w-[4.5rem]">
                 <p className="font-heading text-lg font-semibold tabular-nums text-foreground">{value}</p>
-                <p className="font-body text-[11px] text-neutral-500 mt-0.5">{label}</p>
+                <p className="font-body text-[11px] text-muted-foreground mt-0.5">{label}</p>
               </div>
             ))}
           </div>
         </section>
       )}
 
-      <div className="flex gap-1 p-1 rounded-xl border border-neutral-200 bg-neutral-50/80">
+      <div className="flex gap-1 p-1 rounded-xl border border-border bg-muted/80">
         {(
           [
             { key: "all" as const, label: `All (${active.length})` },
@@ -313,8 +313,8 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
             className={cn(
               "flex-1 py-2 rounded-lg font-body text-xs font-medium transition-colors",
               tab === t.key
-                ? "bg-white text-foreground shadow-sm ring-1 ring-neutral-200/80"
-                : "text-neutral-600 hover:text-foreground"
+                ? "bg-card text-foreground shadow-sm ring-1 ring-border/80"
+                : "text-muted-foreground hover:text-foreground"
             )}
           >
             {t.label}
@@ -324,8 +324,8 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
 
       <div className="space-y-3">
         {!displayed.length ? (
-          <div className="rounded-2xl border border-neutral-200 bg-neutral-50/50 py-16 px-6 text-center">
-            <p className="font-body text-sm text-neutral-600 max-w-md mx-auto">
+          <div className="rounded-2xl border border-border bg-muted/50 py-16 px-6 text-center">
+            <p className="font-body text-sm text-muted-foreground max-w-md mx-auto">
               {tab === "all"
                 ? "No matches yet. When you and a candidate both show interest, they appear here."
                 : tab === "starred"

@@ -8,12 +8,7 @@ import { formatTime, cn } from "@/lib/utils"
 import { resolveNotificationPath } from "@/lib/chat-navigation"
 import type { Notification } from "@/types"
 
-type NotificationBellProps = {
-  /** Use `light` on white app chrome (headers); `dark` for dark backgrounds */
-  variant?: "dark" | "light"
-}
-
-export function NotificationBell({ variant = "light" }: NotificationBellProps) {
+export function NotificationBell() {
   const supabase = useMemo(() => createClient(), [])
   const router = useRouter()
   const [open, setOpen] = useState(false)
@@ -89,60 +84,35 @@ export function NotificationBell({ variant = "light" }: NotificationBellProps) {
     router.push(await resolveNotificationPath(supabase, n))
   }
 
-  const isLight = variant === "light"
-
   return (
     <div ref={rootRef} className="relative z-50">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className={cn(
-          "relative h-8 w-8 rounded-lg border transition-all flex items-center justify-center",
-          isLight
-            ? "border-border text-muted-foreground hover:text-foreground hover:border-border bg-muted/50"
-            : "border-white/[0.12] text-white/60 hover:text-white hover:border-white/25 bg-white/[0.04]"
-        )}
+        className="relative flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-muted/50 text-muted-foreground transition-all hover:border-border hover:text-foreground"
         title="Notifications"
+        aria-label="Notifications"
+        aria-expanded={open}
       >
         <Bell className="h-4 w-4" />
         {unreadCount > 0 && (
-          <span
-            className={cn(
-              "absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full font-data text-[9px] leading-4 text-center font-semibold",
-              isLight ? "bg-black text-white" : "bg-white text-black"
-            )}
-          >
+          <span className="absolute -right-1 -top-1 h-4 min-w-[16px] rounded-full bg-primary px-1 text-center font-data text-[9px] font-semibold leading-4 text-primary-foreground">
             {unreadCount > 99 ? "99+" : unreadCount}
           </span>
         )}
       </button>
 
       {open && (
-        <div
-          className={cn(
-            "absolute right-0 mt-2 w-[320px] max-w-[85vw] rounded-xl border overflow-hidden shadow-lg",
-            isLight
-              ? "border-border bg-card shadow-none"
-              : "border-white/[0.12] bg-zinc-950 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.85)]"
-          )}
-        >
-          <div
-            className={cn(
-              "px-3 py-2 flex items-center justify-between border-b",
-              isLight ? "border-border" : "border-white/[0.08]"
-            )}
-          >
-            <p className={cn("font-body text-sm", isLight ? "text-foreground" : "text-white/90")}>Notifications</p>
+        <div className="absolute right-0 mt-2 w-[320px] max-w-[85vw] overflow-hidden rounded-xl border border-border bg-popover shadow-[0_20px_50px_-15px_rgba(0,0,0,0.55)]">
+          <div className="flex items-center justify-between border-b border-border px-3 py-2">
+            <p className="font-body text-sm text-foreground">Notifications</p>
             <button
               type="button"
               onClick={() => {
                 setOpen(false)
                 router.push("/notifications")
               }}
-              className={cn(
-                "font-data text-[10px] tracking-[0.15em] uppercase",
-                isLight ? "text-neutral-500 hover:text-black" : "text-white/40 hover:text-white/70"
-              )}
+              className="font-data text-[10px] uppercase tracking-[0.15em] text-muted-foreground hover:text-foreground"
             >
               View all
             </button>
@@ -150,61 +120,30 @@ export function NotificationBell({ variant = "light" }: NotificationBellProps) {
 
           <div className="max-h-[360px] overflow-y-auto">
             {loading ? (
-              <p className={cn("px-3 py-4 font-body text-xs", isLight ? "text-muted-foreground" : "text-white/45")}>
-                Loading…
-              </p>
+              <p className="px-3 py-4 font-body text-xs text-muted-foreground">Loading…</p>
             ) : items.length === 0 ? (
-              <p className={cn("px-3 py-4 font-body text-xs", isLight ? "text-muted-foreground" : "text-white/45")}>
-                No notifications yet.
-              </p>
+              <p className="px-3 py-4 font-body text-xs text-muted-foreground">No notifications yet.</p>
             ) : (
               items.map((n) => (
                 <button
                   key={n.id}
                   type="button"
                   onClick={() => void openNotification(n)}
-                  className={cn(
-                    "w-full text-left px-3 py-2.5 last:border-b-0 transition-colors border-b",
-                    isLight
-                      ? "border-black/[0.06] hover:bg-black/[0.04]"
-                      : "border-white/[0.06] hover:bg-white/[0.05]"
-                  )}
+                  className="w-full border-b border-border px-3 py-2.5 text-left last:border-b-0 hover:bg-muted/60"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
-                      <p
-                        className={cn("font-body text-xs truncate", isLight ? "text-foreground" : "text-white/90")}
-                      >
-                        {n.title}
-                      </p>
+                      <p className="truncate font-body text-xs text-foreground">{n.title}</p>
                       {n.body && (
-                        <p
-                          className={cn(
-                            "font-body text-[11px] mt-0.5 line-clamp-2",
-                            isLight ? "text-neutral-600" : "text-white/50"
-                          )}
-                        >
-                          {n.body}
-                        </p>
+                        <p className="mt-0.5 line-clamp-2 font-body text-[11px] text-muted-foreground">{n.body}</p>
                       )}
-                      <p
-                        className={cn("font-data text-[9px] mt-1", isLight ? "text-muted-foreground" : "text-white/35")}
-                      >
-                        {formatTime(n.created_at)}
-                      </p>
+                      <p className="mt-1 font-data text-[9px] text-muted-foreground">{formatTime(n.created_at)}</p>
                     </div>
                     <span
-                      className={
-                        !n.is_read
-                          ? cn(
-                              "mt-1 size-1.5 shrink-0 rounded-full",
-                              isLight ? "bg-black" : "bg-white/90"
-                            )
-                          : cn(
-                              "mt-1 size-1.5 shrink-0 rounded-full",
-                              isLight ? "bg-border" : "bg-white/[0.12]"
-                            )
-                      }
+                      className={cn(
+                        "mt-1 size-1.5 shrink-0 rounded-full",
+                        n.is_read ? "bg-border" : "bg-primary"
+                      )}
                       aria-hidden
                     />
                   </div>

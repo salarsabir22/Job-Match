@@ -69,6 +69,52 @@
   --success-foreground: #ffffff;
 }
 
+/* Logged-in product: low-glare ink, warm type, sand accent (marketing stays on :root) */
+.dark {
+  color-scheme: dark;
+  --clearpath-page: #12141a;
+  --clearpath-surface: #1b1f28;
+  --clearpath-text: #ece8e1;
+  --clearpath-text-secondary: #9a948a;
+  --clearpath-navy: #c9a36a;
+  --clearpath-navy-hover: #d4b27e;
+  --clearpath-accent: #c9a36a;
+  --clearpath-separator: rgba(236, 232, 225, 0.1);
+
+  --apple-grouped: #12141a;
+  --apple-card: #1b1f28;
+  --apple-blue: #c9a36a;
+  --apple-blue-hover: #d4b27e;
+  --apple-blue-press: #b89258;
+  --apple-label: #ece8e1;
+  --apple-secondary-label: #9a948a;
+  --apple-separator: var(--clearpath-separator);
+
+  --void:       var(--clearpath-page);
+  --surface:    var(--clearpath-surface);
+  --foreground: var(--clearpath-text);
+  --muted:      #7a746c;
+  --background: #12141a;
+  --card:       #1b1f28;
+  --card-foreground: #ece8e1;
+  --popover:    #222733;
+  --popover-foreground: #ece8e1;
+  --primary:    #c9a36a;
+  --primary-foreground: #16130e;
+  --secondary:  #262b36;
+  --secondary-foreground: #ece8e1;
+  --muted-var:  #262b36;
+  --muted-foreground: #9a948a;
+  --accent:     #262b36;
+  --accent-foreground: #ece8e1;
+  --destructive: #e07070;
+  --border:     rgba(236, 232, 225, 0.1);
+  --input:      rgba(236, 232, 225, 0.14);
+  --ring:       #c9a36a;
+  --success:    #6fbf8a;
+  --success-foreground: #102016;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -97,18 +143,15 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-inter);
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 /* ─── Base ───────────────────────────────────────────────────────── */
 body {
   font-family:
-    var(--font-inter),
-    "Inter",
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
+    var(--font-outfit),
+    ui-sans-serif,
     system-ui,
     sans-serif;
   background: var(--background);
@@ -204,41 +247,46 @@ body {
 
 /* ─── Typography Utilities ───────────────────────────────────────── */
 .font-heading {
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "SF Pro Display",
-    var(--font-inter),
-    "Inter",
-    system-ui,
-    sans-serif;
-  letter-spacing: -0.022em;
+  font-family: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.03em;
 }
 .font-body {
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "SF Pro Text",
-    var(--font-inter),
-    "Inter",
-    system-ui,
-    sans-serif;
+  font-family: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
   letter-spacing: -0.011em;
 }
 .font-data {
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "SF Pro Text",
-    var(--font-inter),
-    "Inter",
-    system-ui,
-    sans-serif;
+  font-family: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* ─── Apple-style surfaces ───────────────────────────────────────── */
 .apple-grouped-bg {
-  background-color: var(--apple-grouped);
+  background-color: var(--background);
+}
+
+.dark .apple-card,
+.dark .apple-card-solid,
+.dark .apple-platter {
+  background: var(--card);
+  border-color: var(--border);
+  box-shadow: none;
+}
+
+.dark .glass {
+  background: rgba(18, 20, 26, 0.86);
+  border-color: var(--border);
+}
+
+.dark .apple-grouped-bg {
+  background:
+    radial-gradient(900px 420px at 8% -12%, rgba(201, 163, 106, 0.08), transparent 52%),
+    radial-gradient(720px 360px at 100% 0%, rgba(125, 155, 184, 0.05), transparent 48%),
+    var(--background);
+}
+
+.dark .gradient-text,
+.dark .gradient-text-fire {
+  color: var(--clearpath-text);
+  -webkit-text-fill-color: var(--clearpath-text);
 }
 
 .apple-card {

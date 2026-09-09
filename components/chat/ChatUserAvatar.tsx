@@ -19,14 +19,14 @@ export function ChatUserAvatar({
 
   return (
     <div className="relative shrink-0">
-      <Avatar className={cn(dim, "bg-[#E5E5EA]")}>
+      <Avatar className={cn(dim, "bg-muted")}>
         <AvatarImage src={image || undefined} alt="" />
-        <AvatarFallback className={cn("bg-[#C7C7CC] font-semibold text-white", text)}>
+        <AvatarFallback className={cn("bg-primary/15 font-semibold text-primary", text)}>
           {getInitials(name || "?")}
         </AvatarFallback>
       </Avatar>
       {online ? (
-        <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-white bg-[#34C759]" />
+        <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-card bg-[#6fbf8a]" />
       ) : null}
     </div>
   )

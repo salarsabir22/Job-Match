@@ -164,14 +164,27 @@ export async function StudentDashboardView({ userId, fullName }: { userId: strin
             icon={Send}
             label="Applications"
             value={applied}
+            trend={activity.map((d) => d.applied)}
             hint={
               wowApplications
                 ? `${wowApplications} · ${appliedLast7} in the last 7 days`
                 : `${appliedLast7} applications in the last 7 days`
             }
           />
-          <DashboardKpiCard icon={Bookmark} label="Saved roles" value={saved} hint="Roles you bookmarked for later" />
-          <DashboardKpiCard icon={Heart} label="Mutual matches" value={matches} hint="Recruiters who matched you back" />
+          <DashboardKpiCard
+            icon={Bookmark}
+            label="Saved roles"
+            value={saved}
+            trend={activity.map((d) => d.saved)}
+            hint="Roles you bookmarked for later"
+          />
+          <DashboardKpiCard
+            icon={Heart}
+            label="Mutual matches"
+            value={matches}
+            trend={matchesSeries.map((d) => d.matches)}
+            hint="Recruiters who matched you back"
+          />
           <DashboardKpiCard
             icon={Percent}
             label="Match rate"
@@ -190,7 +203,12 @@ export async function StudentDashboardView({ userId, fullName }: { userId: strin
             Daily counts from your swipes and new matches. Empty days simply mean no events that day.
           </p>
         </div>
-        <StudentDashboardCharts activity={activity} matchesSeries={matchesSeries} footnote={chartFootnote} />
+        <StudentDashboardCharts
+          activity={activity}
+          matchesSeries={matchesSeries}
+          matchRate={applied > 0 ? matchRate : 0}
+          footnote={chartFootnote}
+        />
       </section>
 
       <div className="space-y-6">

@@ -49,7 +49,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
       <header className="flex flex-col gap-3 min-w-0 sm:flex-row sm:items-end sm:justify-between">
         <div className="space-y-1 min-w-0">
           <h1 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-[1.75rem]">Matches</h1>
-          <p className="font-body text-sm text-neutral-600">
+          <p className="font-body text-sm text-muted-foreground">
             {matches.length === 0
               ? "When a recruiter likes you back, the conversation starts here."
               : `${matches.length} mutual match${matches.length !== 1 ? "es" : ""} - open a thread to keep momentum.`}
@@ -65,23 +65,23 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
         ) : null}
       </header>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-px rounded-2xl bg-neutral-200/80 overflow-hidden border border-neutral-200/80">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-px rounded-2xl bg-border overflow-hidden border border-border/80">
         {[
           { label: "Applied", value: appliedCount },
           { label: "Matches", value: matches.length },
           { label: "Match rate", value: `${matchRate}%` },
           { label: "Active chats", value: withChat },
         ].map(({ label, value }) => (
-          <div key={label} className="bg-white px-4 py-4">
+          <div key={label} className="bg-card px-4 py-4">
             <p className="font-heading text-xl font-semibold tabular-nums text-foreground sm:text-2xl">{value}</p>
-            <p className="font-body text-xs text-neutral-500 mt-1">{label}</p>
+            <p className="font-body text-xs text-muted-foreground mt-1">{label}</p>
           </div>
         ))}
       </div>
 
       {appliedCount > 0 && (
-        <section className="rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-sm">
-          <h2 className="font-heading text-xs font-semibold uppercase tracking-wide text-neutral-400 mb-4">
+        <section className="rounded-2xl border border-border bg-card p-5 sm:p-6">
+          <h2 className="font-heading text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-4">
             Your pipeline
           </h2>
           <div className="flex flex-wrap items-end gap-x-6 gap-y-4">
@@ -93,7 +93,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
             ].map(({ label, value }) => (
               <div key={label} className="min-w-[4.5rem]">
                 <p className="font-heading text-lg font-semibold tabular-nums text-foreground">{value}</p>
-                <p className="font-body text-[11px] text-neutral-500 mt-0.5">{label}</p>
+                <p className="font-body text-[11px] text-muted-foreground mt-0.5">{label}</p>
               </div>
             ))}
           </div>
@@ -101,12 +101,12 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
       )}
 
       {!matches.length ? (
-        <div className="rounded-2xl border border-neutral-200 bg-neutral-50/50 px-6 py-14 text-center">
+        <div className="rounded-2xl border border-border bg-muted/50 px-6 py-14 text-center">
           <h3 className="font-heading text-lg font-semibold text-foreground">No matches yet</h3>
-          <p className="font-body text-sm text-neutral-600 mt-2 max-w-md mx-auto">
+          <p className="font-body text-sm text-muted-foreground mt-2 max-w-md mx-auto">
             A match happens when you apply and the recruiter returns interest. Strong profiles get there faster.
           </p>
-          <ol className="mt-8 max-w-md mx-auto text-left list-decimal list-inside space-y-2 font-body text-sm text-neutral-600">
+          <ol className="mt-8 max-w-md mx-auto text-left list-decimal list-inside space-y-2 font-body text-sm text-muted-foreground">
             <li>Finish your profile - bio, skills, and education.</li>
             <li>Add a resume or portfolio link if you have one.</li>
             <li>Apply to roles that fit; quality beats volume.</li>
@@ -114,7 +114,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/onboarding"
-              className="inline-flex justify-center rounded-full border border-neutral-200 bg-white px-6 py-2.5 font-body text-sm font-medium text-neutral-800 transition hover:bg-neutral-50"
+              className="inline-flex justify-center rounded-full border border-border bg-card px-6 py-2.5 font-body text-sm font-medium text-foreground transition hover:bg-muted"
             >
               Complete profile
             </Link>
@@ -128,7 +128,7 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
         </div>
       ) : (
         <>
-          <p className="font-body text-sm text-neutral-500">Select a match to open your chat.</p>
+          <p className="font-body text-sm text-muted-foreground">Select a match to open your chat.</p>
           <ul className="grid grid-cols-1 lg:grid-cols-2 gap-4 list-none p-0 m-0">
             {matches.map((match) => {
               const job = match.jobs
@@ -139,31 +139,31 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
 
               const inner = (
                 <div
-                  className={`flex items-start gap-4 p-5 rounded-2xl border border-neutral-200 bg-white shadow-sm transition h-full ${
-                    convId ? "hover:border-neutral-300 cursor-pointer" : "opacity-95 cursor-default"
+                  className={`flex items-start gap-4 p-5 rounded-2xl border border-border bg-card shadow-sm transition h-full ${
+                    convId ? "hover:border-border cursor-pointer" : "opacity-95 cursor-default"
                   }`}
                 >
-                  <div className="h-14 w-14 rounded-xl bg-neutral-100 flex items-center justify-center shrink-0 ring-1 ring-neutral-200/80 overflow-hidden">
+                  <div className="h-14 w-14 rounded-xl bg-muted flex items-center justify-center shrink-0 ring-1 ring-border overflow-hidden">
                     {company?.logo_url ? (
                       <img src={company.logo_url} className="h-full w-full object-cover" alt="" />
                     ) : (
-                      <Building2 className="h-7 w-7 text-neutral-400" aria-hidden />
+                      <Building2 className="h-7 w-7 text-muted-foreground" aria-hidden />
                     )}
                   </div>
                   <div className="flex-1 min-w-0 text-left">
                     <p className="font-heading font-semibold text-base text-foreground truncate">{job?.title}</p>
-                    <p className="font-body text-sm text-neutral-500 truncate">{company?.company_name}</p>
-                    <p className="font-body text-xs text-neutral-400 mt-1">{formatDate(match.created_at)}</p>
+                    <p className="font-body text-sm text-muted-foreground truncate">{company?.company_name}</p>
+                    <p className="font-body text-xs text-muted-foreground mt-1">{formatDate(match.created_at)}</p>
                     <div className="flex flex-wrap gap-2 mt-3">
-                      <span className="rounded-full bg-neutral-100 px-2.5 py-0.5 font-body text-[11px] font-medium text-neutral-700">
+                      <span className="rounded-full bg-muted px-2.5 py-0.5 font-body text-[11px] font-medium text-foreground">
                         Matched
                       </span>
                       {convId ? (
-                        <span className="rounded-full border border-neutral-200 px-2.5 py-0.5 font-body text-[11px] text-neutral-600">
+                        <span className="rounded-full border border-border px-2.5 py-0.5 font-body text-[11px] text-muted-foreground">
                           Chat ready
                         </span>
                       ) : (
-                        <span className="rounded-full border border-neutral-100 px-2.5 py-0.5 font-body text-[11px] text-neutral-500">
+                        <span className="rounded-full border border-border px-2.5 py-0.5 font-body text-[11px] text-muted-foreground">
                           Chat pending
                         </span>
                       )}

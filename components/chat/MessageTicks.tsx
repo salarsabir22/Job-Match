@@ -35,11 +35,11 @@ export function MessageTicks({ status, onPrimaryBubble, variant = "default" }: M
         <CheckCheck
           className={cn(
             "h-3.5 w-3.5",
-            variant === "overlay"
-              ? "text-white/80"
-              : onPrimaryBubble
-                ? "text-primary-foreground/65"
-                : "text-muted-foreground"
+          variant === "overlay"
+            ? "text-white/80"
+            : onPrimaryBubble
+              ? "text-primary-foreground/70"
+              : "text-muted-foreground"
           )}
           strokeWidth={2.5}
         />
@@ -55,8 +55,8 @@ export function MessageTicks({ status, onPrimaryBubble, variant = "default" }: M
           variant === "overlay"
             ? "text-sky-300"
             : onPrimaryBubble
-              ? "text-sky-300"
-              : "text-sky-500"
+              ? "text-primary-foreground"
+              : "text-primary"
         )}
         strokeWidth={2.5}
       />

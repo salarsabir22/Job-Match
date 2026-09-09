@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import EmojiPicker from "emoji-picker-react"
+import EmojiPicker, { Theme } from "emoji-picker-react"
 import { Smile } from "lucide-react"
 
 export function ChatEmojiPicker({ onPick }: { onPick: (emoji: string) => void }) {
@@ -12,7 +12,7 @@ export function ChatEmojiPicker({ onPick }: { onPick: (emoji: string) => void })
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex h-8 w-8 items-center justify-center rounded-full text-[#8E8E93] transition hover:text-[#007AFF]"
+        className="flex h-10 w-10 items-center justify-center rounded-xl text-muted-foreground transition hover:bg-muted hover:text-foreground"
         aria-label="Add emoji"
         aria-expanded={open}
       >
@@ -26,7 +26,7 @@ export function ChatEmojiPicker({ onPick }: { onPick: (emoji: string) => void })
             aria-label="Close emoji picker"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute bottom-11 right-0 z-50 overflow-hidden rounded-[20px] border border-black/10 bg-white shadow-[0_12px_40px_rgba(0,0,0,0.18)]">
+          <div className="absolute bottom-11 right-0 z-50 overflow-hidden rounded-[20px] border border-border bg-popover shadow-xl">
             <EmojiPicker
               onEmojiClick={(emoji) => {
                 onPick(emoji.emoji)
@@ -34,6 +34,7 @@ export function ChatEmojiPicker({ onPick }: { onPick: (emoji: string) => void })
               }}
               width={320}
               height={360}
+              theme={Theme.DARK}
               lazyLoadEmojis
               previewConfig={{ showPreview: false }}
             />
