@@ -19,10 +19,10 @@ export function NotificationBell({ variant = "light" }: NotificationBellProps) {
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [items, setItems] = useState<Notification[]>([])
-  const [streamUnreadCount, setStreamUnreadCount] = useState(0)
+  const [chatUnreadCount, setChatUnreadCount] = useState(0)
   const rootRef = useRef<HTMLDivElement | null>(null)
 
-  const unreadCount = items.filter((n) => !n.is_read).length + streamUnreadCount
+  const unreadCount = items.filter((n) => !n.is_read).length + chatUnreadCount
 
   const loadItems = async () => {
     setLoading(true)
@@ -43,20 +43,20 @@ export function NotificationBell({ variant = "light" }: NotificationBellProps) {
     setLoading(false)
   }
 
-  const loadStreamUnread = async () => {
+  const loadChatUnread = async () => {
     try {
-      const res = await fetch("/api/stream/unread", { method: "GET" })
+      const res = await fetch("/api/chat/unread", { method: "GET" })
       const data = (await res.json().catch(() => ({}))) as { totalUnreadCount?: number }
-      setStreamUnreadCount(Number(data.totalUnreadCount ?? 0))
+      setChatUnreadCount(Number(data.totalUnreadCount ?? 0))
     } catch {
-      setStreamUnreadCount(0)
+      setChatUnreadCount(0)
     }
   }
 
   useEffect(() => {
     startTransition(() => {
       void loadItems()
-      void loadStreamUnread()
+      void loadChatUnread()
     })
   }, [])
 
@@ -64,7 +64,7 @@ export function NotificationBell({ variant = "light" }: NotificationBellProps) {
     if (!open) return
     startTransition(() => {
       void loadItems()
-      void loadStreamUnread()
+      void loadChatUnread()
     })
   }, [open])
 

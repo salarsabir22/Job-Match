@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import type { Channel, LocalMessage, UserResponse } from "stream-chat"
 
 export function useIsDesktop(query = "(min-width: 1024px)") {
   const [matches, setMatches] = useState(false)
@@ -13,19 +12,6 @@ export function useIsDesktop(query = "(min-width: 1024px)") {
   }, [query])
 
   return matches
-}
-
-export function getPeerUser(channel: Channel, currentUserId: string): UserResponse | undefined {
-  const members = Object.values(channel.state.members ?? {})
-  const peer = members.find((m) => (m.user_id || m.user?.id) !== currentUserId)
-  return peer?.user
-}
-
-export function channelJobTitle(channel: Channel): string | undefined {
-  const data = channel.data as { name?: string } | undefined
-  const name = data?.name?.trim()
-  if (!name || name === "Match chat") return undefined
-  return name
 }
 
 export function formatPreviewTime(date?: string | Date | null) {
@@ -67,25 +53,11 @@ export function formatDaySeparator(date: Date) {
   return `${day} at ${time}`
 }
 
-export function lastMessagePreview(message?: LocalMessage, currentUserId?: string) {
-  if (!message) return "No messages yet"
-
-  const attachments = message.attachments ?? []
-  let body = ""
-  if (attachments.some((a) => a.type === "voiceRecording" || a.type === "audio")) {
-    body = "Voice Message"
-  } else if (attachments.some((a) => a.type === "image" || a.type === "thumb" || Boolean(a.image_url))) {
-    body = message.text?.trim() || "Photo"
-  } else if (attachments.some((a) => a.type === "file" || a.type === "video")) {
-    body = message.text?.trim() || "Attachment"
-  } else {
-    body = message.text?.trim() || (attachments.length ? "Attachment" : " ")
-  }
-
-  if (currentUserId && message.user?.id === currentUserId && body.trim()) {
-    return `You: ${body}`
-  }
-  return body
+export function shouldShowDaySeparator(current: string, previous?: string) {
+  if (!previous) return true
+  const a = new Date(current)
+  const b = new Date(previous)
+  return a.toDateString() !== b.toDateString()
 }
 
 export const ICEBREAKERS = [

@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
-import { StreamChatInboxClient } from "@/components/chat/StreamChatInboxClient"
+import { ChatInboxClient } from "@/components/chat/ChatInboxClient"
 
 export default async function ChatIndexPage() {
   const supabase = await createClient()
@@ -9,5 +9,5 @@ export default async function ChatIndexPage() {
 
   if (!user) redirect("/login")
 
-  return <StreamChatInboxClient currentUserId={user.id} />
+  return <ChatInboxClient currentUserId={user.id} />
 }

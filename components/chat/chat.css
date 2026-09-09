@@ -1,0 +1,80 @@
+.jm-chat {
+  height: 100%;
+  min-height: 0;
+  background: #ffffff;
+  overscroll-behavior: contain;
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+}
+
+.jm-chat-inbox {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  height: 100%;
+  min-height: 0;
+  background: #ffffff;
+}
+
+@media (min-width: 1024px) {
+  .jm-chat-inbox {
+    grid-template-columns: 380px minmax(0, 1fr);
+  }
+}
+
+.jm-chat-inbox__list {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+@media (min-width: 1024px) {
+  .jm-chat-inbox__list {
+    border-right: 0.5px solid rgba(0, 0, 0, 0.18);
+  }
+}
+
+.jm-chat-inbox__pane {
+  min-height: 0;
+  background: #ffffff;
+}
+
+@media (max-width: 1023px) {
+  .jm-chat-inbox--open .jm-chat-inbox__list {
+    display: none;
+  }
+
+  .jm-chat-inbox:not(.jm-chat-inbox--open) .jm-chat-inbox__pane {
+    display: none;
+  }
+}
+
+.jm-imessage-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #8e8e93;
+  opacity: 0.35;
+  animation: jm-imessage-bounce 1.2s ease-in-out infinite;
+}
+
+.jm-imessage-dot--2 {
+  animation-delay: 0.15s;
+}
+
+.jm-imessage-dot--3 {
+  animation-delay: 0.3s;
+}
+
+@keyframes jm-imessage-bounce {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+  40% {
+    transform: translateY(-3px);
+    opacity: 0.85;
+  }
+}

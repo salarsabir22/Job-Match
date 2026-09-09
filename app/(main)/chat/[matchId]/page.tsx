@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server"
 import { notFound, redirect } from "next/navigation"
-import { StreamChatClient } from "@/components/chat/StreamChatClient"
+import { MatchChatClient } from "@/components/chat/MatchChatClient"
 import { coalesceRelation } from "@/lib/dashboard/relations"
 
 type MatchJoin = {
@@ -80,13 +80,18 @@ export default async function ChatPage({ params }: { params: Promise<{ matchId: 
 
   const otherUserId = user.id === match.student_id ? match.recruiter_id : match.student_id
   const job = coalesceRelation(match.jobs)
+  const { data: peer } = await supabase
+    .from("profiles")
+    .select("id, full_name, avatar_url")
+    .eq("id", otherUserId)
+    .maybeSingle()
 
   return (
-    <StreamChatClient
+    <MatchChatClient
       conversationId={conversation.id}
       currentUserId={user.id}
-      otherUserId={otherUserId}
-      title={job?.title}
+      peer={peer ?? { id: otherUserId, full_name: null, avatar_url: null }}
+      jobTitle={job?.title}
     />
   )
 }

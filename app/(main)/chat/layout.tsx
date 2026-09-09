@@ -1,4 +1,5 @@
 import { ChatViewportLock } from "@/components/chat/ChatViewportLock"
+import "@/components/chat/chat.css"
 
 export default function ChatLayout({ children }: { children: React.ReactNode }) {
   return (
