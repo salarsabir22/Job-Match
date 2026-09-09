@@ -4,7 +4,7 @@ import "@/components/chat/chat.css"
 export default function ChatLayout({ children }: { children: React.ReactNode }) {
   return (
     <ChatViewportLock>
-      <div className="fixed inset-x-0 top-[52px] bottom-[50px] z-20 bg-background lg:bottom-0 lg:left-56">
+      <div className="fixed inset-x-0 top-16 bottom-0 z-20 bg-background">
         {children}
       </div>
     </ChatViewportLock>

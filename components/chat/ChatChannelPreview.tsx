@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils"
 import { ChatUserAvatar } from "@/components/chat/ChatUserAvatar"
 import { formatPreviewTime } from "@/components/chat/chat-helpers"
 import { previewText, type InboxConversation } from "@/lib/chat/inbox"
+import { Badge } from "@/components/ui/badge"
 
 export function ChatChannelPreview({
   conversation,
@@ -60,9 +61,9 @@ export function ChatChannelPreview({
         </p>
       </div>
       {hasUnread ? (
-        <span className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-primary px-1.5 font-data text-[10px] font-semibold text-primary-foreground">
+        <Badge className="h-5 min-w-5 justify-center px-1.5">
           {conversation.unreadCount > 9 ? "9+" : conversation.unreadCount}
-        </span>
+        </Badge>
       ) : null}
     </button>
   )

@@ -1,38 +1,64 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LogOut } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { LogOut, Menu, MessageSquareText, UserRound } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
+import { cn } from "@/lib/utils"
 import type { UserRole } from "@/types"
 import { NotificationBell } from "@/components/nav/NotificationBell"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu"
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
 
-const studentLinks = [
-  { href: "/discover", label: "Discover", desc: "Swipe roles" },
-  { href: "/matches", label: "Matches", desc: "Mutual yes" },
-  { href: "/chat", label: "Messages", desc: "Inbox" },
-  { href: "/dashboard", label: "Insights", desc: "Charts" },
-  { href: "/community", label: "Community", desc: "Channels" },
-  { href: "/profile", label: "Profile", desc: "You" },
-  { href: "/feedback", label: "Feedback", desc: "Tell us" },
+type NavLink = { href: string; label: string }
+
+const studentLinks: NavLink[] = [
+  { href: "/discover", label: "Discover" },
+  { href: "/matches", label: "Matches" },
+  { href: "/chat", label: "Messages" },
+  { href: "/dashboard", label: "Insights" },
+  { href: "/community", label: "Community" },
 ]
 
-const recruiterLinks = [
-  { href: "/jobs", label: "Jobs", desc: "Listings + pipeline" },
-  { href: "/discover", label: "Discover", desc: "Talent" },
-  { href: "/chat", label: "Messages", desc: "Inbox" },
-  { href: "/dashboard", label: "Insights", desc: "Charts" },
-  { href: "/community", label: "Community", desc: "Channels" },
-  { href: "/profile", label: "Profile", desc: "Company" },
-  { href: "/feedback", label: "Feedback", desc: "Tell us" },
+const recruiterLinks: NavLink[] = [
+  { href: "/jobs", label: "Jobs" },
+  { href: "/discover", label: "Discover" },
+  { href: "/chat", label: "Messages" },
+  { href: "/dashboard", label: "Insights" },
+  { href: "/community", label: "Community" },
 ]
 
-const adminLinks = [
-  { href: "/admin", label: "Overview", desc: "Dashboard" },
-  { href: "/admin/users", label: "Users", desc: "All accounts" },
-  { href: "/admin/recruiters", label: "Recruiters", desc: "Review" },
-  { href: "/admin/channels", label: "Channels", desc: "Community" },
+const adminLinks: NavLink[] = [
+  { href: "/admin", label: "Overview" },
+  { href: "/admin/users", label: "Users" },
+  { href: "/admin/recruiters", label: "Recruiters" },
+  { href: "/admin/channels", label: "Channels" },
 ]
 
 interface AppNavProps {
@@ -44,6 +70,7 @@ interface AppNavProps {
 
 export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
   const pathname = usePathname()
+  const [mobileOpen, setMobileOpen] = useState(false)
   const links = role === "student" ? studentLinks : role === "recruiter" ? recruiterLinks : adminLinks
 
   const handleSignOut = async () => {
@@ -61,121 +88,135 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
   const initials = displayName.charAt(0).toUpperCase()
   const roleLabel = role === "admin" ? "Admin" : role === "recruiter" ? "Recruiter" : "Student"
 
-  const mobileLinks = links.filter((l) => l.href !== "/feedback")
-
   return (
-    <>
-      <aside className="hidden lg:flex flex-col fixed left-0 top-0 h-full w-56 z-40 bg-card border-r border-border">
-        <div className="h-[52px] flex items-center px-5 border-b border-border shrink-0">
-          <Link
-            href="/"
-            className="text-[17px] font-semibold tracking-tight text-foreground hover:opacity-70 transition-opacity"
-          >
-            jobmatch<span className="text-muted-foreground">.</span>
-          </Link>
-        </div>
-
-        <div className="px-4 pt-4 pb-1">
-          <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wide">{roleLabel}</p>
-        </div>
-
-        <nav className="flex-1 px-2.5 space-y-0.5 overflow-y-auto">
-          {links.map(({ href, label, desc }) => {
-            const active = isActive(href)
-            return (
-              <Link
-                key={href}
-                href={href}
-                className={cn(
-                  "block rounded-[12px] px-3 py-2.5 transition-all duration-200 ease-out",
-                  active
-                    ? "bg-muted text-primary border border-border"
-                    : "text-foreground hover:bg-muted/80"
-                )}
-              >
-                <span className="block text-[13px] font-semibold leading-tight tracking-tight">{label}</span>
-                <span
-                  className={cn(
-                    "mt-0.5 block text-[11px] leading-snug tracking-tight",
-                    active ? "text-primary/80" : "text-muted-foreground"
-                  )}
-                >
-                  {desc}
-                </span>
-              </Link>
-            )
-          })}
-        </nav>
-
-        <div className="p-2.5 border-t border-border space-y-2">
-          <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-[12px] bg-muted/60 border border-border">
-            {avatarUrl ? (
-              <img
-                src={avatarUrl}
-                alt=""
-                className="w-9 h-9 rounded-full object-cover border border-border shrink-0"
-              />
-            ) : (
-              <div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center text-[13px] font-semibold text-foreground shrink-0">
-                {initials}
-              </div>
-            )}
-            <div className="flex-1 min-w-0">
-              <p className="text-[13px] font-semibold text-foreground truncate leading-tight tracking-tight">
-                {displayName}
-              </p>
-              <p className="text-[11px] text-muted-foreground truncate mt-0.5">{email ?? ""}</p>
+    <header className="fixed inset-x-0 top-0 z-50 h-16 border-b border-border bg-background/90 backdrop-blur-xl">
+      <div className="mx-auto flex h-full w-full max-w-[1728px] items-center gap-3 px-4 sm:px-6 lg:px-10 xl:px-14">
+        <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Open menu">
+              <Menu className="h-5 w-5" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="flex w-80 flex-col p-0">
+            <SheetHeader className="border-b border-border px-5 py-4 text-left">
+              <SheetTitle className="font-heading text-base tracking-tight">
+                jobmatch<span className="text-muted-foreground">.</span>
+              </SheetTitle>
+              <SheetDescription>{roleLabel} menu</SheetDescription>
+            </SheetHeader>
+            <nav className="grid gap-1 p-3" aria-label="Mobile">
+              {links.map((link) => (
+                <SheetClose asChild key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={cn(
+                      "rounded-md px-3 py-2.5 text-sm font-medium transition-colors",
+                      isActive(link.href)
+                        ? "bg-accent text-accent-foreground"
+                        : "text-foreground hover:bg-accent hover:text-accent-foreground"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                </SheetClose>
+              ))}
+              {role !== "admin" ? (
+                <>
+                  <SheetClose asChild>
+                    <Link
+                      href="/profile"
+                      className="rounded-md px-3 py-2.5 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground"
+                    >
+                      Profile
+                    </Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link
+                      href="/feedback"
+                      className="rounded-md px-3 py-2.5 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground"
+                    >
+                      Feedback
+                    </Link>
+                  </SheetClose>
+                </>
+              ) : null}
+            </nav>
+            <div className="mt-auto border-t border-border p-3">
+              <Button variant="ghost" className="w-full justify-start" onClick={handleSignOut}>
+                <LogOut className="h-4 w-4" />
+                Sign out
+              </Button>
             </div>
-          </div>
+          </SheetContent>
+        </Sheet>
 
-          <button
-            type="button"
-            onClick={handleSignOut}
-            className="w-full flex items-center gap-2 px-3 py-2.5 rounded-[12px] text-[13px] font-medium text-primary hover:bg-primary/8 transition-colors"
-          >
-            <LogOut className="h-4 w-4 shrink-0 opacity-80" strokeWidth={2} />
-            Sign out
-          </button>
-        </div>
-      </aside>
-
-      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 h-[52px] flex items-center justify-between px-4 border-b border-border bg-background/90 backdrop-blur-2xl">
-        <Link href="/" className="text-[17px] font-semibold tracking-tight text-foreground">
+        <Link href="/" className="shrink-0 font-heading text-[17px] font-semibold tracking-tight text-foreground">
           jobmatch<span className="text-muted-foreground">.</span>
         </Link>
-        <div className="flex items-center gap-1">
-          <NotificationBell />
-          <button
-            type="button"
-            onClick={handleSignOut}
-            className="px-3 py-1.5 text-[13px] font-medium text-primary rounded-full hover:bg-primary/8 transition-colors"
-          >
-            Out
-          </button>
-        </div>
-      </header>
+        <Badge variant="secondary" className="hidden uppercase tracking-[0.14em] sm:inline-flex">
+          {roleLabel}
+        </Badge>
 
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/90 backdrop-blur-2xl safe-area-pb">
-        <div className="flex">
-          {mobileLinks.map(({ href, label }) => {
-            const active = isActive(href)
-            return (
-              <Link
-                key={href}
-                href={href}
-                className={cn(
-                  "flex-1 flex flex-col items-center justify-center py-2 min-h-[50px] transition-colors",
-                  active ? "text-primary" : "text-muted-foreground"
-                )}
-              >
-                <span className="text-[10px] font-semibold tracking-tight text-center leading-tight px-0.5 max-w-full truncate">
-                  {label}
-                </span>
-              </Link>
-            )
-          })}
+        <NavigationMenu viewport={false} className="hidden min-w-0 flex-1 justify-start lg:flex">
+          <NavigationMenuList className="justify-start">
+            {links.map((link) => (
+              <NavigationMenuItem key={link.href}>
+                <NavigationMenuLink asChild active={isActive(link.href)}>
+                  <Link
+                    href={link.href}
+                    data-active={isActive(link.href)}
+                    className={cn(navigationMenuTriggerStyle(), "bg-transparent")}
+                  >
+                    {link.label}
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            ))}
+          </NavigationMenuList>
+        </NavigationMenu>
+
+        <div className="ml-auto flex items-center gap-1.5">
+          <NotificationBell />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="rounded-full" aria-label="Account menu">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={avatarUrl ?? undefined} alt="" />
+                  <AvatarFallback className="bg-primary/15 text-xs text-primary">{initials}</AvatarFallback>
+                </Avatar>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel className="font-normal">
+                <p className="truncate text-sm font-medium leading-none">{displayName}</p>
+                <p className="mt-1 truncate text-xs text-muted-foreground">{email ?? roleLabel}</p>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {role !== "admin" ? (
+                <>
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile">
+                      <UserRound />
+                      Profile
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/feedback">
+                      <MessageSquareText />
+                      Feedback
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                </>
+              ) : null}
+              <DropdownMenuItem onSelect={() => void handleSignOut()}>
+                <LogOut />
+                Sign out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
-      </nav>
-    </>
+      </div>
+    </header>
   )
 }

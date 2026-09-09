@@ -2,6 +2,7 @@
 
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts"
 import { chartPrimary } from "@/components/dashboard/chart-theme"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export function InsightRing({
   value,
@@ -24,10 +25,12 @@ export function InsightRing({
   ]
 
   return (
-    <div className="flex h-full min-h-[240px] flex-col rounded-2xl border border-border bg-card/80 p-4 sm:p-5">
-      <p className="font-data text-[10px] tracking-[0.16em] uppercase text-muted-foreground">{label}</p>
-      <p className="font-body mt-1 text-sm text-foreground">{caption}</p>
-      <div className="relative mt-2 flex flex-1 items-center justify-center">
+    <Card className="flex h-full min-h-[240px] flex-col">
+      <CardHeader className="pb-2">
+        <CardDescription className="font-data text-[10px] uppercase tracking-[0.16em]">{label}</CardDescription>
+        <CardTitle className="font-body text-sm font-medium">{caption}</CardTitle>
+      </CardHeader>
+      <CardContent className="relative flex flex-1 items-center justify-center pt-0">
         <div className="h-[200px] w-full max-w-[220px]">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
@@ -55,7 +58,7 @@ export function InsightRing({
             {hasValue ? detail ?? "of applications matched" : emptyLabel}
           </p>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   )
 }

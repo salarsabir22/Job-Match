@@ -21,6 +21,7 @@ import {
 } from "@/components/dashboard/chart-theme"
 import { ChartTooltip } from "@/components/dashboard/ChartTooltip"
 import { InsightRing } from "@/components/dashboard/InsightRing"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export type RecruiterTimelinePoint = { label: string; applications: number; matches: number }
 export type RecruiterJobBarPoint = { name: string; applications: number }
@@ -46,10 +47,13 @@ export function RecruiterDashboardCharts({
         <p className="font-body text-[13px] leading-relaxed text-muted-foreground">{footnote}</p>
       ) : null}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-5">
-        <div className="rounded-2xl border border-border bg-card/80 p-4 sm:p-5 lg:col-span-2">
-          <p className="font-data text-[10px] tracking-[0.16em] uppercase text-muted-foreground">Pipeline trend</p>
-          <p className="font-body mt-1 text-sm text-foreground">Applications vs matches · 30 days</p>
-          <div className="relative mt-4 h-[260px] w-full">
+        <Card className="lg:col-span-2">
+          <CardHeader className="pb-2">
+            <CardDescription className="font-data text-[10px] uppercase tracking-[0.16em]">Pipeline trend</CardDescription>
+            <CardTitle className="font-body text-sm font-medium">Applications vs matches · 30 days</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="relative h-[260px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={timeline} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
                 <defs>
@@ -90,8 +94,9 @@ export function RecruiterDashboardCharts({
                 Axes are live. Inbound swipes will fill this chart.
               </p>
             ) : null}
-          </div>
-        </div>
+            </div>
+          </CardContent>
+        </Card>
 
         <InsightRing
           value={conversionRate}
@@ -101,10 +106,13 @@ export function RecruiterDashboardCharts({
           detail="inbound converted"
         />
 
-        <div className="rounded-2xl border border-border bg-card/80 p-4 sm:p-5 lg:col-span-3">
-          <p className="font-data text-[10px] tracking-[0.16em] uppercase text-muted-foreground">Volume by role</p>
-          <p className="font-body mt-1 text-sm text-foreground">Applications per posting</p>
-          <div className="relative mt-4 h-[260px] w-full">
+        <Card className="lg:col-span-3">
+          <CardHeader className="pb-2">
+            <CardDescription className="font-data text-[10px] uppercase tracking-[0.16em]">Volume by role</CardDescription>
+            <CardTitle className="font-body text-sm font-medium">Applications per posting</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="relative h-[260px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={bars} layout="vertical" margin={{ top: 8, right: 16, left: 8, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke={chartGridStroke} horizontal={false} />
@@ -126,8 +134,9 @@ export function RecruiterDashboardCharts({
                 Post a role to start collecting inbound applications.
               </p>
             ) : null}
-          </div>
-        </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   )

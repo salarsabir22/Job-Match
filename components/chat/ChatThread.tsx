@@ -11,6 +11,7 @@ import { ChatUserAvatar } from "@/components/chat/ChatUserAvatar"
 import { formatDaySeparator, shouldShowDaySeparator } from "@/components/chat/chat-helpers"
 import { MessageTicks, messageTimeLabel, type MessageDeliveryStatus } from "@/components/chat/MessageTicks"
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import type { ChatPeer } from "@/lib/chat/inbox"
 import type { Message } from "@/types"
 import type { RealtimeChannel } from "@supabase/supabase-js"
@@ -309,14 +310,15 @@ export function ChatThread({
             aria-label="Message"
             className="max-h-36 min-h-[40px] flex-1 resize-none bg-transparent px-1.5 py-2 font-body text-sm text-foreground outline-none placeholder:text-muted-foreground"
           />
-          <button
+          <Button
             type="submit"
+            size="icon"
             disabled={sending || !draft.trim()}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground transition hover:bg-[var(--clearpath-navy-hover)] disabled:opacity-35"
+            className="rounded-xl"
             aria-label="Send message"
           >
             <ArrowUp className="h-5 w-5" strokeWidth={2.25} />
-          </button>
+          </Button>
         </div>
       </form>
     </div>

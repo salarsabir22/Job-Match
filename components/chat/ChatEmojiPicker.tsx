@@ -3,21 +3,24 @@
 import { useState } from "react"
 import EmojiPicker, { Theme } from "emoji-picker-react"
 import { Smile } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export function ChatEmojiPicker({ onPick }: { onPick: (emoji: string) => void }) {
   const [open, setOpen] = useState(false)
 
   return (
     <div className="relative">
-      <button
+      <Button
         type="button"
+        variant="ghost"
+        size="icon"
         onClick={() => setOpen((v) => !v)}
-        className="flex h-10 w-10 items-center justify-center rounded-xl text-muted-foreground transition hover:bg-muted hover:text-foreground"
+        className="h-10 w-10 rounded-xl text-muted-foreground"
         aria-label="Add emoji"
         aria-expanded={open}
       >
         <Smile className="h-[22px] w-[22px]" strokeWidth={1.75} />
-      </button>
+      </Button>
       {open ? (
         <>
           <button

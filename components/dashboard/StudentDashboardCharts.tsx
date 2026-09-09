@@ -19,6 +19,7 @@ import {
 } from "@/components/dashboard/chart-theme"
 import { ChartTooltip } from "@/components/dashboard/ChartTooltip"
 import { InsightRing } from "@/components/dashboard/InsightRing"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export type StudentActivityPoint = { label: string; applied: number; saved: number }
 export type StudentMatchesPoint = { label: string; matches: number }
@@ -43,38 +44,42 @@ export function StudentDashboardCharts({
         <p className="font-body text-[13px] leading-relaxed text-muted-foreground">{footnote}</p>
       ) : null}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-5">
-        <div className="rounded-2xl border border-border bg-card/80 p-4 sm:p-5 lg:col-span-2">
-          <p className="font-data text-[10px] tracking-[0.16em] uppercase text-muted-foreground">Swipes over time</p>
-          <p className="font-body mt-1 text-sm text-foreground">Applications vs saves · 30 days</p>
-          <div className="relative mt-4 h-[260px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={activity} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="appliedFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={chartPrimary} stopOpacity={0.45} />
-                    <stop offset="100%" stopColor={chartPrimary} stopOpacity={0} />
-                  </linearGradient>
-                  <linearGradient id="savedFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={chartSecondary} stopOpacity={0.28} />
-                    <stop offset="100%" stopColor={chartSecondary} stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke={chartGridStroke} vertical={false} />
-                <XAxis dataKey="label" tick={chartAxisTick} tickLine={false} axisLine={{ stroke: chartAxisLine }} interval="preserveStartEnd" minTickGap={18} />
-                <YAxis allowDecimals={false} tick={chartAxisTick} tickLine={false} axisLine={false} width={28} />
-                <Tooltip content={<ChartTooltip />} />
-                <Legend wrapperStyle={{ fontSize: 11, color: "var(--muted-foreground)" }} />
-                <Area type="monotone" dataKey="applied" name="Applied" stroke={chartPrimary} fill="url(#appliedFill)" strokeWidth={2.25} />
-                <Area type="monotone" dataKey="saved" name="Saved" stroke={chartSecondary} fill="url(#savedFill)" strokeWidth={2} />
-              </AreaChart>
-            </ResponsiveContainer>
-            {!hasActivity ? (
-              <p className="pointer-events-none absolute inset-x-8 top-10 text-center font-body text-sm text-muted-foreground">
-                Axes are live. Swipe on Discover to fill this chart.
-              </p>
-            ) : null}
-          </div>
-        </div>
+        <Card className="lg:col-span-2">
+          <CardHeader className="pb-2">
+            <CardDescription className="font-data text-[10px] uppercase tracking-[0.16em]">Swipes over time</CardDescription>
+            <CardTitle className="font-body text-sm font-medium">Applications vs saves · 30 days</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="relative h-[260px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={activity} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="appliedFill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor={chartPrimary} stopOpacity={0.45} />
+                      <stop offset="100%" stopColor={chartPrimary} stopOpacity={0} />
+                    </linearGradient>
+                    <linearGradient id="savedFill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor={chartSecondary} stopOpacity={0.28} />
+                      <stop offset="100%" stopColor={chartSecondary} stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke={chartGridStroke} vertical={false} />
+                  <XAxis dataKey="label" tick={chartAxisTick} tickLine={false} axisLine={{ stroke: chartAxisLine }} interval="preserveStartEnd" minTickGap={18} />
+                  <YAxis allowDecimals={false} tick={chartAxisTick} tickLine={false} axisLine={false} width={28} />
+                  <Tooltip content={<ChartTooltip />} />
+                  <Legend wrapperStyle={{ fontSize: 11, color: "var(--muted-foreground)" }} />
+                  <Area type="monotone" dataKey="applied" name="Applied" stroke={chartPrimary} fill="url(#appliedFill)" strokeWidth={2.25} />
+                  <Area type="monotone" dataKey="saved" name="Saved" stroke={chartSecondary} fill="url(#savedFill)" strokeWidth={2} />
+                </AreaChart>
+              </ResponsiveContainer>
+              {!hasActivity ? (
+                <p className="pointer-events-none absolute inset-x-8 top-10 text-center font-body text-sm text-muted-foreground">
+                  Axes are live. Swipe on Discover to fill this chart.
+                </p>
+              ) : null}
+            </div>
+          </CardContent>
+        </Card>
 
         <InsightRing
           value={matchRate}
@@ -84,10 +89,13 @@ export function StudentDashboardCharts({
           detail="of applications matched"
         />
 
-        <div className="rounded-2xl border border-border bg-card/80 p-4 sm:p-5 lg:col-span-3">
-          <p className="font-data text-[10px] tracking-[0.16em] uppercase text-muted-foreground">New matches</p>
-          <p className="font-body mt-1 text-sm text-foreground">Mutual matches per day · 30 days</p>
-          <div className="relative mt-4 h-[220px] w-full">
+        <Card className="lg:col-span-3">
+          <CardHeader className="pb-2">
+            <CardDescription className="font-data text-[10px] uppercase tracking-[0.16em]">New matches</CardDescription>
+            <CardTitle className="font-body text-sm font-medium">Mutual matches per day · 30 days</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="relative h-[220px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={matchesSeries} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
                 <defs>
@@ -115,8 +123,9 @@ export function StudentDashboardCharts({
                 New matches will plot here as recruiters return interest.
               </p>
             ) : null}
-          </div>
-        </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   )
