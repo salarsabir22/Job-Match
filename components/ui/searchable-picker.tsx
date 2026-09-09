@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react"
 import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 export function SearchablePicker({
@@ -51,10 +52,11 @@ export function SearchablePicker({
         <ul className="absolute z-30 mt-1 max-h-72 w-full overflow-auto rounded-xl border border-border bg-card p-1 shadow-lg">
           {filtered.map((item) => (
             <li key={item}>
-              <button
+              <Button
                 type="button"
+                variant="ghost"
                 className={cn(
-                  "w-full rounded-lg px-3 py-2 text-left font-body text-sm hover:bg-muted",
+                  "h-auto w-full justify-start rounded-lg px-3 py-2 font-body text-sm",
                   value === item && "bg-muted font-medium"
                 )}
                 onMouseDown={(e) => e.preventDefault()}
@@ -71,7 +73,7 @@ export function SearchablePicker({
                 }}
               >
                 {item}
-              </button>
+              </Button>
             </li>
           ))}
         </ul>

@@ -7,6 +7,7 @@ import { useToast } from "@/lib/hooks/use-toast"
 import { ArrowLeft, Loader2, X } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -229,32 +230,33 @@ export default function NewJobPage() {
                 {SKILL_SUGGESTIONS.filter((s) => !requiredSkills.includes(s))
                   .slice(0, 6)
                   .map((s) => (
-                    <button
+                    <Button
                       key={s}
                       type="button"
+                      variant="outline"
+                      size="sm"
                       onClick={() => addSkill(s, requiredSkills, setRequiredSkills, () => {})}
-                      className="rounded-full border border-dashed border-border px-2.5 py-1 font-body text-xs text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
+                      className="rounded-full border-dashed"
                     >
                       + {s}
-                    </button>
+                    </Button>
                   ))}
               </div>
               <div className="flex flex-wrap gap-2">
                 {requiredSkills.map((s) => (
-                  <span
-                    key={s}
-                    className="inline-flex items-center gap-1.5 rounded-md border border-border bg-muted/50 px-2.5 py-1 font-body text-xs text-foreground"
-                  >
+                  <Badge key={s} variant="secondary" className="gap-1.5">
                     {s}
-                    <button
+                    <Button
                       type="button"
-                      className="text-muted-foreground transition hover:text-foreground"
+                      variant="ghost"
+                      size="icon"
+                      className="h-4 w-4 text-muted-foreground hover:text-foreground"
                       aria-label={`Remove ${s}`}
                       onClick={() => setRequiredSkills(requiredSkills.filter((x) => x !== s))}
                     >
                       <X className="h-3 w-3" />
-                    </button>
-                  </span>
+                    </Button>
+                  </Badge>
                 ))}
               </div>
             </div>
@@ -285,20 +287,19 @@ export default function NewJobPage() {
               </div>
               <div className="flex flex-wrap gap-2">
                 {niceToHaveSkills.map((s) => (
-                  <span
-                    key={s}
-                    className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1 font-body text-xs text-muted-foreground"
-                  >
+                  <Badge key={s} variant="outline" className="gap-1.5">
                     {s}
-                    <button
+                    <Button
                       type="button"
-                      className="text-muted-foreground transition hover:text-foreground"
+                      variant="ghost"
+                      size="icon"
+                      className="h-4 w-4 text-muted-foreground hover:text-foreground"
                       aria-label={`Remove ${s}`}
                       onClick={() => setNiceToHaveSkills(niceToHaveSkills.filter((x) => x !== s))}
                     >
                       <X className="h-3 w-3" />
-                    </button>
-                  </span>
+                    </Button>
+                  </Badge>
                 ))}
               </div>
             </div>

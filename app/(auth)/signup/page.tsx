@@ -5,6 +5,12 @@ import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"
 import { cn } from "@/lib/utils"
 import { Loader2, Eye, EyeOff } from "lucide-react"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Separator } from "@/components/ui/separator"
 
 const GoogleIcon = () => (
   <svg className="h-4 w-4" viewBox="0 0 24 24">
@@ -126,151 +132,163 @@ export default function SignupPage() {
 
   if (verifyMode) {
     return (
-      <div className="auth-card text-center">
-        <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">Verify email</p>
-        <h2 className="mt-4 text-[18px] font-semibold tracking-[-0.03em] text-foreground mb-2">Check your inbox</h2>
-        <p className="font-body text-muted-foreground text-sm mb-1">We sent a confirmation link to</p>
-        <p className="font-body text-foreground font-medium text-sm mb-5">{email}</p>
-        <div className="p-3.5 rounded-xl bg-muted/50 border border-border mb-5 text-left">
-          <p className="font-data text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-2">Next steps</p>
-          <ol className="list-decimal list-inside space-y-1">
-            <li className="font-body text-xs text-muted-foreground">Open the email from JobMatch</li>
-            <li className="font-body text-xs text-muted-foreground">Click &quot;Confirm your email&quot;</li>
-            <li className="font-body text-xs text-muted-foreground">Complete your profile</li>
-          </ol>
-        </div>
-        <p className="font-body text-xs text-muted-foreground">
-          Didn&apos;t receive it? Check spam or{" "}
-          <button type="button" onClick={() => setVerifyMode(false)} className="text-primary hover:underline font-medium">
-            try again
-          </button>
-        </p>
-      </div>
+      <Card>
+        <CardHeader className="text-center">
+          <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">Verify email</p>
+          <CardTitle>Check your inbox</CardTitle>
+          <CardDescription>
+            We sent a confirmation link to <span className="font-medium text-foreground">{email}</span>
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="mb-5 rounded-xl border border-border bg-muted/50 p-3.5 text-left">
+            <p className="mb-2 font-data text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Next steps</p>
+            <ol className="list-inside list-decimal space-y-1">
+              <li className="font-body text-xs text-muted-foreground">Open the email from JobMatch</li>
+              <li className="font-body text-xs text-muted-foreground">Click &quot;Confirm your email&quot;</li>
+              <li className="font-body text-xs text-muted-foreground">Complete your profile</li>
+            </ol>
+          </div>
+          <p className="text-center font-body text-xs text-muted-foreground">
+            Didn&apos;t receive it? Check spam or{" "}
+            <Button variant="link" className="h-auto p-0 text-xs" onClick={() => setVerifyMode(false)}>
+              try again
+            </Button>
+          </p>
+        </CardContent>
+      </Card>
     )
   }
 
   return (
-    <div className="auth-card">
-      <div className="text-center mb-7">
-        <p className="font-data text-[10px] tracking-[0.25em] uppercase text-muted-foreground mb-2">Welcome</p>
-        <h1 className="text-[18px] sm:text-[19px] font-semibold tracking-[-0.02em] text-foreground">Create your account</h1>
-        <p className="font-body text-muted-foreground text-sm mt-1.5">Free - under a minute</p>
-      </div>
-
-      {/* Role selector */}
-      <div className="mb-5">
-        <p className="font-data text-[11px] tracking-[0.2em] uppercase text-muted-foreground mb-2">I am joining as…</p>
-        <div className="grid grid-cols-2 gap-3">
-          {(["student", "recruiter"] as SignupRole[]).map((r) => {
-            const { label, description } = ROLE_INFO[r]
-            const active = role === r
-            return (
-              <button key={r} type="button" onClick={() => setRole(r)}
-                className={cn(
-                  "rounded-2xl border px-3.5 py-3 text-left transition-all duration-200",
-                  active
-                    ? "border-primary bg-primary/10"
-                    : "border-border bg-card hover:border-muted-foreground/30"
-                )}>
-                <p className={cn("text-[13px] font-semibold tracking-[-0.02em]", active ? "text-primary" : "text-foreground")}>
-                  {label}
-                </p>
-                <p className="mt-1.5 text-[11px] leading-snug text-muted-foreground">{description}</p>
-              </button>
-            )
-          })}
+    <Card>
+      <CardHeader className="text-center">
+        <p className="mb-2 font-data text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Welcome</p>
+        <CardTitle>Create your account</CardTitle>
+        <CardDescription>Free - under a minute</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="mb-5">
+          <p className="mb-2 font-data text-[11px] uppercase tracking-[0.2em] text-muted-foreground">I am joining as…</p>
+          <div className="grid grid-cols-2 gap-3">
+            {(["student", "recruiter"] as SignupRole[]).map((r) => {
+              const { label, description } = ROLE_INFO[r]
+              const active = role === r
+              return (
+                <Button
+                  key={r}
+                  type="button"
+                  variant={active ? "secondary" : "outline"}
+                  onClick={() => setRole(r)}
+                  className={cn(
+                    "h-auto whitespace-normal rounded-2xl px-3.5 py-3 text-left",
+                    active ? "border-primary bg-primary/10" : ""
+                  )}
+                >
+                  <span className="flex flex-col items-start gap-1.5">
+                    <span className={cn("text-[13px] font-semibold tracking-[-0.02em]", active ? "text-primary" : "text-foreground")}>
+                      {label}
+                    </span>
+                    <span className="text-[11px] font-normal leading-snug text-muted-foreground">{description}</span>
+                  </span>
+                </Button>
+              )
+            })}
+          </div>
         </div>
-      </div>
 
-      {/* Global error */}
-      {error && (
-        <div className="border-l-2 border-destructive/80 bg-destructive/10 pl-4 pr-3 py-3 rounded-r-xl mb-5">
-          <div>
-            <p className="font-body text-[14px] leading-snug text-destructive">{error}</p>
-            {error.includes("already exists") && (
-              <Link href="/login" className="font-body text-xs text-primary mt-1 inline-block hover:underline">
-                Go to sign in →
-              </Link>
+        {error && (
+          <Alert variant="destructive" className="mb-5">
+            <AlertDescription>
+              {error}
+              {error.includes("already exists") && (
+                <Link href="/login" className="mt-1 inline-block font-body text-xs text-primary hover:underline">
+                  Go to sign in →
+                </Link>
+              )}
+            </AlertDescription>
+          </Alert>
+        )}
+
+        <Button
+          type="button"
+          variant="outline"
+          className="mb-4 w-full"
+          onClick={handleGoogleSignup}
+          disabled={googleLoading || loading}
+        >
+          {googleLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <GoogleIcon />}
+          Google - {role === "student" ? "Student" : "Recruiter"}
+        </Button>
+
+        <div className="relative mb-4 flex items-center gap-3">
+          <Separator className="flex-1" />
+          <span className="font-data text-[10px] uppercase tracking-[0.2em] text-muted-foreground">or email</span>
+          <Separator className="flex-1" />
+        </div>
+
+        <form onSubmit={handleSignup} noValidate className="space-y-4">
+          <div className="space-y-1.5">
+            <Label htmlFor="signup-name">Full name</Label>
+            <Input
+              id="signup-name"
+              placeholder="Jane Smith"
+              value={fullName}
+              onChange={(e) => { setFullName(e.target.value); clearFieldError("fullName") }}
+              autoComplete="name"
+              className={fieldErrors.fullName ? "border-destructive" : ""}
+            />
+            {fieldErrors.fullName && (
+              <p className="pl-0.5 font-body text-xs text-destructive">{fieldErrors.fullName}</p>
             )}
           </div>
-        </div>
-      )}
 
-      {/* Google */}
-      <button
-        type="button"
-        onClick={handleGoogleSignup}
-        disabled={googleLoading || loading}
-        className="auth-btn-google mb-4 disabled:opacity-45"
-      >
-        {googleLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <GoogleIcon />}
-        Google - {role === "student" ? "Student" : "Recruiter"}
-      </button>
-
-      <div className="relative flex items-center gap-3 mb-4">
-        <div className="flex-1 h-px bg-border" />
-        <span className="font-data text-[10px] tracking-[0.2em] uppercase text-muted-foreground">or email</span>
-        <div className="flex-1 h-px bg-border" />
-      </div>
-
-      <form onSubmit={handleSignup} noValidate className="space-y-4">
-        {/* Name */}
-        <div className="space-y-1.5">
-          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-muted-foreground">Full name</label>
-          <input
-            placeholder="Jane Smith"
-            value={fullName}
-            onChange={(e) => { setFullName(e.target.value); clearFieldError("fullName") }}
-            autoComplete="name"
-            className={`auth-input ${fieldErrors.fullName ? "border-destructive/60" : ""}`}
-          />
-          {fieldErrors.fullName && (
-            <p className="text-xs text-destructive font-body pl-0.5">{fieldErrors.fullName}</p>
-          )}
-        </div>
-
-        <div className="space-y-1.5">
-          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-muted-foreground">Email address</label>
-          <input
-            type="email"
-            placeholder="you@example.com"
-            value={email}
-            onChange={(e) => { setEmail(e.target.value); clearFieldError("email") }}
-            autoComplete="email"
-            className={`auth-input ${fieldErrors.email ? "border-destructive/60" : ""}`}
-          />
-          {fieldErrors.email && (
-            <p className="text-xs text-destructive font-body pl-0.5">{fieldErrors.email}</p>
-          )}
-        </div>
-
-        <div className="space-y-1.5">
-          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-muted-foreground">Password</label>
-          <div className="relative">
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Min. 6 characters"
-              value={password}
-              onChange={(e) => { setPassword(e.target.value); clearFieldError("password") }}
-              autoComplete="new-password"
-              className={`auth-input pr-11 ${fieldErrors.password ? "border-destructive/60" : ""}`}
+          <div className="space-y-1.5">
+            <Label htmlFor="signup-email">Email address</Label>
+            <Input
+              id="signup-email"
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => { setEmail(e.target.value); clearFieldError("email") }}
+              autoComplete="email"
+              className={fieldErrors.email ? "border-destructive" : ""}
             />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
-            >
-              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            </button>
+            {fieldErrors.email && (
+              <p className="pl-0.5 font-body text-xs text-destructive">{fieldErrors.email}</p>
+            )}
           </div>
-          {password.length > 0 && (
-            <div className="space-y-1">
-              <div className="flex gap-1">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className={cn("h-1 flex-1 rounded-full transition-all duration-300", i <= strength.score ? strength.color : "bg-muted")} />
-                ))}
-              </div>
-              <div className="flex items-center justify-between">
+
+          <div className="space-y-1.5">
+            <Label htmlFor="signup-password">Password</Label>
+            <div className="relative">
+              <Input
+                id="signup-password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Min. 6 characters"
+                value={password}
+                onChange={(e) => { setPassword(e.target.value); clearFieldError("password") }}
+                autoComplete="new-password"
+                className={`pr-11 ${fieldErrors.password ? "border-destructive" : ""}`}
+              />
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 text-muted-foreground"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </Button>
+            </div>
+            {password.length > 0 && (
+              <div className="space-y-1">
+                <div className="flex gap-1">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div key={i} className={cn("h-1 flex-1 rounded-full transition-all duration-300", i <= strength.score ? strength.color : "bg-muted")} />
+                  ))}
+                </div>
                 <p className="font-data text-[10px] text-muted-foreground">
                   {strength.score < 3 && "Use uppercase, numbers & symbols"}
                   {strength.score >= 3 && (
@@ -278,47 +296,43 @@ export default function SignupPage() {
                   )}
                 </p>
               </div>
-            </div>
-          )}
-          {fieldErrors.password && (
-            <p className="text-xs text-destructive font-body pl-0.5">{fieldErrors.password}</p>
-          )}
-        </div>
-
-        {role === "recruiter" && (
-          <div className="border-l-2 border-primary/25 bg-muted/40 pl-3.5 py-2.5 rounded-r-lg">
-            <p className="font-body text-[11px] text-muted-foreground leading-relaxed">
-              Recruiter accounts are reviewed before you can post jobs.
-            </p>
+            )}
+            {fieldErrors.password && (
+              <p className="pl-0.5 font-body text-xs text-destructive">{fieldErrors.password}</p>
+            )}
           </div>
-        )}
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="auth-btn-primary disabled:opacity-45 disabled:pointer-events-none"
-        >
-          {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Creating account…</> : "Create account"}
-        </button>
-      </form>
+          {role === "recruiter" && (
+            <Alert>
+              <AlertDescription>
+                Recruiter accounts are reviewed before you can post jobs.
+              </AlertDescription>
+            </Alert>
+          )}
 
-      <p className="font-body text-center text-sm text-muted-foreground mt-5">
-        Already have an account?{" "}
-        <Link href="/login" className="text-primary font-medium hover:opacity-80 transition-colors">
-          Sign in
-        </Link>
-      </p>
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Creating account…</> : "Create account"}
+          </Button>
+        </form>
 
-      <p className="font-body text-center text-[10px] text-muted-foreground mt-4">
-        By signing up you agree to our{" "}
-        <a href="#" className="text-muted-foreground hover:text-foreground underline underline-offset-2">
-          Terms
-        </a>{" "}
-        and{" "}
-        <a href="#" className="text-muted-foreground hover:text-foreground underline underline-offset-2">
-          Privacy
-        </a>
-      </p>
-    </div>
+        <p className="mt-5 text-center font-body text-sm text-muted-foreground">
+          Already have an account?{" "}
+          <Link href="/login" className="font-medium text-primary transition-colors hover:opacity-80">
+            Sign in
+          </Link>
+        </p>
+
+        <p className="mt-4 text-center font-body text-[10px] text-muted-foreground">
+          By signing up you agree to our{" "}
+          <a href="#" className="text-muted-foreground underline underline-offset-2 hover:text-foreground">
+            Terms
+          </a>{" "}
+          and{" "}
+          <a href="#" className="text-muted-foreground underline underline-offset-2 hover:text-foreground">
+            Privacy
+          </a>
+        </p>
+      </CardContent>
+    </Card>
   )
 }

@@ -8,6 +8,8 @@ import { formatTime } from "@/lib/utils"
 import { resolveNotificationPath } from "@/lib/chat-navigation"
 import { Loader2, CheckCircle, XCircle } from "lucide-react"
 import { PushOptIn } from "@/components/nav/PushOptIn"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function NotificationsPage() {
   const supabase = useMemo(() => createClient(), [])
@@ -45,7 +47,7 @@ export default function NotificationsPage() {
       setItems((notifications || []) as Notification[])
       setLoading(false)
     }
-    load()
+    void load()
   }, [supabase])
 
   const actOnNotification = async (n: Notification) => {
@@ -59,18 +61,17 @@ export default function NotificationsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="font-heading text-xl font-bold text-foreground sm:text-2xl">Pings 🔔</h1>
-          <p className="font-data text-[10px] tracking-widest uppercase text-muted-foreground mt-1">
-            {unreadCount > 0 ? `${unreadCount} unread` : "You're all caught up"}
-          </p>
-          <p className="font-data text-[10px] tracking-widest uppercase text-muted-foreground mt-1">
-            {chatUnreadCount > 0 ? `${chatUnreadCount} unread chat message${chatUnreadCount > 1 ? "s" : ""}` : "No unread chat messages"}
-          </p>
-          <div className="mt-3">
-            <PushOptIn />
-          </div>
+      <div>
+        <h1 className="font-heading text-xl font-bold text-foreground sm:text-2xl">Pings</h1>
+        <p className="mt-1 font-body text-sm text-muted-foreground">
+          {unreadCount > 0 ? `${unreadCount} unread` : "You're all caught up"}
+          {" · "}
+          {chatUnreadCount > 0
+            ? `${chatUnreadCount} unread chat message${chatUnreadCount > 1 ? "s" : ""}`
+            : "No unread chat messages"}
+        </p>
+        <div className="mt-3">
+          <PushOptIn />
         </div>
       </div>
 
@@ -79,43 +80,40 @@ export default function NotificationsPage() {
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
       ) : items.length === 0 ? (
-        <div className="rounded-2xl border border-border bg-card p-6 text-center">
-          <p className="font-body text-sm text-muted-foreground">No pings yet. Go swipe. Make some noise.</p>
-        </div>
+        <Card>
+          <CardHeader className="text-center">
+            <CardTitle>No pings yet</CardTitle>
+            <CardDescription>Go swipe. Make some noise.</CardDescription>
+          </CardHeader>
+        </Card>
       ) : (
-        <div className="rounded-2xl border border-border bg-card overflow-hidden">
-          <div className="divide-y divide-white/8">
+        <Card>
+          <CardContent className="divide-y divide-border p-0">
             {items.map((n) => (
-              <button
+              <Button
                 key={n.id}
                 type="button"
+                variant="ghost"
                 onClick={() => void actOnNotification(n)}
-                className="w-full text-left px-5 py-4 hover:bg-muted/50 transition-colors flex items-start justify-between gap-4"
+                className="h-auto w-full justify-between rounded-none px-5 py-4 text-left"
               >
                 <div className="min-w-0">
-                  <p className="font-body text-sm text-foreground truncate">{n.title}</p>
+                  <p className="truncate font-body text-sm text-foreground">{n.title}</p>
                   {n.body && (
-                    <p className="font-body text-xs text-muted-foreground mt-1 leading-relaxed line-clamp-2">
-                      {n.body}
-                    </p>
+                    <p className="mt-1 line-clamp-2 font-body text-xs leading-relaxed text-muted-foreground">{n.body}</p>
                   )}
-                  <p className="font-data text-[10px] text-muted-foreground mt-2">
-                    {formatTime(n.created_at)}
-                  </p>
+                  <p className="mt-2 font-data text-[10px] text-muted-foreground">{formatTime(n.created_at)}</p>
                 </div>
-                <div className="shrink-0 flex items-center gap-2">
-                  {!n.is_read ? (
-                    <CheckCircle className="h-4 w-4 text-primary" />
-                  ) : (
-                    <XCircle className="h-4 w-4 text-muted-foreground" />
-                  )}
-                </div>
-              </button>
+                {!n.is_read ? (
+                  <CheckCircle className="h-4 w-4 shrink-0 text-primary" />
+                ) : (
+                  <XCircle className="h-4 w-4 shrink-0 text-muted-foreground" />
+                )}
+              </Button>
             ))}
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       )}
     </div>
   )
 }
-

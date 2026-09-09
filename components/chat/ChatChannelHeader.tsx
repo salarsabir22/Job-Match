@@ -4,6 +4,8 @@ import Link from "next/link"
 import { ChevronLeft } from "lucide-react"
 import { ChatUserAvatar } from "@/components/chat/ChatUserAvatar"
 import type { ChatPeer } from "@/lib/chat/inbox"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 
 type ChatChannelHeaderProps = {
   peer: ChatPeer
@@ -25,22 +27,22 @@ export function ChatChannelHeader({
   return (
     <header className="relative flex shrink-0 items-center gap-3 border-b border-border bg-card/70 px-3 py-3 backdrop-blur-xl">
       {backHref ? (
-        <Link
-          href={backHref}
-          className="flex h-9 w-9 items-center justify-center rounded-full text-foreground hover:bg-muted"
-          aria-label="Back to messages"
-        >
-          <ChevronLeft className="h-6 w-6" strokeWidth={2} />
-        </Link>
+        <Button asChild variant="ghost" size="icon" aria-label="Back to messages">
+          <Link href={backHref}>
+            <ChevronLeft className="h-6 w-6" strokeWidth={2} />
+          </Link>
+        </Button>
       ) : onBack ? (
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="icon"
           onClick={onBack}
-          className="flex h-9 w-9 items-center justify-center rounded-full text-foreground hover:bg-muted lg:hidden"
+          className="lg:hidden"
           aria-label="Back to inbox"
         >
           <ChevronLeft className="h-6 w-6" strokeWidth={2} />
-        </button>
+        </Button>
       ) : (
         <span className="hidden w-9 lg:block" />
       )}
@@ -59,9 +61,9 @@ export function ChatChannelHeader({
         )}
       </div>
       {jobTitle ? (
-        <span className="hidden max-w-[10rem] truncate rounded-full border border-border bg-muted/80 px-2.5 py-1 font-data text-[10px] uppercase tracking-[0.12em] text-muted-foreground sm:inline">
+        <Badge variant="outline" className="hidden max-w-[10rem] truncate sm:inline-flex">
           {jobTitle}
-        </span>
+        </Badge>
       ) : null}
     </header>
   )

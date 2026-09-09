@@ -4,6 +4,10 @@ import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import Link from "next/link"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Star, Archive } from "lucide-react"
 import { getInitials, formatDate, cn } from "@/lib/utils"
 import { useToast } from "@/lib/hooks/use-toast"
@@ -129,8 +133,8 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
     const schoolLine = [sp?.university, sp?.graduation_year].filter(Boolean).join(" · ")
 
     return (
-      <div className="rounded-2xl border border-border bg-card shadow-sm overflow-hidden transition hover:border-border">
-        <div className="p-4 sm:p-5 flex items-start gap-4">
+      <Card>
+        <CardContent className="flex items-start gap-4 p-4 sm:p-5">
           <Avatar className="h-12 w-12 shrink-0 ring-1 ring-border">
             <AvatarImage src={profile?.avatar_url || undefined} />
             <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">
@@ -157,76 +161,56 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
             {skills.length > 0 && (
               <div className="flex flex-wrap gap-1.5 mt-3">
                 {skills.map((s: string) => (
-                  <span
-                    key={s}
-                    className="rounded-md border border-border bg-muted px-2 py-0.5 font-body text-[11px] text-foreground"
-                  >
+                  <Badge key={s} variant="secondary">
                     {s}
-                  </span>
+                  </Badge>
                 ))}
                 {(sp?.skills?.length || 0) > 3 && (
-                  <span className="rounded-md border border-border px-2 py-0.5 font-body text-[11px] text-muted-foreground">
-                    +{(sp?.skills?.length || 0) - 3}
-                  </span>
+                  <Badge variant="outline">+{(sp?.skills?.length || 0) - 3}</Badge>
                 )}
               </div>
             )}
           </div>
-        </div>
+        </CardContent>
 
-        <div className="px-4 sm:px-5 pb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-t border-border pt-4">
+        <CardContent className="flex flex-col gap-3 border-t border-border px-4 pb-4 pt-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
           <div className="flex flex-wrap gap-2">
             {match.is_shortlisted && (
-              <span className="rounded-full bg-muted px-2.5 py-0.5 font-body text-[11px] font-medium text-foreground">
-                Shortlisted for {match.jobs?.title || "this role"}
-              </span>
+              <Badge>Shortlisted for {match.jobs?.title || "this role"}</Badge>
             )}
-            {convId && (
-              <span className="rounded-full border border-border px-2.5 py-0.5 font-body text-[11px] text-muted-foreground">
-                In chat
-              </span>
-            )}
+            {convId && <Badge variant="outline">In chat</Badge>}
           </div>
 
           <div className="flex items-center gap-2 justify-end">
-            <button
+            <Button
               type="button"
+              size="icon"
+              variant={match.is_shortlisted ? "secondary" : "outline"}
               onClick={() => toggleShortlist(match.id, !!match.is_shortlisted)}
               aria-label={match.is_shortlisted ? "Remove from shortlist" : "Add to shortlist"}
-              className={cn(
-                "h-9 w-9 rounded-lg border flex items-center justify-center transition-colors",
-                match.is_shortlisted
-                  ? "border-primary/30 bg-primary/10 text-primary"
-                  : "border-border text-muted-foreground hover:border-border hover:bg-muted"
-              )}
             >
               <Star className={cn("h-4 w-4", match.is_shortlisted && "fill-primary text-primary")} strokeWidth={1.5} />
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
+              size="icon"
+              variant="outline"
               onClick={() => toggleArchive(match.id, !!match.is_archived)}
               aria-label={match.is_archived ? "Unarchive" : "Archive"}
-              className="h-9 w-9 rounded-lg border border-border text-muted-foreground flex items-center justify-center hover:bg-muted transition-colors"
             >
               <Archive className="h-4 w-4" strokeWidth={1.5} />
-            </button>
+            </Button>
             {profile?.id ? (
-              <Link
-                href={`/candidates/${profile.id}`}
-                className="inline-flex items-center justify-center h-9 px-3 rounded-lg border border-border font-body text-xs font-medium text-foreground hover:bg-muted"
-              >
-                Profile
-              </Link>
+              <Button asChild variant="outline" size="sm">
+                <Link href={`/candidates/${profile.id}`}>Profile</Link>
+              </Button>
             ) : null}
-            <Link
-              href={`/chat/${convId || match.id}`}
-              className="inline-flex items-center justify-center h-9 px-4 rounded-lg bg-primary text-primary-foreground font-body text-xs font-medium transition hover:bg-[var(--clearpath-navy-hover)]"
-            >
-              Open chat
-            </Link>
+            <Button asChild size="sm">
+              <Link href={`/chat/${convId || match.id}`}>Open chat</Link>
+            </Button>
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     )
   }
 
@@ -254,35 +238,34 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
           </p>
         </div>
         {overallStats.inConversation > 0 ? (
-          <Link
-            href="/chat"
-            className="inline-flex shrink-0 items-center justify-center rounded-full bg-primary px-4 py-2 font-body text-sm font-medium text-primary-foreground transition hover:bg-[var(--clearpath-navy-hover)]"
-          >
-            Open inbox
-          </Link>
+          <Button asChild>
+            <Link href="/chat">Open inbox</Link>
+          </Button>
         ) : null}
       </header>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-px rounded-2xl bg-border overflow-hidden border border-border/80">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         {[
           { label: "Total", value: overallStats.totalMatches },
           { label: "Shortlisted", value: overallStats.shortlisted },
           { label: "In conversation", value: overallStats.inConversation },
           { label: "Archived", value: overallStats.archived },
         ].map(({ label, value }) => (
-          <div key={label} className="bg-card px-4 py-4">
-            <p className="font-heading text-xl font-semibold tabular-nums text-foreground sm:text-2xl">{value}</p>
-            <p className="font-body text-xs text-muted-foreground mt-1">{label}</p>
-          </div>
+          <Card key={label}>
+            <CardHeader className="p-4 pb-2">
+              <CardDescription>{label}</CardDescription>
+              <CardTitle className="text-2xl tabular-nums">{value}</CardTitle>
+            </CardHeader>
+          </Card>
         ))}
       </div>
 
       {matches.length > 0 && (
-        <section className="rounded-2xl border border-border bg-card p-5 sm:p-6 shadow-sm">
-          <h2 className="font-heading text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-4">
-            Pipeline
-          </h2>
-          <div className="flex flex-wrap items-end gap-x-6 gap-y-4">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Pipeline</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-wrap items-end gap-x-6 gap-y-4">
             {[
               { label: "Matched", value: matches.length },
               { label: "Active", value: active.length },
@@ -294,53 +277,36 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
                 <p className="font-body text-[11px] text-muted-foreground mt-0.5">{label}</p>
               </div>
             ))}
-          </div>
-        </section>
+          </CardContent>
+        </Card>
       )}
 
-      <div className="flex gap-1 p-1 rounded-xl border border-border bg-muted/80">
-        {(
-          [
-            { key: "all" as const, label: `All (${active.length})` },
-            { key: "starred" as const, label: `Shortlisted (${shortlisted.length})` },
-            { key: "archived" as const, label: `Archived (${archived.length})` },
-          ] as const
-        ).map((t) => (
-          <button
-            key={t.key}
-            type="button"
-            onClick={() => setTab(t.key)}
-            className={cn(
-              "flex-1 py-2 rounded-lg font-body text-xs font-medium transition-colors",
-              tab === t.key
-                ? "bg-card text-foreground shadow-sm ring-1 ring-border/80"
-                : "text-muted-foreground hover:text-foreground"
-            )}
-          >
-            {t.label}
-          </button>
-        ))}
-      </div>
+      <Tabs value={tab} onValueChange={(value) => setTab(value as typeof tab)}>
+        <TabsList className="grid h-auto w-full grid-cols-3">
+          <TabsTrigger value="all" className="py-2">All ({active.length})</TabsTrigger>
+          <TabsTrigger value="starred" className="py-2">Shortlisted ({shortlisted.length})</TabsTrigger>
+          <TabsTrigger value="archived" className="py-2">Archived ({archived.length})</TabsTrigger>
+        </TabsList>
+      </Tabs>
 
       <div className="space-y-3">
         {!displayed.length ? (
-          <div className="rounded-2xl border border-border bg-muted/50 py-16 px-6 text-center">
-            <p className="font-body text-sm text-muted-foreground max-w-md mx-auto">
-              {tab === "all"
-                ? "No matches yet. When you and a candidate both show interest, they appear here."
-                : tab === "starred"
-                  ? "Shortlist candidates from this list to prioritise them."
-                  : "Nothing archived. Archive clears your main list without losing history."}
-            </p>
-            {tab === "all" && (
-              <Link
-                href="/discover"
-                className="inline-flex mt-6 rounded-full bg-primary px-6 py-2.5 font-body text-sm font-medium text-primary-foreground transition hover:bg-[var(--clearpath-navy-hover)]"
-              >
-                Discover candidates
-              </Link>
-            )}
-          </div>
+          <Card className="px-6 py-16 text-center">
+            <CardContent className="pt-6">
+              <p className="mx-auto max-w-md font-body text-sm text-muted-foreground">
+                {tab === "all"
+                  ? "No matches yet. When you and a candidate both show interest, they appear here."
+                  : tab === "starred"
+                    ? "Shortlist candidates from this list to prioritise them."
+                    : "Nothing archived. Archive clears your main list without losing history."}
+              </p>
+              {tab === "all" && (
+                <Button asChild className="mt-6">
+                  <Link href="/discover">Discover candidates</Link>
+                </Button>
+              )}
+            </CardContent>
+          </Card>
         ) : (
           displayed.map((m) => <MatchCard key={m.id} match={m} />)
         )}

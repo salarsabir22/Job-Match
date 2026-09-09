@@ -3,10 +3,14 @@ import { redirect } from "next/navigation"
 import Link from "next/link"
 import {
   Users, Building2, Hash, Heart, Briefcase, TrendingUp,
-  Clock, AlertTriangle, ArrowRight, Zap, MessageCircle, Shield
+  Clock, AlertTriangle, ArrowRight, Zap, MessageCircle
 } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { getInitials } from "@/lib/utils"
 
 type PendingRecruiterRow = {
@@ -70,49 +74,50 @@ export default async function AdminOverviewPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-heading font-bold text-3xl text-black">Admin Dashboard</h1>
-          <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mt-0.5">
+          <h1 className="font-heading text-3xl font-bold text-foreground">Admin Dashboard</h1>
+          <p className="mt-0.5 font-body text-sm text-muted-foreground">
             Platform overview · {allProfiles.length} total users
           </p>
         </div>
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#D4D4D4]/10 border border-[#D4D4D4]/25">
-          <Shield className="h-3.5 w-3.5 text-[#D4D4D4]" />
-          <span className="font-data text-[10px] tracking-wider uppercase text-[#D4D4D4]">Admin</span>
-        </div>
+        <Badge variant="secondary">Admin</Badge>
       </div>
 
       {/* Pending approvals alert */}
       {pendingRecruiters.length > 0 && (
-        <div className="flex items-start gap-3 p-4 rounded-xl bg-[#FAFAFA]/8 border border-[#FAFAFA]/30">
-          <AlertTriangle className="h-4 w-4 text-neutral-900 shrink-0 mt-0.5" />
-          <div className="flex-1 min-w-0">
-            <p className="font-data text-[10px] tracking-widest uppercase text-neutral-900 mb-0.5">Action Required</p>
-            <p className="font-body text-sm text-neutral-700">
+        <Alert>
+          <AlertTriangle className="h-4 w-4" />
+          <AlertTitle>Action required</AlertTitle>
+          <AlertDescription className="flex items-center justify-between gap-3">
+            <span>
               {pendingRecruiters.length} recruiter{pendingRecruiters.length > 1 ? "s" : ""} waiting for approval
-            </p>
-          </div>
-          <Link href="/admin/recruiters" className="flex items-center gap-1 font-body text-xs text-neutral-900 hover:text-neutral-600 transition-colors shrink-0">
-            Review <ArrowRight className="h-3 w-3" />
-          </Link>
-        </div>
+            </span>
+            <Button asChild variant="outline" size="sm">
+              <Link href="/admin/recruiters">
+                Review <ArrowRight className="h-3 w-3" />
+              </Link>
+            </Button>
+          </AlertDescription>
+        </Alert>
       )}
 
       {/* Platform KPIs */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {[
-          { label: "Total Users", value: allProfiles.length, icon: Users, color: "#FAFAFA", href: "/admin/users" },
-          { label: "Active Jobs", value: activeJobs, icon: Briefcase, color: "#D4D4D4", href: "/jobs" },
-          { label: "Total Matches", value: totalMatches, icon: Heart, color: "#525252", href: "/admin/users" },
-          { label: "Channels", value: totalChannels, icon: Hash, color: "#94A3B8", href: "/admin/channels" },
-        ].map(({ label, value, icon: Icon, color, href }) => (
+          { label: "Total Users", value: allProfiles.length, icon: Users, href: "/admin/users" },
+          { label: "Active Jobs", value: activeJobs, icon: Briefcase, href: "/jobs" },
+          { label: "Total Matches", value: totalMatches, icon: Heart, href: "/admin/users" },
+          { label: "Channels", value: totalChannels, icon: Hash, href: "/admin/channels" },
+        ].map(({ label, value, icon: Icon, href }) => (
           <Link key={label} href={href}>
-            <div className="rounded-xl bg-white border border-black/10 p-4 hover:border-white/15 transition-all duration-200 cursor-pointer">
-              <div className="flex items-center justify-between mb-2">
-                <p className="font-data text-[9px] tracking-wider uppercase text-neutral-700">{label}</p>
-                <Icon className="h-3.5 w-3.5" style={{ color }} />
-              </div>
-              <p className="font-heading font-bold text-2xl" style={{ color }}>{value}</p>
-            </div>
+            <Card className="transition hover:border-primary/30">
+              <CardHeader className="p-4 pb-2">
+                <div className="mb-2 flex items-center justify-between">
+                  <CardDescription>{label}</CardDescription>
+                  <Icon className="h-3.5 w-3.5 text-primary" />
+                </div>
+                <CardTitle className="text-2xl">{value}</CardTitle>
+              </CardHeader>
+            </Card>
           </Link>
         ))}
       </div>
@@ -120,17 +125,17 @@ export default async function AdminOverviewPage() {
       {/* User breakdown + Community stats */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* User breakdown */}
-        <div className="rounded-xl bg-white border border-black/10 p-5 space-y-4">
-          <div className="flex items-center justify-between">
+        <Card>
+          <CardHeader className="flex-row items-center justify-between space-y-0 pb-2">
             <div className="flex items-center gap-2">
-              <Users className="h-4 w-4 text-neutral-900" />
-              <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700">User Breakdown</p>
+              <Users className="h-4 w-4 text-foreground" />
+              <CardDescription className="font-data text-[11px] uppercase tracking-wider">User Breakdown</CardDescription>
             </div>
-            <Link href="/admin/users" className="font-data text-[9px] tracking-wider uppercase text-neutral-900 hover:text-neutral-600 transition-colors">
-              Manage →
-            </Link>
-          </div>
-          <div className="space-y-3">
+            <Button asChild variant="ghost" size="sm" className="h-auto px-0 font-data text-[9px] uppercase tracking-wider">
+              <Link href="/admin/users">Manage →</Link>
+            </Button>
+          </CardHeader>
+          <CardContent className="space-y-3">
             {[
               { label: "Students", value: students, total: allProfiles.length, color: "#94A3B8" },
               { label: "Recruiters", value: recruiters, total: allProfiles.length, color: "#FAFAFA" },
@@ -138,10 +143,10 @@ export default async function AdminOverviewPage() {
             ].map(({ label, value, total, color }) => (
               <div key={label} className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <p className="font-body text-sm text-neutral-700">{label}</p>
+                  <p className="font-body text-sm text-muted-foreground">{label}</p>
                   <p className="font-heading font-bold text-sm" style={{ color }}>{value}</p>
                 </div>
-                <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                <div className="h-1.5 overflow-hidden rounded-full bg-muted">
                   <div
                     className="h-full rounded-full"
                     style={{ width: total > 0 ? `${Math.round((value / total) * 100)}%` : "0%", background: color }}
@@ -149,130 +154,124 @@ export default async function AdminOverviewPage() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
-        {/* Platform activity */}
-        <div className="rounded-xl bg-white border border-black/10 p-5 space-y-4">
-          <div className="flex items-center gap-2">
-            <TrendingUp className="h-4 w-4 text-neutral-900" />
-            <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700">Platform Activity</p>
-          </div>
-          <div className="space-y-3">
+        <Card>
+          <CardHeader className="pb-2">
+            <div className="flex items-center gap-2">
+              <TrendingUp className="h-4 w-4 text-foreground" />
+              <CardDescription className="font-data text-[11px] uppercase tracking-wider">Platform Activity</CardDescription>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-3">
             {[
-              { label: "Total jobs posted", value: allJobs.length, icon: Briefcase, color: "#D4D4D4" },
-              { label: "Active job listings", value: activeJobs, icon: Zap, color: "#FAFAFA" },
-              { label: "Mutual matches made", value: totalMatches, icon: Heart, color: "#525252" },
-              { label: "Community members", value: totalMembers, icon: MessageCircle, color: "#94A3B8" },
-              { label: "Pending approvals", value: pendingRecruiters.length, icon: Clock, color: pendingRecruiters.length > 0 ? "#D4D4D4" : "#94A3B8" },
-            ].map(({ label, value, icon: Icon, color }) => (
+              { label: "Total jobs posted", value: allJobs.length, icon: Briefcase },
+              { label: "Active job listings", value: activeJobs, icon: Zap },
+              { label: "Mutual matches made", value: totalMatches, icon: Heart },
+              { label: "Community members", value: totalMembers, icon: MessageCircle },
+              { label: "Pending approvals", value: pendingRecruiters.length, icon: Clock },
+            ].map(({ label, value, icon: Icon }) => (
               <div key={label} className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Icon className="h-3.5 w-3.5" style={{ color }} />
-                  <p className="font-body text-sm text-neutral-700">{label}</p>
+                  <Icon className="h-3.5 w-3.5 text-primary" />
+                  <p className="font-body text-sm text-muted-foreground">{label}</p>
                 </div>
-                <p className="font-heading font-bold text-sm" style={{ color }}>{value}</p>
+                <p className="font-heading text-sm font-bold text-foreground">{value}</p>
               </div>
             ))}
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
 
-      {/* Pending recruiter approvals */}
       {pendingRecruiters.length > 0 && (
-        <div className="rounded-xl bg-white border border-black/10 p-5 space-y-4">
-          <div className="flex items-center justify-between">
+        <Card>
+          <CardHeader className="flex-row items-center justify-between space-y-0 pb-2">
             <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-[#D4D4D4]" />
-              <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700">Pending Approvals</p>
+              <Clock className="h-4 w-4 text-primary" />
+              <CardDescription className="font-data text-[11px] uppercase tracking-wider">Pending Approvals</CardDescription>
             </div>
-            <Link href="/admin/recruiters" className="font-data text-[9px] tracking-wider uppercase text-neutral-900 hover:text-neutral-600 transition-colors">
-              View all →
-            </Link>
-          </div>
-          <div className="space-y-2">
-            {pendingRecruiters.map((recruiter) => (
-              <div key={recruiter.id} className="flex items-center justify-between gap-3 p-3 rounded-lg bg-white/[0.02] border border-black/10">
-                <div className="flex items-center gap-2.5">
-                  <div className="h-9 w-9 rounded-lg bg-neutral-200 flex items-center justify-center">
-                    <Building2 className="h-4 w-4 text-black" />
+            <Button asChild variant="ghost" size="sm" className="h-auto px-0 font-data text-[9px] uppercase tracking-wider">
+              <Link href="/admin/recruiters">View all →</Link>
+            </Button>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              {pendingRecruiters.map((recruiter) => (
+                <div key={recruiter.id} className="flex items-center justify-between gap-3 rounded-lg border border-border bg-muted/30 p-3">
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted">
+                      <Building2 className="h-4 w-4 text-foreground" />
+                    </div>
+                    <div>
+                      <p className="font-body text-sm font-medium text-foreground">{recruiter.company_name}</p>
+                      <p className="font-data text-[10px] text-muted-foreground">
+                        {recruiter.profiles?.full_name} ·{" "}
+                        {recruiter.profiles?.created_at ? formatDate(recruiter.profiles.created_at) : " - "}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-body text-sm text-black font-medium">{recruiter.company_name}</p>
-                    <p className="font-data text-[10px] text-neutral-700">
-                      {recruiter.profiles?.full_name} ·{" "}
-                      {recruiter.profiles?.created_at ? formatDate(recruiter.profiles.created_at) : " - "}
-                    </p>
-                  </div>
+                  <Badge variant="outline">Pending</Badge>
                 </div>
-                <span className="font-data text-[9px] tracking-widest uppercase px-2 py-1 rounded-full bg-[#D4D4D4]/10 border border-[#D4D4D4]/25 text-[#D4D4D4] shrink-0">
-                  Pending
-                </span>
-              </div>
-            ))}
-          </div>
-          <Link href="/admin/recruiters"
-            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-full bg-primary text-primary-foreground font-body font-semibold text-sm transition hover:bg-[var(--clearpath-navy-hover)] duration-300">
-            Review & Approve Recruiters <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
+              ))}
+            </div>
+            <Button asChild className="w-full">
+              <Link href="/admin/recruiters">
+                Review & Approve Recruiters <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
       )}
 
-      {/* Recent users */}
-      <div className="rounded-xl bg-white border border-black/10 overflow-hidden">
-        <div className="flex items-center justify-between p-4 border-b border-black/10">
+      <Card className="overflow-hidden">
+        <CardHeader className="flex-row items-center justify-between space-y-0 border-b border-border">
           <div className="flex items-center gap-2">
-            <Zap className="h-4 w-4 text-neutral-900" />
-            <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700">Recent Signups</p>
+            <Zap className="h-4 w-4 text-foreground" />
+            <CardDescription className="font-data text-[11px] uppercase tracking-wider">Recent Signups</CardDescription>
           </div>
-          <Link href="/admin/users" className="font-data text-[9px] tracking-wider uppercase text-neutral-900 hover:text-neutral-600 transition-colors">
-            All users →
-          </Link>
-        </div>
-        <div className="divide-y divide-white/5">
+          <Button asChild variant="ghost" size="sm" className="h-auto px-0 font-data text-[9px] uppercase tracking-wider">
+            <Link href="/admin/users">All users →</Link>
+          </Button>
+        </CardHeader>
+        <CardContent className="divide-y divide-border p-0">
           {recentUsers.map((u) => (
-            <div key={u.id} className="flex items-center gap-3 px-4 py-3 hover:bg-white/[0.015] transition-colors">
-              <Avatar className="h-8 w-8 border border-black/10">
+            <div key={u.id} className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-muted/40">
+              <Avatar className="h-8 w-8 border border-border">
                 <AvatarImage src={u.avatar_url || undefined} />
-                <AvatarFallback className="bg-white text-neutral-900 text-xs font-bold">
+                <AvatarFallback className="bg-muted text-xs font-bold text-foreground">
                   {getInitials(u.full_name || "?")}
                 </AvatarFallback>
               </Avatar>
-              <div className="flex-1 min-w-0">
-                <p className="font-body text-sm text-black truncate">{u.full_name || " - "}</p>
-                <p className="font-data text-[10px] text-neutral-700">
+              <div className="min-w-0 flex-1">
+                <p className="truncate font-body text-sm text-foreground">{u.full_name || " - "}</p>
+                <p className="font-data text-[10px] text-muted-foreground">
                   {u.created_at ? formatDate(u.created_at) : " - "}
                 </p>
               </div>
-              <span className={`font-data text-[9px] tracking-widest uppercase px-2 py-0.5 rounded-full border shrink-0 ${
-                u.role === "admin"
-                  ? "bg-[#D4D4D4]/15 border-[#D4D4D4]/30 text-[#D4D4D4]"
-                  : u.role === "recruiter"
-                  ? "bg-[#FAFAFA]/15 border-[#FAFAFA]/30 text-neutral-900"
-                  : "bg-white/5 border-white/15 text-neutral-700"
-              }`}>
-                {u.role}
-              </span>
+              <Badge variant="secondary">{u.role}</Badge>
             </div>
           ))}
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
       {/* Quick links */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {[
-          { label: "Manage Users", desc: "View all accounts, roles, and join dates", href: "/admin/users", icon: Users, color: "#FAFAFA" },
-          { label: "Approve Recruiters", desc: "Review and activate recruiter applications", href: "/admin/recruiters", icon: Building2, color: "#D4D4D4" },
-          { label: "Manage Channels", desc: "Create, edit, and delete community channels", href: "/admin/channels", icon: Hash, color: "#525252" },
-        ].map(({ label, desc, href, icon: Icon, color }) => (
+          { label: "Manage Users", desc: "View all accounts, roles, and join dates", href: "/admin/users", icon: Users },
+          { label: "Approve Recruiters", desc: "Review and activate recruiter applications", href: "/admin/recruiters", icon: Building2 },
+          { label: "Manage Channels", desc: "Create, edit, and delete community channels", href: "/admin/channels", icon: Hash },
+        ].map(({ label, desc, href, icon: Icon }) => (
           <Link key={href} href={href}>
-            <div className="rounded-xl bg-white border border-black/10 p-4 hover:border-[#FAFAFA]/25 hover:shadow-[0_0_15px_-5px_rgba(255,255,255,0.1)] transition-all duration-300 h-full">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style={{ background: `${color}15`, border: `1px solid ${color}25` }}>
-                <Icon className="h-5 w-5" style={{ color }} />
-              </div>
-              <p className="font-heading font-semibold text-sm text-black mb-1">{label}</p>
-              <p className="font-body text-xs text-neutral-700 leading-relaxed">{desc}</p>
-            </div>
+            <Card className="h-full transition hover:border-primary/30">
+              <CardHeader>
+                <div className="mb-1 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <Icon className="h-5 w-5" />
+                </div>
+                <CardTitle className="text-sm">{label}</CardTitle>
+                <CardDescription>{desc}</CardDescription>
+              </CardHeader>
+            </Card>
           </Link>
         ))}
       </div>

@@ -1,5 +1,6 @@
 import Link from "next/link"
 import type { LucideIcon } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 type DashboardEmptyStateProps = {
   icon: LucideIcon
@@ -26,20 +27,14 @@ export function DashboardEmptyState({
       {(primaryAction || secondaryAction) && (
         <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-center">
           {primaryAction ? (
-            <Link
-              href={primaryAction.href}
-              className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-2.5 font-body text-sm font-medium text-primary-foreground transition hover:bg-[var(--clearpath-navy-hover)]"
-            >
-              {primaryAction.label}
-            </Link>
+            <Button asChild>
+              <Link href={primaryAction.href}>{primaryAction.label}</Link>
+            </Button>
           ) : null}
           {secondaryAction ? (
-            <Link
-              href={secondaryAction.href}
-              className="inline-flex items-center justify-center rounded-full border-2 border-primary bg-transparent px-6 py-2.5 font-body text-sm font-medium text-primary transition hover:bg-primary hover:text-primary-foreground"
-            >
-              {secondaryAction.label}
-            </Link>
+            <Button asChild variant="outline">
+              <Link href={secondaryAction.href}>{secondaryAction.label}</Link>
+            </Button>
           ) : null}
         </div>
       )}

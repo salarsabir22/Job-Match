@@ -2,6 +2,9 @@ import { createClient } from "@/lib/supabase/server"
 import Link from "next/link"
 import { Building2 } from "lucide-react"
 import { formatDate } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 type MatchListItem = {
   id: string
@@ -46,8 +49,8 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
 
   return (
     <div className="space-y-8">
-      <header className="flex flex-col gap-3 min-w-0 sm:flex-row sm:items-end sm:justify-between">
-        <div className="space-y-1 min-w-0">
+      <header className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div className="min-w-0 space-y-1">
           <h1 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-[1.75rem]">Matches</h1>
           <p className="font-body text-sm text-muted-foreground">
             {matches.length === 0
@@ -56,35 +59,34 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
           </p>
         </div>
         {withChat > 0 ? (
-          <Link
-            href="/chat"
-            className="inline-flex shrink-0 items-center justify-center rounded-full bg-primary px-4 py-2 font-body text-sm font-medium text-primary-foreground transition hover:bg-[var(--clearpath-navy-hover)]"
-          >
-            Open inbox
-          </Link>
+          <Button asChild>
+            <Link href="/chat">Open inbox</Link>
+          </Button>
         ) : null}
       </header>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-px rounded-2xl bg-border overflow-hidden border border-border/80">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         {[
           { label: "Applied", value: appliedCount },
           { label: "Matches", value: matches.length },
           { label: "Match rate", value: `${matchRate}%` },
           { label: "Active chats", value: withChat },
         ].map(({ label, value }) => (
-          <div key={label} className="bg-card px-4 py-4">
-            <p className="font-heading text-xl font-semibold tabular-nums text-foreground sm:text-2xl">{value}</p>
-            <p className="font-body text-xs text-muted-foreground mt-1">{label}</p>
-          </div>
+          <Card key={label}>
+            <CardHeader className="p-4 pb-2">
+              <CardDescription>{label}</CardDescription>
+              <CardTitle className="text-2xl tabular-nums">{value}</CardTitle>
+            </CardHeader>
+          </Card>
         ))}
       </div>
 
       {appliedCount > 0 && (
-        <section className="rounded-2xl border border-border bg-card p-5 sm:p-6">
-          <h2 className="font-heading text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-4">
-            Your pipeline
-          </h2>
-          <div className="flex flex-wrap items-end gap-x-6 gap-y-4">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Your pipeline</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-wrap items-end gap-x-6 gap-y-4">
             {[
               { label: "Applied", value: appliedCount },
               { label: "Saved", value: savedCount },
@@ -93,43 +95,41 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
             ].map(({ label, value }) => (
               <div key={label} className="min-w-[4.5rem]">
                 <p className="font-heading text-lg font-semibold tabular-nums text-foreground">{value}</p>
-                <p className="font-body text-[11px] text-muted-foreground mt-0.5">{label}</p>
+                <p className="font-body mt-0.5 text-[11px] text-muted-foreground">{label}</p>
               </div>
             ))}
-          </div>
-        </section>
+          </CardContent>
+        </Card>
       )}
 
       {!matches.length ? (
-        <div className="rounded-2xl border border-border bg-muted/50 px-6 py-14 text-center">
-          <h3 className="font-heading text-lg font-semibold text-foreground">No matches yet</h3>
-          <p className="font-body text-sm text-muted-foreground mt-2 max-w-md mx-auto">
-            A match happens when you apply and the recruiter returns interest. Strong profiles get there faster.
-          </p>
-          <ol className="mt-8 max-w-md mx-auto text-left list-decimal list-inside space-y-2 font-body text-sm text-muted-foreground">
-            <li>Finish your profile - bio, skills, and education.</li>
-            <li>Add a resume or portfolio link if you have one.</li>
-            <li>Apply to roles that fit; quality beats volume.</li>
-          </ol>
-          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              href="/onboarding"
-              className="inline-flex justify-center rounded-full border border-border bg-card px-6 py-2.5 font-body text-sm font-medium text-foreground transition hover:bg-muted"
-            >
-              Complete profile
-            </Link>
-            <Link
-              href="/discover"
-              className="inline-flex justify-center rounded-full bg-primary px-6 py-2.5 font-body text-sm font-medium text-primary-foreground transition hover:bg-[var(--clearpath-navy-hover)]"
-            >
-              Discover jobs
-            </Link>
-          </div>
-        </div>
+        <Card className="px-6 py-14 text-center">
+          <CardHeader>
+            <CardTitle>No matches yet</CardTitle>
+            <CardDescription className="mx-auto max-w-md">
+              A match happens when you apply and the recruiter returns interest. Strong profiles get there faster.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ol className="mx-auto max-w-md list-inside list-decimal space-y-2 text-left font-body text-sm text-muted-foreground">
+              <li>Finish your profile - bio, skills, and education.</li>
+              <li>Add a resume or portfolio link if you have one.</li>
+              <li>Apply to roles that fit; quality beats volume.</li>
+            </ol>
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+              <Button asChild variant="outline">
+                <Link href="/onboarding">Complete profile</Link>
+              </Button>
+              <Button asChild>
+                <Link href="/discover">Discover jobs</Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       ) : (
         <>
           <p className="font-body text-sm text-muted-foreground">Select a match to open your chat.</p>
-          <ul className="grid grid-cols-1 lg:grid-cols-2 gap-4 list-none p-0 m-0">
+          <ul className="m-0 grid list-none grid-cols-1 gap-4 p-0 lg:grid-cols-2">
             {matches.map((match) => {
               const job = match.jobs
               const company = job?.recruiter_profiles
@@ -138,44 +138,32 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
                 : match.conversations?.id
 
               const inner = (
-                <div
-                  className={`flex items-start gap-4 p-5 rounded-2xl border border-border bg-card shadow-sm transition h-full ${
-                    convId ? "hover:border-border cursor-pointer" : "opacity-95 cursor-default"
-                  }`}
-                >
-                  <div className="h-14 w-14 rounded-xl bg-muted flex items-center justify-center shrink-0 ring-1 ring-border overflow-hidden">
-                    {company?.logo_url ? (
-                      <img src={company.logo_url} className="h-full w-full object-cover" alt="" />
-                    ) : (
-                      <Building2 className="h-7 w-7 text-muted-foreground" aria-hidden />
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0 text-left">
-                    <p className="font-heading font-semibold text-base text-foreground truncate">{job?.title}</p>
-                    <p className="font-body text-sm text-muted-foreground truncate">{company?.company_name}</p>
-                    <p className="font-body text-xs text-muted-foreground mt-1">{formatDate(match.created_at)}</p>
-                    <div className="flex flex-wrap gap-2 mt-3">
-                      <span className="rounded-full bg-muted px-2.5 py-0.5 font-body text-[11px] font-medium text-foreground">
-                        Matched
-                      </span>
-                      {convId ? (
-                        <span className="rounded-full border border-border px-2.5 py-0.5 font-body text-[11px] text-muted-foreground">
-                          Chat ready
-                        </span>
+                <Card className={convId ? "h-full transition hover:border-primary/30" : "h-full opacity-95"}>
+                  <CardContent className="flex items-start gap-4 p-5">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-muted ring-1 ring-border">
+                      {company?.logo_url ? (
+                        <img src={company.logo_url} className="h-full w-full object-cover" alt="" />
                       ) : (
-                        <span className="rounded-full border border-border px-2.5 py-0.5 font-body text-[11px] text-muted-foreground">
-                          Chat pending
-                        </span>
+                        <Building2 className="h-7 w-7 text-muted-foreground" aria-hidden />
                       )}
                     </div>
-                  </div>
-                </div>
+                    <div className="min-w-0 flex-1 text-left">
+                      <p className="truncate font-heading text-base font-semibold text-foreground">{job?.title}</p>
+                      <p className="truncate font-body text-sm text-muted-foreground">{company?.company_name}</p>
+                      <p className="mt-1 font-body text-xs text-muted-foreground">{formatDate(match.created_at)}</p>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        <Badge>Matched</Badge>
+                        <Badge variant="outline">{convId ? "Chat ready" : "Chat pending"}</Badge>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               )
 
               return (
                 <li key={match.id}>
                   {convId ? (
-                    <Link href={`/chat/${convId}`} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 rounded-2xl">
+                    <Link href={`/chat/${convId}`} className="block rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                       {inner}
                     </Link>
                   ) : (

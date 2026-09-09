@@ -228,17 +228,14 @@ export default async function JobsPage({
                         {job.required_skills && job.required_skills.length > 0 ? (
                           <div className="mt-3 flex flex-wrap gap-1.5">
                             {job.required_skills.slice(0, 5).map((s: string) => (
-                              <span
-                                key={s}
-                                className="rounded-md border border-border bg-muted/50 px-2 py-0.5 font-body text-[11px] text-foreground"
-                              >
+                              <Badge key={s} variant="secondary" className="text-[11px] font-normal">
                                 {s}
-                              </span>
+                              </Badge>
                             ))}
                             {job.required_skills.length > 5 ? (
-                              <span className="rounded-md border border-transparent px-2 py-0.5 font-body text-[11px] text-muted-foreground">
+                              <Badge variant="outline" className="border-transparent text-[11px] font-normal text-muted-foreground">
                                 +{job.required_skills.length - 5}
-                              </span>
+                              </Badge>
                             ) : null}
                           </div>
                         ) : null}

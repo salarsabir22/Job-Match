@@ -3,6 +3,9 @@ import { redirect } from "next/navigation"
 import { formatDate } from "@/lib/utils"
 import { Building2 } from "lucide-react"
 import { ApproveButton } from "./ApproveButton"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 type ProfileEmbed = { full_name?: string | null; created_at?: string }
 
@@ -19,68 +22,71 @@ export default async function AdminRecruitersPage() {
     .select("*, profiles(full_name, avatar_url, created_at)")
     .order("created_at", { ascending: false })
 
-  const pending = recruiters?.filter(r => !r.is_approved).length || 0
+  const pending = recruiters?.filter((r) => !r.is_approved).length || 0
 
   return (
-    <div className="space-y-5 p-4 max-w-4xl bg-white min-h-screen">
+    <div className="mx-auto max-w-4xl space-y-5">
       <div>
-        <h1 className="font-heading font-bold text-2xl text-black">Recruiter Approvals</h1>
-        <p className="font-data text-[11px] tracking-wider uppercase text-neutral-700 mt-0.5">{pending} pending</p>
+        <h1 className="font-heading text-2xl font-bold">Recruiter Approvals</h1>
+        <p className="font-body text-sm text-muted-foreground">{pending} pending</p>
       </div>
 
-      {pending > 0 && (
-        <div className="p-4 rounded-xl bg-[#FAFAFA]/10 border border-[#FAFAFA]/25">
-          <p className="font-data text-[11px] tracking-widest uppercase text-neutral-900">
+      {pending > 0 ? (
+        <Alert>
+          <Building2 className="h-4 w-4" />
+          <AlertTitle>Action required</AlertTitle>
+          <AlertDescription>
             {pending} recruiter{pending > 1 ? "s" : ""} awaiting approval
-          </p>
-        </div>
-      )}
+          </AlertDescription>
+        </Alert>
+      ) : null}
 
       <div className="space-y-3">
         {!recruiters?.length ? (
-          <div className="text-center py-16">
-            <div className="w-14 h-14 rounded-2xl bg-[#FAFAFA]/15 border border-[#FAFAFA]/30 flex items-center justify-center mx-auto mb-4">
-              <Building2 className="h-7 w-7 text-neutral-900" />
-            </div>
-            <p className="font-body text-neutral-700 text-sm">No recruiter profiles yet</p>
-          </div>
-        ) : recruiters.map((recruiter) => (
-          <div key={recruiter.id} className="rounded-xl bg-white border border-black/10 p-4 space-y-3">
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-xl bg-neutral-200 flex items-center justify-center shrink-0 shadow-[0_0_12px_-3px_rgba(255,255,255,0.4)]">
-                  {recruiter.logo_url ? (
-                    <img src={recruiter.logo_url} className="h-full w-full rounded-xl object-cover" alt="" />
-                  ) : (
-                    <Building2 className="h-6 w-6 text-black" />
-                  )}
-                </div>
-                <div>
-                  <p className="font-heading font-semibold text-black">{recruiter.company_name}</p>
-                  <p className="font-body text-sm text-neutral-700">{(recruiter.profiles as ProfileEmbed | null)?.full_name}</p>
-                  <p className="font-data text-[10px] text-neutral-700">
-                    Joined{" "}
-                    {(() => {
-                      const p = recruiter.profiles as ProfileEmbed | null
-                      return p?.created_at ? formatDate(p.created_at) : " - "
-                    })()}
-                  </p>
-                </div>
-              </div>
-              <span className={`flex-shrink-0 font-data text-[9px] tracking-widest uppercase px-2 py-1 rounded-full border ${
-                recruiter.is_approved
-                  ? "bg-neutral-500/15 border-neutral-500/30 text-neutral-400"
-                  : "bg-[#D4D4D4]/10 border-[#D4D4D4]/25 text-[#D4D4D4]"
-              }`}>
-                {recruiter.is_approved ? "Approved" : "Pending"}
-              </span>
-            </div>
-            {recruiter.description && (
-              <p className="font-body text-sm text-neutral-700">{recruiter.description}</p>
-            )}
-            <ApproveButton recruiterId={recruiter.id} isApproved={recruiter.is_approved} />
-          </div>
-        ))}
+          <Card className="py-16 text-center">
+            <CardHeader>
+              <CardTitle>No recruiter profiles yet</CardTitle>
+              <CardDescription>New company accounts will land here for review.</CardDescription>
+            </CardHeader>
+          </Card>
+        ) : (
+          recruiters.map((recruiter) => {
+            const profile = recruiter.profiles as ProfileEmbed | null
+            return (
+              <Card key={recruiter.id}>
+                <CardHeader className="flex-row items-start justify-between gap-3 space-y-0">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-muted">
+                      {recruiter.logo_url ? (
+                        <img src={recruiter.logo_url} className="h-full w-full object-cover" alt="" />
+                      ) : (
+                        <Building2 className="h-6 w-6 text-muted-foreground" />
+                      )}
+                    </div>
+                    <div>
+                      <CardTitle className="text-base">{recruiter.company_name}</CardTitle>
+                      <CardDescription>{profile?.full_name}</CardDescription>
+                      <p className="font-data text-[10px] text-muted-foreground">
+                        Joined {profile?.created_at ? formatDate(profile.created_at) : " - "}
+                      </p>
+                    </div>
+                  </div>
+                  <Badge variant={recruiter.is_approved ? "secondary" : "default"}>
+                    {recruiter.is_approved ? "Approved" : "Pending"}
+                  </Badge>
+                </CardHeader>
+                {recruiter.description ? (
+                  <CardContent>
+                    <p className="font-body text-sm text-muted-foreground">{recruiter.description}</p>
+                  </CardContent>
+                ) : null}
+                <CardContent className={recruiter.description ? "pt-0" : undefined}>
+                  <ApproveButton recruiterId={recruiter.id} isApproved={recruiter.is_approved} />
+                </CardContent>
+              </Card>
+            )
+          })
+        )}
       </div>
     </div>
   )

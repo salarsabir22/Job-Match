@@ -5,6 +5,12 @@ import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"
 import { Loader2, Eye, EyeOff } from "lucide-react"
 import { safeInternalPath } from "@/lib/utils"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Separator } from "@/components/ui/separator"
 
 const GoogleIcon = () => (
   <svg className="h-4 w-4" viewBox="0 0 24 24">
@@ -91,56 +97,56 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="auth-card">
-      {/* Header */}
-      <div className="text-center mb-7">
+    <Card>
+      <CardHeader className="text-center">
         <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">Account</p>
-        <h1 className="mt-3 text-[20px] sm:text-[21px] font-semibold tracking-[-0.03em] text-foreground">Welcome back</h1>
-        <p className="font-body text-muted-foreground text-[15px] mt-2">Sign in to JobMatch</p>
-      </div>
+        <CardTitle className="text-[20px] sm:text-[21px]">Welcome back</CardTitle>
+        <CardDescription>Sign in to JobMatch</CardDescription>
+      </CardHeader>
+      <CardContent>
 
       {/* Global error */}
       {error && (
-        <div className="border-l-2 border-destructive/80 bg-destructive/10 pl-4 pr-3 py-3 rounded-r-xl mb-5">
-          <p className="font-body text-[14px] leading-snug text-destructive">{error}</p>
-        </div>
+        <Alert variant="destructive" className="mb-5">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
       )}
 
-      {/* Success */}
       {success && (
-        <div className="border border-border bg-muted/50 px-4 py-3 rounded-xl mb-5">
-          <p className="font-body text-[14px] text-foreground">Signed in. Redirecting…</p>
-        </div>
+        <Alert className="mb-5">
+          <AlertDescription>Signed in. Redirecting…</AlertDescription>
+        </Alert>
       )}
 
-      {/* Google */}
-      <button
+      <Button
         type="button"
+        variant="outline"
+        className="mb-5 w-full"
         onClick={handleGoogleLogin}
         disabled={googleLoading || loading}
-        className="auth-btn-google mb-5 disabled:opacity-45"
       >
         {googleLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <GoogleIcon />}
         Continue with Google
-      </button>
+      </Button>
 
-      <div className="relative flex items-center gap-3 mb-5">
-        <div className="flex-1 h-px bg-border" />
-        <span className="font-data text-[10px] tracking-[0.2em] uppercase text-muted-foreground">or email</span>
-        <div className="flex-1 h-px bg-border" />
+      <div className="relative mb-5 flex items-center gap-3">
+        <Separator className="flex-1" />
+        <span className="font-data text-[10px] uppercase tracking-[0.2em] text-muted-foreground">or email</span>
+        <Separator className="flex-1" />
       </div>
 
       <form onSubmit={handleLogin} noValidate className="space-y-4">
         {/* Email */}
         <div className="space-y-1.5">
-          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-muted-foreground">Email address</label>
-          <input
+          <Label htmlFor="login-email">Email address</Label>
+          <Input
+            id="login-email"
             type="email"
             placeholder="you@example.com"
             value={email}
             onChange={(e) => { setEmail(e.target.value); setFieldErrors(p => ({ ...p, email: undefined })); setError(null) }}
             autoComplete="email"
-            className={`auth-input ${fieldErrors.email ? "border-destructive/60" : ""}`}
+            className={fieldErrors.email ? "border-destructive" : ""}
           />
           {fieldErrors.email && (
             <p className="text-xs text-destructive font-body mt-1 pl-0.5">{fieldErrors.email}</p>
@@ -150,36 +156,40 @@ export default function LoginPage() {
         {/* Password */}
         <div className="space-y-1.5">
           <div className="flex items-center justify-between gap-2">
-            <label className="font-data text-[11px] tracking-[0.2em] uppercase text-muted-foreground">Password</label>
+            <Label htmlFor="login-password">Password</Label>
             <Link href="/forgot-password" className="font-body text-xs text-primary hover:opacity-80 transition-colors">
               Forgot password
             </Link>
           </div>
           <div className="relative">
-            <input
+            <Input
+              id="login-password"
               type={showPassword ? "text" : "password"}
               placeholder="••••••••"
               value={password}
               onChange={(e) => { setPassword(e.target.value); setFieldErrors(p => ({ ...p, password: undefined })); setError(null) }}
               autoComplete="current-password"
-              className={`auth-input pr-11 ${fieldErrors.password ? "border-destructive/60" : ""}`}
+              className={`pr-11 ${fieldErrors.password ? "border-destructive" : ""}`}
             />
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="icon"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
+              className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 text-muted-foreground"
+              aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            </button>
+            </Button>
           </div>
           {fieldErrors.password && (
             <p className="text-xs text-destructive font-body mt-1 pl-0.5">{fieldErrors.password}</p>
           )}
         </div>
 
-        <button type="submit" disabled={loading || success} className="auth-btn-primary disabled:opacity-45 disabled:pointer-events-none">
+        <Button type="submit" className="w-full" disabled={loading || success}>
           {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Signing in…</> : "Sign in"}
-        </button>
+        </Button>
       </form>
 
       <p className="font-body text-center text-sm text-muted-foreground mt-6">
@@ -188,6 +198,7 @@ export default function LoginPage() {
           Create one
         </Link>
       </p>
-    </div>
+      </CardContent>
+    </Card>
   )
 }

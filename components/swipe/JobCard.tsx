@@ -1,6 +1,8 @@
 import { Building2 } from "lucide-react"
 import type { Job } from "@/types"
 import { cn } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 
 const JOB_TYPE_LABEL: Record<string, string> = {
   internship: "Internship",
@@ -60,9 +62,10 @@ export function JobCard({ job, className, onOpenCompany }: JobCardProps) {
           <h2 className="font-heading text-lg font-semibold leading-snug tracking-tight text-foreground">{job.title}</h2>
           {company?.company_name ? (
             onOpenCompany ? (
-              <button
+              <Button
                 type="button"
-                className="mt-1 font-body text-sm font-medium text-primary underline-offset-4 hover:underline"
+                variant="link"
+                className="mt-1 h-auto p-0 font-body text-sm"
                 onPointerDown={(e) => e.stopPropagation()}
                 onClick={(e) => {
                   e.stopPropagation()
@@ -70,7 +73,7 @@ export function JobCard({ job, className, onOpenCompany }: JobCardProps) {
                 }}
               >
                 {company.company_name} →
-              </button>
+              </Button>
             ) : (
               <p className="mt-1 font-body text-sm text-muted-foreground">{company.company_name}</p>
             )
@@ -84,17 +87,14 @@ export function JobCard({ job, className, onOpenCompany }: JobCardProps) {
         {(job.required_skills?.length ?? 0) > 0 ? (
           <div className="flex flex-wrap gap-1.5">
             {job.required_skills.slice(0, 6).map((s) => (
-              <span
-                key={s}
-                className="rounded-md border border-border bg-muted/50 px-2 py-0.5 font-body text-[11px] text-foreground"
-              >
+              <Badge key={s} variant="secondary" className="text-[11px] font-normal">
                 {s}
-              </span>
+              </Badge>
             ))}
             {job.required_skills.length > 6 ? (
-              <span className="rounded-md border border-transparent px-2 py-0.5 font-body text-[11px] text-muted-foreground">
+              <Badge variant="outline" className="border-transparent text-[11px] font-normal text-muted-foreground">
                 +{job.required_skills.length - 6}
-              </span>
+              </Badge>
             ) : null}
           </div>
         ) : null}

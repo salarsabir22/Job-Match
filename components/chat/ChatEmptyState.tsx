@@ -2,6 +2,7 @@
 
 import { MessageCircle } from "lucide-react"
 import { ICEBREAKERS } from "@/components/chat/chat-helpers"
+import { Button } from "@/components/ui/button"
 
 export function ChatInboxEmpty() {
   return (
@@ -23,14 +24,15 @@ export function ChatEmptyConversation({ onPick }: { onPick: (text: string) => vo
       </p>
       <div className="mt-5 flex w-full max-w-md flex-wrap justify-center gap-2">
         {ICEBREAKERS.map((line) => (
-          <button
+          <Button
             key={line}
             type="button"
+            variant="outline"
             onClick={() => onPick(line)}
-            className="rounded-full border border-border bg-card/80 px-3.5 py-2 text-left font-body text-[13px] leading-snug text-foreground transition hover:border-primary/40 hover:bg-primary/10"
+            className="h-auto max-w-full whitespace-normal rounded-full px-3.5 py-2 text-left text-[13px] leading-snug"
           >
             {line}
-          </button>
+          </Button>
         ))}
       </div>
     </div>

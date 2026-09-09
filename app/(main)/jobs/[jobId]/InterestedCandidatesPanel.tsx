@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
@@ -220,12 +221,9 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
                           {item.skills.length > 0 ? (
                             <div className="mt-3 flex flex-wrap gap-1.5">
                               {item.skills.slice(0, 4).map((skill) => (
-                                <span
-                                  key={skill}
-                                  className="rounded-md border border-border bg-muted/50 px-2 py-0.5 font-body text-[11px] text-foreground"
-                                >
+                                <Badge key={skill} variant="secondary" className="text-[11px] font-normal">
                                   {skill}
-                                </span>
+                                </Badge>
                               ))}
                             </div>
                           ) : null}

@@ -215,18 +215,19 @@ function StudentSwipeScreen({ cardIdx }: { cardIdx: number }) {
 
           {/* Swipe buttons */}
           <div className="mt-3 flex items-center justify-center gap-5 border-t border-border px-4 py-3">
-            <button type="button" className="flex h-11 w-11 items-center justify-center rounded-full border border-destructive/30 bg-destructive/10">
-              <X className="h-[18px] w-[18px] text-destructive" />
-            </button>
-            <button
+            <Button type="button" size="icon" variant="outline" className="h-11 w-11 border-destructive/30 bg-destructive/10 text-destructive hover:bg-destructive/20">
+              <X className="h-[18px] w-[18px]" />
+            </Button>
+            <Button
               type="button"
-              className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md ring-2 ring-primary/20"
+              size="icon"
+              className="h-14 w-14 shadow-md ring-2 ring-primary/20"
             >
               <Heart className="h-6 w-6 fill-current" />
-            </button>
-            <button type="button" className="flex h-11 w-11 items-center justify-center rounded-full border border-border bg-muted">
+            </Button>
+            <Button type="button" size="icon" variant="secondary" className="h-11 w-11">
               <Star className="h-[18px] w-[18px] text-muted-foreground" />
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -298,15 +299,12 @@ function StudentMatchScreen() {
           </span>
         </div>
 
-        <button
-          type="button"
-          className="mb-2.5 h-10 w-full rounded-xl bg-primary font-body text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90"
-        >
+        <Button type="button" className="mb-2.5 h-10 w-full rounded-xl">
           Send message
-        </button>
-        <button type="button" className="h-10 w-full rounded-xl border border-border bg-card font-body text-sm text-muted-foreground hover:bg-muted">
+        </Button>
+        <Button type="button" variant="outline" className="h-10 w-full rounded-xl">
           Continue browsing
-        </button>
+        </Button>
       </div>
     </div>
   )
@@ -540,18 +538,19 @@ function RecruiterSwipeScreen({ cardIdx }: { cardIdx: number }) {
 
           {/* Swipe buttons */}
           <div className="mt-3 flex items-center justify-center gap-5 border-t border-border px-4 py-3">
-            <button type="button" className="flex h-11 w-11 items-center justify-center rounded-full border border-destructive/30 bg-destructive/10">
-              <X className="h-[18px] w-[18px] text-destructive" />
-            </button>
-            <button
+            <Button type="button" size="icon" variant="outline" className="h-11 w-11 border-destructive/30 bg-destructive/10 text-destructive hover:bg-destructive/20">
+              <X className="h-[18px] w-[18px]" />
+            </Button>
+            <Button
               type="button"
-              className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md ring-2 ring-primary/20"
+              size="icon"
+              className="h-14 w-14 shadow-md ring-2 ring-primary/20"
             >
               <Heart className="h-6 w-6 fill-current" />
-            </button>
-            <button type="button" className="flex h-11 w-11 items-center justify-center rounded-full border border-border bg-muted">
+            </Button>
+            <Button type="button" size="icon" variant="secondary" className="h-11 w-11">
               <Star className="h-[18px] w-[18px] text-muted-foreground" />
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -611,12 +610,12 @@ function RecruiterMatchScreen() {
           </span>
         </div>
 
-        <button type="button" className="mb-2.5 h-10 w-full rounded-xl bg-primary font-body text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90">
+        <Button type="button" className="mb-2.5 h-10 w-full rounded-xl">
           Start conversation
-        </button>
-        <button type="button" className="h-10 w-full rounded-xl border border-border bg-card font-body text-sm text-muted-foreground hover:bg-muted">
+        </Button>
+        <Button type="button" variant="outline" className="h-10 w-full rounded-xl">
           View profile
-        </button>
+        </Button>
       </div>
     </div>
   )
@@ -671,12 +670,13 @@ function RecruiterPipelineScreen() {
         ))}
       </div>
       <div className="px-4 pb-8 pt-2">
-        <button
+        <Button
           type="button"
-          className="h-9 w-full rounded-2xl border border-border bg-muted font-body text-xs text-foreground hover:bg-muted/80"
+          variant="secondary"
+          className="h-9 w-full rounded-2xl text-xs"
         >
           + Post Another Job
-        </button>
+        </Button>
       </div>
     </div>
   )
@@ -949,13 +949,14 @@ function ProductDemo({ role }: { role: UserRole | null }) {
       {/* Dot nav */}
       <div className="relative z-10 flex shrink-0 items-center gap-1.5">
         {screens.map((_, i) => (
-          <button
+          <Button
             key={i}
             type="button"
+            variant="ghost"
             onClick={() => goTo(i)}
             disabled={animating}
             className={cn(
-              "rounded-full transition-all duration-300",
+              "h-auto min-h-0 rounded-full p-0 transition-all duration-300 hover:bg-transparent",
               i === screenIdx ? "h-1.5 w-5 bg-primary" : "h-1.5 w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50"
             )}
             aria-label={`Preview slide ${i + 1}`}
@@ -1579,14 +1580,16 @@ export default function OnboardingPage() {
                             className="gap-1 rounded-full border border-border bg-muted px-2.5 py-1 text-xs font-normal"
                           >
                             {s}
-                            <button
+                            <Button
                               type="button"
+                              variant="ghost"
+                              size="icon"
                               onClick={() => setSkills(skills.filter((sk) => sk !== s))}
-                              className="ml-0.5 rounded-sm hover:text-muted-foreground"
+                              className="ml-0.5 h-4 w-4 hover:text-muted-foreground"
                               aria-label={`Remove ${s}`}
                             >
                               <X className="h-3 w-3" />
-                            </button>
+                            </Button>
                           </Badge>
                         ))}
                       </div>

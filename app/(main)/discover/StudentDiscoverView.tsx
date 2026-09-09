@@ -10,6 +10,7 @@ import { DiscoverLoading } from "@/components/discover"
 import { recordJobView, notifyApplicationMilestone } from "@/lib/engagement"
 import { X, Heart } from "lucide-react"
 import type { Job } from "@/types"
+import { Button } from "@/components/ui/button"
 
 type JobSwipeRow = { job_id: string; direction: string }
 
@@ -107,13 +108,9 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
             ? "No new roles from verified teams yet. Hit refresh in a bit."
             : "You cleared this batch. Pull a fresh stack whenever."}
         </p>
-        <button
-          type="button"
-          className="mt-6 rounded-full bg-primary px-6 py-2.5 font-body text-sm font-semibold text-primary-foreground"
-          onClick={() => void loadJobs()}
-        >
+        <Button type="button" className="mt-6" onClick={() => void loadJobs()}>
           Refresh feed
-        </button>
+        </Button>
       </div>
     )
   }
@@ -143,28 +140,33 @@ export function StudentDiscoverView({ userId }: { userId: string }) {
       </div>
 
       <div className="flex items-center justify-center gap-8">
-        <button
-          type="button"
-          onClick={() => handleSwipe("left")}
-          disabled={swiping}
-          className="flex flex-col items-center gap-1.5 disabled:opacity-50"
-        >
-          <span className="flex h-14 w-14 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm active:scale-95">
+        <div className="flex flex-col items-center gap-1.5">
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            onClick={() => handleSwipe("left")}
+            disabled={swiping}
+            className="h-14 w-14 rounded-full"
+            aria-label="Pass"
+          >
             <X className="h-6 w-6" strokeWidth={1.75} />
-          </span>
+          </Button>
           <span className="font-body text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Pass</span>
-        </button>
-        <button
-          type="button"
-          onClick={() => handleSwipe("right")}
-          disabled={swiping}
-          className="flex flex-col items-center gap-1.5 disabled:opacity-50"
-        >
-          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md active:scale-95">
+        </div>
+        <div className="flex flex-col items-center gap-1.5">
+          <Button
+            type="button"
+            size="icon"
+            onClick={() => handleSwipe("right")}
+            disabled={swiping}
+            className="h-14 w-14 rounded-full"
+            aria-label="Apply"
+          >
             <Heart className="h-6 w-6" fill="currentColor" strokeWidth={1.5} />
-          </span>
+          </Button>
           <span className="font-body text-[11px] font-semibold uppercase tracking-wide text-primary">Apply</span>
-        </button>
+        </div>
       </div>
     </div>
   )

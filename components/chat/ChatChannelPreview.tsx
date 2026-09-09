@@ -5,6 +5,7 @@ import { ChatUserAvatar } from "@/components/chat/ChatUserAvatar"
 import { formatPreviewTime } from "@/components/chat/chat-helpers"
 import { previewText, type InboxConversation } from "@/lib/chat/inbox"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 
 export function ChatChannelPreview({
   conversation,
@@ -25,11 +26,12 @@ export function ChatChannelPreview({
   const hasUnread = conversation.unreadCount > 0
 
   return (
-    <button
+    <Button
       type="button"
+      variant="ghost"
       onClick={onSelect}
       className={cn(
-        "mx-2 mb-1 flex w-[calc(100%-1rem)] items-center gap-3 rounded-xl px-3 py-2.5 text-left transition",
+        "mx-2 mb-1 h-auto w-[calc(100%-1rem)] items-center justify-start gap-3 rounded-xl px-3 py-2.5 text-left",
         active ? "bg-primary/12 ring-1 ring-primary/25" : "hover:bg-muted/70"
       )}
     >
@@ -65,6 +67,6 @@ export function ChatChannelPreview({
           {conversation.unreadCount > 9 ? "9+" : conversation.unreadCount}
         </Badge>
       ) : null}
-    </button>
+    </Button>
   )
 }

@@ -2,8 +2,18 @@
 
 import { useState, useRef, useCallback } from "react"
 import { createClient } from "@/lib/supabase/client"
-import { Video, Upload, Mic, Trash2, Loader2, X } from "lucide-react"
+import { Video, Upload, Mic, Trash2, Loader2 } from "lucide-react"
 import { useToast } from "@/lib/hooks/use-toast"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 
 const BUCKET = "profile-videos"
 const MAX_FILE_MB = 50
@@ -65,7 +75,6 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
       setPreviewUrl(null)
       if (videoPreviewRef.current) {
         videoPreviewRef.current.srcObject = stream
-        // iOS/Safari sometimes requires muted for autoplay
         videoPreviewRef.current.muted = true
         await videoPreviewRef.current.play().catch(() => {})
       }
@@ -108,7 +117,6 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
       mediaRecorderRef.current.stop()
       setRecording(false)
       setShowRecordModal(false)
-      // Tracks will be stopped in recorder.onstop
     }
   }, [])
 
@@ -132,34 +140,44 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
     e.target.value = ""
   }
 
+  const closeRecordModal = (open: boolean) => {
+    if (!open) {
+      stopRecording()
+      setShowRecordModal(false)
+    } else {
+      setShowRecordModal(true)
+    }
+  }
+
   return (
     <>
-      <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
-        <div className="flex items-center gap-2 border-b border-border p-4">
+      <Card>
+        <CardHeader className="flex-row items-center gap-2 space-y-0 border-b border-border p-4">
           <Video className="h-4 w-4 text-muted-foreground" />
-          <h3 className="font-data text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+          <CardTitle className="font-data text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
             Profile video
-          </h3>
-        </div>
-        <div className="space-y-4 p-4">
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4 p-4">
           {profileVideoUrl ? (
             <div className="relative aspect-video max-h-[280px] overflow-hidden rounded-xl bg-muted/30">
               <video
                 src={profileVideoUrl}
                 controls
-                className="w-full h-full object-contain"
+                className="h-full w-full object-contain"
                 playsInline
               />
               <div className="absolute bottom-2 right-2 flex gap-2">
-                <button
+                <Button
                   type="button"
+                  size="sm"
+                  variant="secondary"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={uploading}
-                  className="flex items-center gap-1.5 rounded-lg bg-background/90 px-2.5 py-1.5 font-body text-xs text-foreground shadow-sm backdrop-blur-sm hover:bg-background"
                 >
                   {uploading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Upload className="h-3 w-3" />}
                   Replace
-                </button>
+                </Button>
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -168,14 +186,15 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
                   onChange={handleFileChange}
                   disabled={uploading}
                 />
-                <button
+                <Button
                   type="button"
+                  size="sm"
+                  variant="destructive"
                   onClick={removeVideo}
                   disabled={uploading}
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-red-500/20 hover:bg-red-500/30 text-neutral-500 text-xs font-body backdrop-blur-sm"
                 >
                   <Trash2 className="h-3 w-3" /> Remove
-                </button>
+                </Button>
               </div>
             </div>
           ) : (
@@ -187,25 +206,26 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
                 Optional short intro (≤2 min · {MAX_FILE_MB}MB max)
               </p>
               <div className="flex flex-wrap items-center justify-center gap-2">
-                <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-border bg-background px-4 py-2 font-body text-sm font-medium text-foreground transition-colors hover:bg-muted">
+                <Button type="button" variant="outline" onClick={() => fileInputRef.current?.click()} disabled={uploading}>
                   <Upload className="h-4 w-4" />
                   Upload video
-                  <input
-                    type="file"
-                    accept="video/mp4,video/webm,video/quicktime"
-                    className="hidden"
-                    onChange={handleFileChange}
-                    disabled={uploading}
-                  />
-                </label>
-                <button
+                </Button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="video/mp4,video/webm,video/quicktime"
+                  className="hidden"
+                  onChange={handleFileChange}
+                  disabled={uploading}
+                />
+                <Button
                   type="button"
+                  variant="outline"
                   onClick={() => setShowRecordModal(true)}
                   disabled={uploading}
-                  className="flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2 font-body text-sm font-medium text-foreground transition-colors hover:bg-muted"
                 >
                   <Mic className="h-4 w-4" /> Record video
-                </button>
+                </Button>
               </div>
             </div>
           )}
@@ -213,79 +233,52 @@ export function ProfileVideoSection({ userId, profileVideoUrl, onUpdate }: Profi
           {!profileVideoUrl && (
             <p className="font-data text-[10px] text-muted-foreground">MP4, WebM, or MOV</p>
           )}
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
-      {/* Upload modal: hidden file input is enough; we can add a drag-drop modal later if needed */}
-
-      {/* Record modal */}
-      {showRecordModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white/70 backdrop-blur-sm">
-          <div className="rounded-2xl bg-white border border-black/10 w-full max-w-md overflow-hidden shadow-xl">
-            <div className="p-4 border-b border-black/10 flex items-center justify-between">
-              <h3 className="font-heading font-semibold text-black">Record your video</h3>
-              <button
-                type="button"
-                onClick={() => { stopRecording(); setShowRecordModal(false) }}
-                className="p-2 rounded-lg hover:bg-white/10 text-neutral-700"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-            <div className="p-4 space-y-4">
-              <p className="font-body text-sm text-neutral-700">
-                {recording ? "Recording… (max 2 min). Click Stop when done." : "Allow camera and microphone, then click Start to record."}
-              </p>
-
-              {/* Live preview + post-record preview */}
-              <div className="rounded-xl overflow-hidden bg-white border border-black/10 aspect-video">
-                {previewUrl ? (
-                  <video
-                    src={previewUrl}
-                    controls
-                    playsInline
-                    className="w-full h-full object-contain"
-                  />
-                ) : (
-                  <video
-                    ref={videoPreviewRef}
-                    autoPlay
-                    playsInline
-                    className="w-full h-full object-contain"
-                  />
-                )}
-              </div>
-
-              <div className="flex gap-2">
-                {!recording ? (
-                  <button
-                    type="button"
-                    onClick={startRecording}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary py-3 font-body font-semibold text-primary-foreground"
-                  >
-                    Start recording
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={stopRecording}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-destructive/30 bg-destructive/10 py-3 font-body font-semibold text-destructive"
-                  >
-                    Stop & save
-                  </button>
-                )}
-                <button
-                  type="button"
-                  onClick={() => setShowRecordModal(false)}
-                  className="rounded-xl border border-border px-4 py-3 font-body text-muted-foreground hover:bg-muted"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
+      <Dialog open={showRecordModal} onOpenChange={closeRecordModal}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Record your video</DialogTitle>
+            <DialogDescription>
+              {recording
+                ? "Recording… (max 2 min). Click Stop when done."
+                : "Allow camera and microphone, then click Start to record."}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="aspect-video overflow-hidden rounded-xl border border-border bg-muted">
+            {previewUrl ? (
+              <video
+                src={previewUrl}
+                controls
+                playsInline
+                className="h-full w-full object-contain"
+              />
+            ) : (
+              <video
+                ref={videoPreviewRef}
+                autoPlay
+                playsInline
+                className="h-full w-full object-contain"
+              />
+            )}
           </div>
-        </div>
-      )}
+          <DialogFooter className="gap-2 sm:justify-stretch">
+            {!recording ? (
+              <Button type="button" className="flex-1" onClick={startRecording}>
+                Start recording
+              </Button>
+            ) : (
+              <Button type="button" variant="destructive" className="flex-1" onClick={stopRecording}>
+                Stop & save
+              </Button>
+            )}
+            <Button type="button" variant="outline" onClick={() => closeRecordModal(false)}>
+              Cancel
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }

@@ -6,6 +6,9 @@ import Image from "next/image"
 import Link from "next/link"
 import { AnimatePresence, motion, useAnimation, useReducedMotion } from "framer-motion"
 import { StaggerChild, StaggerMount, easeOutExpo } from "@/components/motion/waitlist-motion"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 const WaitlistEarthCanvas = dynamic(
   () => import("@/components/waitlist/WaitlistEarthCanvas").then((m) => m.WaitlistEarthCanvas),
@@ -242,10 +245,10 @@ export function WaitlistForm() {
                     transition={{ duration: reduceMotion ? 0 : 0.25 }}
                     className="flex w-full flex-col items-stretch gap-3 sm:flex-row sm:gap-2"
                   >
-                    <label htmlFor="waitlist-email" className="sr-only">
+                    <Label htmlFor="waitlist-email" className="sr-only">
                       Email address
-                    </label>
-                    <input
+                    </Label>
+                    <Input
                       id="waitlist-email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -253,28 +256,15 @@ export function WaitlistForm() {
                       type="email"
                       autoComplete="email"
                       disabled={submitting}
-                      className="min-h-[3.25rem] w-full min-w-0 flex-1 rounded-full border border-white/[0.15] bg-white/[0.07] px-5 text-[15px] text-white outline-none backdrop-blur-sm transition-all duration-300 placeholder:text-white/30 focus:border-[var(--waitlist-blue)]/60 focus:bg-white/[0.11] focus:ring-2 focus:ring-[var(--waitlist-blue)]/30 disabled:opacity-50 sm:px-6"
+                      className="h-auto min-h-[3.25rem] w-full min-w-0 flex-1 rounded-full border-white/[0.15] bg-white/[0.07] px-5 text-[15px] text-white backdrop-blur-sm placeholder:text-white/30 focus-visible:border-[var(--waitlist-blue)]/60 focus-visible:bg-white/[0.11] focus-visible:ring-[var(--waitlist-blue)]/30 sm:px-6"
                     />
-                    <motion.button
+                    <Button
                       type="submit"
                       disabled={submitting}
-                      className="relative min-h-[3.25rem] shrink-0 overflow-hidden rounded-full bg-[var(--waitlist-blue)] px-8 text-[15px] font-semibold tracking-[-0.01em] text-white shadow-[0_4px_20px_rgba(30,58,95,0.35)] transition-colors duration-300 hover:bg-[var(--waitlist-blue-hover)] disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:transition-none sm:min-w-[10.5rem]"
-                      animate={
-                        submitting && !reduceMotion
-                          ? { scale: [1, 1.02, 1] }
-                          : { scale: 1 }
-                      }
-                      transition={
-                        submitting && !reduceMotion
-                          ? { duration: 0.85, repeat: Infinity, ease: "easeInOut" }
-                          : { duration: 0.2 }
-                      }
-                      whileTap={reduceMotion || submitting ? undefined : { scale: 0.98 }}
+                      className="relative h-auto min-h-[3.25rem] shrink-0 rounded-full bg-[var(--waitlist-blue)] px-8 text-[15px] font-semibold tracking-[-0.01em] text-white shadow-[0_4px_20px_rgba(30,58,95,0.35)] hover:bg-[var(--waitlist-blue-hover)] sm:min-w-[10.5rem]"
                     >
-                      <span className={submitting ? "opacity-90" : ""}>
-                        {submitting ? "Joining…" : "Join waitlist"}
-                      </span>
-                    </motion.button>
+                      {submitting ? "Joining…" : "Join waitlist"}
+                    </Button>
                   </motion.form>
                 )}
               </AnimatePresence>

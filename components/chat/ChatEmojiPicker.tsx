@@ -23,9 +23,10 @@ export function ChatEmojiPicker({ onPick }: { onPick: (emoji: string) => void })
       </Button>
       {open ? (
         <>
-          <button
+          <Button
             type="button"
-            className="fixed inset-0 z-40 cursor-default"
+            variant="ghost"
+            className="fixed inset-0 z-40 h-auto w-auto rounded-none bg-transparent p-0 hover:bg-transparent"
             aria-label="Close emoji picker"
             onClick={() => setOpen(false)}
           />

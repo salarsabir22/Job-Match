@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
 import { LogOut, Loader2 } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export function SignOutButton() {
   const [loading, setLoading] = useState(false)
@@ -17,13 +18,9 @@ export function SignOutButton() {
   }
 
   return (
-    <button
-      onClick={signOut}
-      disabled={loading}
-      className="w-full h-11 rounded-xl border border-neutral-500/25 text-neutral-500 font-body font-medium text-sm hover:bg-red-500/10 hover:border-neutral-500/40 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50"
-    >
+    <Button type="button" variant="outline" className="w-full" onClick={signOut} disabled={loading}>
       {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <LogOut className="h-4 w-4" />}
       Sign Out
-    </button>
+    </Button>
   )
 }

@@ -103,12 +103,7 @@ export function StudentJobDetailView({ job, userId }: { job: JobRow; userId: str
               </h2>
               <div className="flex flex-wrap gap-2">
                 {job.required_skills.map((s) => (
-                  <span
-                    key={s}
-                    className="rounded-md border border-border bg-muted/50 px-2.5 py-1 font-body text-xs text-foreground"
-                  >
-                    {s}
-                  </span>
+                  <Badge key={s} variant="secondary">{s}</Badge>
                 ))}
               </div>
             </div>
@@ -121,12 +116,7 @@ export function StudentJobDetailView({ job, userId }: { job: JobRow; userId: str
               </h2>
               <div className="flex flex-wrap gap-2">
                 {job.nice_to_have_skills.map((s) => (
-                  <span
-                    key={s}
-                    className="rounded-md border border-border bg-background px-2.5 py-1 font-body text-xs text-muted-foreground"
-                  >
-                    {s}
-                  </span>
+                  <Badge key={s} variant="outline">{s}</Badge>
                 ))}
               </div>
             </div>

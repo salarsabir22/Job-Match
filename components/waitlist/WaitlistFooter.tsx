@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { Reveal } from "@/components/motion/waitlist-motion"
+import { Button } from "@/components/ui/button"
 
 const CONTACT = "mailto:hello@jobmatch.app"
 const RECRUITER = "mailto:hello@jobmatch.app?subject=Recruiter%20inquiry"
@@ -92,12 +93,9 @@ export function WaitlistFooter() {
             </div>
 
             <div className="flex shrink-0 flex-col gap-3 sm:items-end">
-              <a
-                href="#early-access"
-                className={`${focusRing} inline-flex h-12 w-full items-center justify-center rounded-full bg-white px-8 text-[14px] font-semibold tracking-[-0.02em] text-[#050506] transition-[transform,box-shadow] duration-200 hover:bg-white/92 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.12)] active:scale-[0.98] motion-reduce:transition-none motion-reduce:active:scale-100 sm:w-auto`}
-              >
-                Join the waitlist
-              </a>
+              <Button asChild className="h-12 w-full rounded-full bg-white px-8 text-[14px] font-semibold tracking-[-0.02em] text-[#050506] hover:bg-white/92 sm:w-auto">
+                <a href="#early-access">Join the waitlist</a>
+              </Button>
               <p className="text-center text-[11px] text-white/30 sm:text-right">One email when you&apos;re in. Unsubscribe anytime.</p>
             </div>
           </div>

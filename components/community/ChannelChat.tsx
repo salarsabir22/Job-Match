@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { Send, Loader2, Zap } from "lucide-react"
 import { formatTime, getInitials, cn } from "@/lib/utils"
 import type { ChannelMessage } from "@/types"
@@ -166,12 +167,12 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
       </div>
 
       <form onSubmit={sendMessage} className="flex shrink-0 gap-2 border-t border-border bg-card p-4">
-        <input
+        <Input
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Write a message"
           disabled={sending}
-          className="h-11 flex-1 rounded-full border border-border bg-background px-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/40"
+          className="h-11 flex-1 rounded-full px-4"
         />
         <Button
           type="submit"

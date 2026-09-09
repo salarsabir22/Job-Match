@@ -10,6 +10,8 @@ import { DiscoverLoading } from "@/components/discover"
 import Link from "next/link"
 import { X, Star } from "lucide-react"
 import type { Profile, StudentProfile } from "@/types"
+import { Button } from "@/components/ui/button"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 interface Candidate {
   profile: Profile
@@ -117,12 +119,9 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
         <p className="mt-2 max-w-sm font-body text-sm text-muted-foreground">
           Discover is tied to an open job so shortlists actually mean something.
         </p>
-        <Link
-          href="/jobs/new"
-          className="mt-6 rounded-full bg-primary px-6 py-2.5 font-body text-sm font-semibold text-primary-foreground"
-        >
-          Post a job
-        </Link>
+        <Button asChild className="mt-6">
+          <Link href="/jobs/new">Post a job</Link>
+        </Button>
       </div>
     )
   }
@@ -130,31 +129,31 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
   if (currentIndex >= candidates.length) {
     return (
       <div className="flex min-h-[70vh] flex-col items-center justify-center gap-6 px-4 text-center">
-        <select
-          className="h-10 max-w-xs rounded-full border border-border bg-card px-4 font-body text-sm"
+        <Select
           value={selectedJobId}
-          onChange={(e) => {
-            setSelectedJobId(e.target.value)
-            void loadCandidates(e.target.value)
+          onValueChange={(value) => {
+            setSelectedJobId(value)
+            void loadCandidates(value)
           }}
         >
-          {jobs.map((j) => (
-            <option key={j.id} value={j.id}>
-              {j.title}
-            </option>
-          ))}
-        </select>
+          <SelectTrigger className="w-full max-w-xs rounded-full" aria-label="Role">
+            <SelectValue placeholder="Select a role" />
+          </SelectTrigger>
+          <SelectContent>
+            {jobs.map((j) => (
+              <SelectItem key={j.id} value={j.id}>
+                {j.title}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <p className="text-4xl" aria-hidden>
           ✨
         </p>
         <h2 className="font-heading text-xl font-semibold">That&apos;s everyone for now</h2>
-        <button
-          type="button"
-          className="rounded-full bg-primary px-6 py-2.5 font-body text-sm font-semibold text-primary-foreground"
-          onClick={() => void loadCandidates(selectedJobId)}
-        >
+        <Button type="button" onClick={() => void loadCandidates(selectedJobId)}>
           Refresh
-        </button>
+        </Button>
       </div>
     )
   }
@@ -162,21 +161,24 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
   return (
     <div className="flex min-h-[70vh] flex-col items-center justify-center gap-5 py-2">
       <ConfettiBurst show={celebrate} />
-      <select
-        className="h-10 max-w-xs rounded-full border border-border bg-card px-4 font-body text-sm"
+      <Select
         value={selectedJobId}
-        onChange={(e) => {
-          setSelectedJobId(e.target.value)
-          void loadCandidates(e.target.value)
+        onValueChange={(value) => {
+          setSelectedJobId(value)
+          void loadCandidates(value)
         }}
-        aria-label="Shortlisting for"
       >
-        {jobs.map((j) => (
-          <option key={j.id} value={j.id}>
-            Shortlisting for: {j.title}
-          </option>
-        ))}
-      </select>
+        <SelectTrigger className="w-full max-w-xs rounded-full" aria-label="Shortlisting for">
+          <SelectValue placeholder="Select a role" />
+        </SelectTrigger>
+        <SelectContent>
+          {jobs.map((j) => (
+            <SelectItem key={j.id} value={j.id}>
+              Shortlisting for: {j.title}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
 
       <div className="relative mx-auto w-full max-w-[380px]">
         {nextCandidate ? (
@@ -199,37 +201,42 @@ export function RecruiterDiscoverView({ userId }: { userId: string }) {
         </SwipeCard>
       </div>
 
-      <button
+      <Button
         type="button"
-        className="font-body text-xs font-medium text-primary underline-offset-4 hover:underline"
+        variant="link"
         onClick={() => router.push(`/candidates/${currentCandidate.profile.id}?job=${selectedJobId}`)}
       >
         Open full profile
-      </button>
+      </Button>
 
       <div className="flex items-center justify-center gap-8">
-        <button
-          type="button"
-          onClick={() => handleSwipe("left")}
-          disabled={swiping}
-          className="flex flex-col items-center gap-1.5 disabled:opacity-50"
-        >
-          <span className="flex h-14 w-14 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm active:scale-95">
+        <div className="flex flex-col items-center gap-1.5">
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            onClick={() => handleSwipe("left")}
+            disabled={swiping}
+            className="h-14 w-14 rounded-full"
+            aria-label="Pass"
+          >
             <X className="h-6 w-6" strokeWidth={1.75} />
-          </span>
+          </Button>
           <span className="font-body text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Pass</span>
-        </button>
-        <button
-          type="button"
-          onClick={() => handleSwipe("right")}
-          disabled={swiping}
-          className="flex flex-col items-center gap-1.5 disabled:opacity-50"
-        >
-          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md active:scale-95">
+        </div>
+        <div className="flex flex-col items-center gap-1.5">
+          <Button
+            type="button"
+            size="icon"
+            onClick={() => handleSwipe("right")}
+            disabled={swiping}
+            className="h-14 w-14 rounded-full"
+            aria-label="Shortlist"
+          >
             <Star className="h-6 w-6" fill="currentColor" strokeWidth={1.5} />
-          </span>
+          </Button>
           <span className="font-body text-[11px] font-semibold uppercase tracking-wide text-primary">Shortlist</span>
-        </button>
+        </div>
       </div>
     </div>
   )

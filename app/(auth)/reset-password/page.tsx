@@ -5,6 +5,11 @@ import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"
 import { Loader2, Eye, EyeOff } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 type PasswordStrength = { score: 0 | 1 | 2 | 3 | 4; label: string; color: string }
 
@@ -44,7 +49,6 @@ export default function ResetPasswordPage() {
 
   const strength = getPasswordStrength(password)
 
-  /* Verify the recovery session is valid when the page loads */
   useEffect(() => {
     const supabase = createClient()
     const check = async () => {
@@ -84,194 +88,208 @@ export default function ResetPasswordPage() {
 
   if (!sessionReady && !sessionError) {
     return (
-      <div className="auth-card text-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-3" />
-        <p className="font-body text-sm text-muted-foreground">Verifying your reset link…</p>
-      </div>
+      <Card>
+        <CardContent className="pt-8 text-center">
+          <Loader2 className="mx-auto mb-3 h-8 w-8 animate-spin text-primary" />
+          <p className="font-body text-sm text-muted-foreground">Verifying your reset link…</p>
+        </CardContent>
+      </Card>
     )
   }
 
   if (sessionError) {
     return (
-      <div className="auth-card text-center">
-        <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">Reset link</p>
-        <h2 className="mt-4 text-[18px] font-semibold tracking-[-0.03em] text-foreground mb-2">Link expired or invalid</h2>
-        <p className="font-body text-muted-foreground text-sm mb-2">
-          Reset links last <span className="text-foreground font-medium">1 hour</span> and work once.
-        </p>
-        <p className="font-body text-xs text-muted-foreground mb-6">Request a fresh link below.</p>
-        <Link
-          href="/forgot-password"
-          className="auth-btn-primary mb-3"
-        >
-          Request a new link
-        </Link>
-        <Link href="/login" className="font-body text-sm text-muted-foreground hover:text-foreground transition-colors block">
-          ← Back to sign in
-        </Link>
-      </div>
+      <Card>
+        <CardHeader className="text-center">
+          <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">Reset link</p>
+          <CardTitle>Link expired or invalid</CardTitle>
+          <CardDescription>
+            Reset links last <span className="font-medium text-foreground">1 hour</span> and work once.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="text-center">
+          <p className="mb-6 font-body text-xs text-muted-foreground">Request a fresh link below.</p>
+          <Button asChild className="mb-3 w-full">
+            <Link href="/forgot-password">Request a new link</Link>
+          </Button>
+          <Button variant="ghost" asChild>
+            <Link href="/login">← Back to sign in</Link>
+          </Button>
+        </CardContent>
+      </Card>
     )
   }
 
   if (done) {
     return (
-      <div className="auth-card text-center">
-        <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">Complete</p>
-        <h2 className="mt-4 text-[18px] font-semibold tracking-[-0.03em] text-foreground mb-2">Password updated</h2>
-        <p className="font-body text-muted-foreground text-sm mb-1">You&apos;re all set.</p>
-        <p className="font-body text-xs text-muted-foreground mb-6">Redirecting to sign in…</p>
-        <div className="flex items-center justify-center gap-2 text-muted-foreground">
-          <Loader2 className="h-4 w-4 animate-spin" />
-          <span className="font-body text-sm">Loading login</span>
-        </div>
-      </div>
+      <Card>
+        <CardHeader className="text-center">
+          <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">Complete</p>
+          <CardTitle>Password updated</CardTitle>
+          <CardDescription>You&apos;re all set. Redirecting to sign in…</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-center gap-2 text-muted-foreground">
+            <Loader2 className="h-4 w-4 animate-spin" />
+            <span className="font-body text-sm">Loading login</span>
+          </div>
+        </CardContent>
+      </Card>
     )
   }
 
   return (
-    <div className="auth-card">
-      <div className="text-center mb-7">
+    <Card>
+      <CardHeader className="text-center">
         <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">Security</p>
-        <h1 className="mt-3 text-[20px] sm:text-[21px] font-semibold tracking-[-0.03em] text-foreground">New password</h1>
-        <p className="font-body text-muted-foreground text-[15px] mt-2">Choose something strong you haven&apos;t used before</p>
-      </div>
+        <CardTitle>New password</CardTitle>
+        <CardDescription>Choose something strong you haven&apos;t used before</CardDescription>
+      </CardHeader>
+      <CardContent>
+        {error && (
+          <Alert variant="destructive" className="mb-5">
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
 
-      {error && (
-        <div className="border-l-2 border-destructive/80 bg-destructive/10 pl-4 pr-3 py-3 rounded-r-xl mb-5">
-          <p className="font-body text-[14px] leading-snug text-destructive">{error}</p>
-        </div>
-      )}
-
-      <form onSubmit={handleReset} noValidate className="space-y-4">
-        {/* New password */}
-        <div className="space-y-1.5">
-          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-muted-foreground">New password</label>
-          <div className="relative">
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value)
-                setError(null)
-              }}
-              autoComplete="new-password"
-              autoFocus
-              className="auth-input pr-11"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
-            >
-              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            </button>
-          </div>
-
-          {password.length > 0 && (
-            <div className="space-y-1.5">
-              <div className="flex gap-1">
-                {[1, 2, 3, 4].map((i) => (
-                  <div
-                    key={i}
-                    className={cn(
-                      "h-1 flex-1 rounded-full transition-all duration-300",
-                      i <= strength.score ? strength.color : "bg-muted"
-                    )}
-                  />
-                ))}
-              </div>
-              {strength.label && (
-                <p className="font-data text-[10px] text-muted-foreground">
-                  Strength: <span className="text-foreground">{strength.label}</span>
-                </p>
-              )}
+        <form onSubmit={handleReset} noValidate className="space-y-4">
+          <div className="space-y-1.5">
+            <Label htmlFor="reset-password">New password</Label>
+            <div className="relative">
+              <Input
+                id="reset-password"
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value)
+                  setError(null)
+                }}
+                autoComplete="new-password"
+                autoFocus
+                className="pr-11"
+              />
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 text-muted-foreground"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </Button>
             </div>
-          )}
 
-          <div className="space-y-1 pt-1">
-            {REQUIREMENTS.map(({ label, check }) => {
-              const ok = check(password)
-              return (
-                <div key={label} className="flex items-center gap-2.5">
-                  <span
-                    className={cn(
-                      "size-1.5 shrink-0 rounded-full transition-colors",
-                      ok ? "bg-emerald-500" : "bg-border"
-                    )}
-                    aria-hidden
-                  />
-                  <span
-                    className={cn(
-                      "font-body text-[11px] transition-colors",
-                      ok ? "text-muted-foreground" : "text-muted-foreground/50"
-                    )}
-                  >
-                    {label}
-                  </span>
+            {password.length > 0 && (
+              <div className="space-y-1.5">
+                <div className="flex gap-1">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div
+                      key={i}
+                      className={cn(
+                        "h-1 flex-1 rounded-full transition-all duration-300",
+                        i <= strength.score ? strength.color : "bg-muted"
+                      )}
+                    />
+                  ))}
                 </div>
-              )
-            })}
+                {strength.label && (
+                  <p className="font-data text-[10px] text-muted-foreground">
+                    Strength: <span className="text-foreground">{strength.label}</span>
+                  </p>
+                )}
+              </div>
+            )}
+
+            <div className="space-y-1 pt-1">
+              {REQUIREMENTS.map(({ label, check }) => {
+                const ok = check(password)
+                return (
+                  <div key={label} className="flex items-center gap-2.5">
+                    <span
+                      className={cn(
+                        "size-1.5 shrink-0 rounded-full transition-colors",
+                        ok ? "bg-emerald-500" : "bg-border"
+                      )}
+                      aria-hidden
+                    />
+                    <span
+                      className={cn(
+                        "font-body text-[11px] transition-colors",
+                        ok ? "text-muted-foreground" : "text-muted-foreground/50"
+                      )}
+                    >
+                      {label}
+                    </span>
+                  </div>
+                )
+              })}
+            </div>
           </div>
-        </div>
 
-        <div className="space-y-1.5">
-          <label className="font-data text-[11px] tracking-[0.2em] uppercase text-muted-foreground">Confirm password</label>
-          <div className="relative">
-            <input
-              type={showConfirm ? "text" : "password"}
-              placeholder="••••••••"
-              value={confirm}
-              onChange={(e) => {
-                setConfirm(e.target.value)
-                setError(null)
-              }}
-              autoComplete="new-password"
-              className={cn(
-                "auth-input pr-11",
-                confirm.length > 0 && confirm !== password ? "border-destructive/50" : ""
-              )}
-            />
-            <button
-              type="button"
-              onClick={() => setShowConfirm(!showConfirm)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
-            >
-              {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            </button>
+          <div className="space-y-1.5">
+            <Label htmlFor="reset-confirm">Confirm password</Label>
+            <div className="relative">
+              <Input
+                id="reset-confirm"
+                type={showConfirm ? "text" : "password"}
+                placeholder="••••••••"
+                value={confirm}
+                onChange={(e) => {
+                  setConfirm(e.target.value)
+                  setError(null)
+                }}
+                autoComplete="new-password"
+                className={cn(
+                  "pr-11",
+                  confirm.length > 0 && confirm !== password ? "border-destructive" : ""
+                )}
+              />
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowConfirm(!showConfirm)}
+                className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 text-muted-foreground"
+                aria-label={showConfirm ? "Hide password" : "Show password"}
+              >
+                {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </Button>
+            </div>
+            {confirm.length > 0 && (
+              <p
+                className={cn(
+                  "font-body text-[11px]",
+                  confirm === password ? "text-emerald-700" : "text-destructive"
+                )}
+              >
+                {confirm === password ? "Passwords match" : "Doesn't match yet"}
+              </p>
+            )}
           </div>
-          {confirm.length > 0 && (
-            <p
-              className={cn(
-                "font-body text-[11px]",
-                confirm === password ? "text-emerald-700" : "text-destructive"
-              )}
-            >
-              {confirm === password ? "Passwords match" : "Doesn't match yet"}
-            </p>
-          )}
+
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={loading || password !== confirm || password.length < 8}
+          >
+            {loading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" /> Updating…
+              </>
+            ) : (
+              "Set password"
+            )}
+          </Button>
+        </form>
+
+        <div className="mt-5 text-center">
+          <Button variant="ghost" asChild>
+            <Link href="/login">← Back to sign in</Link>
+          </Button>
         </div>
-
-        <button
-          type="submit"
-          disabled={loading || password !== confirm || password.length < 8}
-          className="auth-btn-primary disabled:opacity-40 disabled:pointer-events-none"
-        >
-          {loading ? (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin" /> Updating…
-            </>
-          ) : (
-            "Set password"
-          )}
-        </button>
-      </form>
-
-      <div className="text-center mt-5">
-        <Link href="/login" className="font-body text-sm text-muted-foreground hover:text-foreground transition-colors">
-          ← Back to sign in
-        </Link>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   )
 }

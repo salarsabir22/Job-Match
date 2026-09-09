@@ -7,6 +7,7 @@ import { DashboardKpiCard } from "@/components/dashboard/DashboardKpiCard"
 import { DashboardEmptyState } from "@/components/dashboard/DashboardEmptyState"
 import { StudentDashboardCharts } from "@/components/dashboard/StudentDashboardCharts"
 import { cn, formatDate } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import { daysLastN, shortDayLabel } from "@/lib/dashboard/time-series"
 import { dashTable } from "@/components/dashboard/dashboard-table-styles"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -145,13 +146,12 @@ export async function StudentDashboardView({ userId, fullName }: { userId: strin
         title={firstName ? `Welcome back, ${firstName}` : "Your overview"}
         description="Track applications, saves, and mutual matches. Everything below is computed from your account - not sample data."
         action={
-          <Link
-            href="/discover"
-            className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 font-body text-sm font-medium text-primary-foreground transition hover:bg-[var(--clearpath-navy-hover)]"
-          >
-            Discover roles
-            <ArrowRight className="h-4 w-4" aria-hidden />
-          </Link>
+          <Button asChild>
+            <Link href="/discover">
+              Discover roles
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
+          </Button>
         }
       />
 

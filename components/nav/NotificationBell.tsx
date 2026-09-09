@@ -133,13 +133,14 @@ export function NotificationBell() {
               <p className="px-3 py-4 font-body text-xs text-muted-foreground">No notifications yet.</p>
             ) : (
               items.map((n) => (
-                <button
+                <Button
                   key={n.id}
                   type="button"
+                  variant="ghost"
                   onClick={() => void openNotification(n)}
-                  className="w-full border-b border-border px-3 py-2.5 text-left last:border-b-0 hover:bg-muted/60"
+                  className="h-auto w-full rounded-none border-b border-border px-3 py-2.5 text-left last:border-b-0"
                 >
-                  <div className="flex items-start justify-between gap-2">
+                  <div className="flex w-full items-start justify-between gap-2">
                     <div className="min-w-0">
                       <p className="truncate font-body text-xs text-foreground">{n.title}</p>
                       {n.body && (
@@ -155,7 +156,7 @@ export function NotificationBell() {
                       aria-hidden
                     />
                   </div>
-                </button>
+                </Button>
               ))
             )}
           </ScrollArea>

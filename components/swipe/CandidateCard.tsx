@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
 import { cn, getInitials } from "@/lib/utils"
 import type { Profile, StudentProfile } from "@/types"
 
@@ -52,17 +53,14 @@ export function CandidateCard({ profile, studentProfile, className }: CandidateC
         {studentProfile.skills && studentProfile.skills.length > 0 ? (
           <div className="flex flex-wrap gap-1.5">
             {studentProfile.skills.slice(0, 5).map((s: string) => (
-              <span
-                key={s}
-                className="rounded-md border border-border bg-muted/50 px-2 py-0.5 font-body text-[11px] text-foreground"
-              >
+              <Badge key={s} variant="secondary" className="text-[11px] font-normal">
                 {s}
-              </span>
+              </Badge>
             ))}
             {studentProfile.skills.length > 5 ? (
-              <span className="rounded-md border border-transparent px-2 py-0.5 font-body text-[11px] text-muted-foreground">
+              <Badge variant="outline" className="border-transparent text-[11px] font-normal text-muted-foreground">
                 +{studentProfile.skills.length - 5}
-              </span>
+              </Badge>
             ) : null}
           </div>
         ) : null}

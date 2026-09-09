@@ -11,6 +11,7 @@ import {
   viewportOnce,
 } from "@/components/motion/waitlist-motion"
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 
 const CONTACT_MAIL = "mailto:hello@jobmatch.app"
 
@@ -96,13 +97,14 @@ export function WaitlistFaq() {
                   variants={faqItemV}
                   className="overflow-hidden rounded-2xl border border-black/[0.06] bg-black/[0.025] transition-colors hover:bg-black/[0.035]"
                 >
-                  <button
+                  <Button
                     type="button"
+                    variant="ghost"
                     id={triggerId}
                     aria-expanded={isOpen}
                     aria-controls={panelId}
                     onClick={() => setOpenIndex(isOpen ? null : index)}
-                    className="flex w-full items-center gap-4 px-4 py-4 text-left sm:px-5 sm:py-[1.125rem]"
+                    className="h-auto w-full items-center gap-4 rounded-none px-4 py-4 text-left hover:bg-transparent sm:px-5 sm:py-[1.125rem]"
                   >
                     <span className="min-w-0 flex-1 text-[15px] font-medium leading-snug tracking-[-0.02em] text-black sm:text-[15px]">
                       {item.q}
@@ -116,7 +118,7 @@ export function WaitlistFaq() {
                     >
                       <span className="text-lg font-light leading-none">+</span>
                     </span>
-                  </button>
+                  </Button>
                   {/* Grid 0fr → 1fr: smooth height without fixed max-height */}
                   <div
                     className={cn(
