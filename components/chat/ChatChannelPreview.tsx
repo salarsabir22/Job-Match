@@ -20,7 +20,12 @@ export function ChatChannelPreview({
 }) {
   const name = conversation.peer.full_name || "Match"
   const preview = conversation.lastMessage
-    ? previewText(conversation.lastMessage.content, conversation.lastMessage.sender_id, currentUserId)
+    ? previewText(
+        conversation.lastMessage.content,
+        conversation.lastMessage.sender_id,
+        currentUserId,
+        conversation.lastMessage.message_type
+      )
     : "No messages yet"
   const time = formatPreviewTime(conversation.lastMessage?.created_at)
   const hasUnread = conversation.unreadCount > 0

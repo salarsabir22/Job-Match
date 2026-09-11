@@ -59,6 +59,80 @@
   background-position: center top;
 }
 
+.jm-bubble {
+  position: relative;
+  max-width: min(78%, 22rem);
+}
+
+.jm-bubble--own {
+  border-radius: 16px 16px 4px 16px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: 0 8px 22px rgba(201, 163, 106, 0.16);
+}
+
+.jm-bubble--peer {
+  border-radius: 16px 16px 16px 4px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--card) 92%, transparent);
+  color: var(--foreground);
+}
+
+.jm-bubble--grouped.jm-bubble--own,
+.jm-bubble--grouped.jm-bubble--peer {
+  border-radius: 16px;
+}
+
+.jm-voice-bar {
+  display: inline-block;
+  width: 2.5px;
+  min-height: 4px;
+  flex: 1 1 0;
+  border-radius: 99px;
+  align-self: center;
+}
+
+.jm-voice-live {
+  display: flex;
+  height: 28px;
+  align-items: center;
+  gap: 2px;
+}
+
+.jm-voice-live__bar {
+  display: block;
+  width: 3px;
+  height: 28%;
+  border-radius: 99px;
+  background: var(--destructive);
+  animation: jm-voice-live 900ms ease-in-out infinite;
+}
+
+@keyframes jm-voice-live {
+  0%,
+  100% {
+    height: 22%;
+    opacity: 0.45;
+  }
+  50% {
+    height: 92%;
+    opacity: 1;
+  }
+}
+
+.jm-mic-hold {
+  touch-action: none;
+  user-select: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jm-voice-live__bar {
+    animation: none;
+    height: 55%;
+    opacity: 0.8;
+  }
+}
+
 .jm-typing-bar {
   width: 4px;
   height: 12px;

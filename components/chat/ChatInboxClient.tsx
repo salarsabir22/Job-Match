@@ -53,7 +53,9 @@ export function ChatInboxClient({ currentUserId }: { currentUserId: string }) {
     const haystack = [
       c.peer.full_name,
       c.jobTitle,
-      c.lastMessage ? previewText(c.lastMessage.content, c.lastMessage.sender_id, currentUserId) : "",
+      c.lastMessage
+        ? previewText(c.lastMessage.content, c.lastMessage.sender_id, currentUserId, c.lastMessage.message_type)
+        : "",
     ]
       .filter(Boolean)
       .join(" ")

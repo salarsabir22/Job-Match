@@ -13,6 +13,7 @@ export type ChatLastMessage = {
   created_at: string
   sender_id: string
   is_read: boolean
+  message_type?: string | null
 }
 
 export type InboxConversation = {
@@ -66,7 +67,7 @@ export async function loadInbox(
     supabase.from("profiles").select("id, full_name, avatar_url").in("id", [...peerIds]),
     supabase
       .from("messages")
-      .select("id, conversation_id, content, created_at, sender_id, is_read")
+      .select("id, conversation_id, content, created_at, sender_id, is_read, message_type")
       .in(
         "conversation_id",
         parsed.map((c) => c.id)
@@ -88,6 +89,7 @@ export async function loadInbox(
         created_at: msg.created_at as string,
         sender_id: msg.sender_id as string,
         is_read: Boolean(msg.is_read),
+        message_type: (msg as { message_type?: string | null }).message_type ?? "text",
       })
     }
     if (!msg.is_read && msg.sender_id !== userId) {
@@ -111,9 +113,15 @@ export async function loadInbox(
     })
 }
 
-export function previewText(content: string | null | undefined, senderId: string, currentUserId: string) {
-  const body = content?.trim() || "No messages yet"
-  if (!content?.trim()) return "No messages yet"
+export function previewText(
+  content: string | null | undefined,
+  senderId: string,
+  currentUserId: string,
+  messageType?: string | null
+) {
+  const isVoice = messageType === "voice"
+  const body = isVoice ? "Voice message" : content?.trim() || "No messages yet"
+  if (!isVoice && !content?.trim()) return "No messages yet"
   if (senderId === currentUserId) return `You: ${body}`
   return body
 }

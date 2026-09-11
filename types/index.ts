@@ -101,6 +101,8 @@ export interface Conversation {
   matches?: Match
 }
 
+export type ChatMessageType = "text" | "voice"
+
 export interface Message {
   id: string
   conversation_id: string
@@ -108,6 +110,9 @@ export interface Message {
   content: string
   is_read: boolean
   created_at: string
+  message_type?: ChatMessageType
+  media_url?: string | null
+  duration_seconds?: number | null
   sender?: Profile
 }
 
