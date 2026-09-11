@@ -5,6 +5,7 @@ export type ChatPeer = {
   id: string
   full_name: string | null
   avatar_url: string | null
+  profilePath?: string | null
 }
 
 export type ChatLastMessage = {
@@ -48,6 +49,7 @@ export async function loadInbox(
     if (!match?.student_id || !match?.recruiter_id) return []
     if (match.student_id !== userId && match.recruiter_id !== userId) return []
     const peerId = match.student_id === userId ? match.recruiter_id : match.student_id
+    const peerIsRecruiter = match.student_id === userId
     peerIds.add(peerId)
     const job = coalesceRelation(match.jobs)
     return [
@@ -56,6 +58,7 @@ export async function loadInbox(
         matchId: row.match_id as string,
         jobTitle: job?.title ?? null,
         peerId,
+        peerIsRecruiter,
         createdAt: row.created_at as string,
       },
     ]
@@ -102,7 +105,10 @@ export async function loadInbox(
       id: row.id,
       matchId: row.matchId,
       jobTitle: row.jobTitle,
-      peer: profileById.get(row.peerId) ?? { id: row.peerId, full_name: null, avatar_url: null },
+      peer: {
+        ...(profileById.get(row.peerId) ?? { id: row.peerId, full_name: null, avatar_url: null }),
+        profilePath: row.peerIsRecruiter ? `/company/${row.peerId}` : `/candidates/${row.peerId}`,
+      },
       lastMessage: lastByConvo.get(row.id) ?? null,
       unreadCount: unreadByConvo.get(row.id) ?? 0,
     }))

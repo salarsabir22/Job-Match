@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server"
-import { notFound, redirect } from "next/navigation"
+import { notFound } from "next/navigation"
 import Link from "next/link"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
@@ -23,7 +23,6 @@ export default async function CandidatePublicPage({
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) redirect("/login")
 
   const { data: profile } = await supabase
     .from("profiles")
@@ -34,11 +33,13 @@ export default async function CandidatePublicPage({
   if (!profile || profile.role !== "student") notFound()
 
   const { data: student } = await supabase.from("student_profiles").select("*").eq("id", id).maybeSingle()
-  const { data: viewer } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle()
+  const { data: viewer } = user
+    ? await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle()
+    : { data: null }
   const isRecruiter = viewer?.role === "recruiter"
 
   let chatHref: string | null = null
-  if (isRecruiter) {
+  if (isRecruiter && user) {
     let matchQuery = supabase
       .from("matches")
       .select("id, conversations(id)")
@@ -67,7 +68,11 @@ export default async function CandidatePublicPage({
           <p className="font-data text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Candidate</p>
           <h1 className="mt-1 font-heading text-2xl font-semibold tracking-tight">{profile.full_name}</h1>
         </div>
-        <ShareButton path={`/candidates/${id}`} title={profile.full_name || "Candidate"} />
+        <ShareButton
+          path={`/candidates/${id}`}
+          title={profile.full_name || "Candidate"}
+          label="Share profile"
+        />
       </div>
 
       <Card className="shadow-sm">
@@ -150,6 +155,10 @@ export default async function CandidatePublicPage({
             <Link href="/discover">Back to Discover</Link>
           </Button>
         </div>
+      ) : !user ? (
+        <Button asChild className="w-full rounded-full">
+          <Link href={`/login?next=${encodeURIComponent(`/candidates/${id}`)}`}>Sign in to connect</Link>
+        </Button>
       ) : null}
     </div>
   )

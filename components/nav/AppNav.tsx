@@ -3,11 +3,15 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LogOut, Menu, MessageSquareText, UserRound } from "lucide-react"
+import { LogOut, Menu, MessageSquareText, Share2, UserRound } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { cn } from "@/lib/utils"
 import type { UserRole } from "@/types"
 import { NotificationBell } from "@/components/nav/NotificationBell"
+import { ShareProfileMenuItem } from "@/components/share/ShareButton"
+import { profileSharePath } from "@/lib/share/profile-path"
+import { shareOrCopyLink } from "@/lib/share/share-link"
+import { useToast } from "@/lib/hooks/use-toast"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -63,15 +67,38 @@ const adminLinks: NavLink[] = [
 
 interface AppNavProps {
   role: UserRole | "admin"
+  userId?: string | null
   fullName?: string | null
   email?: string | null
   avatarUrl?: string | null
+  shareTitle?: string | null
 }
 
-export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
+export function AppNav({ role, userId, fullName, email, avatarUrl, shareTitle }: AppNavProps) {
   const pathname = usePathname()
+  const { toast } = useToast()
   const [mobileOpen, setMobileOpen] = useState(false)
-  const links = role === "student" ? studentLinks : role === "recruiter" ? recruiterLinks : adminLinks
+  const signedIn = Boolean(userId)
+  const canShareProfile = signedIn && role !== "admin" && Boolean(userId)
+  const sharePath = userId && role !== "admin" ? profileSharePath(role, userId) : null
+  const resolvedShareTitle = shareTitle || fullName || (role === "recruiter" ? "Company profile" : "Profile")
+  const links = !signedIn
+    ? []
+    : role === "student"
+      ? studentLinks
+      : role === "recruiter"
+        ? recruiterLinks
+        : adminLinks
+
+  const shareOwnProfile = async () => {
+    if (!sharePath) return
+    const result = await shareOrCopyLink({ path: sharePath, title: resolvedShareTitle })
+    if (result === "copied") {
+      toast({ title: "Link copied ✨", description: "Send it to whoever needs it." })
+    } else if (result === "failed") {
+      toast({ variant: "destructive", title: "Could not copy link" })
+    }
+  }
 
   const handleSignOut = async () => {
     const supabase = createClient()
@@ -91,6 +118,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
   return (
     <header className="fixed inset-x-0 top-0 z-50 h-16 border-b border-border bg-background/90 backdrop-blur-xl">
       <div className="mx-auto flex h-full w-full max-w-[1728px] items-center gap-3 px-4 sm:px-6 lg:px-10 xl:px-14">
+        {signedIn ? (
         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Open menu">
@@ -120,7 +148,7 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
                   </Link>
                 </SheetClose>
               ))}
-              {role !== "admin" ? (
+              {signedIn && role !== "admin" ? (
                 <>
                   <SheetClose asChild>
                     <Link
@@ -130,6 +158,19 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
                       Profile
                     </Link>
                   </SheetClose>
+                  {canShareProfile ? (
+                    <button
+                      type="button"
+                      className="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-left text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground"
+                      onClick={() => {
+                        void shareOwnProfile()
+                        setMobileOpen(false)
+                      }}
+                    >
+                      <Share2 className="h-4 w-4" />
+                      Share profile
+                    </button>
+                  ) : null}
                   <SheetClose asChild>
                     <Link
                       href="/feedback"
@@ -149,15 +190,18 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
             </div>
           </SheetContent>
         </Sheet>
+        ) : null}
 
         <Link href="/" className="shrink-0 font-heading text-[17px] font-semibold tracking-tight text-foreground">
           jobmatch<span className="text-muted-foreground">.</span>
         </Link>
-        <Badge variant="secondary" className="hidden uppercase tracking-[0.14em] sm:inline-flex">
-          {roleLabel}
-        </Badge>
+        {signedIn ? (
+          <Badge variant="secondary" className="hidden uppercase tracking-[0.14em] sm:inline-flex">
+            {roleLabel}
+          </Badge>
+        ) : null}
 
-        <NavigationMenu viewport={false} className="hidden min-w-0 flex-1 justify-start lg:flex">
+        <NavigationMenu viewport={false} className={cn("hidden min-w-0 flex-1 justify-start lg:flex", !signedIn && "lg:hidden")}>
           <NavigationMenuList className="justify-start">
             {links.map((link) => (
               <NavigationMenuItem key={link.href}>
@@ -176,45 +220,54 @@ export function AppNav({ role, fullName, email, avatarUrl }: AppNavProps) {
         </NavigationMenu>
 
         <div className="ml-auto flex items-center gap-1.5">
-          <NotificationBell />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="rounded-full" aria-label="Account menu">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={avatarUrl ?? undefined} alt="" />
-                  <AvatarFallback className="bg-primary/15 text-xs text-primary">{initials}</AvatarFallback>
-                </Avatar>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuLabel className="font-normal">
-                <p className="truncate text-sm font-medium leading-none">{displayName}</p>
-                <p className="mt-1 truncate text-xs text-muted-foreground">{email ?? roleLabel}</p>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {role !== "admin" ? (
-                <>
-                  <DropdownMenuItem asChild>
-                    <Link href="/profile">
-                      <UserRound />
-                      Profile
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/feedback">
-                      <MessageSquareText />
-                      Feedback
-                    </Link>
-                  </DropdownMenuItem>
+          {signedIn ? (
+            <>
+              <NotificationBell />
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="rounded-full" aria-label="Account menu">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={avatarUrl ?? undefined} alt="" />
+                      <AvatarFallback className="bg-primary/15 text-xs text-primary">{initials}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel className="font-normal">
+                    <p className="truncate text-sm font-medium leading-none">{displayName}</p>
+                    <p className="mt-1 truncate text-xs text-muted-foreground">{email ?? roleLabel}</p>
+                  </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                </>
-              ) : null}
-              <DropdownMenuItem onSelect={() => void handleSignOut()}>
-                <LogOut />
-                Sign out
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                  {role !== "admin" ? (
+                    <>
+                      <DropdownMenuItem asChild>
+                        <Link href="/profile">
+                          <UserRound />
+                          Profile
+                        </Link>
+                      </DropdownMenuItem>
+                      {sharePath ? <ShareProfileMenuItem path={sharePath} title={resolvedShareTitle} /> : null}
+                      <DropdownMenuItem asChild>
+                        <Link href="/feedback">
+                          <MessageSquareText />
+                          Feedback
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                    </>
+                  ) : null}
+                  <DropdownMenuItem onSelect={() => void handleSignOut()}>
+                    <LogOut />
+                    Sign out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
+          ) : (
+            <Button asChild size="sm" className="rounded-full">
+              <Link href="/login">Sign in</Link>
+            </Button>
+          )}
         </div>
       </div>
     </header>

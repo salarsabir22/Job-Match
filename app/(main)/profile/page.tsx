@@ -96,11 +96,13 @@ export default async function ProfilePage() {
           <p className="mt-1 font-body text-sm text-muted-foreground">{user.email}</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <ShareButton
-            path={isRecruiter ? `/company/${user.id}` : `/candidates/${user.id}`}
-            title={isRecruiter ? rp?.company_name || "Company" : profile?.full_name || "Profile"}
-            label="Share profile"
-          />
+          {isStudent || isRecruiter ? (
+            <ShareButton
+              path={isRecruiter ? `/company/${user.id}` : `/candidates/${user.id}`}
+              title={isRecruiter ? rp?.company_name || "Company" : profile?.full_name || "Profile"}
+              label="Share profile"
+            />
+          ) : null}
           <Button asChild variant="outline" size="sm" className="rounded-full">
             <Link href="/onboarding">
               <Edit className="h-4 w-4" />

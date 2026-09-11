@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server"
-import { notFound, redirect } from "next/navigation"
+import { notFound } from "next/navigation"
 import Link from "next/link"
 import { Building2, Globe, Users, Briefcase } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
@@ -11,11 +11,6 @@ import type { Job } from "@/types"
 export default async function CompanyPublicPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) redirect("/login")
-
   const { data: company } = await supabase.from("recruiter_profiles").select("*").eq("id", id).maybeSingle()
   if (!company) notFound()
 
@@ -35,7 +30,7 @@ export default async function CompanyPublicPage({ params }: { params: Promise<{ 
           <p className="font-data text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Company</p>
           <h1 className="mt-1 font-heading text-2xl font-semibold tracking-tight">{company.company_name}</h1>
         </div>
-        <ShareButton path={`/company/${id}`} title={company.company_name} />
+        <ShareButton path={`/company/${id}`} title={company.company_name} label="Share profile" />
       </div>
 
       <Card className="shadow-sm">

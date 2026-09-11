@@ -90,7 +90,10 @@ export default async function ChatPage({ params }: { params: Promise<{ matchId: 
     <MatchChatClient
       conversationId={conversation.id}
       currentUserId={user.id}
-      peer={peer ?? { id: otherUserId, full_name: null, avatar_url: null }}
+      peer={{
+        ...(peer ?? { id: otherUserId, full_name: null, avatar_url: null }),
+        profilePath: user.id === match.student_id ? `/company/${otherUserId}` : `/candidates/${otherUserId}`,
+      }}
       jobTitle={job?.title}
     />
   )

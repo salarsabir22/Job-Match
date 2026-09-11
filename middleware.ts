@@ -9,6 +9,8 @@ const PUBLIC_PREFIXES = [
   "/waitlist",
   "/privacy",
   "/terms",
+  "/candidates",
+  "/company",
 ]
 
 function isPublicPath(pathname: string) {
