@@ -3,29 +3,36 @@
  * project key as `Authorization: Bearer <key>` when there is no user session;
  * PostgREST then returns 401 (often surfaced with a misleading RLS message).
  *
- * Hosted Supabase authenticates REST via `apikey` and mints a JWT for Postgres.
- * We only adjust **PostgREST** (`/rest/v1`) requests so Auth/Storage keep their
- * usual headers. Logged-in users still send `eyJ...` session JWTs in Bearer.
+ * Only rewrite **PostgREST** (`/rest/v1`) headers. Auth/Storage must use the
+ * original fetch call — cloning a POST `Request` (PKCE token exchange) can hang
+ * on Vercel/undici until a Gateway Timeout.
  *
  * @see https://supabase.com/docs/guides/api/api-keys#known-limitations-and-compatibility-differences
  */
+function requestUrl(input: RequestInfo | URL): URL {
+  if (typeof input === "string") return new URL(input)
+  if (input instanceof URL) return input
+  return new URL(input.url)
+}
+
 export function createSupabaseFetch(baseFetch: typeof fetch = fetch): typeof fetch {
   return async (input, init) => {
-    const req = new Request(input, init)
-    const url = new URL(req.url)
+    const url = requestUrl(input)
     if (!url.pathname.includes("/rest/v1")) {
-      return baseFetch(req)
+      return baseFetch(input, init)
     }
 
-    const auth = req.headers.get("authorization")
+    const headers = new Headers(
+      init?.headers ?? (input instanceof Request ? input.headers : undefined)
+    )
+    const auth = headers.get("authorization")
     if (auth?.toLowerCase().startsWith("bearer ")) {
       const token = auth.slice(7).trim()
       if (token && !token.startsWith("eyJ")) {
-        const headers = new Headers(req.headers)
         headers.delete("authorization")
-        return baseFetch(new Request(req, { headers }))
+        return baseFetch(input, { ...init, headers })
       }
     }
-    return baseFetch(req)
+    return baseFetch(input, init)
   }
 }

@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server"
-import { createClient } from "@/lib/supabase/server"
+import { createServerClient, type CookieOptions } from "@supabase/ssr"
+import { NextResponse, type NextRequest } from "next/server"
 import { safeInternalPath } from "@/lib/utils"
 
 function loginErrorRedirect(origin: string, message: string) {
@@ -8,7 +8,7 @@ function loginErrorRedirect(origin: string, message: string) {
   return NextResponse.redirect(url)
 }
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get("code")
   const next = searchParams.get("next")
@@ -25,67 +25,78 @@ export async function GET(request: Request) {
     return loginErrorRedirect(origin, "Google sign-in did not complete. Try again.")
   }
 
-  const supabase = await createClient()
-  const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
-  if (exchangeError) {
-    console.error("[auth/callback]", exchangeError.message)
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!supabaseUrl || !supabaseKey) {
+    return loginErrorRedirect(origin, "Auth is not configured.")
+  }
+
+  const cookiesToSet: { name: string; value: string; options: CookieOptions }[] = []
+
+  const supabase = createServerClient(supabaseUrl, supabaseKey, {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll()
+      },
+      setAll(toSet) {
+        cookiesToSet.push(...toSet)
+      },
+    },
+  })
+
+  const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
+  if (exchangeError || !data.user) {
+    console.error("[auth/callback]", exchangeError?.message)
     return loginErrorRedirect(
       origin,
-      exchangeError.message || "Could not complete Google sign-in."
+      exchangeError?.message || "Could not complete Google sign-in."
     )
   }
 
+  const redirect = (path: string) => {
+    const res = NextResponse.redirect(new URL(path, origin))
+    for (const { name, value, options } of cookiesToSet) {
+      res.cookies.set(name, value, options)
+    }
+    return res
+  }
+
   if (next === "reset-password") {
-    return NextResponse.redirect(new URL("/reset-password", origin))
+    return redirect("/reset-password")
   }
 
   const nextPath = safeInternalPath(next)
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    return loginErrorRedirect(origin, "Google sign-in did not complete. Try again.")
-  }
+  const user = data.user
 
   if (roleParam === "student" || roleParam === "recruiter") {
-    await supabase.from("profiles").update({ role: roleParam }).eq("id", user.id)
+    try {
+      await Promise.race([
+        supabase.from("profiles").update({ role: roleParam }).eq("id", user.id),
+        new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), 2500)),
+      ])
+    } catch (err) {
+      console.error("[auth/callback] role update:", err)
+    }
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle()
+  let profile: { role?: string | null } | null = null
+  try {
+    const result = await Promise.race([
+      supabase.from("profiles").select("role").eq("id", user.id).maybeSingle(),
+      new Promise<never>((_, reject) => setTimeout(() => reject(new Error("timeout")), 2500)),
+    ])
+    profile = result.data
+  } catch (err) {
+    console.error("[auth/callback] profile lookup:", err)
+    return redirect("/onboarding")
+  }
 
   const role = roleParam === "student" || roleParam === "recruiter" ? roleParam : profile?.role
 
-  if (!profile) {
-    return NextResponse.redirect(new URL("/onboarding", origin))
-  }
-  if (nextPath) {
-    return NextResponse.redirect(new URL(nextPath, origin))
-  }
-  if (role === "recruiter") {
-    const { data: rp } = await supabase
-      .from("recruiter_profiles")
-      .select("id")
-      .eq("id", user.id)
-      .maybeSingle()
-    return NextResponse.redirect(new URL(rp ? "/jobs" : "/onboarding", origin))
-  }
-  if (role === "student") {
-    const { data: sp } = await supabase
-      .from("student_profiles")
-      .select("id")
-      .eq("id", user.id)
-      .maybeSingle()
-    return NextResponse.redirect(new URL(sp ? "/discover" : "/onboarding", origin))
-  }
-  if (role === "admin") {
-    return NextResponse.redirect(new URL("/admin/users", origin))
-  }
-
-  return NextResponse.redirect(new URL("/onboarding", origin))
+  if (!profile) return redirect("/onboarding")
+  if (nextPath) return redirect(nextPath)
+  if (role === "recruiter") return redirect("/jobs")
+  if (role === "student") return redirect("/discover")
+  if (role === "admin") return redirect("/admin/users")
+  return redirect("/onboarding")
 }
