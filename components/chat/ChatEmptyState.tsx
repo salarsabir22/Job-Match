@@ -1,6 +1,7 @@
 "use client"
 
 import { MessageCircle } from "lucide-react"
+import { AppleActivityIndicator } from "@/components/ui/apple-activity-indicator"
 import { ICEBREAKERS } from "@/components/chat/chat-helpers"
 import { Button } from "@/components/ui/button"
 
@@ -56,8 +57,7 @@ export function ChatSelectPlaceholder() {
 export function ChatLoadingState() {
   return (
     <div className="flex h-full items-center justify-center bg-background">
-      <div className="h-5 w-5 animate-spin rounded-full border-2 border-border border-t-primary" />
-      <span className="sr-only">Loading chat</span>
+      <AppleActivityIndicator size={20} label="Loading chat" />
     </div>
   )
 }

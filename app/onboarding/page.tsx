@@ -1108,6 +1108,7 @@ export default function OnboardingPage() {
   const [githubUrl, setGithubUrl] = useState("")
   const [portfolioUrl, setPortfolioUrl] = useState("")
   const [resumeFile, setResumeFile] = useState<File | null>(null)
+  const [existingResumeUrl, setExistingResumeUrl] = useState<string | null>(null)
   const [profileVideoFile, setProfileVideoFile] = useState<File | null>(null)
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
@@ -1130,16 +1131,57 @@ export default function OnboardingPage() {
         setRole(pendingRole)
         await supabase.from("profiles").update({ role: pendingRole }).eq("id", user.id)
         localStorage.removeItem("pending_role")
-        return
-      }
-      const metaRole = user.user_metadata?.role as UserRole | undefined
-      if (metaRole === "recruiter" || metaRole === "student") { setRole(metaRole); return }
-
-      const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle()
-      if (profile?.role === "recruiter" || profile?.role === "student") {
-        setRole(profile.role as UserRole)
       } else {
-        setRole("student")
+        const metaRole = user.user_metadata?.role as UserRole | undefined
+        if (metaRole === "recruiter" || metaRole === "student") {
+          setRole(metaRole)
+        } else {
+          const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle()
+          if (profile?.role === "recruiter" || profile?.role === "student") {
+            setRole(profile.role as UserRole)
+          } else {
+            setRole("student")
+          }
+        }
+      }
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("bio, avatar_url")
+        .eq("id", user.id)
+        .maybeSingle()
+      if (profile?.bio) setBio(profile.bio)
+      if (profile?.avatar_url) setAvatarPreview(profile.avatar_url)
+
+      const { data: student } = await supabase
+        .from("student_profiles")
+        .select("university, degree, graduation_year, skills, preferred_job_categories, linkedin_url, github_url, portfolio_url, resume_url")
+        .eq("id", user.id)
+        .maybeSingle()
+      if (student) {
+        if (student.university) setUniversity(student.university)
+        if (student.degree) setDegree(student.degree)
+        if (student.graduation_year) setGraduationYear(String(student.graduation_year))
+        if (student.skills?.length) setSkills(student.skills)
+        if (student.preferred_job_categories?.length) setPreferredCategories(student.preferred_job_categories)
+        if (student.linkedin_url) setLinkedinUrl(student.linkedin_url)
+        if (student.github_url) setGithubUrl(student.github_url)
+        if (student.portfolio_url) setPortfolioUrl(student.portfolio_url)
+        if (student.resume_url) setExistingResumeUrl(student.resume_url)
+      }
+
+      const { data: recruiter } = await supabase
+        .from("recruiter_profiles")
+        .select("company_name, description, hiring_focus, website_url, employee_count, industry")
+        .eq("id", user.id)
+        .maybeSingle()
+      if (recruiter) {
+        if (recruiter.company_name) setCompanyName(recruiter.company_name)
+        if (recruiter.description) setCompanyDescription(recruiter.description)
+        if (recruiter.hiring_focus) setHiringFocus(recruiter.hiring_focus)
+        if (recruiter.website_url) setWebsiteUrl(recruiter.website_url)
+        if (recruiter.employee_count) setEmployeeCount(recruiter.employee_count)
+        if (recruiter.industry) setIndustry(recruiter.industry)
       }
     })
   }, [])
@@ -1190,7 +1232,7 @@ export default function OnboardingPage() {
         ]
       }
       return [
-        { label: "At least one link or CV", done: Boolean(linkedinUrl || githubUrl || portfolioUrl || resumeFile) },
+        { label: "At least one link or CV", done: Boolean(linkedinUrl || githubUrl || portfolioUrl || resumeFile || existingResumeUrl) },
         { label: "All entered links use https://", done: [linkedinUrl, githubUrl, portfolioUrl].every(isValidHttpUrl) },
       ]
     }
@@ -1228,7 +1270,7 @@ export default function OnboardingPage() {
         }
       }
       if (step === 3) {
-        if (!linkedinUrl && !githubUrl && !portfolioUrl && !resumeFile) {
+        if (!linkedinUrl && !githubUrl && !portfolioUrl && !resumeFile && !existingResumeUrl) {
           setStepError("Add at least one link or upload your CV.")
           return false
         }
@@ -1298,6 +1340,7 @@ export default function OnboardingPage() {
       if (role === "student") {
         let resumeUrl: string | undefined
         if (resumeFile) resumeUrl = await uploadFile(resumeFile, "resumes", `${user.id}/resume.pdf`)
+        else if (existingResumeUrl) resumeUrl = existingResumeUrl
         const studentData = {
           id: user.id, university, degree,
           graduation_year: graduationYear ? parseInt(graduationYear) : null,
@@ -1307,7 +1350,7 @@ export default function OnboardingPage() {
         }
         const { data: updated } = await supabase.from("student_profiles").update(studentData).eq("id", user.id).select()
         if (!updated || updated.length === 0) await supabase.from("student_profiles").insert(studentData)
-        window.location.href = "/discover"
+        window.location.href = "/dashboard"
       } else if (role === "recruiter") {
         const recruiterData: Record<string, unknown> = {
           id: user.id, company_name: companyName, description: companyDescription,
@@ -1339,7 +1382,7 @@ export default function OnboardingPage() {
 
   if (!role) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-background">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-3 apple-grouped-bg text-foreground">
         <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         <p className="font-body text-sm text-muted-foreground">Loading…</p>
       </div>
@@ -1347,7 +1390,7 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-background">
+    <div className="relative flex min-h-screen flex-col overflow-x-hidden apple-grouped-bg text-foreground">
       {/* Background glows */}
       <div className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-50" />
       <div className="pointer-events-none absolute right-0 top-0 h-[600px] w-[600px] rounded-full bg-muted opacity-[0.35] blur-[160px]" />

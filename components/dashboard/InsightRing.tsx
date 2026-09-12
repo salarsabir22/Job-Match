@@ -1,7 +1,7 @@
 "use client"
 
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts"
-import { chartPrimary } from "@/components/dashboard/chart-theme"
+import { chartMuted, chartPrimary, chartTrack } from "@/components/dashboard/chart-theme"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export function InsightRing({
@@ -44,8 +44,8 @@ export function InsightRing({
                 stroke="none"
                 isAnimationActive={false}
               >
-                <Cell fill={hasValue ? chartPrimary : "rgba(201, 163, 106, 0.22)"} />
-                <Cell fill="rgba(236, 232, 225, 0.08)" />
+                <Cell fill={hasValue ? chartPrimary : chartMuted} />
+                <Cell fill={chartTrack} />
               </Pie>
             </PieChart>
           </ResponsiveContainer>

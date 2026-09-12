@@ -1,6 +1,11 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr"
 import { NextResponse, type NextRequest } from "next/server"
 import { safeInternalPath } from "@/lib/utils"
+import {
+  isStudentOnboardingComplete,
+  postAuthRedirect,
+  STUDENT_ONBOARDING_SELECT,
+} from "@/lib/profile/completeness"
 
 function loginErrorRedirect(origin: string, message: string) {
   const url = new URL("/login", origin)
@@ -92,11 +97,20 @@ export async function GET(request: NextRequest) {
   }
 
   const role = roleParam === "student" || roleParam === "recruiter" ? roleParam : profile?.role
+  let studentReady = false
+  if (role === "student") {
+    try {
+      const result = await Promise.race([
+        supabase.from("student_profiles").select(STUDENT_ONBOARDING_SELECT).eq("id", user.id).maybeSingle(),
+        new Promise<never>((_, reject) => setTimeout(() => reject(new Error("timeout")), 2500)),
+      ])
+      studentReady = isStudentOnboardingComplete(result.data)
+    } catch (err) {
+      console.error("[auth/callback] student profile lookup:", err)
+      return redirect("/onboarding")
+    }
+  }
 
   if (!profile) return redirect("/onboarding")
-  if (nextPath) return redirect(nextPath)
-  if (role === "recruiter") return redirect("/jobs")
-  if (role === "student") return redirect("/discover")
-  if (role === "admin") return redirect("/admin/users")
-  return redirect("/onboarding")
+  return redirect(postAuthRedirect({ role, studentReady, next: nextPath }))
 }

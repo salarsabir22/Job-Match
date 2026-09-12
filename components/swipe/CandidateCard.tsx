@@ -1,15 +1,16 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { cn, getInitials } from "@/lib/utils"
 import type { Profile, StudentProfile } from "@/types"
+import { PhotoHero } from "@/components/swipe/PhotoHero"
 
 interface CandidateCardProps {
   profile: Profile
   studentProfile: StudentProfile
   className?: string
+  reasons?: string[]
 }
 
-export function CandidateCard({ profile, studentProfile, className }: CandidateCardProps) {
+export function CandidateCard({ profile, studentProfile, className, reasons }: CandidateCardProps) {
   const links = [
     { href: studentProfile.linkedin_url, label: "LinkedIn" },
     { href: studentProfile.github_url, label: "GitHub" },
@@ -17,37 +18,43 @@ export function CandidateCard({ profile, studentProfile, className }: CandidateC
     { href: studentProfile.resume_url, label: "Resume" },
   ].filter((l): l is { href: string; label: string } => Boolean(l.href))
 
+  const school = [studentProfile.university, studentProfile.degree].filter(Boolean).join(" · ")
+
   return (
     <div
       className={cn(
-        "w-full select-none overflow-hidden rounded-2xl border border-border bg-card text-card-foreground shadow-lg ring-1 ring-black/[0.04]",
+        "w-full select-none overflow-hidden rounded-3xl border border-border bg-card text-card-foreground shadow-lg ring-1 ring-black/[0.04]",
         className
       )}
     >
-      <div className="apple-vibrancy-header relative flex h-36 flex-col items-center justify-end pb-5">
-        <Avatar className="h-[4.25rem] w-[4.25rem] ring-2 ring-white/20 shadow-lg">
-          <AvatarImage src={profile.avatar_url || undefined} />
-          <AvatarFallback className="bg-white/10 text-lg font-semibold text-white">
+      <PhotoHero
+        src={profile.avatar_url}
+        fallback={
+          <span className="font-heading text-4xl font-semibold text-white/80">
             {getInitials(profile.full_name || "?")}
-          </AvatarFallback>
-        </Avatar>
-      </div>
+          </span>
+        }
+      >
+        <h2 className="font-heading text-xl font-semibold leading-snug text-white">{profile.full_name}</h2>
+        {school ? <p className="mt-1 font-body text-sm text-white/85">{school}</p> : null}
+        {studentProfile.graduation_year ? (
+          <p className="mt-0.5 font-body text-xs text-white/70">Class of {studentProfile.graduation_year}</p>
+        ) : null}
+      </PhotoHero>
 
-      <div className="space-y-4 p-5 pb-0">
-        <div>
-          <h2 className="font-heading text-lg font-semibold leading-snug text-foreground">{profile.full_name}</h2>
-          {studentProfile.university || studentProfile.degree ? (
-            <p className="mt-1 font-body text-sm text-muted-foreground">
-              {[studentProfile.university, studentProfile.degree].filter(Boolean).join(" · ")}
-            </p>
-          ) : null}
-          {studentProfile.graduation_year ? (
-            <p className="mt-1 font-body text-xs text-muted-foreground">Class of {studentProfile.graduation_year}</p>
-          ) : null}
-        </div>
-
+      <div className="space-y-3 p-4">
         {profile.bio ? (
           <p className="line-clamp-2 font-body text-sm leading-relaxed text-muted-foreground">{profile.bio}</p>
+        ) : null}
+
+        {reasons && reasons.length > 0 ? (
+          <div className="flex flex-wrap gap-1.5">
+            {reasons.map((reason) => (
+              <Badge key={reason} variant="outline" className="font-normal text-primary">
+                {reason}
+              </Badge>
+            ))}
+          </div>
         ) : null}
 
         {studentProfile.skills && studentProfile.skills.length > 0 ? (
@@ -66,7 +73,7 @@ export function CandidateCard({ profile, studentProfile, className }: CandidateC
         ) : null}
 
         {links.length > 0 ? (
-          <div className="flex flex-wrap gap-x-3 gap-y-1 border-t border-border pt-3">
+          <div className="flex flex-wrap gap-x-3 gap-y-1">
             {links.map(({ href, label }) => (
               <a
                 key={label}
@@ -81,11 +88,6 @@ export function CandidateCard({ profile, studentProfile, className }: CandidateC
             ))}
           </div>
         ) : null}
-      </div>
-
-      <div className="flex items-center justify-between border-t border-border bg-muted/20 px-5 py-3">
-        <span className="font-body text-[11px] font-medium text-muted-foreground">← Pass</span>
-        <span className="font-body text-[11px] font-medium text-primary">Shortlist →</span>
       </div>
     </div>
   )

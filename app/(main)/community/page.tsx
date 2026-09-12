@@ -65,13 +65,12 @@ export default async function CommunityPage() {
         title="Community"
         description={
           <>
-            {channelTotal} channel{channelTotal !== 1 ? "s" : ""} · {totalMembers} memberships across channels
-            {joinedCount > 0 ? (
-              <>
-                {" "}
-                · {joinedCount} joined
-              </>
-            ) : null}
+            Topic rooms for live discussion. For a public stream, use{" "}
+            <Link href="/feed" className="text-primary underline-offset-4 hover:underline">
+              Feed
+            </Link>
+            . {channelTotal} channel{channelTotal !== 1 ? "s" : ""} · {totalMembers} memberships
+            {joinedCount > 0 ? <> · {joinedCount} joined</> : null}
           </>
         }
         action={

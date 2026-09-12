@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { formatDate } from "@/lib/utils"
+import { formatSalary } from "@/lib/jobs/salary"
 import type { Job, RecruiterProfile } from "@/types"
 import { JobToggleButton } from "./JobToggleButton"
 import { InterestedCandidatesPanel } from "./InterestedCandidatesPanel"
@@ -40,7 +41,13 @@ export async function RecruiterJobDetail({
     .select("*", { count: "exact", head: true })
     .eq("job_id", jobId)
 
-  const metaParts = [formatJobType(job.job_type), job.is_remote ? "Remote" : job.location || null].filter(Boolean)
+  const pay = formatSalary({
+    min: job.salary_min,
+    max: job.salary_max,
+    currency: job.salary_currency,
+    note: job.compensation_note,
+  })
+  const metaParts = [formatJobType(job.job_type), job.is_remote ? "Remote" : job.location || null, pay].filter(Boolean)
 
   return (
     <div className="space-y-10">

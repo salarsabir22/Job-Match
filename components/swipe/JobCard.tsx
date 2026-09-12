@@ -3,6 +3,8 @@ import type { Job } from "@/types"
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { formatSalary } from "@/lib/jobs/salary"
+import { PhotoHero } from "@/components/swipe/PhotoHero"
 
 const JOB_TYPE_LABEL: Record<string, string> = {
   internship: "Internship",
@@ -15,12 +17,19 @@ interface JobCardProps {
   job: Job
   className?: string
   onOpenCompany?: () => void
+  reasons?: string[]
 }
 
-export function JobCard({ job, className, onOpenCompany }: JobCardProps) {
+export function JobCard({ job, className, onOpenCompany, reasons }: JobCardProps) {
   const company = job.recruiter_profiles
   const typeLabel = JOB_TYPE_LABEL[job.job_type] ?? job.job_type
   const locationOrRemote = job.is_remote ? "Remote" : job.location
+  const pay = formatSalary({
+    min: job.salary_min,
+    max: job.salary_max,
+    currency: job.salary_currency,
+    note: job.compensation_note,
+  })
 
   return (
     <div
@@ -29,59 +38,56 @@ export function JobCard({ job, className, onOpenCompany }: JobCardProps) {
         className
       )}
     >
-      <div className="apple-vibrancy-header relative flex h-40 flex-col items-center justify-center px-5">
-        <div className="relative z-10">
-          {company?.logo_url ? (
-            <img
-              src={company.logo_url}
-              alt=""
-              className="h-[4.25rem] w-[4.25rem] rounded-2xl object-cover ring-1 ring-white/15 shadow-lg"
-              draggable={false}
-            />
-          ) : (
-            <div className="flex h-[4.25rem] w-[4.25rem] items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/15">
-              <Building2 className="h-9 w-9 text-white/75" aria-hidden />
-            </div>
-          )}
-        </div>
-
-        <div className="absolute bottom-3 left-5 right-5 flex flex-wrap items-center justify-center gap-2">
-          <span className="rounded-full bg-white/12 px-2.5 py-0.5 font-body text-[10px] font-medium uppercase tracking-wide text-white/90 ring-1 ring-white/15">
+      <PhotoHero
+        src={company?.logo_url}
+        fit="contain"
+        fallback={<Building2 className="h-16 w-16 text-white/70" aria-hidden />}
+      >
+        <div className="mb-2 flex flex-wrap gap-1.5">
+          <span className="rounded-full bg-white/15 px-2.5 py-0.5 font-body text-[10px] font-medium uppercase tracking-wide text-white ring-1 ring-white/20">
             {typeLabel}
           </span>
           {locationOrRemote ? (
-            <span className="rounded-full bg-white/10 px-2.5 py-0.5 font-body text-[10px] font-medium text-white/75 ring-1 ring-white/10">
+            <span className="rounded-full bg-white/10 px-2.5 py-0.5 font-body text-[10px] font-medium text-white/85 ring-1 ring-white/15">
               {locationOrRemote}
             </span>
           ) : null}
         </div>
-      </div>
+        <h2 className="font-heading text-xl font-semibold leading-snug tracking-tight text-white">{job.title}</h2>
+        {company?.company_name ? (
+          onOpenCompany ? (
+            <Button
+              type="button"
+              variant="link"
+              className="mt-1 h-auto p-0 font-body text-sm text-white/90"
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation()
+                onOpenCompany()
+              }}
+            >
+              {company.company_name} →
+            </Button>
+          ) : (
+            <p className="mt-1 font-body text-sm text-white/80">{company.company_name}</p>
+          )
+        ) : null}
+        {pay ? <p className="mt-1.5 font-body text-sm font-medium text-white">{pay}</p> : null}
+      </PhotoHero>
 
-      <div className="space-y-4 p-5">
-        <div>
-          <h2 className="font-heading text-lg font-semibold leading-snug tracking-tight text-foreground">{job.title}</h2>
-          {company?.company_name ? (
-            onOpenCompany ? (
-              <Button
-                type="button"
-                variant="link"
-                className="mt-1 h-auto p-0 font-body text-sm"
-                onPointerDown={(e) => e.stopPropagation()}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  onOpenCompany()
-                }}
-              >
-                {company.company_name} →
-              </Button>
-            ) : (
-              <p className="mt-1 font-body text-sm text-muted-foreground">{company.company_name}</p>
-            )
-          ) : null}
-        </div>
+      <div className="space-y-3 p-4">
+        {reasons && reasons.length > 0 ? (
+          <div className="flex flex-wrap gap-1.5">
+            {reasons.map((reason) => (
+              <Badge key={reason} variant="outline" className="font-normal text-primary">
+                {reason}
+              </Badge>
+            ))}
+          </div>
+        ) : null}
 
         {job.description ? (
-          <p className="line-clamp-4 font-body text-sm leading-relaxed text-muted-foreground">{job.description}</p>
+          <p className="line-clamp-2 font-body text-sm leading-relaxed text-muted-foreground">{job.description}</p>
         ) : null}
 
         {(job.required_skills?.length ?? 0) > 0 ? (
@@ -98,11 +104,6 @@ export function JobCard({ job, className, onOpenCompany }: JobCardProps) {
             ) : null}
           </div>
         ) : null}
-      </div>
-
-      <div className="flex items-center justify-between border-t border-border bg-muted/20 px-5 py-3">
-        <span className="font-body text-[11px] font-medium text-muted-foreground">← Pass</span>
-        <span className="font-body text-[11px] font-medium text-primary">Apply →</span>
       </div>
     </div>
   )

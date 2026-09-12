@@ -99,28 +99,26 @@ function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "glass border-b border-black/10 py-3" : "py-5"
+      className={`fixed inset-x-0 top-0 z-50 h-16 transition-all duration-300 ${
+        scrolled ? "border-b border-black/10 bg-white/80 backdrop-blur-2xl backdrop-saturate-150" : "bg-transparent"
       }`}
     >
-      <nav className="max-w-7xl mx-auto px-5 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 rounded-lg bg-neutral-200 flex items-center justify-center shadow-[0_0_15px_-3px_rgba(255,255,255,0.6)]">
-            <Zap className="w-4 h-4 text-black" strokeWidth={2.5} />
+      <nav className="mx-auto grid h-full max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-5">
+        <Link href="/" className="col-start-1 flex items-center justify-self-start gap-2.5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-neutral-200">
+            <Zap className="h-4 w-4 text-black" strokeWidth={2.5} />
           </div>
-          <span className="font-heading font-bold text-lg tracking-tight">
+          <span className="font-heading text-[17px] font-semibold tracking-[-0.03em]">
             Job<span className="gradient-text">Match</span>
           </span>
         </Link>
 
-        {/* Desktop links */}
-        <ul className="hidden md:flex items-center gap-8">
+        <ul className="col-start-2 hidden items-center justify-center md:flex">
           {links.map((l) => (
             <li key={l.label}>
               <a
                 href={l.href}
-                className="font-data text-xs tracking-wider uppercase text-neutral-700 hover:text-black transition-colors duration-200"
+                className="inline-flex h-8 items-center rounded-full px-3 text-[13px] font-medium tracking-[-0.01em] text-neutral-600 transition-colors hover:bg-black/[0.04] hover:text-black"
               >
                 {l.label}
               </a>
@@ -128,25 +126,27 @@ function Navbar() {
           ))}
         </ul>
 
-        {/* Desktop CTAs */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="col-start-3 flex items-center justify-self-end gap-1">
           <Link
             href="/login"
-            className="font-body text-sm text-neutral-700 hover:text-black transition-colors duration-200 px-4 py-2"
+            className="hidden h-8 items-center rounded-full px-3 text-[13px] font-medium tracking-[-0.01em] text-neutral-600 transition-colors hover:text-black md:inline-flex"
           >
-            Log In
+            Log in
           </Link>
-          <PrimaryButton href="/signup">Get Started Free</PrimaryButton>
+          <Link
+            href="/signup"
+            className="hidden h-8 items-center rounded-full bg-black px-3.5 text-[13px] font-semibold tracking-[-0.01em] text-white transition-colors hover:bg-black/90 md:inline-flex"
+          >
+            Get started
+          </Link>
+          <button
+            className="rounded-full p-2 text-neutral-700 transition-colors hover:bg-black/[0.04] hover:text-black md:hidden"
+            onClick={() => setOpen(!open)}
+            aria-label="Toggle menu"
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
-
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden p-2 text-neutral-700 hover:text-black transition-colors"
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
-        >
-          {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
       </nav>
 
       {/* Mobile drawer */}
@@ -157,7 +157,7 @@ function Navbar() {
               key={l.label}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="font-data text-xs tracking-widest uppercase text-neutral-700 hover:text-black transition-colors"
+              className="text-[15px] font-medium tracking-[-0.01em] text-neutral-700 hover:text-black transition-colors"
             >
               {l.label}
             </a>

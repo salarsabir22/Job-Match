@@ -13,7 +13,6 @@ import { profileSharePath } from "@/lib/share/profile-path"
 import { shareOrCopyLink } from "@/lib/share/share-link"
 import { useToast } from "@/lib/hooks/use-toast"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -23,13 +22,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
 import {
   Sheet,
   SheetClose,
@@ -44,15 +36,18 @@ type NavLink = { href: string; label: string }
 
 const studentLinks: NavLink[] = [
   { href: "/discover", label: "Discover" },
-  { href: "/matches", label: "Matches" },
+  { href: "/feed", label: "Feed" },
+  { href: "/matches", label: "Applications" },
   { href: "/chat", label: "Messages" },
   { href: "/dashboard", label: "Insights" },
   { href: "/community", label: "Community" },
 ]
 
 const recruiterLinks: NavLink[] = [
-  { href: "/jobs", label: "Jobs" },
   { href: "/discover", label: "Discover" },
+  { href: "/feed", label: "Feed" },
+  { href: "/jobs", label: "Jobs" },
+  { href: "/matches", label: "Pipeline" },
   { href: "/chat", label: "Messages" },
   { href: "/dashboard", label: "Insights" },
   { href: "/community", label: "Community" },
@@ -63,7 +58,28 @@ const adminLinks: NavLink[] = [
   { href: "/admin/users", label: "Users" },
   { href: "/admin/recruiters", label: "Recruiters" },
   { href: "/admin/channels", label: "Channels" },
+  { href: "/admin/reports", label: "Reports" },
 ]
+
+const mobileHidden = new Set(["/discover", "/matches", "/chat", "/jobs"])
+
+function BrandMark({ className }: { className?: string }) {
+  return (
+    <span className={cn("font-heading text-[17px] font-semibold tracking-[-0.03em] text-foreground", className)}>
+      jobmatch<span className="text-muted-foreground">.</span>
+    </span>
+  )
+}
+
+function navItemClass(active: boolean) {
+  return cn(
+    "inline-flex h-8 items-center justify-center rounded-full px-3 text-[13px] font-medium tracking-[-0.01em] transition-colors duration-150",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+    active
+      ? "bg-foreground/[0.06] text-foreground"
+      : "text-muted-foreground hover:bg-foreground/[0.04] hover:text-foreground"
+  )
+}
 
 interface AppNavProps {
   role: UserRole | "admin"
@@ -89,12 +105,13 @@ export function AppNav({ role, userId, fullName, email, avatarUrl, shareTitle }:
       : role === "recruiter"
         ? recruiterLinks
         : adminLinks
+  const homeHref = !signedIn ? "/" : role === "admin" ? "/admin" : "/discover"
 
   const shareOwnProfile = async () => {
     if (!sharePath) return
     const result = await shareOrCopyLink({ path: sharePath, title: resolvedShareTitle })
     if (result === "copied") {
-      toast({ title: "Link copied ✨", description: "Send it to whoever needs it." })
+      toast({ title: "Link copied", description: "Anyone with the link can open this profile." })
     } else if (result === "failed") {
       toast({ variant: "destructive", title: "Could not copy link" })
     }
@@ -114,128 +131,150 @@ export function AppNav({ role, userId, fullName, email, avatarUrl, shareTitle }:
   const displayName = fullName ?? email?.split("@")[0] ?? "User"
   const initials = displayName.charAt(0).toUpperCase()
   const roleLabel = role === "admin" ? "Admin" : role === "recruiter" ? "Recruiter" : "Student"
+  const sheetLinks = role === "admin" ? links : links.filter((link) => !mobileHidden.has(link.href))
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 h-16 border-b border-border bg-background/90 backdrop-blur-xl">
-      <div className="mx-auto flex h-full w-full max-w-[1728px] items-center gap-3 px-4 sm:px-6 lg:px-10 xl:px-14">
-        {signedIn ? (
-        <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Open menu">
-              <Menu className="h-5 w-5" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="flex w-80 flex-col p-0">
-            <SheetHeader className="border-b border-border px-5 py-4 text-left">
-              <SheetTitle className="font-heading text-base tracking-tight">
-                jobmatch<span className="text-muted-foreground">.</span>
-              </SheetTitle>
-              <SheetDescription>{roleLabel} menu</SheetDescription>
-            </SheetHeader>
-            <nav className="grid gap-1 p-3" aria-label="Mobile">
-              {links.map((link) => (
-                <SheetClose asChild key={link.href}>
-                  <Link
-                    href={link.href}
-                    className={cn(
-                      "rounded-md px-3 py-2.5 text-sm font-medium transition-colors",
-                      isActive(link.href)
-                        ? "bg-accent text-accent-foreground"
-                        : "text-foreground hover:bg-accent hover:text-accent-foreground"
-                    )}
-                  >
-                    {link.label}
-                  </Link>
-                </SheetClose>
-              ))}
-              {signedIn && role !== "admin" ? (
-                <>
-                  <SheetClose asChild>
-                    <Link
-                      href="/profile"
-                      className="rounded-md px-3 py-2.5 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground"
-                    >
-                      Profile
-                    </Link>
-                  </SheetClose>
-                  {canShareProfile ? (
-                    <button
-                      type="button"
-                      className="flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-left text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground"
-                      onClick={() => {
-                        void shareOwnProfile()
-                        setMobileOpen(false)
-                      }}
-                    >
-                      <Share2 className="h-4 w-4" />
-                      Share profile
-                    </button>
+    <header className="fixed inset-x-0 top-0 z-50 h-16 border-b border-border/80 bg-background/75 backdrop-blur-2xl backdrop-saturate-150">
+      <div className="mx-auto grid h-full w-full max-w-[1728px] grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-6 lg:px-10 xl:px-14">
+        <div className="flex min-w-0 items-center justify-self-start gap-0.5">
+          {signedIn ? (
+            <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-9 w-9 rounded-full text-foreground lg:hidden"
+                  aria-label="Open menu"
+                >
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="flex w-[min(20rem,88vw)] flex-col p-0">
+                <SheetHeader className="border-b border-border px-5 py-5 text-left">
+                  <SheetTitle className="font-heading text-[17px] font-semibold tracking-[-0.03em]">
+                    jobmatch<span className="text-muted-foreground">.</span>
+                  </SheetTitle>
+                  <SheetDescription className="text-[13px] text-muted-foreground">
+                    {roleLabel}
+                  </SheetDescription>
+                </SheetHeader>
+                <nav className="grid gap-0.5 p-3" aria-label="Menu">
+                  {sheetLinks.map((link) => (
+                    <SheetClose asChild key={link.href}>
+                      <Link
+                        href={link.href}
+                        aria-current={isActive(link.href) ? "page" : undefined}
+                        className={cn(
+                          "rounded-xl px-3 py-2.5 text-[15px] font-medium tracking-[-0.01em] transition-colors",
+                          isActive(link.href)
+                            ? "bg-foreground/[0.06] text-foreground"
+                            : "text-foreground/80 hover:bg-foreground/[0.04] hover:text-foreground"
+                        )}
+                      >
+                        {link.label}
+                      </Link>
+                    </SheetClose>
+                  ))}
+                  {signedIn && role !== "admin" ? (
+                    <>
+                      <SheetClose asChild>
+                        <Link
+                          href="/profile"
+                          className="rounded-xl px-3 py-2.5 text-[15px] font-medium tracking-[-0.01em] text-foreground/80 hover:bg-foreground/[0.04] hover:text-foreground"
+                        >
+                          Profile
+                        </Link>
+                      </SheetClose>
+                      {canShareProfile ? (
+                        <button
+                          type="button"
+                          className="flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-[15px] font-medium tracking-[-0.01em] text-foreground/80 hover:bg-foreground/[0.04] hover:text-foreground"
+                          onClick={() => {
+                            void shareOwnProfile()
+                            setMobileOpen(false)
+                          }}
+                        >
+                          <Share2 className="h-4 w-4" />
+                          Share profile
+                        </button>
+                      ) : null}
+                      <SheetClose asChild>
+                        <Link
+                          href="/feedback"
+                          className="rounded-xl px-3 py-2.5 text-[15px] font-medium tracking-[-0.01em] text-foreground/80 hover:bg-foreground/[0.04] hover:text-foreground"
+                        >
+                          Feedback
+                        </Link>
+                      </SheetClose>
+                    </>
                   ) : null}
-                  <SheetClose asChild>
-                    <Link
-                      href="/feedback"
-                      className="rounded-md px-3 py-2.5 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground"
-                    >
-                      Feedback
-                    </Link>
-                  </SheetClose>
-                </>
-              ) : null}
+                </nav>
+                <div className="mt-auto border-t border-border p-3">
+                  <Button variant="ghost" className="w-full justify-start rounded-xl" onClick={handleSignOut}>
+                    <LogOut className="h-4 w-4" />
+                    Sign out
+                  </Button>
+                </div>
+              </SheetContent>
+            </Sheet>
+          ) : null}
+
+          <Link
+            href={homeHref}
+            className="hidden rounded-md px-1.5 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 lg:inline-flex"
+          >
+            <BrandMark />
+          </Link>
+        </div>
+
+        <div className="flex items-center justify-center px-2">
+          <Link
+            href={homeHref}
+            className="rounded-md px-1.5 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 lg:hidden"
+          >
+            <BrandMark />
+          </Link>
+          {signedIn ? (
+            <nav className="hidden items-center justify-center gap-0.5 lg:flex" aria-label="Primary">
+              {links.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  aria-current={isActive(link.href) ? "page" : undefined}
+                  className={navItemClass(isActive(link.href))}
+                >
+                  {link.label}
+                </Link>
+              ))}
             </nav>
-            <div className="mt-auto border-t border-border p-3">
-              <Button variant="ghost" className="w-full justify-start" onClick={handleSignOut}>
-                <LogOut className="h-4 w-4" />
-                Sign out
-              </Button>
-            </div>
-          </SheetContent>
-        </Sheet>
-        ) : null}
+          ) : null}
+        </div>
 
-        <Link href="/" className="shrink-0 font-heading text-[17px] font-semibold tracking-tight text-foreground">
-          jobmatch<span className="text-muted-foreground">.</span>
-        </Link>
-        {signedIn ? (
-          <Badge variant="secondary" className="hidden uppercase tracking-[0.14em] sm:inline-flex">
-            {roleLabel}
-          </Badge>
-        ) : null}
-
-        <NavigationMenu viewport={false} className={cn("hidden min-w-0 flex-1 justify-start lg:flex", !signedIn && "lg:hidden")}>
-          <NavigationMenuList className="justify-start">
-            {links.map((link) => (
-              <NavigationMenuItem key={link.href}>
-                <NavigationMenuLink asChild active={isActive(link.href)}>
-                  <Link
-                    href={link.href}
-                    data-active={isActive(link.href)}
-                    className={cn(navigationMenuTriggerStyle(), "bg-transparent")}
-                  >
-                    {link.label}
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            ))}
-          </NavigationMenuList>
-        </NavigationMenu>
-
-        <div className="ml-auto flex items-center gap-1.5">
+        <div className="flex items-center justify-self-end gap-0.5">
           {signedIn ? (
             <>
               <NotificationBell />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="rounded-full" aria-label="Account menu">
-                    <Avatar className="h-8 w-8">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-9 w-9 rounded-full p-0 hover:bg-foreground/[0.05]"
+                    aria-label="Account menu"
+                  >
+                    <Avatar className="h-8 w-8 ring-1 ring-border">
                       <AvatarImage src={avatarUrl ?? undefined} alt="" />
-                      <AvatarFallback className="bg-primary/15 text-xs text-primary">{initials}</AvatarFallback>
+                      <AvatarFallback className="bg-primary/10 text-[11px] font-semibold text-primary">
+                        {initials}
+                      </AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuContent align="end" className="w-56 rounded-xl p-1.5">
                   <DropdownMenuLabel className="font-normal">
-                    <p className="truncate text-sm font-medium leading-none">{displayName}</p>
+                    <p className="truncate text-sm font-medium leading-none tracking-[-0.01em]">{displayName}</p>
                     <p className="mt-1 truncate text-xs text-muted-foreground">{email ?? roleLabel}</p>
+                    <p className="mt-1.5 text-[11px] font-medium text-muted-foreground">{roleLabel}</p>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   {role !== "admin" ? (
@@ -264,7 +303,7 @@ export function AppNav({ role, userId, fullName, email, avatarUrl, shareTitle }:
               </DropdownMenu>
             </>
           ) : (
-            <Button asChild size="sm" className="rounded-full">
+            <Button asChild size="sm" className="rounded-full px-4">
               <Link href="/login">Sign in</Link>
             </Button>
           )}

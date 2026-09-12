@@ -2,39 +2,52 @@
 
 import { useEffect, useRef, useState, type PointerEvent } from "react"
 import TextareaAutosize from "react-textarea-autosize"
-import { ArrowUp, Mic } from "lucide-react"
+import { ArrowUp, Mic, Plus } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { ChatChannelHeader } from "@/components/chat/ChatChannelHeader"
 import { ChatEmojiPicker } from "@/components/chat/ChatEmojiPicker"
 import { ChatEmptyConversation, ChatErrorState, ChatLoadingState } from "@/components/chat/ChatEmptyState"
 import { ChatUserAvatar } from "@/components/chat/ChatUserAvatar"
 import { ChatVoiceBubble } from "@/components/chat/ChatVoiceBubble"
+import { ChatMediaBubble } from "@/components/chat/ChatMediaBubble"
 import { ChatVoiceRecordBar } from "@/components/chat/ChatVoiceRecordBar"
+import { ChatAttachTray } from "@/components/chat/ChatAttachTray"
+import { ChatAttachPreview } from "@/components/chat/ChatAttachPreview"
 import { formatDaySeparator, shouldShowDaySeparator } from "@/components/chat/chat-helpers"
 import { MessageTicks, messageTimeLabel, type MessageDeliveryStatus } from "@/components/chat/MessageTicks"
 import {
-  formatVoiceClock,
-  MAX_VOICE_SECONDS,
   pickAudioMime,
   useVoiceRecorder,
 } from "@/components/chat/use-voice-recorder"
+import {
+  classifyChatFile,
+  classifyStoredMedia,
+  defaultMediaLabel,
+  MAX_CHAT_ATTACHMENTS,
+  readMediaDuration,
+  sanitizeChatFileName,
+  validateChatFile,
+} from "@/lib/chat/attachments"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/lib/hooks/use-toast"
 import type { ChatPeer } from "@/lib/chat/inbox"
+import { isBlockedWith } from "@/lib/moderation/blocks"
 import type { Message } from "@/types"
 import type { RealtimeChannel } from "@supabase/supabase-js"
 
 type ChatMessageRow = Message & { _status?: MessageDeliveryStatus }
 
 const MESSAGE_COLS =
-  "id, conversation_id, sender_id, content, is_read, created_at, message_type, media_url, duration_seconds"
+  "id, conversation_id, sender_id, content, is_read, created_at, message_type, media_url, duration_seconds, file_name, file_size, mime_type"
 
 function isSameOptimistic(pending: ChatMessageRow, row: ChatMessageRow) {
   if (pending.id === row.id) return true
   if (pending._status !== "sending" || pending.sender_id !== row.sender_id) return false
-  if (row.message_type === "voice" || pending.message_type === "voice") {
-    return pending.message_type === "voice" && row.message_type === "voice"
+  if ((pending.message_type ?? "text") !== (row.message_type ?? "text")) return false
+  if (pending.message_type && pending.message_type !== "text") {
+    if (pending.file_name && row.file_name) return pending.file_name === row.file_name
+    return pending.content === row.content
   }
   return pending.content === row.content
 }
@@ -46,6 +59,8 @@ export function ChatThread({
   jobTitle,
   backHref,
   onBack,
+  matchId: matchIdProp,
+  onMuteChange,
 }: {
   conversationId: string
   currentUserId: string
@@ -53,6 +68,8 @@ export function ChatThread({
   jobTitle?: string | null
   backHref?: string
   onBack?: () => void
+  matchId?: string | null
+  onMuteChange?: (muted: boolean) => void
 }) {
   const supabase = createClient()
   const { toast } = useToast()
@@ -64,6 +81,11 @@ export function ChatThread({
   const [peerTyping, setPeerTyping] = useState(false)
   const [holdRecording, setHoldRecording] = useState(false)
   const [slideCancel, setSlideCancel] = useState(false)
+  const [blocked, setBlocked] = useState(false)
+  const [muted, setMuted] = useState(false)
+  const [matchId, setMatchId] = useState<string | null>(matchIdProp ?? null)
+  const [attachOpen, setAttachOpen] = useState(false)
+  const [pendingFiles, setPendingFiles] = useState<File[]>([])
   const bottomRef = useRef<HTMLDivElement>(null)
   const typingTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const liveChannel = useRef<RealtimeChannel | null>(null)
@@ -85,7 +107,7 @@ export function ChatThread({
   }
 
   const sendVoice = async (blob: Blob, duration: number) => {
-    if (sending) return
+    if (sending || blocked) return
     setSending(true)
     const localUrl = URL.createObjectURL(blob)
     const optimistic: ChatMessageRow = {
@@ -149,7 +171,183 @@ export function ChatThread({
     setSending(false)
   }
 
+  const sendOneMedia = async (file: File, caption: string) => {
+    const messageType = classifyChatFile(file)
+    const fileName = file.name || defaultMediaLabel(messageType, "file")
+    const label = caption.trim() || defaultMediaLabel(messageType, fileName)
+    const localUrl = URL.createObjectURL(file)
+    const duration = await readMediaDuration(file)
+    const optimistic: ChatMessageRow = {
+      id: `optimistic-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      conversation_id: conversationId,
+      sender_id: currentUserId,
+      content: label,
+      is_read: false,
+      created_at: new Date().toISOString(),
+      message_type: messageType,
+      media_url: localUrl,
+      duration_seconds: duration,
+      file_name: fileName,
+      file_size: file.size,
+      mime_type: file.type || null,
+      _status: "sending",
+    }
+    setMessages((prev) => [...prev, optimistic])
+
+    const safeName = sanitizeChatFileName(fileName)
+    const path = `${currentUserId}/${conversationId}/${Date.now()}-${safeName}`
+    const { error: uploadError } = await supabase.storage.from("chat-media").upload(path, file, {
+      contentType: file.type || "application/octet-stream",
+      upsert: false,
+    })
+
+    const fail = (description: string) => {
+      setMessages((prev) => prev.filter((m) => m.id !== optimistic.id))
+      URL.revokeObjectURL(localUrl)
+      toast({ title: "Could not send attachment", description, variant: "destructive" })
+    }
+
+    if (uploadError) {
+      fail(uploadError.message)
+      return
+    }
+
+    const { data: urlData } = supabase.storage.from("chat-media").getPublicUrl(path)
+    const payload = {
+      conversation_id: conversationId,
+      sender_id: currentUserId,
+      content: label,
+      message_type: messageType,
+      media_url: urlData.publicUrl,
+      duration_seconds: duration,
+      file_name: fileName,
+      file_size: file.size,
+      mime_type: file.type || null,
+    }
+
+    const inserted = await supabase.from("messages").insert(payload).select(MESSAGE_COLS).single()
+    let data: ChatMessageRow | null = inserted.data as ChatMessageRow | null
+    let sendError = inserted.error
+
+    if (sendError) {
+      const fallbackType = messageType === "video" || messageType === "audio" ? "file" : messageType
+      const retry = await supabase
+        .from("messages")
+        .insert({
+          conversation_id: conversationId,
+          sender_id: currentUserId,
+          content: label,
+          message_type: fallbackType,
+          media_url: urlData.publicUrl,
+          duration_seconds: duration,
+        })
+        .select("id, conversation_id, sender_id, content, is_read, created_at, message_type, media_url, duration_seconds")
+        .single()
+      data = retry.data
+        ? {
+            ...(retry.data as ChatMessageRow),
+            file_name: fileName,
+            file_size: file.size,
+            mime_type: file.type || null,
+          }
+        : null
+      sendError = retry.error
+    }
+
+    if (sendError || !data) {
+      fail(sendError?.message ?? "Try again")
+      return
+    }
+
+    setMessages((prev) =>
+      prev.map((m) => (m.id === optimistic.id ? { ...(data as ChatMessageRow), _status: "sent" } : m))
+    )
+    URL.revokeObjectURL(localUrl)
+  }
+
+  const sendMediaBatch = async (files: File[], caption: string) => {
+    if (blocked || files.length === 0) return
+    setSending(true)
+    for (let i = 0; i < files.length; i++) {
+      await sendOneMedia(files[i], i === files.length - 1 ? caption : "")
+    }
+    setSending(false)
+  }
+
+  const queueFiles = (incoming: File[]) => {
+    if (blocked) return
+    const accepted: File[] = []
+    for (const file of incoming) {
+      const err = validateChatFile(file)
+      if (err) {
+        toast({ variant: "destructive", title: "Can't attach", description: err })
+        continue
+      }
+      accepted.push(file)
+    }
+    if (!accepted.length) return
+    setPendingFiles((prev) => {
+      const merged = [...prev, ...accepted]
+      if (merged.length > MAX_CHAT_ATTACHMENTS) {
+        toast({ title: `Up to ${MAX_CHAT_ATTACHMENTS} files at a time` })
+        return merged.slice(0, MAX_CHAT_ATTACHMENTS)
+      }
+      return merged
+    })
+    setAttachOpen(false)
+  }
+
   sendVoiceRef.current = sendVoice
+
+  useEffect(() => {
+    const run = async () => {
+      const state = await isBlockedWith(supabase, currentUserId, peer.id)
+      setBlocked(state.blockedByMe || state.blockedMe)
+      const muteRes = await supabase
+        .from("conversation_mutes")
+        .select("conversation_id")
+        .eq("user_id", currentUserId)
+        .eq("conversation_id", conversationId)
+        .maybeSingle()
+      if (!muteRes.error) setMuted(Boolean(muteRes.data))
+      if (!matchIdProp) {
+        const conv = await supabase.from("conversations").select("match_id").eq("id", conversationId).maybeSingle()
+        if (conv.data?.match_id) setMatchId(conv.data.match_id as string)
+      } else {
+        setMatchId(matchIdProp)
+      }
+    }
+    void run()
+  }, [currentUserId, peer.id, conversationId, matchIdProp])
+
+  const toggleMute = async () => {
+    if (muted) {
+      const { error } = await supabase
+        .from("conversation_mutes")
+        .delete()
+        .eq("user_id", currentUserId)
+        .eq("conversation_id", conversationId)
+      if (error) {
+        toast({ variant: "destructive", title: "Couldn’t unmute", description: error.message })
+        return
+      }
+      setMuted(false)
+      onMuteChange?.(false)
+      toast({ title: "Unmuted" })
+      return
+    }
+    const { error } = await supabase.from("conversation_mutes").insert({
+      user_id: currentUserId,
+      conversation_id: conversationId,
+    })
+    if (error) {
+      toast({ variant: "destructive", title: "Couldn’t mute", description: error.message })
+      return
+    }
+    setMuted(true)
+    onMuteChange?.(true)
+    toast({ title: "Muted", description: "You still see the thread. Unread won’t ping the bell." })
+  }
 
   useEffect(() => {
     let cancelled = false
@@ -166,8 +364,21 @@ export function ChatThread({
 
       if (cancelled) return
       if (loadError) {
-        setError("Could not load messages.")
+        const fallback = await supabase
+          .from("messages")
+          .select("id, conversation_id, sender_id, content, is_read, created_at, message_type, media_url, duration_seconds")
+          .eq("conversation_id", conversationId)
+          .order("created_at", { ascending: true })
+          .limit(300)
+        if (cancelled) return
+        if (fallback.error) {
+          setError("Could not load messages.")
+          setLoading(false)
+          return
+        }
+        setMessages((fallback.data as ChatMessageRow[]) ?? [])
         setLoading(false)
+        await markRead()
         return
       }
       setMessages((data as ChatMessageRow[]) ?? [])
@@ -244,8 +455,17 @@ export function ChatThread({
   }
 
   const sendMessage = async (raw?: string) => {
+    if (pendingFiles.length) {
+      if (sending || voice.recording || blocked) return
+      const caption = (raw ?? draft).trim()
+      const files = [...pendingFiles]
+      setPendingFiles([])
+      if (!raw) setDraft("")
+      await sendMediaBatch(files, caption)
+      return
+    }
     const content = (raw ?? draft).trim()
-    if (!content || sending || voice.recording) return
+    if (!content || sending || voice.recording || blocked) return
     setSending(true)
     if (!raw) setDraft("")
 
@@ -348,7 +568,7 @@ export function ChatThread({
   }, [holdRecording])
 
   const onMicPointerDown = async (e: PointerEvent<HTMLButtonElement>) => {
-    if (sending) return
+    if (sending || blocked) return
     e.preventDefault()
     holdStart.current = { x: e.clientX, t: Date.now() }
     setSlideCancel(false)
@@ -359,16 +579,34 @@ export function ChatThread({
   if (loading) return <ChatLoadingState />
   if (error) return <ChatErrorState message={error} />
 
-  const canSendText = Boolean(draft.trim()) && !sending && !voice.recording
+  const canSend = (Boolean(draft.trim()) || pendingFiles.length > 0) && !sending && !voice.recording
 
   return (
-    <div className="jm-chat flex h-full min-h-0 flex-col">
+    <div
+      className="jm-chat flex h-full min-h-0 flex-col"
+      onDragOver={(e) => {
+        if (blocked) return
+        e.preventDefault()
+      }}
+      onDrop={(e) => {
+        if (blocked) return
+        e.preventDefault()
+        const files = Array.from(e.dataTransfer.files ?? [])
+        if (files.length) queueFiles(files)
+      }}
+    >
       <ChatChannelHeader
         peer={peer}
         jobTitle={jobTitle}
         typing={peerTyping}
         backHref={backHref}
         onBack={onBack}
+        currentUserId={currentUserId}
+        onBlocked={() => setBlocked(true)}
+        muted={muted}
+        onToggleMute={() => void toggleMute()}
+        matchId={matchId}
+        conversationId={conversationId}
       />
 
       <div className="jm-chat-thread min-h-0 flex-1 overflow-y-auto px-2 py-3 sm:px-4">
@@ -385,6 +623,14 @@ export function ChatThread({
             const status: MessageDeliveryStatus =
               msg._status || (msg.is_read ? "read" : "sent")
             const isVoice = msg.message_type === "voice" && Boolean(msg.media_url)
+            const mediaKind = msg.media_url
+              ? classifyStoredMedia({
+                  messageType: msg.message_type,
+                  mimeType: msg.mime_type,
+                  fileName: msg.file_name,
+                  content: msg.content,
+                })
+              : null
             const ticks = isOwn ? <MessageTicks status={status} onPrimaryBubble={isOwn} /> : null
 
             return (
@@ -405,7 +651,9 @@ export function ChatThread({
                 >
                   <div
                     className={cn(
-                      "jm-bubble px-2.5 pb-1 pt-1.5 font-body text-[14.5px] leading-[1.35]",
+                      "jm-bubble font-body text-[14.5px] leading-[1.35]",
+                      mediaKind && "jm-bubble--media",
+                      mediaKind || isVoice ? "px-1.5 pb-1 pt-1.5" : "px-2.5 pb-1 pt-1.5",
                       isOwn ? "jm-bubble--own" : "jm-bubble--peer",
                       grouped && !lastInGroup && "jm-bubble--grouped"
                     )}
@@ -414,6 +662,19 @@ export function ChatThread({
                       <ChatVoiceBubble
                         src={msg.media_url as string}
                         durationSeconds={msg.duration_seconds ?? 1}
+                        own={isOwn}
+                        timeLabel={messageTimeLabel(msg.created_at)}
+                        ticks={ticks}
+                      />
+                    ) : mediaKind ? (
+                      <ChatMediaBubble
+                        type={mediaKind}
+                        src={msg.media_url as string}
+                        name={msg.content}
+                        caption={msg.content}
+                        fileName={msg.file_name || msg.content}
+                        fileSize={msg.file_size}
+                        mimeType={msg.mime_type}
                         own={isOwn}
                         timeLabel={messageTimeLabel(msg.created_at)}
                         ticks={ticks}
@@ -461,7 +722,11 @@ export function ChatThread({
         }}
         className="shrink-0 bg-gradient-to-t from-background via-background/95 to-transparent px-2 pb-[calc(0.65rem+env(safe-area-inset-bottom,0px))] pt-1.5 sm:px-4"
       >
-        {voice.recording ? (
+        {blocked ? (
+          <p className="px-4 pb-3 text-center font-body text-sm text-muted-foreground">
+            You can’t message this person. Unblock them from the menu if that was a mistake.
+          </p>
+        ) : voice.recording ? (
           <ChatVoiceRecordBar
             elapsed={voice.elapsed}
             slideCancel={slideCancel}
@@ -470,8 +735,30 @@ export function ChatThread({
             onSend={() => void finishRecording()}
           />
         ) : (
-          <div className="flex items-end gap-2">
+          <div className="relative">
+            <ChatAttachPreview
+              files={pendingFiles}
+              onRemove={(index) => setPendingFiles((prev) => prev.filter((_, i) => i !== index))}
+              onClear={() => setPendingFiles([])}
+            />
+            <ChatAttachTray open={attachOpen} onClose={() => setAttachOpen(false)} onFiles={queueFiles} />
+            <div className="flex items-end gap-2">
             <div className="flex min-w-0 flex-1 items-end rounded-full border border-border bg-card py-0.5 pl-0.5 pr-3 shadow-[0_10px_28px_rgba(0,0,0,0.22)] focus-within:border-primary/40">
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className={cn(
+                  "h-10 w-10 shrink-0 rounded-xl text-muted-foreground transition-transform",
+                  attachOpen && "rotate-45 text-foreground"
+                )}
+                disabled={sending}
+                onClick={() => setAttachOpen((v) => !v)}
+                aria-label="Attach photo, video, document, or audio"
+                aria-expanded={attachOpen}
+              >
+                <Plus className="h-[22px] w-[22px]" strokeWidth={1.75} />
+              </Button>
               <ChatEmojiPicker onPick={(emoji) => setDraft((prev) => `${prev}${emoji}`)} />
               <TextareaAutosize
                 value={draft}
@@ -485,20 +772,26 @@ export function ChatThread({
                     void sendMessage()
                   }
                 }}
+                onPaste={(e) => {
+                  const files = Array.from(e.clipboardData.files ?? [])
+                  if (!files.length) return
+                  e.preventDefault()
+                  queueFiles(files)
+                }}
                 minRows={1}
                 maxRows={5}
-                placeholder="Message"
-                aria-label="Message"
+                placeholder={pendingFiles.length ? "Add a caption…" : "Message"}
+                aria-label={pendingFiles.length ? "Caption" : "Message"}
                 className="max-h-36 min-h-[42px] flex-1 resize-none bg-transparent py-2.5 font-body text-[15px] text-foreground outline-none placeholder:text-muted-foreground"
               />
             </div>
-            {canSendText ? (
+            {canSend ? (
               <Button
                 type="submit"
                 size="icon"
                 disabled={sending}
                 className="h-12 w-12 shrink-0 rounded-full"
-                aria-label="Send message"
+                aria-label={pendingFiles.length ? "Send attachment" : "Send message"}
               >
                 <ArrowUp className="h-5 w-5" strokeWidth={2.4} />
               </Button>
@@ -515,6 +808,7 @@ export function ChatThread({
                 <Mic className="h-5 w-5" />
               </Button>
             )}
+            </div>
           </div>
         )}
       </form>

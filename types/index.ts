@@ -57,6 +57,10 @@ export interface Job {
   category: string | null
   is_remote: boolean
   is_active: boolean
+  salary_min?: number | null
+  salary_max?: number | null
+  salary_currency?: string | null
+  compensation_note?: string | null
   created_at: string
   updated_at: string
   recruiter_profiles?: RecruiterProfile
@@ -87,6 +91,8 @@ export interface Match {
   job_id: string
   is_shortlisted: boolean
   is_archived: boolean
+  pipeline_status?: string | null
+  recruiter_notes?: string | null
   created_at: string
   student?: Profile & { student_profiles?: StudentProfile }
   recruiter?: Profile & { recruiter_profiles?: RecruiterProfile }
@@ -101,7 +107,7 @@ export interface Conversation {
   matches?: Match
 }
 
-export type ChatMessageType = "text" | "voice"
+export type ChatMessageType = "text" | "voice" | "image" | "file" | "video" | "audio"
 
 export interface Message {
   id: string
@@ -113,6 +119,9 @@ export interface Message {
   message_type?: ChatMessageType
   media_url?: string | null
   duration_seconds?: number | null
+  file_name?: string | null
+  file_size?: number | null
+  mime_type?: string | null
   sender?: Profile
 }
 
@@ -141,6 +150,16 @@ export interface ChannelMessage {
   content: string
   created_at: string
   profiles?: Profile
+}
+
+export interface FeedPost {
+  id: string
+  author_id: string
+  body: string
+  image_url: string | null
+  media_type?: string | null
+  created_at: string
+  updated_at?: string
 }
 
 export interface Notification {

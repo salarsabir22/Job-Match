@@ -18,6 +18,12 @@ export async function GET() {
       return NextResponse.json({ totalUnreadCount: 0, unreadChannels: 0 })
     }
 
+    const { data: mutes } = await supabase
+      .from("conversation_mutes")
+      .select("conversation_id")
+      .eq("user_id", user.id)
+    const muted = new Set((mutes ?? []).map((m) => m.conversation_id as string))
+
     const { data: unread } = await supabase
       .from("messages")
       .select("id, conversation_id")
@@ -25,9 +31,10 @@ export async function GET() {
       .eq("is_read", false)
       .neq("sender_id", user.id)
 
-    const unreadChannels = new Set((unread ?? []).map((m) => m.conversation_id)).size
+    const audible = (unread ?? []).filter((m) => !muted.has(m.conversation_id as string))
+    const unreadChannels = new Set(audible.map((m) => m.conversation_id)).size
     return NextResponse.json({
-      totalUnreadCount: unread?.length ?? 0,
+      totalUnreadCount: audible.length,
       unreadChannels,
     })
   } catch (error) {

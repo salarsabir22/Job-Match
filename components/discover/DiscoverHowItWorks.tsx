@@ -3,7 +3,14 @@ import { Card } from "@/components/ui/card"
 import { ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-export function DiscoverHowItWorks({ className }: { className?: string }) {
+export function DiscoverHowItWorks({
+  className,
+  audience = "student",
+}: {
+  className?: string
+  audience?: "student" | "recruiter"
+}) {
+  const student = audience === "student"
   return (
     <Card className={cn("overflow-hidden p-0 shadow-sm", className)}>
       <details className="group">
@@ -23,33 +30,52 @@ export function DiscoverHowItWorks({ className }: { className?: string }) {
                 What you&apos;re seeing
               </p>
               <p className="font-body text-sm leading-relaxed text-muted-foreground">
-                Active jobs only, from teams that have passed a basic review. We exclude roles you&apos;ve already
-                swiped on so you don&apos;t duplicate decisions.
+                {student
+                  ? "Active jobs only, from teams that have passed a basic review. We exclude roles you’ve already swiped on so you don’t duplicate decisions."
+                  : "Candidates who haven’t been shortlisted or passed for this role yet. Switch jobs from the menu above to review a different posting."}
               </p>
             </section>
             <section className="space-y-2">
               <p className="font-data text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
-                When you apply
+                {student ? "When you apply" : "When you shortlist"}
               </p>
               <p className="font-body text-sm leading-relaxed text-muted-foreground">
-                The employer can view the profile you&apos;ve built here. Messaging unlocks after a{" "}
-                <span className="font-medium text-foreground">mutual match</span> - see{" "}
-                <Link href="/matches" className="font-medium text-primary underline-offset-4 hover:underline">
-                  Matches
-                </Link>
-                .
+                {student ? (
+                  <>
+                    The employer can view the profile you’ve built here. Messaging unlocks after a{" "}
+                    <span className="font-medium text-foreground">mutual match</span> — see{" "}
+                    <Link href="/matches" className="font-medium text-primary underline-offset-4 hover:underline">
+                      Applications
+                    </Link>
+                    .
+                  </>
+                ) : (
+                  <>
+                    Shortlisting opens a thread so you can message them. Pass hides them from this role’s deck. Undo
+                    reverses the last card if you haven’t started chatting.
+                  </>
+                )}
               </p>
             </section>
             <section className="space-y-2">
               <p className="font-data text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
-                Save &amp; pass
+                {student ? "Save & pass" : "Profiles"}
               </p>
               <p className="font-body text-sm leading-relaxed text-muted-foreground">
-                Saved roles live in{" "}
-                <Link href="/saved" className="font-medium text-primary underline-offset-4 hover:underline">
-                  Saved
-                </Link>
-                . Pass moves you forward; open a full listing from the panel anytime.
+                {student ? (
+                  <>
+                    Saved roles live in{" "}
+                    <Link href="/saved" className="font-medium text-primary underline-offset-4 hover:underline">
+                      Saved
+                    </Link>
+                    . Pass moves you forward. Open the full listing anytime from the card.
+                  </>
+                ) : (
+                  <>
+                    Open the full candidate page for video, resume, and links. Report or block from that page if
+                    something’s off.
+                  </>
+                )}
               </p>
             </section>
             <section className="space-y-2">
@@ -57,8 +83,9 @@ export function DiscoverHowItWorks({ className }: { className?: string }) {
                 Timing
               </p>
               <p className="font-body text-sm leading-relaxed text-muted-foreground">
-                Recruiters respond on different schedules. Outcomes surface in Matches and notifications when we have
-                them.
+                {student
+                  ? "Recruiters respond on different schedules. Outcomes surface in Applications and notifications when we have them."
+                  : "Students see your shortlist as a match notification. Reply from Messages when you’re ready."}
               </p>
             </section>
           </div>

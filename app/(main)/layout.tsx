@@ -1,6 +1,11 @@
 import { createClient } from "@/lib/supabase/server"
 import { AppNav } from "@/components/nav/AppNav"
+import { AppBottomNav } from "@/components/nav/AppBottomNav"
+import { AppFooter } from "@/components/nav/AppFooter"
+import { cn } from "@/lib/utils"
 import type { UserRole } from "@/types"
+import { isStudentOnboardingComplete, STUDENT_ONBOARDING_SELECT } from "@/lib/profile/completeness"
+import { redirect } from "next/navigation"
 
 export default async function MainLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -29,10 +34,18 @@ export default async function MainLayout({ children }: { children: React.ReactNo
         .maybeSingle()
       if (company?.company_name) shareTitle = company.company_name
     }
+    if (role === "student") {
+      const { data: student } = await supabase
+        .from("student_profiles")
+        .select(STUDENT_ONBOARDING_SELECT)
+        .eq("id", user.id)
+        .maybeSingle()
+      if (!isStudentOnboardingComplete(student)) redirect("/onboarding")
+    }
   }
 
   return (
-    <div className="dark min-h-screen apple-grouped-bg text-foreground selection:bg-primary/20">
+    <div className="min-h-screen apple-grouped-bg text-foreground selection:bg-primary/20">
       <AppNav
         role={role}
         userId={user?.id ?? null}
@@ -42,11 +55,13 @@ export default async function MainLayout({ children }: { children: React.ReactNo
         shareTitle={shareTitle}
       />
 
-      <main className="pt-16">
+      <main className={cn("pt-16", user && role !== "admin" && "lg:pb-0")}>
         <div className="mx-auto w-full max-w-[1728px] min-h-[calc(100vh-4rem)] px-4 py-5 sm:px-6 lg:px-10 xl:px-14 lg:py-8">
           {children}
         </div>
+        {user ? <AppFooter role={role} /> : null}
       </main>
+      {user ? <AppBottomNav role={role} /> : null}
     </div>
   )
 }

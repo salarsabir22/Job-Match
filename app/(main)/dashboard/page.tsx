@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import { RecruiterDashboardView } from "./recruiter-dashboard-view"
 import { StudentDashboardView } from "./student-dashboard-view"
+import { isStudentOnboardingComplete, STUDENT_ONBOARDING_SELECT } from "@/lib/profile/completeness"
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -16,6 +17,12 @@ export default async function DashboardPage() {
 
   if (!profile) redirect("/onboarding")
   if (profile.role === "student") {
+    const { data: student } = await supabase
+      .from("student_profiles")
+      .select(STUDENT_ONBOARDING_SELECT)
+      .eq("id", user.id)
+      .maybeSingle()
+    if (!isStudentOnboardingComplete(student)) redirect("/onboarding")
     return <StudentDashboardView userId={user.id} fullName={profile.full_name} />
   }
   if (profile.role === "recruiter") {

@@ -19,9 +19,6 @@ export default async function JobDetailPage({ params }: { params: Promise<{ jobI
   const { jobId } = await params
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) notFound()
-
-  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single()
 
   const { data: job, error } = await supabase
     .from("jobs")
@@ -32,10 +29,16 @@ export default async function JobDetailPage({ params }: { params: Promise<{ jobI
   if (error || !job) notFound()
 
   const row = normalizeJob(job as JobWithCompany)
-  const isOwner = row.recruiter_id === user.id
   const company = row.recruiter_profiles
-
   const listingVisible = row.is_active && company?.is_approved === true
+
+  if (!user) {
+    if (!listingVisible) notFound()
+    return <StudentJobDetailView job={row} userId={null} />
+  }
+
+  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single()
+  const isOwner = row.recruiter_id === user.id
 
   if (profile?.role === "recruiter" && isOwner) {
     return <RecruiterJobDetail job={row} jobId={jobId} userId={user.id} />

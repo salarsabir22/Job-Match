@@ -95,6 +95,7 @@ export default async function ChatPage({ params }: { params: Promise<{ matchId: 
         profilePath: user.id === match.student_id ? `/company/${otherUserId}` : `/candidates/${otherUserId}`,
       }}
       jobTitle={job?.title}
+      matchId={match.id}
     />
   )
 }

@@ -8,9 +8,13 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Star, Archive } from "lucide-react"
+import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Star, Archive, Columns3, LayoutList } from "lucide-react"
 import { getInitials, formatDate, cn } from "@/lib/utils"
 import { useToast } from "@/lib/hooks/use-toast"
+import { PIPELINE_LABEL, PIPELINE_STATUSES, type PipelineStatus } from "@/lib/match/fit"
+import { AppleActivityIndicator } from "@/components/ui/apple-activity-indicator"
 
 interface OverallStats {
   totalMatches: number
@@ -24,6 +28,8 @@ type MatchRow = {
   created_at: string
   is_shortlisted?: boolean
   is_archived?: boolean
+  pipeline_status?: string | null
+  recruiter_notes?: string | null
   jobs?: { title?: string | null; job_type?: string | null } | null
   profiles?: {
     id?: string
@@ -53,6 +59,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
   const [matches, setMatches] = useState<MatchRow[]>([])
   const [loading, setLoading] = useState(true)
   const [tab, setTab] = useState<"all" | "starred" | "archived">("all")
+  const [layout, setLayout] = useState<"board" | "list">("board")
   const [overallStats, setOverallStats] = useState<OverallStats>({
     totalMatches: 0,
     shortlisted: 0,
@@ -116,12 +123,32 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
     toast({ title: current ? "Unarchived" : "Archived" })
   }
 
+  const updatePipeline = async (matchId: string, status: PipelineStatus) => {
+    const supabase = createClient()
+    const { error } = await supabase.from("matches").update({ pipeline_status: status }).eq("id", matchId)
+    if (error) {
+      toast({ variant: "destructive", title: "Couldn’t update status", description: error.message })
+      return
+    }
+    setMatches((prev) => prev.map((m) => (m.id === matchId ? { ...m, pipeline_status: status } : m)))
+  }
+
+  const saveNotes = async (matchId: string, notes: string) => {
+    const supabase = createClient()
+    const { error } = await supabase.from("matches").update({ recruiter_notes: notes }).eq("id", matchId)
+    if (error) {
+      toast({ variant: "destructive", title: "Couldn’t save notes", description: error.message })
+      return
+    }
+    setMatches((prev) => prev.map((m) => (m.id === matchId ? { ...m, recruiter_notes: notes } : m)))
+  }
+
   const active = matches.filter((m) => !m.is_archived)
   const shortlisted = matches.filter((m) => m.is_shortlisted && !m.is_archived)
   const archived = matches.filter((m) => m.is_archived)
   const displayed = tab === "all" ? active : tab === "starred" ? shortlisted : archived
 
-  const MatchCard = ({ match }: { match: MatchRow }) => {
+  const MatchCard = ({ match, compact }: { match: MatchRow; compact?: boolean }) => {
     const profile = match.profiles
     const spRaw = match.profiles?.student_profiles
     const sp = Array.isArray(spRaw) ? spRaw[0] : spRaw
@@ -134,8 +161,8 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
 
     return (
       <Card>
-        <CardContent className="flex items-start gap-4 p-4 sm:p-5">
-          <Avatar className="h-12 w-12 shrink-0 ring-1 ring-border">
+        <CardContent className={cn("flex items-start", compact ? "gap-3 p-3" : "gap-4 p-4 sm:p-5")}>
+          <Avatar className={cn("shrink-0 ring-1 ring-border", compact ? "h-10 w-10" : "h-12 w-12")}>
             <AvatarImage src={profile?.avatar_url || undefined} />
             <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">
               {getInitials(profile?.full_name || "?")}
@@ -153,12 +180,14 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
                   <p className="font-body text-[11px] text-muted-foreground mt-1 truncate">{schoolLine}</p>
                 )}
               </div>
-              <time className="font-body text-[11px] text-muted-foreground shrink-0 tabular-nums">
-                {formatDate(match.created_at)}
-              </time>
+              {compact ? null : (
+                <time className="font-body text-[11px] text-muted-foreground shrink-0 tabular-nums">
+                  {formatDate(match.created_at)}
+                </time>
+              )}
             </div>
 
-            {skills.length > 0 && (
+            {skills.length > 0 && !compact && (
               <div className="flex flex-wrap gap-1.5 mt-3">
                 {skills.map((s: string) => (
                   <Badge key={s} variant="secondary">
@@ -170,15 +199,50 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
                 )}
               </div>
             )}
+
+            <div className={cn("space-y-2", compact ? "mt-2" : "mt-3")}>
+              <Select
+                value={(match.pipeline_status as PipelineStatus) || "chatting"}
+                onValueChange={(value) => void updatePipeline(match.id, value as PipelineStatus)}
+              >
+                <SelectTrigger className={cn("w-full rounded-full", compact ? "h-8 text-xs" : "h-9 sm:w-[180px]")} aria-label="Pipeline status">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {PIPELINE_STATUSES.map((status) => (
+                    <SelectItem key={status} value={status}>
+                      {PIPELINE_LABEL[status]}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {compact ? null : (
+                <MatchNotes
+                  matchId={match.id}
+                  initial={match.recruiter_notes || ""}
+                  onSave={saveNotes}
+                />
+              )}
+            </div>
           </div>
         </CardContent>
 
+        {compact ? (
+          <CardContent className="border-t border-border px-3 py-2.5">
+            <Button asChild size="sm" className="h-8 w-full">
+              <Link href={`/chat/${convId || match.id}`}>Open chat</Link>
+            </Button>
+          </CardContent>
+        ) : (
         <CardContent className="flex flex-col gap-3 border-t border-border px-4 pb-4 pt-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
           <div className="flex flex-wrap gap-2">
             {match.is_shortlisted && (
               <Badge>Shortlisted for {match.jobs?.title || "this role"}</Badge>
             )}
             {convId && <Badge variant="outline">In chat</Badge>}
+            {match.pipeline_status && match.pipeline_status !== "chatting" ? (
+              <Badge variant="secondary">{PIPELINE_LABEL[match.pipeline_status as PipelineStatus] || match.pipeline_status}</Badge>
+            ) : null}
           </div>
 
           <div className="flex items-center gap-2 justify-end">
@@ -210,18 +274,16 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
             </Button>
           </div>
         </CardContent>
+        )}
       </Card>
     )
   }
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-32 gap-4">
-        <div
-          className="h-9 w-9 rounded-full border-2 border-border border-t-primary animate-spin"
-          aria-hidden
-        />
-        <p className="font-body text-sm text-muted-foreground">Loading matches…</p>
+      <div className="flex flex-col items-center justify-center py-32 gap-3">
+        <AppleActivityIndicator size={36} />
+        <p className="font-body text-[13px] font-medium tracking-[-0.01em] text-muted-foreground">Loading matches…</p>
       </div>
     )
   }
@@ -230,18 +292,40 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
     <div className="space-y-8">
       <header className="flex flex-col gap-3 min-w-0 sm:flex-row sm:items-end sm:justify-between">
         <div className="space-y-1 min-w-0">
-          <h1 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-[1.75rem]">Matches</h1>
+          <h1 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-[1.75rem]">Pipeline</h1>
           <p className="font-body text-sm text-muted-foreground">
             {matches.length === 0
               ? "When you shortlist someone, they land here with the job attached."
               : `${matches.length} candidate${matches.length !== 1 ? "s" : ""} across your roles.`}
           </p>
         </div>
-        {overallStats.inConversation > 0 ? (
-          <Button asChild>
-            <Link href="/chat">Open inbox</Link>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button
+            type="button"
+            size="sm"
+            variant={layout === "board" ? "secondary" : "outline"}
+            className="rounded-full"
+            onClick={() => setLayout("board")}
+          >
+            <Columns3 className="h-4 w-4" />
+            Board
           </Button>
-        ) : null}
+          <Button
+            type="button"
+            size="sm"
+            variant={layout === "list" ? "secondary" : "outline"}
+            className="rounded-full"
+            onClick={() => setLayout("list")}
+          >
+            <LayoutList className="h-4 w-4" />
+            List
+          </Button>
+          {overallStats.inConversation > 0 ? (
+            <Button asChild>
+              <Link href="/chat">Open inbox</Link>
+            </Button>
+          ) : null}
+        </div>
       </header>
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -268,9 +352,9 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
           <CardContent className="flex flex-wrap items-end gap-x-6 gap-y-4">
             {[
               { label: "Matched", value: matches.length },
-              { label: "Active", value: active.length },
-              { label: "Shortlisted", value: shortlisted.length },
-              { label: "In chat", value: overallStats.inConversation },
+              { label: "Interview", value: matches.filter((m) => m.pipeline_status === "interview").length },
+              { label: "Offer", value: matches.filter((m) => m.pipeline_status === "offer").length },
+              { label: "Hired", value: matches.filter((m) => m.pipeline_status === "hired").length },
             ].map(({ label, value }) => (
               <div key={label} className="min-w-[4.5rem]">
                 <p className="font-heading text-lg font-semibold tabular-nums text-foreground">{value}</p>
@@ -307,10 +391,59 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
               )}
             </CardContent>
           </Card>
+        ) : layout === "board" && tab !== "archived" ? (
+          <div className="-mx-4 overflow-x-auto px-4 pb-2">
+            <div className="flex min-w-[52rem] gap-3 lg:min-w-0 lg:grid lg:grid-cols-4">
+              {(["chatting", "interview", "offer", "hired"] as PipelineStatus[]).map((status) => {
+                const column = displayed.filter((m) => (m.pipeline_status || "chatting") === status)
+                return (
+                  <div key={status} className="w-[16rem] shrink-0 space-y-3 lg:w-auto">
+                    <div className="flex items-center justify-between px-1">
+                      <p className="font-data text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+                        {PIPELINE_LABEL[status]}
+                      </p>
+                      <span className="font-body text-xs tabular-nums text-muted-foreground">{column.length}</span>
+                    </div>
+                    {column.length === 0 ? (
+                      <div className="rounded-xl border border-dashed border-border px-3 py-8 text-center font-body text-xs text-muted-foreground">
+                        Empty
+                      </div>
+                    ) : (
+                      column.map((m) => <MatchCard key={m.id} match={m} compact />)
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
         ) : (
           displayed.map((m) => <MatchCard key={m.id} match={m} />)
         )}
       </div>
     </div>
+  )
+}
+
+function MatchNotes({
+  matchId,
+  initial,
+  onSave,
+}: {
+  matchId: string
+  initial: string
+  onSave: (matchId: string, notes: string) => Promise<void>
+}) {
+  const [value, setValue] = useState(initial)
+  return (
+    <Textarea
+      rows={2}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {
+        if (value !== initial) void onSave(matchId, value)
+      }}
+      placeholder="Private notes (only you see these)"
+      className="min-h-[4.5rem] resize-none text-sm"
+    />
   )
 }

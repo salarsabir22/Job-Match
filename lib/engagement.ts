@@ -59,8 +59,8 @@ export async function recordJobView(
   await notify(supabase, {
     user_id: opts.recruiterId,
     type: "job_views_milestone",
-    title: `👀 ${total}+ people peeked at your job`,
-    body: `${total} candidates checked out your listing${role}. Momentum is real.`,
+    title: `${total}+ views on your job`,
+    body: `${total} candidates viewed your listing${role}. Review the strongest fits.`,
     data: { job_id: opts.jobId, count: total, milestone_key: key },
   })
 }
@@ -85,8 +85,8 @@ export async function notifyApplicationMilestone(
   await notify(supabase, {
     user_id: opts.recruiterId,
     type: "applications_milestone",
-    title: `🔥 ${total}+ candidates applied${role}`,
-    body: "Your role is popping off. Time to shortlist the ones who actually slap.",
+    title: `${total}+ candidates applied${role}`,
+    body: "This role is getting traction. Shortlist the people who fit and open chat.",
     data: { job_id: opts.jobId, count: total, milestone_key: key },
   })
 }
@@ -117,8 +117,8 @@ export async function recordProfileView(
   await notify(supabase, {
     user_id: opts.studentId,
     type: "profile_views_milestone",
-    title: `👀 ${total} recruiters saw your profile`,
-    body: "You're on their radar. Keep that profile looking expensive.",
+    title: `${total} recruiters viewed your profile`,
+    body: "Keep your profile complete so they can follow up.",
     data: { count: total, milestone_key: key },
   })
 }
@@ -156,8 +156,8 @@ export async function notifyNewJobsInCategory(
     await notify(supabase, {
       user_id: student.id,
       type: "new_jobs_digest",
-      title: `🛍️ ${total} new ${opts.category} jobs just dropped`,
-      body: "The feed is feeding. Go swipe before they ghost the listing.",
+      title: `${total} new ${opts.category} jobs this week`,
+      body: `Open Discover to review roles in ${opts.category}.`,
       data: { category: opts.category, count: total, milestone_key: key },
     })
   }

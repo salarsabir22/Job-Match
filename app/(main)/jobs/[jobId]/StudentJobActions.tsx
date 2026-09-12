@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"
 import { useToast } from "@/lib/hooks/use-toast"
-import { Heart, Bookmark, X, Loader2 } from "lucide-react"
+import { Bookmark, X, Loader2, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription } from "@/components/ui/card"
 
@@ -86,7 +86,7 @@ export function StudentJobActions({
             You have applied to this role. Recruiters see your profile when they review applicants.
           </CardDescription>
           <Button variant="link" className="h-auto p-0 text-primary" asChild>
-            <Link href="/matches">View matches</Link>
+            <Link href="/matches">View applications</Link>
           </Button>
         </CardContent>
       </Card>
@@ -148,7 +148,7 @@ export function StudentJobActions({
           Save
         </Button>
         <Button type="button" className="h-12 flex-1 gap-2 rounded-xl" disabled={busy} onClick={() => void act("right")}>
-          <Heart className="h-4 w-4 shrink-0" fill="currentColor" stroke="currentColor" strokeWidth={1.5} aria-hidden />
+          <Check className="h-4 w-4 shrink-0" strokeWidth={2.25} aria-hidden />
           Apply
         </Button>
       </div>

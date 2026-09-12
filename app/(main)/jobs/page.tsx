@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { formatDate } from "@/lib/utils"
+import { formatSalary } from "@/lib/jobs/salary"
 import { ShareButton } from "@/components/share/ShareButton"
-import { RecruiterJobsHub } from "@/components/jobs/RecruiterJobsHub"
 import type { Job } from "@/types"
 
 type JobIdRow = { job_id: string }
@@ -23,6 +23,7 @@ export default async function JobsPage({
   searchParams: Promise<{ tab?: string }>
 }) {
   const { tab } = await searchParams
+  if (tab === "pipeline") redirect("/matches")
   const supabase = await createClient()
   const {
     data: { user },
@@ -79,11 +80,14 @@ export default async function JobsPage({
   return (
     <div className="space-y-10">
       <DiscoverHeader
-        eyebrow="Pipeline"
+        eyebrow="Listings"
         title="Jobs"
         description={`${activeJobs} active · ${jobs?.length || 0} total listing${(jobs?.length || 0) === 1 ? "" : "s"}`}
         action={
           <div className="flex items-center gap-2">
+            <Button asChild variant="outline" className="rounded-full">
+              <Link href="/matches">Pipeline</Link>
+            </Button>
             <ShareButton path={`/company/${user.id}`} title="Company profile" label="Share company" />
             <Button asChild className="rounded-full">
               <Link href="/jobs/new">Post a job</Link>
@@ -92,7 +96,6 @@ export default async function JobsPage({
         }
       />
 
-      <RecruiterJobsHub userId={user.id} defaultTab={tab === "pipeline" ? "pipeline" : "jobs"}>
       <div className="space-y-10">
 
       {!isApproved ? (
@@ -195,9 +198,16 @@ export default async function JobsPage({
             {(jobs || []).map((job: Job) => {
               const stats = perJobStats[job.id] || { applications: 0, matches: 0, views: 0 }
               const matchRate = stats.applications > 0 ? Math.round((stats.matches / stats.applications) * 100) : 0
+              const pay = formatSalary({
+                min: job.salary_min,
+                max: job.salary_max,
+                currency: job.salary_currency,
+                note: job.compensation_note,
+              })
               const metaParts = [
                 formatJobType(job.job_type),
                 job.is_remote ? "Remote" : job.location || null,
+                pay,
                 `Posted ${formatDate(job.created_at)}`,
               ].filter(Boolean)
 
@@ -266,7 +276,6 @@ export default async function JobsPage({
         </div>
       )}
       </div>
-      </RecruiterJobsHub>
     </div>
   )
 }

@@ -13,20 +13,22 @@ import {
   Building2,
   CheckCircle,
   Clock,
-  Heart,
   Globe,
-  Mail,
   Users,
-  Briefcase,
 } from "lucide-react"
 import { getInitials, formatDate } from "@/lib/utils"
 import Link from "next/link"
 import { ProfileVideoBlock } from "@/components/profile/ProfileVideoBlock"
 import { ShareButton } from "@/components/share/ShareButton"
 import { SavedJobActions } from "@/components/saved/SavedJobActions"
+import { CompletenessCard } from "@/components/profile/CompletenessCard"
+import { recruiterCompleteness, studentCompleteness } from "@/lib/profile/completeness"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
+import { ProfilePosts } from "@/components/feed/ProfilePosts"
+import { profileSharePath } from "@/lib/share/profile-path"
+import type { UserRole } from "@/types"
 
 export default async function ProfilePage() {
   const supabase = await createClient()
@@ -79,9 +81,38 @@ export default async function ProfilePage() {
     ? await supabase.from("jobs").select("id, title, is_active").eq("recruiter_id", user.id).order("created_at", { ascending: false })
     : { data: [] as any[] }
 
+  const postsCountRes = await supabase
+    .from("feed_posts")
+    .select("id", { count: "exact", head: true })
+    .eq("author_id", user.id)
+  const postCount = postsCountRes.error ? 0 : postsCountRes.count ?? 0
+
   const savedRows = savedRes.data || []
   const rp = recruiterProfile as any
   const sp = studentProfile as any
+  const completeness = isStudent
+    ? studentCompleteness({
+        avatar: profile?.avatar_url,
+        bio: profile?.bio,
+        university: sp?.university,
+        skills: sp?.skills,
+        resume: sp?.resume_url,
+        video: profile?.profile_video_url,
+        linkedin: sp?.linkedin_url,
+      })
+    : isRecruiter
+      ? recruiterCompleteness({
+          logo: rp?.logo_url,
+          description: rp?.description,
+          website: rp?.website_url,
+          industry: rp?.industry,
+          video: profile?.profile_video_url,
+        })
+      : null
+
+  const headline = isRecruiter
+    ? [rp?.company_name, rp?.industry].filter(Boolean).join(" · ") || "Recruiter"
+    : [sp?.degree, sp?.university].filter(Boolean).join(" · ") || "Student"
 
   return (
     <div className="mx-auto max-w-3xl space-y-8">
@@ -115,73 +146,52 @@ export default async function ProfilePage() {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-[240px_1fr]">
         <div className="space-y-4">
           <Card className="shadow-sm">
-            <CardContent className="flex flex-col items-center gap-3 p-5 text-center">
+            <CardContent className="flex flex-col items-center gap-2 p-4 text-center">
               {isStudent ? (
-                <Avatar className="h-24 w-24 border-2 border-border">
+                <Avatar className="h-16 w-16 border-2 border-border">
                   <AvatarImage src={profile?.avatar_url || undefined} />
-                  <AvatarFallback className="text-xl font-semibold">{getInitials(profile?.full_name || "?")}</AvatarFallback>
+                  <AvatarFallback className="text-lg font-semibold">{getInitials(profile?.full_name || "?")}</AvatarFallback>
                 </Avatar>
               ) : (
-                <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl border border-border bg-muted">
+                <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-xl border border-border bg-muted">
                   {rp?.logo_url ? (
                     <img src={rp.logo_url} className="h-full w-full object-cover" alt="" />
                   ) : (
-                    <Building2 className="h-10 w-10 text-muted-foreground" />
+                    <Building2 className="h-7 w-7 text-muted-foreground" />
                   )}
                 </div>
               )}
-              <p className="flex items-center gap-1 font-body text-xs text-muted-foreground">
-                <Mail className="h-3 w-3" />
-                {user.email}
-              </p>
               {isRecruiter ? (
                 rp?.is_approved ? (
-                  <Badge variant="secondary">
+                  <Badge variant="secondary" className="text-[10px]">
                     <CheckCircle className="mr-1 h-3 w-3" />
                     Approved
                   </Badge>
                 ) : (
-                  <Badge variant="outline">
+                  <Badge variant="outline" className="text-[10px]">
                     <Clock className="mr-1 h-3 w-3" />
-                    Pending review
+                    Pending
                   </Badge>
                 )
               ) : null}
-            </CardContent>
-          </Card>
-
-          <Card className="shadow-sm">
-            <CardContent className="space-y-3 p-5">
-              <p className="font-data text-[10px] uppercase tracking-wide text-muted-foreground">At a glance</p>
-              <div className="flex items-center justify-between text-sm">
-                <span className="flex items-center gap-2 text-muted-foreground">
-                  <Briefcase className="h-3.5 w-3.5" />
-                  {isStudent ? "Applied" : "Jobs posted"}
-                </span>
-                <span className="font-semibold tabular-nums">{activityCount ?? 0}</span>
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <span className="flex items-center gap-2 text-muted-foreground">
-                  <Heart className="h-3.5 w-3.5" />
-                  Matches
-                </span>
-                <span className="font-semibold tabular-nums">{matchCount ?? 0}</span>
-              </div>
-              {isStudent ? (
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">Saved</span>
-                  <span className="font-semibold tabular-nums">{savedRows.length}</span>
+              <div className="grid w-full grid-cols-3 gap-2 border-t border-border pt-2">
+                <div>
+                  <p className="font-heading text-sm font-semibold tabular-nums">{activityCount ?? 0}</p>
+                  <p className="font-body text-[11px] text-muted-foreground">{isStudent ? "Applied" : "Jobs"}</p>
                 </div>
-              ) : null}
+                <div>
+                  <p className="font-heading text-sm font-semibold tabular-nums">{matchCount ?? 0}</p>
+                  <p className="font-body text-[11px] text-muted-foreground">Matches</p>
+                </div>
+                <div>
+                  <p className="font-heading text-sm font-semibold tabular-nums">{postCount}</p>
+                  <p className="font-body text-[11px] text-muted-foreground">Posts</p>
+                </div>
+              </div>
             </CardContent>
           </Card>
 
-          <Link
-            href="/feedback"
-            className="block rounded-xl border border-dashed border-border px-4 py-3 font-body text-sm text-muted-foreground hover:bg-muted/40"
-          >
-            Spill the tea. Send feedback →
-          </Link>
+          {completeness ? <CompletenessCard percent={completeness.percent} items={completeness.items} /> : null}
         </div>
 
         <div className="space-y-4">
@@ -227,11 +237,25 @@ export default async function ProfilePage() {
           <Card className="shadow-sm">
             <CardContent className="p-5">
               <h2 className="mb-2 font-data text-[10px] uppercase tracking-wide text-muted-foreground">About</h2>
-              <p className="font-body text-sm leading-relaxed">{profile?.bio || "No bio yet. Add one so people get your vibe."}</p>
+              <p className="font-body text-sm leading-relaxed">{profile?.bio || "No bio yet. Add a short summary so people know what you do."}</p>
             </CardContent>
           </Card>
 
           <ProfileVideoBlock userId={user.id} initialVideoUrl={(profile as any)?.profile_video_url ?? null} />
+
+          <ProfilePosts
+            profileUserId={user.id}
+            headline={headline}
+            currentUser={{
+              id: user.id,
+              fullName: profile?.full_name || "You",
+              avatarUrl: profile?.avatar_url ?? null,
+              role: (profile?.role as UserRole) || "student",
+              headline,
+              bio: profile?.bio ?? null,
+              profilePath: profileSharePath(profile?.role, user.id),
+            }}
+          />
 
           {isStudent ? (
             <>

@@ -46,8 +46,8 @@ export function StudentDashboardCharts({
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-5">
         <Card className="lg:col-span-2">
           <CardHeader className="pb-2">
-            <CardDescription className="font-data text-[10px] uppercase tracking-[0.16em]">Swipes over time</CardDescription>
-            <CardTitle className="font-body text-sm font-medium">Applications vs saves · 30 days</CardTitle>
+            <CardDescription className="font-data text-[10px] uppercase tracking-[0.16em]">Applications</CardDescription>
+            <CardTitle className="font-body text-sm font-medium">Applied vs saved · 30 days</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="relative h-[260px] w-full">

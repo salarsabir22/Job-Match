@@ -69,50 +69,50 @@
   --success-foreground: #ffffff;
 }
 
-/* Logged-in product: low-glare ink, warm type, sand accent (marketing stays on :root) */
+/* Logged-in product: Handshake/LinkedIn navy on dark (marketing stays on :root) */
 .dark {
   color-scheme: dark;
-  --clearpath-page: #12141a;
-  --clearpath-surface: #1b1f28;
-  --clearpath-text: #ece8e1;
-  --clearpath-text-secondary: #9a948a;
-  --clearpath-navy: #c9a36a;
-  --clearpath-navy-hover: #d4b27e;
-  --clearpath-accent: #c9a36a;
-  --clearpath-separator: rgba(236, 232, 225, 0.1);
+  --clearpath-page: #0b1220;
+  --clearpath-surface: #131c2e;
+  --clearpath-text: #e8eef8;
+  --clearpath-text-secondary: #93a0b8;
+  --clearpath-navy: #5b9cff;
+  --clearpath-navy-hover: #7eb0ff;
+  --clearpath-accent: #3b82f6;
+  --clearpath-separator: rgba(232, 238, 248, 0.1);
 
-  --apple-grouped: #12141a;
-  --apple-card: #1b1f28;
-  --apple-blue: #c9a36a;
-  --apple-blue-hover: #d4b27e;
-  --apple-blue-press: #b89258;
-  --apple-label: #ece8e1;
-  --apple-secondary-label: #9a948a;
+  --apple-grouped: #0b1220;
+  --apple-card: #131c2e;
+  --apple-blue: #5b9cff;
+  --apple-blue-hover: #7eb0ff;
+  --apple-blue-press: #3d7ae0;
+  --apple-label: #e8eef8;
+  --apple-secondary-label: #93a0b8;
   --apple-separator: var(--clearpath-separator);
 
   --void:       var(--clearpath-page);
   --surface:    var(--clearpath-surface);
   --foreground: var(--clearpath-text);
-  --muted:      #7a746c;
-  --background: #12141a;
-  --card:       #1b1f28;
-  --card-foreground: #ece8e1;
-  --popover:    #222733;
-  --popover-foreground: #ece8e1;
-  --primary:    #c9a36a;
-  --primary-foreground: #16130e;
-  --secondary:  #262b36;
-  --secondary-foreground: #ece8e1;
-  --muted-var:  #262b36;
-  --muted-foreground: #9a948a;
-  --accent:     #262b36;
-  --accent-foreground: #ece8e1;
-  --destructive: #e07070;
-  --border:     rgba(236, 232, 225, 0.1);
-  --input:      rgba(236, 232, 225, 0.14);
-  --ring:       #c9a36a;
-  --success:    #6fbf8a;
-  --success-foreground: #102016;
+  --muted:      #6b7a94;
+  --background: #0b1220;
+  --card:       #131c2e;
+  --card-foreground: #e8eef8;
+  --popover:    #1a2540;
+  --popover-foreground: #e8eef8;
+  --primary:    #5b9cff;
+  --primary-foreground: #071018;
+  --secondary:  #1a2540;
+  --secondary-foreground: #e8eef8;
+  --muted-var:  #1a2540;
+  --muted-foreground: #93a0b8;
+  --accent:     #1a2540;
+  --accent-foreground: #e8eef8;
+  --destructive: #f07178;
+  --border:     rgba(232, 238, 248, 0.1);
+  --input:      rgba(232, 238, 248, 0.14);
+  --ring:       #5b9cff;
+  --success:    #3dd68c;
+  --success-foreground: #062016;
 }
 
 @theme inline {
@@ -194,14 +194,14 @@ body {
 }
 
 .dark .glass {
-  background: rgba(18, 20, 26, 0.86);
+  background: rgba(11, 18, 32, 0.86);
   border-color: var(--border);
 }
 
 .dark .apple-grouped-bg {
   background:
-    radial-gradient(900px 420px at 8% -12%, rgba(201, 163, 106, 0.08), transparent 52%),
-    radial-gradient(720px 360px at 100% 0%, rgba(125, 155, 184, 0.05), transparent 48%),
+    radial-gradient(900px 420px at 8% -12%, rgba(91, 156, 255, 0.12), transparent 52%),
+    radial-gradient(720px 360px at 100% 0%, rgba(30, 58, 95, 0.35), transparent 48%),
     var(--background);
 }
 
@@ -237,7 +237,7 @@ body {
 }
 
 .apple-vibrancy-header {
-  background: linear-gradient(180deg, rgba(45, 45, 48, 0.98) 0%, rgba(29, 29, 31, 1) 100%);
+  background: linear-gradient(180deg, #1e3a5f 0%, #0f1c33 100%);
 }
 
 /* ─── Accent text (no gradients) ───────────────────────────────── */
@@ -578,5 +578,51 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .jm-confetti {
     display: none;
+  }
+}
+
+/* ─── iOS UIActivityIndicatorView (12 fading spokes) ─────────────── */
+.apple-activity-indicator {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  color: #8e8e93;
+}
+
+.dark .apple-activity-indicator {
+  color: rgba(235, 235, 245, 0.6);
+}
+
+.apple-activity-indicator > span {
+  position: absolute;
+  inset: 0;
+  transform: rotate(calc(var(--i) * 30deg));
+}
+
+.apple-activity-indicator > span::before {
+  content: "";
+  display: block;
+  width: 11%;
+  height: 28%;
+  margin: 0 auto;
+  border-radius: 999px;
+  background: currentColor;
+  animation: apple-activity-fade 1s linear infinite;
+  animation-delay: calc((var(--i) * 0.08333s) - 1s);
+}
+
+@keyframes apple-activity-fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.12;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apple-activity-indicator > span::before {
+    animation: none;
+    opacity: 0.4;
   }
 }

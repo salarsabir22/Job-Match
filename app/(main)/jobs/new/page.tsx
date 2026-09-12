@@ -47,6 +47,9 @@ export default function NewJobPage() {
   const [category, setCategory] = useState("")
   const [reqSkillInput, setReqSkillInput] = useState("")
   const [nthSkillInput, setNthSkillInput] = useState("")
+  const [salaryMin, setSalaryMin] = useState("")
+  const [salaryMax, setSalaryMax] = useState("")
+  const [salaryNote, setSalaryNote] = useState("")
 
   const addSkill = (skill: string, list: string[], setList: (v: string[]) => void, clear: () => void) => {
     const s = skill.trim()
@@ -76,10 +79,20 @@ export default function NewJobPage() {
       nice_to_have_skills: niceToHaveSkills,
     }
     if (category) payload.category = category
+    const min = salaryMin ? Number(salaryMin) : null
+    const max = salaryMax ? Number(salaryMax) : null
+    if (min) payload.salary_min = min
+    if (max) payload.salary_max = max
+    if (salaryNote.trim()) payload.compensation_note = salaryNote.trim()
+    payload.salary_currency = "PKR"
 
     const { error } = await supabase.from("jobs").insert(payload)
-    if (error && category) {
+    if (error && (category || min || max || salaryNote.trim())) {
       delete payload.category
+      delete payload.salary_min
+      delete payload.salary_max
+      delete payload.compensation_note
+      delete payload.salary_currency
       const retry = await supabase.from("jobs").insert(payload)
       if (retry.error) {
         toast({ variant: "destructive", title: "Failed to post job", description: retry.error.message })
@@ -94,7 +107,7 @@ export default function NewJobPage() {
     if (category) {
       void notifyNewJobsInCategory(supabase, { category })
     }
-    toast({ title: "Job posted 🎉", description: "It's live. Time to watch the applications roll in." })
+    toast({ title: "Job posted", description: "It's live. Applications will show up in Pipeline." })
     router.push("/jobs")
   }
 
@@ -198,6 +211,41 @@ export default function NewJobPage() {
               >
                 Remote
               </Button>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="salary-min">Salary min (PKR)</Label>
+                <Input
+                  id="salary-min"
+                  className="h-11 rounded-xl"
+                  inputMode="numeric"
+                  placeholder="e.g. 80000"
+                  value={salaryMin}
+                  onChange={(e) => setSalaryMin(e.target.value.replace(/[^\d]/g, ""))}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="salary-max">Salary max (PKR)</Label>
+                <Input
+                  id="salary-max"
+                  className="h-11 rounded-xl"
+                  inputMode="numeric"
+                  placeholder="e.g. 150000"
+                  value={salaryMax}
+                  onChange={(e) => setSalaryMax(e.target.value.replace(/[^\d]/g, ""))}
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="salary-note">Pay note (optional)</Label>
+              <Input
+                id="salary-note"
+                className="h-11 rounded-xl"
+                placeholder="e.g. stipend + lunch, equity TBD"
+                value={salaryNote}
+                onChange={(e) => setSalaryNote(e.target.value)}
+              />
             </div>
 
             <Separator />

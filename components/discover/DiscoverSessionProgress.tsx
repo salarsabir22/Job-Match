@@ -7,21 +7,31 @@ type DiscoverSessionProgressProps = {
   total: number
   loadedAt: Date | null
   className?: string
+  noun?: string
+  description?: string
 }
 
-export function DiscoverSessionProgress({ position, total, loadedAt, className }: DiscoverSessionProgressProps) {
+export function DiscoverSessionProgress({
+  position,
+  total,
+  loadedAt,
+  className,
+  noun = "roles",
+  description,
+}: DiscoverSessionProgressProps) {
   const pct = total > 0 ? Math.round(((position - 1) / total) * 100) : 0
+  const copy =
+    description ??
+    `Up to 20 ${noun} per load, newest first. Passing doesn’t notify anyone.`
 
   return (
     <Card className={cn("overflow-hidden p-4 shadow-sm sm:p-5", className)}>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
         <div className="min-w-0 space-y-0.5">
           <p className="font-body text-sm font-semibold tracking-tight text-foreground">
-            Session · Card {position} of {total}
+            Session · Card {Math.min(position, Math.max(total, 1))} of {total}
           </p>
-          <p className="font-body text-xs text-muted-foreground">
-            Up to 20 roles per load, newest first. Passing doesn&apos;t notify anyone.
-          </p>
+          <p className="font-body text-xs text-muted-foreground">{copy}</p>
         </div>
         {loadedAt ? (
           <p className="shrink-0 font-data text-[11px] tabular-nums text-muted-foreground sm:text-right">

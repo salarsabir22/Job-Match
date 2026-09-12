@@ -1,4 +1,5 @@
 import { coalesceRelation } from "@/lib/dashboard/relations"
+import { getBlockedPeerIds } from "@/lib/moderation/blocks"
 import type { SupabaseClient } from "@supabase/supabase-js"
 
 export type ChatPeer = {
@@ -24,6 +25,7 @@ export type InboxConversation = {
   peer: ChatPeer
   lastMessage: ChatLastMessage | null
   unreadCount: number
+  muted?: boolean
 }
 
 type MatchJoin = {
@@ -66,7 +68,7 @@ export async function loadInbox(
 
   if (!parsed.length) return []
 
-  const [{ data: profiles }, { data: messages }] = await Promise.all([
+  const [{ data: profiles }, { data: messages }, blocked, mutesRes] = await Promise.all([
     supabase.from("profiles").select("id, full_name, avatar_url").in("id", [...peerIds]),
     supabase
       .from("messages")
@@ -77,7 +79,11 @@ export async function loadInbox(
       )
       .order("created_at", { ascending: false })
       .limit(800),
+    getBlockedPeerIds(supabase, userId),
+    supabase.from("conversation_mutes").select("conversation_id").eq("user_id", userId),
   ])
+
+  const mutedIds = new Set((mutesRes.data || []).map((row) => row.conversation_id as string))
 
   const profileById = new Map((profiles ?? []).map((p) => [p.id as string, p as ChatPeer]))
   const lastByConvo = new Map<string, ChatLastMessage>()
@@ -101,6 +107,7 @@ export async function loadInbox(
   }
 
   return parsed
+    .filter((row) => !blocked.has(row.peerId))
     .map((row) => ({
       id: row.id,
       matchId: row.matchId,
@@ -110,7 +117,8 @@ export async function loadInbox(
         profilePath: row.peerIsRecruiter ? `/company/${row.peerId}` : `/candidates/${row.peerId}`,
       },
       lastMessage: lastByConvo.get(row.id) ?? null,
-      unreadCount: unreadByConvo.get(row.id) ?? 0,
+      unreadCount: mutedIds.has(row.id) ? 0 : unreadByConvo.get(row.id) ?? 0,
+      muted: mutedIds.has(row.id),
     }))
     .sort((a, b) => {
       const aTime = a.lastMessage?.created_at || parsed.find((p) => p.id === a.id)?.createdAt || ""
@@ -125,9 +133,24 @@ export function previewText(
   currentUserId: string,
   messageType?: string | null
 ) {
-  const isVoice = messageType === "voice"
-  const body = isVoice ? "Voice message" : content?.trim() || "No messages yet"
-  if (!isVoice && !content?.trim()) return "No messages yet"
+  const body =
+    messageType === "voice"
+      ? "Voice message"
+      : messageType === "image"
+        ? content?.trim() && content.trim() !== "Photo"
+          ? `Photo · ${content.trim()}`
+          : "Photo"
+        : messageType === "video"
+          ? content?.trim() && content.trim() !== "Video"
+            ? `Video · ${content.trim()}`
+            : "Video"
+          : messageType === "audio"
+            ? "Audio"
+            : messageType === "file"
+              ? content?.trim() || "File"
+              : content?.trim() || "No messages yet"
+  if (messageType === "text" && !content?.trim()) return "No messages yet"
+  if (!messageType && !content?.trim()) return "No messages yet"
   if (senderId === currentUserId) return `You: ${body}`
   return body
 }

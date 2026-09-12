@@ -27,7 +27,7 @@ function notifyShareResult(
   result: "shared" | "copied" | "aborted" | "failed"
 ) {
   if (result === "copied") {
-    toast({ title: "Link copied ✨", description: "Send it to whoever needs it." })
+    toast({ title: "Link copied", description: "Anyone with the link can open this profile." })
   } else if (result === "failed") {
     toast({ variant: "destructive", title: "Could not copy link" })
   }

@@ -8,11 +8,13 @@ export function MatchChatClient({
   currentUserId,
   peer,
   jobTitle,
+  matchId,
 }: {
   conversationId: string
   currentUserId: string
   peer: ChatPeer
   jobTitle?: string | null
+  matchId?: string | null
 }) {
   return (
     <ChatThread
@@ -20,6 +22,7 @@ export function MatchChatClient({
       currentUserId={currentUserId}
       peer={peer}
       jobTitle={jobTitle}
+      matchId={matchId}
       backHref="/chat"
     />
   )

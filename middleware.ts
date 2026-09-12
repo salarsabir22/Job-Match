@@ -13,8 +13,16 @@ const PUBLIC_PREFIXES = [
   "/company",
 ]
 
+function isPublicJobDetail(pathname: string) {
+  return /^\/jobs\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(pathname)
+}
+
 function isPublicPath(pathname: string) {
-  return pathname === "/" || PUBLIC_PREFIXES.some((p) => pathname.startsWith(p))
+  return (
+    pathname === "/" ||
+    PUBLIC_PREFIXES.some((p) => pathname.startsWith(p)) ||
+    isPublicJobDetail(pathname)
+  )
 }
 
 function hasSupabaseSessionCookie(request: NextRequest) {

@@ -18,7 +18,7 @@ export default function FeedbackPage() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!liked.trim() && !disliked.trim() && !improve.trim()) {
-      toast({ variant: "destructive", title: "Write something first", description: "Even a vibe check counts." })
+      toast({ variant: "destructive", title: "Write something first", description: "Add at least one comment so we can act on it." })
       return
     }
     setSending(true)
@@ -45,16 +45,16 @@ export default function FeedbackPage() {
     setLiked("")
     setDisliked("")
     setImprove("")
-    toast({ title: "Got it 💌", description: "Thanks for keeping us honest." })
+    toast({ title: "Thanks", description: "We’ll read this and use it to improve the product." })
   }
 
   return (
     <div className="mx-auto max-w-xl space-y-6">
       <div>
-        <p className="font-data text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Spill the tea</p>
+        <p className="font-data text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Product</p>
         <h1 className="mt-1 font-heading text-2xl font-semibold tracking-tight">Feedback</h1>
         <p className="mt-2 font-body text-sm text-muted-foreground">
-          Built by gen-z, for gen-z. If something slaps or slaps you in the face, say it.
+          Tell us what works, what doesn’t, and what to build next.
         </p>
       </div>
 
@@ -65,31 +65,31 @@ export default function FeedbackPage() {
         <CardContent>
           <form onSubmit={(e) => void submit(e)} className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="liked">What you like 💚</Label>
+              <Label htmlFor="liked">What you like</Label>
               <Textarea
                 id="liked"
                 className="min-h-[88px] rounded-xl"
-                placeholder="The swipe feed, the chat, the whole vibe…"
+                placeholder="Discover, chat, applications — whatever is working."
                 value={liked}
                 onChange={(e) => setLiked(e.target.value)}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="disliked">What you dislike 🫠</Label>
+              <Label htmlFor="disliked">What isn’t working</Label>
               <Textarea
                 id="disliked"
                 className="min-h-[88px] rounded-xl"
-                placeholder="Be honest. We can take it."
+                placeholder="Be specific. Bugs, confusing copy, missing context."
                 value={disliked}
                 onChange={(e) => setDisliked(e.target.value)}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="improve">What we should cook next 🔥</Label>
+              <Label htmlFor="improve">What we should add next</Label>
               <Textarea
                 id="improve"
                 className="min-h-[88px] rounded-xl"
-                placeholder="Features, copy, bugs, random ideas…"
+                placeholder="Features, copy, or anything you expected and didn’t find."
                 value={improve}
                 onChange={(e) => setImprove(e.target.value)}
               />

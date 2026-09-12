@@ -1,5 +1,6 @@
 "use client"
 
+import { BellOff } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ChatUserAvatar } from "@/components/chat/ChatUserAvatar"
 import { formatPreviewTime } from "@/components/chat/chat-helpers"
@@ -67,7 +68,9 @@ export function ChatChannelPreview({
           {preview}
         </p>
       </div>
-      {hasUnread ? (
+      {conversation.muted ? (
+        <BellOff className="h-3.5 w-3.5 shrink-0 text-muted-foreground" aria-label="Muted" />
+      ) : hasUnread ? (
         <Badge className="h-5 min-w-5 justify-center px-1.5">
           {conversation.unreadCount > 9 ? "9+" : conversation.unreadCount}
         </Badge>

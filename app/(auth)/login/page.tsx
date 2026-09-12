@@ -5,6 +5,11 @@ import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"
 import { Loader2, Eye, EyeOff } from "lucide-react"
 import { safeInternalPath } from "@/lib/utils"
+import {
+  isStudentOnboardingComplete,
+  postAuthRedirect,
+  STUDENT_ONBOARDING_SELECT,
+} from "@/lib/profile/completeness"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -68,12 +73,20 @@ export default function LoginPage() {
     setSuccess(true)
     const next = safeInternalPath(new URLSearchParams(window.location.search).get("next"))
     const { data: profile } = await supabase.from("profiles").select("role").eq("id", data.user.id).maybeSingle()
-    if (!profile) window.location.href = "/onboarding"
-    else if (next) window.location.href = next
-    else if (profile.role === "student") window.location.href = "/discover"
-    else if (profile.role === "recruiter") window.location.href = "/jobs"
-    else if (profile.role === "admin") window.location.href = "/admin/users"
-    else window.location.href = "/onboarding"
+    let studentReady = false
+    if (profile?.role === "student") {
+      const { data: student } = await supabase
+        .from("student_profiles")
+        .select(STUDENT_ONBOARDING_SELECT)
+        .eq("id", data.user.id)
+        .maybeSingle()
+      studentReady = isStudentOnboardingComplete(student)
+    }
+    window.location.href = postAuthRedirect({
+      role: profile?.role,
+      studentReady,
+      next,
+    })
   }
 
   const handleGoogleLogin = async () => {

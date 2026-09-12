@@ -1,12 +1,16 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
-import { ChevronLeft } from "lucide-react"
+import { Bell, BellOff, Calendar, ChevronLeft, Share2 } from "lucide-react"
 import { ChatUserAvatar } from "@/components/chat/ChatUserAvatar"
-import { ShareButton } from "@/components/share/ShareButton"
+import { ReportBlockMenu } from "@/components/moderation/ReportBlockMenu"
+import { InterviewProposeButton } from "@/components/chat/InterviewProposeButton"
+import { shareOrCopyLink } from "@/lib/share/share-link"
+import { useToast } from "@/lib/hooks/use-toast"
 import type { ChatPeer } from "@/lib/chat/inbox"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
 
 type ChatChannelHeaderProps = {
   peer: ChatPeer
@@ -14,6 +18,12 @@ type ChatChannelHeaderProps = {
   typing?: boolean
   backHref?: string
   onBack?: () => void
+  currentUserId?: string
+  onBlocked?: () => void
+  muted?: boolean
+  onToggleMute?: () => void
+  matchId?: string | null
+  conversationId?: string
 }
 
 export function ChatChannelHeader({
@@ -22,12 +32,21 @@ export function ChatChannelHeader({
   typing,
   backHref,
   onBack,
+  currentUserId,
+  onBlocked,
+  muted,
+  onToggleMute,
+  matchId,
+  conversationId,
 }: ChatChannelHeaderProps) {
+  const { toast } = useToast()
+  const [interviewOpen, setInterviewOpen] = useState(false)
   const name = peer.full_name || "Match"
   const profileHref = peer.profilePath
   const title = (
     <p className="truncate font-heading text-sm font-semibold tracking-tight text-foreground">{name}</p>
   )
+  const canInterview = Boolean(currentUserId && matchId && conversationId)
 
   return (
     <header className="relative flex shrink-0 items-center gap-3 border-b border-border bg-card/70 px-3 py-3 backdrop-blur-xl">
@@ -77,18 +96,54 @@ export function ChatChannelHeader({
           <p className="text-xs text-muted-foreground">Direct message</p>
         )}
       </div>
-      {jobTitle ? (
-        <Badge variant="outline" className="hidden max-w-[10rem] truncate sm:inline-flex">
-          {jobTitle}
-        </Badge>
+
+      {currentUserId && peer.id !== currentUserId ? (
+        <ReportBlockMenu
+          currentUserId={currentUserId}
+          peerId={peer.id}
+          peerName={name}
+          onBlocked={onBlocked}
+          extraItems={
+            <>
+              {canInterview ? (
+                <DropdownMenuItem onSelect={() => setInterviewOpen(true)}>
+                  <Calendar />
+                  Propose interview
+                </DropdownMenuItem>
+              ) : null}
+              {profileHref ? (
+                <DropdownMenuItem
+                  onSelect={() => {
+                    void shareOrCopyLink({ path: profileHref, title: name }).then((result) => {
+                      if (result === "copied") toast({ title: "Link copied", description: "Anyone with the link can open this profile." })
+                      if (result === "failed") toast({ variant: "destructive", title: "Could not copy link" })
+                    })
+                  }}
+                >
+                  <Share2 />
+                  Share profile
+                </DropdownMenuItem>
+              ) : null}
+              {onToggleMute ? (
+                <DropdownMenuItem onSelect={() => onToggleMute()}>
+                  {muted ? <BellOff /> : <Bell />}
+                  {muted ? "Unmute" : "Mute"}
+                </DropdownMenuItem>
+              ) : null}
+            </>
+          }
+        />
       ) : null}
-      {profileHref ? (
-        <ShareButton
-          path={profileHref}
-          title={name}
-          label="Share profile"
-          size="icon"
-          variant="ghost"
+
+      {canInterview && currentUserId && matchId && conversationId ? (
+        <InterviewProposeButton
+          matchId={matchId}
+          conversationId={conversationId}
+          currentUserId={currentUserId}
+          peerId={peer.id}
+          trigger="none"
+          open={interviewOpen}
+          onOpenChange={setInterviewOpen}
         />
       ) : null}
     </header>

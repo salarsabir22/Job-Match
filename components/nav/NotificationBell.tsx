@@ -7,7 +7,6 @@ import { createClient } from "@/lib/supabase/client"
 import { formatTime, cn } from "@/lib/utils"
 import { resolveNotificationPath } from "@/lib/chat-navigation"
 import type { Notification } from "@/types"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -95,17 +94,15 @@ export function NotificationBell() {
         variant="ghost"
         size="icon"
         onClick={() => setOpen((v) => !v)}
-        className="relative h-9 w-9 text-muted-foreground hover:text-foreground"
+        className="relative h-9 w-9 rounded-full text-muted-foreground hover:bg-foreground/[0.05] hover:text-foreground"
         title="Notifications"
-        aria-label="Notifications"
+        aria-label={unreadCount > 0 ? `Notifications, ${unreadCount} unread` : "Notifications"}
         aria-expanded={open}
       >
-        <Bell className="h-4 w-4" />
-        {unreadCount > 0 && (
-          <Badge className="absolute -right-1 -top-1 h-4 min-w-4 justify-center px-1 text-[9px] leading-none">
-            {unreadCount > 99 ? "99+" : unreadCount}
-          </Badge>
-        )}
+        <Bell className="h-[18px] w-[18px]" strokeWidth={1.75} />
+        {unreadCount > 0 ? (
+          <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-primary ring-2 ring-background" aria-hidden />
+        ) : null}
       </Button>
 
       {open && (

@@ -114,7 +114,15 @@ export function ChatInboxClient({ currentUserId }: { currentUserId: string }) {
             currentUserId={currentUserId}
             peer={active.peer}
             jobTitle={active.jobTitle}
+            matchId={active.matchId}
             onBack={() => setActiveId(null)}
+            onMuteChange={(muted) =>
+              setConversations((prev) =>
+                prev.map((c) =>
+                  c.id === active.id ? { ...c, muted, unreadCount: muted ? 0 : c.unreadCount } : c
+                )
+              )
+            }
           />
         ) : (
           <ChatSelectPlaceholder />
