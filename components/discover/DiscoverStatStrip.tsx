@@ -38,7 +38,7 @@ export function DiscoverStatStrip({ items, caption, className, columns = 3 }: Di
             <div
               key={label}
               className={cn(
-                "group relative px-4 py-4 text-center sm:px-5 sm:text-left",
+                "group relative px-2.5 py-3 text-center sm:px-5 sm:py-4 sm:text-left",
                 columns === 4 && "bg-card"
               )}
               title={hint}
@@ -49,7 +49,7 @@ export function DiscoverStatStrip({ items, caption, className, columns = 3 }: Di
                 ) : null}
                 <p className="font-heading text-2xl font-semibold tabular-nums tracking-tight text-foreground">{value}</p>
               </div>
-              <p className="mt-1 font-body text-[11px] font-medium text-muted-foreground">{label}</p>
+              <p className="mt-1 font-body text-[11px] font-medium leading-tight text-muted-foreground">{label}</p>
               {sub ? <p className="mt-0.5 font-body text-[10px] text-muted-foreground/90">{sub}</p> : null}
             </div>
           ))}

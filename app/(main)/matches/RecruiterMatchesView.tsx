@@ -3,18 +3,30 @@
 import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import Link from "next/link"
+import { Archive, Columns3, LayoutList, MessageCircle, Star, Users } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Star, Archive, Columns3, LayoutList } from "lucide-react"
+import { DashboardEmptyState } from "@/components/dashboard/DashboardEmptyState"
+import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader"
 import { getInitials, formatDate, cn } from "@/lib/utils"
 import { useToast } from "@/lib/hooks/use-toast"
 import { PIPELINE_LABEL, PIPELINE_STATUSES, type PipelineStatus } from "@/lib/match/fit"
 import { AppleActivityIndicator } from "@/components/ui/apple-activity-indicator"
+import { ShowMoreButton, ShowMoreList } from "@/components/ui/show-more-list"
+
+const BOARD_STAGES = ["chatting", "interview", "offer", "hired"] as const satisfies readonly PipelineStatus[]
+const STAGE_TAB_LABEL: Record<(typeof BOARD_STAGES)[number] | "archived", string> = {
+  chatting: "Chat",
+  interview: "Interview",
+  offer: "Offer",
+  hired: "Hired",
+  archived: "Archive",
+}
 
 interface OverallStats {
   totalMatches: number
@@ -54,11 +66,14 @@ type MatchRow = {
   conversations?: { id: string }[] | { id: string } | null
 }
 
+type StageTab = (typeof BOARD_STAGES)[number] | "archived"
+
 export function RecruiterMatchesView({ userId }: { userId: string }) {
   const { toast } = useToast()
   const [matches, setMatches] = useState<MatchRow[]>([])
   const [loading, setLoading] = useState(true)
   const [tab, setTab] = useState<"all" | "starred" | "archived">("all")
+  const [stage, setStage] = useState<StageTab>("chatting")
   const [layout, setLayout] = useState<"board" | "list">("board")
   const [overallStats, setOverallStats] = useState<OverallStats>({
     totalMatches: 0,
@@ -147,6 +162,13 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
   const shortlisted = matches.filter((m) => m.is_shortlisted && !m.is_archived)
   const archived = matches.filter((m) => m.is_archived)
   const displayed = tab === "all" ? active : tab === "starred" ? shortlisted : archived
+  const stageCounts: Record<StageTab, number> = {
+    chatting: active.filter((m) => (m.pipeline_status || "chatting") === "chatting").length,
+    interview: active.filter((m) => m.pipeline_status === "interview").length,
+    offer: active.filter((m) => m.pipeline_status === "offer").length,
+    hired: active.filter((m) => m.pipeline_status === "hired").length,
+    archived: archived.length,
+  }
 
   const MatchCard = ({ match, compact }: { match: MatchRow; compact?: boolean }) => {
     const profile = match.profiles
@@ -156,39 +178,110 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
       ? match.conversations?.[0]?.id
       : match.conversations?.id
     const skills = sp?.skills?.slice(0, 3) || []
-
     const schoolLine = [sp?.university, sp?.graduation_year].filter(Boolean).join(" · ")
+    const status = ((match.pipeline_status as PipelineStatus) || "chatting") as PipelineStatus
+
+    const statusSelect = (
+      <Select value={status} onValueChange={(value) => void updatePipeline(match.id, value as PipelineStatus)}>
+        <SelectTrigger
+          className={cn("rounded-full bg-muted/70 text-xs shadow-none", compact ? "h-8 w-[8.25rem]" : "h-9 w-full sm:w-[180px]")}
+          aria-label="Pipeline status"
+        >
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {PIPELINE_STATUSES.map((item) => (
+            <SelectItem key={item} value={item}>
+              {PIPELINE_LABEL[item]}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    )
+
+    if (compact) {
+      return (
+        <div className="flex items-start gap-3 px-3 py-3">
+          <Avatar className="h-11 w-11 shrink-0 ring-1 ring-border">
+            <AvatarImage src={profile?.avatar_url || undefined} />
+            <AvatarFallback className="bg-primary/10 text-sm font-semibold text-primary">
+              {getInitials(profile?.full_name || "?")}
+            </AvatarFallback>
+          </Avatar>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-start justify-between gap-2">
+              <div className="min-w-0">
+                <p className="truncate font-heading text-[15px] font-semibold tracking-tight text-foreground">
+                  {profile?.full_name}
+                </p>
+                <p className="mt-0.5 truncate font-body text-xs text-muted-foreground">
+                  {match.jobs?.title || "Role"}
+                  {schoolLine ? ` · ${schoolLine}` : ""}
+                </p>
+              </div>
+              <Button
+                type="button"
+                size="icon"
+                variant="ghost"
+                className="h-8 w-8 shrink-0"
+                onClick={() => toggleShortlist(match.id, !!match.is_shortlisted)}
+                aria-label={match.is_shortlisted ? "Remove from shortlist" : "Add to shortlist"}
+              >
+                <Star className={cn("h-4 w-4", match.is_shortlisted && "fill-primary text-primary")} strokeWidth={1.5} />
+              </Button>
+            </div>
+            <div className="mt-2.5 flex items-center gap-2">
+              {statusSelect}
+              <Button asChild size="sm" className="h-8 min-w-0 flex-1">
+                <Link href={`/chat/${convId || match.id}`}>
+                  <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+                  Message
+                </Link>
+              </Button>
+              <Button
+                type="button"
+                size="icon"
+                variant="ghost"
+                className="h-8 w-8 shrink-0"
+                onClick={() => toggleArchive(match.id, !!match.is_archived)}
+                aria-label={match.is_archived ? "Unarchive" : "Archive"}
+              >
+                <Archive className="h-4 w-4" strokeWidth={1.5} />
+              </Button>
+            </div>
+          </div>
+        </div>
+      )
+    }
 
     return (
       <Card>
-        <CardContent className={cn("flex items-start", compact ? "gap-3 p-3" : "gap-4 p-4 sm:p-5")}>
-          <Avatar className={cn("shrink-0 ring-1 ring-border", compact ? "h-10 w-10" : "h-12 w-12")}>
+        <CardContent className="flex items-start gap-4 p-4 sm:p-5">
+          <Avatar className="h-12 w-12 shrink-0 ring-1 ring-border">
             <AvatarImage src={profile?.avatar_url || undefined} />
-            <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">
+            <AvatarFallback className="bg-primary/10 text-sm font-semibold text-primary">
               {getInitials(profile?.full_name || "?")}
             </AvatarFallback>
           </Avatar>
 
-          <div className="flex-1 min-w-0">
+          <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <p className="font-heading font-semibold text-sm text-foreground truncate">{profile?.full_name}</p>
-                <p className="font-body text-xs text-muted-foreground truncate mt-0.5">
+                <p className="truncate font-heading text-sm font-semibold text-foreground">{profile?.full_name}</p>
+                <p className="mt-0.5 truncate font-body text-xs text-muted-foreground">
                   {match.jobs?.title ? `For ${match.jobs.title}` : "Role"}
                 </p>
-                {schoolLine && (
-                  <p className="font-body text-[11px] text-muted-foreground mt-1 truncate">{schoolLine}</p>
-                )}
+                {schoolLine ? (
+                  <p className="mt-1 truncate font-body text-[11px] text-muted-foreground">{schoolLine}</p>
+                ) : null}
               </div>
-              {compact ? null : (
-                <time className="font-body text-[11px] text-muted-foreground shrink-0 tabular-nums">
-                  {formatDate(match.created_at)}
-                </time>
-              )}
+              <time className="shrink-0 font-body text-[11px] tabular-nums text-muted-foreground">
+                {formatDate(match.created_at)}
+              </time>
             </div>
 
-            {skills.length > 0 && !compact && (
-              <div className="flex flex-wrap gap-1.5 mt-3">
+            {skills.length > 0 ? (
+              <div className="mt-3 flex flex-wrap gap-1.5">
                 {skills.map((s: string) => (
                   <Badge key={s} variant="secondary">
                     {s}
@@ -198,54 +291,23 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
                   <Badge variant="outline">+{(sp?.skills?.length || 0) - 3}</Badge>
                 )}
               </div>
-            )}
+            ) : null}
 
-            <div className={cn("space-y-2", compact ? "mt-2" : "mt-3")}>
-              <Select
-                value={(match.pipeline_status as PipelineStatus) || "chatting"}
-                onValueChange={(value) => void updatePipeline(match.id, value as PipelineStatus)}
-              >
-                <SelectTrigger className={cn("w-full rounded-full", compact ? "h-8 text-xs" : "h-9 sm:w-[180px]")} aria-label="Pipeline status">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {PIPELINE_STATUSES.map((status) => (
-                    <SelectItem key={status} value={status}>
-                      {PIPELINE_LABEL[status]}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {compact ? null : (
-                <MatchNotes
-                  matchId={match.id}
-                  initial={match.recruiter_notes || ""}
-                  onSave={saveNotes}
-                />
-              )}
+            <div className="mt-3 space-y-2">
+              {statusSelect}
+              <MatchNotes matchId={match.id} initial={match.recruiter_notes || ""} onSave={saveNotes} />
             </div>
           </div>
         </CardContent>
 
-        {compact ? (
-          <CardContent className="border-t border-border px-3 py-2.5">
-            <Button asChild size="sm" className="h-8 w-full">
-              <Link href={`/chat/${convId || match.id}`}>Open chat</Link>
-            </Button>
-          </CardContent>
-        ) : (
         <CardContent className="flex flex-col gap-3 border-t border-border px-4 pb-4 pt-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
           <div className="flex flex-wrap gap-2">
-            {match.is_shortlisted && (
-              <Badge>Shortlisted for {match.jobs?.title || "this role"}</Badge>
-            )}
-            {convId && <Badge variant="outline">In chat</Badge>}
-            {match.pipeline_status && match.pipeline_status !== "chatting" ? (
-              <Badge variant="secondary">{PIPELINE_LABEL[match.pipeline_status as PipelineStatus] || match.pipeline_status}</Badge>
-            ) : null}
+            {match.is_shortlisted ? <Badge>Shortlisted for {match.jobs?.title || "this role"}</Badge> : null}
+            {convId ? <Badge variant="outline">In chat</Badge> : null}
+            {status !== "chatting" ? <Badge variant="secondary">{PIPELINE_LABEL[status]}</Badge> : null}
           </div>
 
-          <div className="flex items-center gap-2 justify-end">
+          <div className="flex min-w-0 flex-wrap items-center justify-end gap-2">
             <Button
               type="button"
               size="icon"
@@ -274,14 +336,30 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
             </Button>
           </div>
         </CardContent>
-        )}
       </Card>
     )
   }
 
+  const renderStageEmpty = (status: StageTab) => (
+    <DashboardEmptyState
+      icon={Users}
+      title={status === "archived" ? "Nothing archived" : `No one in ${PIPELINE_LABEL[status] || STAGE_TAB_LABEL[status]}`}
+      description={
+        status === "archived"
+          ? "Archive clears your main list without losing history."
+          : matches.length === 0
+            ? "When you and a candidate both show interest, they appear here."
+            : "Move someone here from another stage when you’re ready."
+      }
+      primaryAction={
+        matches.length === 0 && status !== "archived" ? { href: "/discover", label: "Discover candidates" } : undefined
+      }
+    />
+  )
+
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-32 gap-3">
+      <div className="flex flex-col items-center justify-center gap-3 py-32">
         <AppleActivityIndicator size={36} />
         <p className="font-body text-[13px] font-medium tracking-[-0.01em] text-muted-foreground">Loading matches…</p>
       </div>
@@ -289,46 +367,39 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
   }
 
   return (
-    <div className="space-y-8">
-      <header className="flex flex-col gap-3 min-w-0 sm:flex-row sm:items-end sm:justify-between">
-        <div className="space-y-1 min-w-0">
-          <h1 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-[1.75rem]">Pipeline</h1>
-          <p className="font-body text-sm text-muted-foreground">
-            {matches.length === 0
-              ? "When you shortlist someone, they land here with the job attached."
-              : `${matches.length} candidate${matches.length !== 1 ? "s" : ""} across your roles.`}
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <Button
-            type="button"
-            size="sm"
-            variant={layout === "board" ? "secondary" : "outline"}
-            className="rounded-full"
-            onClick={() => setLayout("board")}
-          >
-            <Columns3 className="h-4 w-4" />
-            Board
-          </Button>
-          <Button
-            type="button"
-            size="sm"
-            variant={layout === "list" ? "secondary" : "outline"}
-            className="rounded-full"
-            onClick={() => setLayout("list")}
-          >
-            <LayoutList className="h-4 w-4" />
-            List
-          </Button>
-          {overallStats.inConversation > 0 ? (
-            <Button asChild>
-              <Link href="/chat">Open inbox</Link>
-            </Button>
-          ) : null}
-        </div>
-      </header>
+    <div className="space-y-5 lg:space-y-8">
+      <DashboardPageHeader
+        eyebrow="Recruiting"
+        title="Pipeline"
+        description={
+          matches.length === 0
+            ? "When you shortlist someone, they land here with the job attached."
+            : `${matches.length} candidate${matches.length !== 1 ? "s" : ""} across your roles.`
+        }
+        action={
+          <div className="hidden items-center gap-2 lg:flex">
+            <Tabs value={layout} onValueChange={(value) => setLayout(value as typeof layout)}>
+              <TabsList className="h-9">
+                <TabsTrigger value="board" className="gap-1.5 px-3 text-xs">
+                  <Columns3 className="h-3.5 w-3.5" />
+                  Board
+                </TabsTrigger>
+                <TabsTrigger value="list" className="gap-1.5 px-3 text-xs">
+                  <LayoutList className="h-3.5 w-3.5" />
+                  List
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+            {overallStats.inConversation > 0 ? (
+              <Button asChild>
+                <Link href="/chat">Open inbox</Link>
+              </Button>
+            ) : null}
+          </div>
+        }
+      />
 
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="hidden gap-3 lg:grid lg:grid-cols-4">
         {[
           { label: "Total", value: overallStats.totalMatches },
           { label: "Shortlisted", value: overallStats.shortlisted },
@@ -344,80 +415,140 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
         ))}
       </div>
 
-      {matches.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Pipeline</CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-wrap items-end gap-x-6 gap-y-4">
-            {[
-              { label: "Matched", value: matches.length },
-              { label: "Interview", value: matches.filter((m) => m.pipeline_status === "interview").length },
-              { label: "Offer", value: matches.filter((m) => m.pipeline_status === "offer").length },
-              { label: "Hired", value: matches.filter((m) => m.pipeline_status === "hired").length },
-            ].map(({ label, value }) => (
-              <div key={label} className="min-w-[4.5rem]">
-                <p className="font-heading text-lg font-semibold tabular-nums text-foreground">{value}</p>
-                <p className="font-body text-[11px] text-muted-foreground mt-0.5">{label}</p>
-              </div>
+      <Tabs value={stage} onValueChange={(value) => setStage(value as StageTab)} className="lg:hidden">
+        <div className="sticky top-16 z-10 -mx-4 bg-background/95 px-4 py-2 backdrop-blur sm:-mx-6 sm:px-6">
+          <TabsList className="grid h-[3.35rem] w-full grid-cols-5 gap-0.5 rounded-xl p-1">
+            {([...BOARD_STAGES, "archived"] as const).map((status) => (
+              <TabsTrigger
+                key={status}
+                value={status}
+                className="group min-w-0 flex-col gap-0.5 rounded-lg px-0 py-1 text-[10px] font-medium leading-none sm:text-[11px]"
+              >
+                <span className="truncate">{STAGE_TAB_LABEL[status]}</span>
+                <span className="font-data text-[10px] tabular-nums text-muted-foreground group-data-[state=active]:text-primary">
+                  {stageCounts[status]}
+                </span>
+              </TabsTrigger>
             ))}
-          </CardContent>
-        </Card>
-      )}
-
-      <Tabs value={tab} onValueChange={(value) => setTab(value as typeof tab)}>
-        <TabsList className="grid h-auto w-full grid-cols-3">
-          <TabsTrigger value="all" className="py-2">All ({active.length})</TabsTrigger>
-          <TabsTrigger value="starred" className="py-2">Shortlisted ({shortlisted.length})</TabsTrigger>
-          <TabsTrigger value="archived" className="py-2">Archived ({archived.length})</TabsTrigger>
-        </TabsList>
+          </TabsList>
+        </div>
+        {([...BOARD_STAGES, "archived"] as const).map((status) => {
+          const rows =
+            status === "archived"
+              ? archived
+              : active.filter((m) => (m.pipeline_status || "chatting") === status)
+          return (
+            <TabsContent key={status} value={status} className="mt-3">
+              {rows.length === 0 ? (
+                renderStageEmpty(status)
+              ) : (
+                <div className="overflow-hidden rounded-xl border border-border bg-card">
+                  <ShowMoreList
+                    items={rows}
+                    getKey={(m) => m.id}
+                    initial={5}
+                    step={5}
+                    renderItem={(m, index) => (
+                      <div className={index > 0 ? "border-t border-border" : undefined}>
+                        <MatchCard match={m} compact />
+                      </div>
+                    )}
+                    footer={(remaining, showMore) => (
+                      <ShowMoreButton remaining={remaining} onClick={showMore} className="border-t border-border" />
+                    )}
+                  />
+                </div>
+              )}
+            </TabsContent>
+          )
+        })}
       </Tabs>
 
-      <div className="space-y-3">
+      <div className="hidden space-y-6 lg:block">
+        <Tabs value={tab} onValueChange={(value) => setTab(value as typeof tab)}>
+          <TabsList className="grid h-auto w-full max-w-md grid-cols-3">
+            <TabsTrigger value="all">All ({active.length})</TabsTrigger>
+            <TabsTrigger value="starred">Shortlisted ({shortlisted.length})</TabsTrigger>
+            <TabsTrigger value="archived">Archived ({archived.length})</TabsTrigger>
+          </TabsList>
+        </Tabs>
+
         {!displayed.length ? (
-          <Card className="px-6 py-16 text-center">
-            <CardContent className="pt-6">
-              <p className="mx-auto max-w-md font-body text-sm text-muted-foreground">
-                {tab === "all"
-                  ? "No matches yet. When you and a candidate both show interest, they appear here."
-                  : tab === "starred"
-                    ? "Shortlist candidates from this list to prioritise them."
-                    : "Nothing archived. Archive clears your main list without losing history."}
-              </p>
-              {tab === "all" && (
-                <Button asChild className="mt-6">
-                  <Link href="/discover">Discover candidates</Link>
-                </Button>
-              )}
-            </CardContent>
-          </Card>
+          <DashboardEmptyState
+            icon={Users}
+            title={tab === "all" ? "No matches yet" : tab === "starred" ? "No shortlisted candidates" : "Nothing archived"}
+            description={
+              tab === "all"
+                ? "When you and a candidate both show interest, they appear here."
+                : tab === "starred"
+                  ? "Star someone from this list to keep them at the top of your process."
+                  : "Archive clears your main list without losing history."
+            }
+            primaryAction={tab === "all" ? { href: "/discover", label: "Discover candidates" } : undefined}
+          />
         ) : layout === "board" && tab !== "archived" ? (
-          <div className="-mx-4 overflow-x-auto px-4 pb-2">
-            <div className="flex min-w-[52rem] gap-3 lg:min-w-0 lg:grid lg:grid-cols-4">
-              {(["chatting", "interview", "offer", "hired"] as PipelineStatus[]).map((status) => {
-                const column = displayed.filter((m) => (m.pipeline_status || "chatting") === status)
-                return (
-                  <div key={status} className="w-[16rem] shrink-0 space-y-3 lg:w-auto">
-                    <div className="flex items-center justify-between px-1">
-                      <p className="font-data text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
-                        {PIPELINE_LABEL[status]}
-                      </p>
-                      <span className="font-body text-xs tabular-nums text-muted-foreground">{column.length}</span>
-                    </div>
+          <div className="grid grid-cols-4 gap-3">
+            {BOARD_STAGES.map((status) => {
+              const column = displayed.filter((m) => (m.pipeline_status || "chatting") === status)
+              return (
+                <section key={status} className="min-w-0 rounded-xl bg-muted/50 p-2.5">
+                  <div className="mb-2 flex items-center justify-between px-1.5 pt-0.5">
+                    <p className="font-data text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                      {PIPELINE_LABEL[status]}
+                    </p>
+                    <span className="rounded-full bg-background px-1.5 py-0.5 font-data text-[10px] tabular-nums text-muted-foreground">
+                      {column.length}
+                    </span>
+                  </div>
+                  <div className="space-y-2">
                     {column.length === 0 ? (
-                      <div className="rounded-xl border border-dashed border-border px-3 py-8 text-center font-body text-xs text-muted-foreground">
+                      <div className="rounded-lg border border-dashed border-border px-3 py-10 text-center font-body text-xs text-muted-foreground">
                         Empty
                       </div>
                     ) : (
-                      column.map((m) => <MatchCard key={m.id} match={m} compact />)
+                      <ShowMoreList
+                        items={column}
+                        getKey={(m) => m.id}
+                        initial={4}
+                        step={4}
+                        renderItem={(m) => (
+                          <div className="overflow-hidden rounded-xl border border-border bg-card">
+                            <MatchCard match={m} compact />
+                          </div>
+                        )}
+                        footer={(remaining, showMore) => (
+                          <ShowMoreButton
+                            remaining={remaining}
+                            onClick={showMore}
+                            className="h-9 rounded-lg bg-background/80 text-xs"
+                          />
+                        )}
+                      />
                     )}
                   </div>
-                )
-              })}
-            </div>
+                </section>
+              )
+            })}
           </div>
         ) : (
-          displayed.map((m) => <MatchCard key={m.id} match={m} />)
+          <div className="space-y-3">
+            <ShowMoreList
+              items={displayed}
+              getKey={(m) => m.id}
+              initial={6}
+              step={6}
+              renderItem={(m) => <MatchCard match={m} />}
+              footer={(remaining, showMore) => (
+                <div className="flex justify-center pt-1">
+                  <ShowMoreButton
+                    remaining={remaining}
+                    onClick={showMore}
+                    className="h-10 w-auto rounded-full border border-border px-5"
+                  />
+                </div>
+              )}
+            />
+          </div>
         )}
       </div>
     </div>

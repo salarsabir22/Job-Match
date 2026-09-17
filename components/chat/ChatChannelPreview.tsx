@@ -6,7 +6,6 @@ import { ChatUserAvatar } from "@/components/chat/ChatUserAvatar"
 import { formatPreviewTime } from "@/components/chat/chat-helpers"
 import { previewText, type InboxConversation } from "@/lib/chat/inbox"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 
 export function ChatChannelPreview({
   conversation,
@@ -32,27 +31,28 @@ export function ChatChannelPreview({
   const hasUnread = conversation.unreadCount > 0
 
   return (
-    <Button
+    <button
       type="button"
-      variant="ghost"
       onClick={onSelect}
       className={cn(
-        "mx-2 mb-1 h-auto w-[calc(100%-1rem)] items-center justify-start gap-3 rounded-xl px-3 py-2.5 text-left",
+        "mx-2 mb-1 flex w-[calc(100%-1rem)] min-w-0 max-w-full items-center justify-start gap-3 overflow-hidden rounded-xl px-3 py-2.5 text-left",
         active ? "bg-primary/12 ring-1 ring-primary/25" : "hover:bg-muted/70"
       )}
     >
       <ChatUserAvatar name={name} image={conversation.peer.avatar_url} size="md" />
-      <div className="min-w-0 flex-1">
-        <div className="flex items-baseline gap-2">
+      <div className="min-w-0 flex-1 overflow-hidden">
+        <div className="flex min-w-0 items-baseline gap-2">
           <p
             className={cn(
-              "truncate font-heading text-[14px] tracking-tight text-foreground",
+              "min-w-0 flex-1 truncate font-heading text-[14px] tracking-tight text-foreground",
               hasUnread ? "font-semibold" : "font-medium"
             )}
           >
             {name}
           </p>
-          <span className="ml-auto shrink-0 font-data text-[10px] text-muted-foreground">{time}</span>
+          {time ? (
+            <span className="shrink-0 font-data text-[10px] text-muted-foreground">{time}</span>
+          ) : null}
         </div>
         {conversation.jobTitle ? (
           <p className="truncate font-data text-[10px] uppercase tracking-[0.12em] text-primary/80">
@@ -71,10 +71,10 @@ export function ChatChannelPreview({
       {conversation.muted ? (
         <BellOff className="h-3.5 w-3.5 shrink-0 text-muted-foreground" aria-label="Muted" />
       ) : hasUnread ? (
-        <Badge className="h-5 min-w-5 justify-center px-1.5">
+        <Badge className="h-5 min-w-5 shrink-0 justify-center px-1.5">
           {conversation.unreadCount > 9 ? "9+" : conversation.unreadCount}
         </Badge>
       ) : null}
-    </Button>
+    </button>
   )
 }

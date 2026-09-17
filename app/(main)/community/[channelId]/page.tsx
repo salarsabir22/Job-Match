@@ -29,10 +29,7 @@ export default async function ChannelPage({ params }: { params: Promise<{ channe
   const isMember = !!membership
 
   return (
-    <div
-      className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
-      style={{ height: "calc(100dvh - 10rem)" }}
-    >
+    <div className="flex h-[calc(100dvh-11.25rem)] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm lg:h-[calc(100dvh-10rem)]">
       <div className="z-10 flex shrink-0 items-center gap-3 border-b border-border bg-card px-4 py-3.5">
         <Link
           href="/community"

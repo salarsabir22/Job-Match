@@ -1,11 +1,10 @@
 import { createClient } from "@/lib/supabase/server"
 import Link from "next/link"
-import { Building2 } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import { applicationStatus } from "@/lib/match/fit"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { StudentApplicationList } from "./StudentApplicationList"
 
 type JobJoin = {
   id?: string
@@ -183,8 +182,8 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
       ) : (
         <>
           <p className="font-body text-sm text-muted-foreground">Stage updates when a recruiter views you, matches, or moves you in their pipeline.</p>
-          <ul className="m-0 list-none space-y-2 p-0">
-            {rows.map(({ app, match, status, viewedAt }) => {
+          <StudentApplicationList
+            items={rows.map(({ app, match, status, viewedAt }) => {
               const job = app.jobs
               const company = job?.recruiter_profiles
               const convId = conversationId(match)
@@ -195,42 +194,17 @@ export async function StudentMatchesView({ userId }: { userId: string }) {
               ]
                 .filter(Boolean)
                 .join(" · ")
-
-              const inner = (
-                <Card className={href ? "transition hover:border-primary/30" : ""}>
-                  <CardContent className="flex items-center gap-3 p-4">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-muted ring-1 ring-border">
-                      {company?.logo_url ? (
-                        <img src={company.logo_url} className="h-full w-full object-cover" alt="" />
-                      ) : (
-                        <Building2 className="h-5 w-5 text-muted-foreground" aria-hidden />
-                      )}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate font-heading text-sm font-semibold text-foreground">{job?.title}</p>
-                      <p className="truncate font-body text-xs text-muted-foreground">{company?.company_name}</p>
-                      <p className="mt-0.5 font-body text-[11px] text-muted-foreground">{meta}</p>
-                    </div>
-                    <Badge variant={status === "Applied" ? "outline" : "default"} className="shrink-0">
-                      {status}
-                    </Badge>
-                  </CardContent>
-                </Card>
-              )
-
-              return (
-                <li key={app.id}>
-                  {href ? (
-                    <Link href={href} className="block rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                      {inner}
-                    </Link>
-                  ) : (
-                    inner
-                  )}
-                </li>
-              )
+              return {
+                id: app.id,
+                href,
+                title: job?.title || "Role",
+                company: company?.company_name || null,
+                logoUrl: company?.logo_url || null,
+                meta,
+                status,
+              }
             })}
-          </ul>
+          />
         </>
       )}
     </div>

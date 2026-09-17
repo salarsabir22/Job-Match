@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from "react"
 import { Download, FileText, Headphones, X } from "lucide-react"
 import { formatFileSize, fileExtension, isGenericMediaCaption } from "@/lib/chat/attachments"
+import { useSignedStorageUrl } from "@/components/storage/use-signed-storage-url"
 import { cn } from "@/lib/utils"
 
 type MediaKind = "image" | "video" | "file" | "audio"
@@ -30,6 +31,7 @@ export function ChatMediaBubble({
   timeLabel: string
   ticks?: ReactNode
 }) {
+  const resolvedSrc = useSignedStorageUrl("chat-media", src)
   const [lightbox, setLightbox] = useState(false)
   const title = fileName || name || "File"
   const shownCaption = isGenericMediaCaption(caption, type, title) ? "" : caption?.trim() || ""
@@ -43,21 +45,21 @@ export function ChatMediaBubble({
           className="block w-full overflow-hidden rounded-xl bg-black/10"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={src} alt={shownCaption || "Photo"} className="max-h-72 w-full object-cover" />
+          <img src={resolvedSrc ?? undefined} alt={shownCaption || "Photo"} className="max-h-72 w-full object-cover" />
         </button>
       ) : type === "video" ? (
         <video
-          src={src}
+          src={resolvedSrc ?? undefined}
           controls
           playsInline
           preload="metadata"
           className="max-h-72 w-full rounded-xl bg-black"
         />
       ) : type === "audio" ? (
-        <AudioChip src={src} title={title} own={own} />
+        <AudioChip src={resolvedSrc} title={title} own={own} />
       ) : (
         <a
-          href={src}
+          href={resolvedSrc ?? undefined}
           target="_blank"
           rel="noopener noreferrer"
           download={title}
@@ -114,7 +116,7 @@ export function ChatMediaBubble({
           </button>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={src}
+            src={resolvedSrc ?? undefined}
             alt={shownCaption || "Photo"}
             className="max-h-full max-w-full rounded-lg object-contain"
             onClick={(e) => e.stopPropagation()}
@@ -125,14 +127,14 @@ export function ChatMediaBubble({
   )
 }
 
-function AudioChip({ src, title, own }: { src: string; title: string; own: boolean }) {
+function AudioChip({ src, title, own }: { src: string | null; title: string; own: boolean }) {
   return (
     <div className={cn("rounded-xl px-2.5 py-2", own ? "bg-black/10" : "bg-black/[0.04]")}>
       <p className="mb-1.5 flex items-center gap-1.5 truncate text-[13px] font-medium">
         <Headphones className="h-3.5 w-3.5 shrink-0 opacity-70" />
         <span className="truncate">{title}</span>
       </p>
-      <audio src={src} controls preload="metadata" className="h-8 w-full" />
+      <audio src={src ?? undefined} controls preload="metadata" className="h-8 w-full" />
     </div>
   )
 }

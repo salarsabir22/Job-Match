@@ -46,8 +46,8 @@ export function RecruiterDashboardCharts({
       {footnote ? (
         <p className="font-body text-[13px] leading-relaxed text-muted-foreground">{footnote}</p>
       ) : null}
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-5">
-        <Card className="lg:col-span-2">
+      <div className="grid min-w-0 grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-5">
+        <Card className="min-w-0 overflow-hidden lg:col-span-2">
           <CardHeader className="pb-2">
             <CardDescription className="font-data text-[10px] uppercase tracking-[0.16em]">Pipeline trend</CardDescription>
             <CardTitle className="font-body text-sm font-medium">Applications vs matches · 30 days</CardTitle>
@@ -106,7 +106,7 @@ export function RecruiterDashboardCharts({
           detail="inbound converted"
         />
 
-        <Card className="lg:col-span-3">
+        <Card className="min-w-0 overflow-hidden lg:col-span-3">
           <CardHeader className="pb-2">
             <CardDescription className="font-data text-[10px] uppercase tracking-[0.16em]">Volume by role</CardDescription>
             <CardTitle className="font-body text-sm font-medium">Applications per posting</CardTitle>
@@ -120,7 +120,7 @@ export function RecruiterDashboardCharts({
                 <YAxis
                   type="category"
                   dataKey="name"
-                  width={120}
+                  width={72}
                   tick={{ ...chartAxisTick, fontSize: 10 }}
                   tickLine={false}
                   axisLine={false}

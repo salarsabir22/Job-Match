@@ -7,6 +7,7 @@ export interface Profile {
   role: UserRole
   full_name: string | null
   avatar_url: string | null
+  cover_url?: string | null
   bio: string | null
   profile_video_url: string | null
   created_at: string

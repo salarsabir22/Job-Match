@@ -9,48 +9,6 @@
   overscroll-behavior: contain;
 }
 
-.jm-chat-inbox {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  height: 100%;
-  min-height: 0;
-  background: var(--background);
-}
-
-@media (min-width: 1024px) {
-  .jm-chat-inbox {
-    grid-template-columns: 380px minmax(0, 1fr);
-  }
-}
-
-.jm-chat-inbox__list {
-  display: flex;
-  min-height: 0;
-  flex-direction: column;
-  background: color-mix(in srgb, var(--card) 88%, transparent);
-}
-
-@media (min-width: 1024px) {
-  .jm-chat-inbox__list {
-    border-right: 1px solid var(--border);
-  }
-}
-
-.jm-chat-inbox__pane {
-  min-height: 0;
-  background: transparent;
-}
-
-@media (max-width: 1023px) {
-  .jm-chat-inbox--open .jm-chat-inbox__list {
-    display: none;
-  }
-
-  .jm-chat-inbox:not(.jm-chat-inbox--open) .jm-chat-inbox__pane {
-    display: none;
-  }
-}
-
 .jm-chat-thread {
   background-image:
     linear-gradient(rgba(10, 22, 40, 0.04) 1px, transparent 1px),

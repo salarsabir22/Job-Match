@@ -4,6 +4,7 @@ import { useMemo, useRef, useState, type ReactNode } from "react"
 import { Mic, Pause, Play } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { formatVoiceClock } from "@/components/chat/use-voice-recorder"
+import { useSignedStorageUrl } from "@/components/storage/use-signed-storage-url"
 
 const BAR_COUNT = 40
 
@@ -31,6 +32,7 @@ export function ChatVoiceBubble({
   timeLabel?: string
   ticks?: ReactNode
 }) {
+  const resolvedSrc = useSignedStorageUrl("chat-media", src)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [playing, setPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -66,7 +68,7 @@ export function ChatVoiceBubble({
     <div className={cn("flex w-[min(72vw,17.5rem)] items-center gap-2", own ? "text-primary-foreground" : "text-foreground")}>
       <audio
         ref={audioRef}
-        src={src}
+        src={resolvedSrc ?? undefined}
         preload="metadata"
         onTimeUpdate={(e) => {
           const audio = e.currentTarget

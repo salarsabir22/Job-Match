@@ -72,7 +72,7 @@ export function StudentJobDetailView({ job, userId }: { job: JobRow; userId: str
             <div className="apple-vibrancy-header absolute inset-0" />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 flex min-w-0 items-end gap-4 px-6 pb-5">
+          <div className="absolute inset-x-0 bottom-0 flex min-w-0 items-end gap-3 px-4 pb-4 sm:gap-4 sm:px-6 sm:pb-5">
             {company?.logo_url ? (
               <img
                 src={company.logo_url}

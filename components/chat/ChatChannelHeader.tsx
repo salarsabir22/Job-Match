@@ -49,7 +49,7 @@ export function ChatChannelHeader({
   const canInterview = Boolean(currentUserId && matchId && conversationId)
 
   return (
-    <header className="relative flex shrink-0 items-center gap-3 border-b border-border bg-card/70 px-3 py-3 backdrop-blur-xl">
+    <header className="relative flex shrink-0 items-center gap-2 border-b border-border bg-card/70 px-2 py-2.5 backdrop-blur-xl sm:gap-3 sm:px-3 sm:py-3">
       {backHref ? (
         <Button asChild variant="ghost" size="icon" aria-label="Back to messages">
           <Link href={backHref}>

@@ -11,13 +11,30 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { getInitials } from "@/lib/utils"
+import { cn, getInitials } from "@/lib/utils"
 
-function Face({ src, name }: { src?: string | null; name: string }) {
+function Face({
+  src,
+  name,
+  contain,
+}: {
+  src?: string | null
+  name: string
+  contain?: boolean
+}) {
   return (
-    <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-primary/15 text-sm font-semibold text-primary ring-4 ring-background">
+    <div
+      className={cn(
+        "flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary/10 text-sm font-semibold text-primary ring-2 ring-background sm:h-20 sm:w-20",
+        contain && "bg-white"
+      )}
+    >
       {src ? (
-        <img src={src} alt="" className="h-full w-full object-cover" />
+        <img
+          src={src}
+          alt=""
+          className={cn("h-full w-full", contain ? "object-contain p-2" : "object-cover object-top")}
+        />
       ) : (
         <span>{getInitials(name || "?")}</span>
       )}
@@ -33,6 +50,9 @@ export function MatchModal({
   imageUrl,
   selfImageUrl,
   selfName = "You",
+  audience = "student",
+  selfContain,
+  imageContain,
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -41,35 +61,38 @@ export function MatchModal({
   imageUrl?: string | null
   selfImageUrl?: string | null
   selfName?: string
+  audience?: "student" | "recruiter"
+  selfContain?: boolean
+  imageContain?: boolean
 }) {
+  const recruiter = audience === "recruiter"
+  const title = "You’re connected"
+  const description = recruiter
+    ? `You can now message ${name} about this role.`
+    : `${name} shortlisted you. You can now message them about this role.`
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md text-center">
-        <DialogHeader className="items-center">
-          <div className="relative mx-auto mb-2 h-24 w-48">
-            <div className="absolute left-2 top-2">
-              <Face src={selfImageUrl} name={selfName} />
-            </div>
-            <div className="absolute right-2 top-2">
-              <Face src={imageUrl} name={name} />
-            </div>
-            <div className="absolute left-1/2 top-1/2 z-10 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md">
+      <DialogContent className="max-w-md !overflow-visible px-5 py-6 text-center sm:text-center">
+        <DialogHeader className="items-center space-y-3 text-center sm:text-center">
+          <div className="flex items-center justify-center pt-1">
+            <Face src={selfImageUrl} name={selfName} contain={selfContain} />
+            <div className="relative z-10 -mx-2 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm ring-2 ring-background">
               <Heart className="h-3.5 w-3.5" fill="currentColor" aria-hidden />
             </div>
+            <Face src={imageUrl} name={name} contain={imageContain} />
           </div>
-          <DialogTitle className="font-heading text-2xl">It’s a match</DialogTitle>
-          <DialogDescription>
-            You and {name} both showed interest. Open chat to take the next step.
-          </DialogDescription>
+          <DialogTitle className="font-heading text-2xl tracking-tight">{title}</DialogTitle>
+          <DialogDescription className="text-center leading-relaxed">{description}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="flex-col gap-2 sm:flex-col">
           {chatHref ? (
             <Button asChild className="w-full rounded-full">
-              <Link href={chatHref}>Open chat</Link>
+              <Link href={chatHref}>Open conversation</Link>
             </Button>
           ) : null}
           <Button type="button" variant="outline" className="w-full rounded-full" onClick={() => onOpenChange(false)}>
-            Keep swiping
+            {recruiter ? "Continue reviewing" : "Continue browsing"}
           </Button>
         </DialogFooter>
       </DialogContent>

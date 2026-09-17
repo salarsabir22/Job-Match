@@ -28,7 +28,7 @@ function isPublicPath(pathname: string) {
 function hasSupabaseSessionCookie(request: NextRequest) {
   return request.cookies.getAll().some((cookie) => {
     const name = cookie.name
-    if (!name.includes("-auth-token") || name.includes("code-verifier")) return false
+    if (!/^sb-.+-auth-token(?:\.\d+)?$/.test(name)) return false
     return Boolean(cookie.value)
   })
 }

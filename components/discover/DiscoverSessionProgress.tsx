@@ -9,6 +9,7 @@ type DiscoverSessionProgressProps = {
   className?: string
   noun?: string
   description?: string
+  compact?: boolean
 }
 
 export function DiscoverSessionProgress({
@@ -18,11 +19,41 @@ export function DiscoverSessionProgress({
   className,
   noun = "roles",
   description,
+  compact = false,
 }: DiscoverSessionProgressProps) {
-  const pct = total > 0 ? Math.round(((position - 1) / total) * 100) : 0
+  const safeTotal = Math.max(total, 0)
+  const current = safeTotal === 0 ? 0 : Math.min(Math.max(position, 1), safeTotal)
+  const pct = safeTotal > 0 ? Math.round(((current - (safeTotal === 0 ? 0 : 1)) / safeTotal) * 100) : 0
   const copy =
-    description ??
-    `Up to 20 ${noun} per load, newest first. Passing doesn’t notify anyone.`
+    description ?? `Ranked by fit. Passing doesn’t notify anyone.`
+
+  if (compact) {
+    return (
+      <div className={cn("space-y-1.5", className)}>
+        <div className="flex items-center justify-between gap-3">
+          <p className="min-w-0 truncate font-body text-xs text-muted-foreground">
+            {safeTotal > 0 ? `${current} of ${safeTotal} ${noun}` : `No ${noun} in this stack`}
+            {description ? ` · ${description}` : ""}
+          </p>
+          {loadedAt ? (
+            <p className="hidden shrink-0 font-data text-[10px] tabular-nums text-muted-foreground sm:block">
+              {formatDistanceToNow(loadedAt, { addSuffix: true })}
+            </p>
+          ) : null}
+        </div>
+        <div
+          className="h-1 overflow-hidden rounded-full bg-muted"
+          role="progressbar"
+          aria-valuenow={pct}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label="Progress through this stack"
+        >
+          <div className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out" style={{ width: `${pct}%` }} />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <Card className={cn("overflow-hidden p-4 shadow-sm sm:p-5", className)}>
@@ -47,10 +78,7 @@ export function DiscoverSessionProgress({
         aria-valuemax={100}
         aria-label="Progress through this batch"
       >
-        <div
-          className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out"
-          style={{ width: `${pct}%` }}
-        />
+        <div className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out" style={{ width: `${pct}%` }} />
       </div>
     </Card>
   )

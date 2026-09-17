@@ -1,6 +1,9 @@
+"use client"
+
 import Link from "next/link"
 import { Card } from "@/components/ui/card"
 import { ChevronDown } from "lucide-react"
+import { InfoTip } from "./InfoTip"
 import { cn } from "@/lib/utils"
 
 export function DiscoverHowItWorks({
@@ -20,7 +23,17 @@ export function DiscoverHowItWorks({
             "[&::-webkit-details-marker]:hidden"
           )}
         >
-          <span>How this feed works</span>
+          <span className="inline-flex items-center gap-2">
+            How this feed works
+            <InfoTip
+              label="How this feed works"
+              className="relative z-10"
+            >
+              {student
+                ? "Apply sends your profile. Chat opens only after they shortlist you. Pass notifies nobody; saved roles live in Saved."
+                : "Applicants show first. Shortlist can open chat; pass hides them from this role. Undo reverses the last card if you haven’t started chatting."}
+            </InfoTip>
+          </span>
           <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180" />
         </summary>
         <div className="border-t border-border bg-muted/20 px-4 pb-5 pt-4 sm:px-5">
@@ -31,8 +44,8 @@ export function DiscoverHowItWorks({
               </p>
               <p className="font-body text-sm leading-relaxed text-muted-foreground">
                 {student
-                  ? "Active jobs only, from teams that have passed a basic review. We exclude roles you’ve already swiped on so you don’t duplicate decisions."
-                  : "Candidates who haven’t been shortlisted or passed for this role yet. Switch jobs from the menu above to review a different posting."}
+                  ? "Active jobs only, from teams that have passed a basic review. We exclude roles you’ve already swiped on so you don’t duplicate decisions. Cards are ordered by skill and category fit, then recency."
+                  : "People who applied to this role show first, then other students ranked by skill overlap. Switch jobs from Role to review a different posting."}
               </p>
             </section>
             <section className="space-y-2">

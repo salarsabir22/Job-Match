@@ -7,8 +7,10 @@ import { Loader2, Eye, EyeOff } from "lucide-react"
 import { safeInternalPath } from "@/lib/utils"
 import {
   isStudentOnboardingComplete,
+  isRecruiterOnboardingComplete,
   postAuthRedirect,
   STUDENT_ONBOARDING_SELECT,
+  RECRUITER_ONBOARDING_SELECT,
 } from "@/lib/profile/completeness"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
@@ -74,6 +76,7 @@ export default function LoginPage() {
     const next = safeInternalPath(new URLSearchParams(window.location.search).get("next"))
     const { data: profile } = await supabase.from("profiles").select("role").eq("id", data.user.id).maybeSingle()
     let studentReady = false
+    let recruiterReady = false
     if (profile?.role === "student") {
       const { data: student } = await supabase
         .from("student_profiles")
@@ -82,9 +85,18 @@ export default function LoginPage() {
         .maybeSingle()
       studentReady = isStudentOnboardingComplete(student)
     }
+    if (profile?.role === "recruiter") {
+      const { data: recruiter } = await supabase
+        .from("recruiter_profiles")
+        .select(RECRUITER_ONBOARDING_SELECT)
+        .eq("id", data.user.id)
+        .maybeSingle()
+      recruiterReady = isRecruiterOnboardingComplete(recruiter)
+    }
     window.location.href = postAuthRedirect({
       role: profile?.role,
       studentReady,
+      recruiterReady,
       next,
     })
   }

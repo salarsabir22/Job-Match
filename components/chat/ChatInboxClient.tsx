@@ -11,7 +11,6 @@ import { loadInbox, previewText, type InboxConversation } from "@/lib/chat/inbox
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { ScrollArea } from "@/components/ui/scroll-area"
 
 export function ChatInboxClient({ currentUserId }: { currentUserId: string }) {
   const supabase = useMemo(() => createClient(), [])
@@ -70,11 +69,17 @@ export function ChatInboxClient({ currentUserId }: { currentUserId: string }) {
   if (loading) return <ChatLoadingState />
 
   return (
-    <div className={cn("jm-chat-inbox", active && "jm-chat-inbox--open")}>
-      <div className="jm-chat-inbox__list">
+    <div className="flex h-full min-h-0 min-w-0 bg-background">
+      <div
+        className={cn(
+          "flex h-full min-h-0 min-w-0 flex-col bg-card/80",
+          "lg:w-[22.5rem] lg:shrink-0 lg:border-r lg:border-border xl:w-[26rem]",
+          active ? "hidden lg:flex" : "flex w-full"
+        )}
+      >
         <div className="shrink-0 px-4 pb-3 pt-5">
           <div className="flex items-end justify-between gap-3">
-            <h1 className="font-heading text-[28px] font-semibold tracking-tight text-foreground">Messages</h1>
+            <h1 className="font-heading text-2xl font-semibold tracking-tight text-foreground sm:text-[28px]">Messages</h1>
             {unreadTotal > 0 ? (
               <Badge variant="secondary">{unreadTotal} unread</Badge>
             ) : null}
@@ -90,7 +95,7 @@ export function ChatInboxClient({ currentUserId }: { currentUserId: string }) {
             />
           </div>
         </div>
-        <ScrollArea className="min-h-0 flex-1 pb-3">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pb-3">
           {filtered.length === 0 ? (
             <ChatInboxEmpty />
           ) : (
@@ -104,10 +109,10 @@ export function ChatInboxClient({ currentUserId }: { currentUserId: string }) {
               />
             ))
           )}
-        </ScrollArea>
+        </div>
       </div>
 
-      <div className="jm-chat-inbox__pane min-h-0">
+      <div className={cn("min-h-0 min-w-0 flex-1", active ? "flex w-full" : "hidden lg:flex")}>
         {active ? (
           <ChatThread
             conversationId={active.id}

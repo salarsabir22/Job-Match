@@ -49,7 +49,7 @@ export function FeedReactButton({
       }}
     >
       {open ? (
-        <div className="absolute bottom-[calc(100%+6px)] left-1/2 z-20 -translate-x-1/2 rounded-full border border-border bg-card px-1.5 py-1 shadow-[0_12px_32px_rgba(10,22,40,0.16)]">
+        <div className="absolute bottom-[calc(100%+6px)] left-2 z-20 rounded-full border border-border bg-card px-1.5 py-1 shadow-[0_12px_32px_rgba(10,22,40,0.16)] sm:left-1/2 sm:-translate-x-1/2">
           <div className="flex items-end gap-0.5">
             {FEED_REACTIONS.map((item) => (
               <button
@@ -72,7 +72,7 @@ export function FeedReactButton({
       <Button
         type="button"
         variant="ghost"
-        className={cn("h-11 w-full rounded-none font-heading text-sm", meta?.className)}
+        className={cn("h-11 w-full rounded-none px-1 font-heading text-xs sm:px-3 sm:text-sm", meta?.className)}
         onClick={() => {
           if (holdOpened.current) {
             holdOpened.current = false

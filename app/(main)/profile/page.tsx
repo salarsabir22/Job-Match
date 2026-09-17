@@ -2,7 +2,6 @@
 import React from "react"
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   GraduationCap,
   Calendar,
@@ -10,24 +9,25 @@ import {
   Linkedin,
   FileText,
   Edit,
-  Building2,
   CheckCircle,
   Clock,
   Globe,
   Users,
 } from "lucide-react"
-import { getInitials, formatDate } from "@/lib/utils"
+import { formatDate } from "@/lib/utils"
 import Link from "next/link"
 import { ProfileVideoBlock } from "@/components/profile/ProfileVideoBlock"
 import { ShareButton } from "@/components/share/ShareButton"
 import { SavedJobActions } from "@/components/saved/SavedJobActions"
 import { CompletenessCard } from "@/components/profile/CompletenessCard"
+import { ProfileHero } from "@/components/profile/ProfileHero"
 import { recruiterCompleteness, studentCompleteness } from "@/lib/profile/completeness"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { ProfilePosts } from "@/components/feed/ProfilePosts"
 import { profileSharePath } from "@/lib/share/profile-path"
+import { signedStorageUrl } from "@/lib/storage/signed-url"
 import type { UserRole } from "@/types"
 
 export default async function ProfilePage() {
@@ -90,6 +90,9 @@ export default async function ProfilePage() {
   const savedRows = savedRes.data || []
   const rp = recruiterProfile as any
   const sp = studentProfile as any
+  const resumeHref = sp?.resume_url
+    ? await signedStorageUrl(supabase, "resumes", sp.resume_url)
+    : null
   const completeness = isStudent
     ? studentCompleteness({
         avatar: profile?.avatar_url,
@@ -113,68 +116,56 @@ export default async function ProfilePage() {
   const headline = isRecruiter
     ? [rp?.company_name, rp?.industry].filter(Boolean).join(" · ") || "Recruiter"
     : [sp?.degree, sp?.university].filter(Boolean).join(" · ") || "Student"
+  const displayName = isRecruiter ? rp?.company_name || profile?.full_name || "Company" : profile?.full_name || "You"
 
   return (
     <div className="mx-auto max-w-3xl space-y-8">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <p className="font-data text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-            {isStudent ? "Candidate" : isRecruiter ? "Company" : "Account"}
-          </p>
-          <h1 className="mt-1 font-heading text-2xl font-semibold tracking-tight">
-            {isRecruiter ? rp?.company_name || profile?.full_name : profile?.full_name}
-          </h1>
-          <p className="mt-1 font-body text-sm text-muted-foreground">{user.email}</p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {isStudent || isRecruiter ? (
-            <ShareButton
-              path={isRecruiter ? `/company/${user.id}` : `/candidates/${user.id}`}
-              title={isRecruiter ? rp?.company_name || "Company" : profile?.full_name || "Profile"}
-              label="Share profile"
-            />
-          ) : null}
-          <Button asChild variant="outline" size="sm" className="rounded-full">
-            <Link href="/onboarding">
-              <Edit className="h-4 w-4" />
-              Edit
-            </Link>
-          </Button>
-        </div>
-      </div>
+      <ProfileHero
+        userId={user.id}
+        name={displayName}
+        headline={headline}
+        subline={<p className="font-body text-xs text-muted-foreground">{user.email}</p>}
+        avatarUrl={isRecruiter ? rp?.logo_url || profile?.avatar_url : profile?.avatar_url}
+        coverUrl={profile?.cover_url}
+        editable
+        photoKind={isRecruiter ? "logo" : "avatar"}
+        actions={
+          <>
+            {isStudent || isRecruiter ? (
+              <ShareButton
+                path={isRecruiter ? `/company/${user.id}` : `/candidates/${user.id}`}
+                title={isRecruiter ? rp?.company_name || "Company" : profile?.full_name || "Profile"}
+                label="Share profile"
+              />
+            ) : null}
+            <Button asChild variant="outline" size="sm" className="rounded-full">
+              <Link href="/onboarding">
+                <Edit className="h-4 w-4" />
+                Edit
+              </Link>
+            </Button>
+          </>
+        }
+      />
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-[240px_1fr]">
         <div className="space-y-4">
           <Card className="shadow-sm">
-            <CardContent className="flex flex-col items-center gap-2 p-4 text-center">
-              {isStudent ? (
-                <Avatar className="h-16 w-16 border-2 border-border">
-                  <AvatarImage src={profile?.avatar_url || undefined} />
-                  <AvatarFallback className="text-lg font-semibold">{getInitials(profile?.full_name || "?")}</AvatarFallback>
-                </Avatar>
-              ) : (
-                <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-xl border border-border bg-muted">
-                  {rp?.logo_url ? (
-                    <img src={rp.logo_url} className="h-full w-full object-cover" alt="" />
-                  ) : (
-                    <Building2 className="h-7 w-7 text-muted-foreground" />
-                  )}
-                </div>
-              )}
+            <CardContent className="p-4">
               {isRecruiter ? (
                 rp?.is_approved ? (
-                  <Badge variant="secondary" className="text-[10px]">
+                  <Badge variant="secondary" className="mb-3 text-[10px]">
                     <CheckCircle className="mr-1 h-3 w-3" />
                     Approved
                   </Badge>
                 ) : (
-                  <Badge variant="outline" className="text-[10px]">
+                  <Badge variant="outline" className="mb-3 text-[10px]">
                     <Clock className="mr-1 h-3 w-3" />
                     Pending
                   </Badge>
                 )
               ) : null}
-              <div className="grid w-full grid-cols-3 gap-2 border-t border-border pt-2">
+              <div className="grid w-full grid-cols-3 gap-2">
                 <div>
                   <p className="font-heading text-sm font-semibold tabular-nums">{activityCount ?? 0}</p>
                   <p className="font-body text-[11px] text-muted-foreground">{isStudent ? "Applied" : "Jobs"}</p>
@@ -311,8 +302,8 @@ export default async function ProfilePage() {
                       <Github className="h-4 w-4" /> GitHub
                     </a>
                   ) : null}
-                  {sp?.resume_url ? (
-                    <a href={sp.resume_url} className="flex items-center gap-2 text-sm text-primary hover:underline" target="_blank" rel="noopener noreferrer">
+                  {resumeHref ? (
+                    <a href={resumeHref} className="flex items-center gap-2 text-sm text-primary hover:underline" target="_blank" rel="noopener noreferrer">
                       <FileText className="h-4 w-4" /> Resume
                     </a>
                   ) : null}

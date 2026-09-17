@@ -84,7 +84,7 @@ export default async function JobsPage({
         title="Jobs"
         description={`${activeJobs} active · ${jobs?.length || 0} total listing${(jobs?.length || 0) === 1 ? "" : "s"}`}
         action={
-          <div className="flex items-center gap-2">
+          <div className="flex w-full flex-wrap items-center gap-2">
             <Button asChild variant="outline" className="rounded-full">
               <Link href="/matches">Pipeline</Link>
             </Button>
@@ -144,7 +144,7 @@ export default async function JobsPage({
                   { label: "Mutual matches", value: totalMatches },
                 ].map(({ label, value }) => (
                   <div key={label} className="flex items-center gap-3">
-                    <p className="w-36 shrink-0 font-body text-xs text-muted-foreground">{label}</p>
+                    <p className="w-24 shrink-0 font-body text-xs text-muted-foreground sm:w-36">{label}</p>
                     <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
                       <div
                         className="h-full rounded-full bg-primary transition-all"

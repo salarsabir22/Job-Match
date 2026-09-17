@@ -1,6 +1,7 @@
 import { Building2 } from "lucide-react"
 import type { Job } from "@/types"
-import { cn } from "@/lib/utils"
+import { cn, formatRelativeTime } from "@/lib/utils"
+import { skillOverlap } from "@/lib/match/fit"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { formatSalary } from "@/lib/jobs/salary"
@@ -17,10 +18,19 @@ interface JobCardProps {
   job: Job
   className?: string
   onOpenCompany?: () => void
+  onOpenListing?: () => void
   reasons?: string[]
+  studentSkills?: string[] | null
 }
 
-export function JobCard({ job, className, onOpenCompany, reasons }: JobCardProps) {
+export function JobCard({
+  job,
+  className,
+  onOpenCompany,
+  onOpenListing,
+  reasons,
+  studentSkills,
+}: JobCardProps) {
   const company = job.recruiter_profiles
   const typeLabel = JOB_TYPE_LABEL[job.job_type] ?? job.job_type
   const locationOrRemote = job.is_remote ? "Remote" : job.location
@@ -30,11 +40,17 @@ export function JobCard({ job, className, onOpenCompany, reasons }: JobCardProps
     currency: job.salary_currency,
     note: job.compensation_note,
   })
+  const matched = skillOverlap(studentSkills, job.required_skills)
+  const matchedSet = new Set(matched.map((s) => s.toLowerCase()))
+  const otherSkills = (job.required_skills || []).filter((s) => !matchedSet.has(s.trim().toLowerCase()))
+  const shownMatched = matched.slice(0, 6)
+  const shownOther = otherSkills.slice(0, Math.max(0, 6 - shownMatched.length))
+  const hiddenCount = matched.length + otherSkills.length - shownMatched.length - shownOther.length
 
   return (
     <div
       className={cn(
-        "w-full select-none overflow-hidden rounded-3xl border border-border bg-card text-card-foreground shadow-lg ring-1 ring-black/[0.04]",
+        "flex h-auto min-h-0 w-full select-none flex-col overflow-hidden rounded-3xl border border-border bg-card text-card-foreground shadow-lg ring-1 ring-black/[0.04] max-lg:h-full",
         className
       )}
     >
@@ -53,7 +69,7 @@ export function JobCard({ job, className, onOpenCompany, reasons }: JobCardProps
             </span>
           ) : null}
         </div>
-        <h2 className="font-heading text-xl font-semibold leading-snug tracking-tight text-white">{job.title}</h2>
+        <h2 className="font-heading text-lg font-semibold leading-snug tracking-tight text-white sm:text-xl">{job.title}</h2>
         {company?.company_name ? (
           onOpenCompany ? (
             <Button
@@ -72,12 +88,28 @@ export function JobCard({ job, className, onOpenCompany, reasons }: JobCardProps
             <p className="mt-1 font-body text-sm text-white/80">{company.company_name}</p>
           )
         ) : null}
-        {pay ? <p className="mt-1.5 font-body text-sm font-medium text-white">{pay}</p> : null}
+        <p className="mt-1.5 font-body text-sm font-medium text-white/90">
+          {pay ? `${pay} · ` : null}
+          Posted {formatRelativeTime(job.created_at)}
+        </p>
+        {onOpenListing ? (
+          <button
+            type="button"
+            className="mt-1 font-body text-xs font-medium text-white/90 underline-offset-2 hover:underline lg:hidden"
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation()
+              onOpenListing()
+            }}
+          >
+            View listing
+          </button>
+        ) : null}
       </PhotoHero>
 
-      <div className="space-y-3 p-4">
+      <div className="shrink-0 space-y-1.5 p-2.5 sm:space-y-3 sm:p-4 lg:p-5">
         {reasons && reasons.length > 0 ? (
-          <div className="flex flex-wrap gap-1.5">
+          <div className="hidden flex-wrap gap-1.5 lg:flex">
             {reasons.map((reason) => (
               <Badge key={reason} variant="outline" className="font-normal text-primary">
                 {reason}
@@ -87,22 +119,42 @@ export function JobCard({ job, className, onOpenCompany, reasons }: JobCardProps
         ) : null}
 
         {job.description ? (
-          <p className="line-clamp-2 font-body text-sm leading-relaxed text-muted-foreground">{job.description}</p>
+          <p className="hidden font-body text-sm leading-relaxed text-muted-foreground lg:line-clamp-4 lg:block">{job.description}</p>
         ) : null}
 
-        {(job.required_skills?.length ?? 0) > 0 ? (
+        {matched.length + otherSkills.length > 0 ? (
           <div className="flex flex-wrap gap-1.5">
-            {job.required_skills.slice(0, 6).map((s) => (
+            {shownMatched.slice(0, 4).map((s) => (
+              <Badge key={`m-${s}`} className="text-[11px] font-normal">
+                {s}
+              </Badge>
+            ))}
+            {shownOther.slice(0, Math.max(0, 4 - shownMatched.slice(0, 4).length)).map((s) => (
               <Badge key={s} variant="secondary" className="text-[11px] font-normal">
                 {s}
               </Badge>
             ))}
-            {job.required_skills.length > 6 ? (
+            {hiddenCount > 0 ? (
               <Badge variant="outline" className="border-transparent text-[11px] font-normal text-muted-foreground">
-                +{job.required_skills.length - 6}
+                +{hiddenCount}
               </Badge>
             ) : null}
           </div>
+        ) : null}
+
+        {onOpenListing ? (
+          <Button
+            type="button"
+            variant="ghost"
+            className="hidden h-8 w-full rounded-full text-xs lg:flex"
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation()
+              onOpenListing()
+            }}
+          >
+            Open full listing
+          </Button>
         ) : null}
       </div>
     </div>

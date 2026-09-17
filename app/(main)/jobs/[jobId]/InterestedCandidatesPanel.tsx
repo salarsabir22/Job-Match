@@ -11,6 +11,8 @@ import { getInitials, formatDate } from "@/lib/utils"
 import { useToast } from "@/lib/hooks/use-toast"
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
+import { ShowMoreButton, ShowMoreList } from "@/components/ui/show-more-list"
+import { CredentialLink } from "@/components/storage/SignedFileLink"
 
 interface CandidateItem {
   id: string
@@ -176,7 +178,12 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
           <p className="py-2 font-body text-sm text-muted-foreground">No applications yet.</p>
         ) : (
           <ul className="m-0 list-none space-y-3 p-0">
-            {items.map((item) => {
+            <ShowMoreList
+              items={items}
+              getKey={(item) => item.id}
+              initial={5}
+              step={5}
+              renderItem={(item) => {
               const schoolLine = [item.university, item.degree, item.graduation_year].filter(Boolean).join(" · ")
               const links = [
                 item.resume_url && { href: item.resume_url, label: "Resume" },
@@ -186,7 +193,7 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
               ].filter(Boolean) as { href: string; label: string }[]
 
               return (
-                <li key={item.id}>
+                <li>
                   <Card className="border-border bg-card shadow-none">
                     <CardContent className="p-4 sm:p-5">
                       <div className="flex items-start gap-4">
@@ -231,15 +238,12 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
                           {links.length > 0 ? (
                             <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
                               {links.map(({ href, label }) => (
-                                <a
+                                <CredentialLink
                                   key={label}
                                   href={href}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
+                                  label={label}
                                   className="font-body text-xs font-medium text-primary underline-offset-4 hover:underline"
-                                >
-                                  {label}
-                                </a>
+                                />
                               ))}
                             </div>
                           ) : null}
@@ -248,7 +252,7 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
 
                       <Separator className="my-4" />
 
-                      <div className="flex gap-2">
+                      <div className="flex flex-wrap gap-2">
                         <Button asChild size="sm" variant="secondary" className="rounded-xl">
                           <Link href={`/candidates/${item.id}?job=${jobId}`}>Profile</Link>
                         </Button>
@@ -282,7 +286,17 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
                   </Card>
                 </li>
               )
-            })}
+              }}
+              footer={(remaining, showMore) => (
+                <li>
+                  <ShowMoreButton
+                    remaining={remaining}
+                    onClick={showMore}
+                    className="h-10 rounded-full border border-border"
+                  />
+                </li>
+              )}
+            />
           </ul>
         )}
       </CardContent>

@@ -4,12 +4,39 @@ export function skillOverlap(left: string[] | null | undefined, right: string[] 
   return b.filter((s) => a.has(s.toLowerCase()))
 }
 
+function daysSince(iso?: string | null) {
+  if (!iso) return Number.POSITIVE_INFINITY
+  const t = new Date(iso).getTime()
+  if (Number.isNaN(t)) return Number.POSITIVE_INFINITY
+  return (Date.now() - t) / 86_400_000
+}
+
+export function jobFitScore(opts: {
+  studentSkills?: string[] | null
+  preferredCategories?: string[] | null
+  jobSkills?: string[] | null
+  jobCategory?: string | null
+  remote?: boolean
+  createdAt?: string | null
+}) {
+  const overlap = skillOverlap(opts.studentSkills, opts.jobSkills)
+  let n = overlap.length * 3
+  const cats = (opts.preferredCategories || []).map((c) => c.toLowerCase())
+  if (opts.jobCategory && cats.includes(opts.jobCategory.toLowerCase())) n += 5
+  if (opts.remote) n += 1
+  const age = daysSince(opts.createdAt)
+  if (age < 7) n += 2
+  else if (age < 30) n += 1
+  return n
+}
+
 export function whyThisJob(opts: {
   studentSkills?: string[] | null
   preferredCategories?: string[] | null
   jobSkills?: string[] | null
   jobCategory?: string | null
   remote?: boolean
+  createdAt?: string | null
 }) {
   const reasons: string[] = []
   const skills = skillOverlap(opts.studentSkills, opts.jobSkills)
@@ -18,19 +45,29 @@ export function whyThisJob(opts: {
   if (opts.jobCategory && cats.includes(opts.jobCategory.toLowerCase())) {
     reasons.push(opts.jobCategory)
   }
-  if (opts.remote) reasons.push("Remote")
+  if (daysSince(opts.createdAt) < 7) reasons.push("New")
   return reasons.slice(0, 3)
+}
+
+export function candidateFitScore(opts: {
+  jobSkills?: string[] | null
+  candidateSkills?: string[] | null
+  applied?: boolean
+}) {
+  const overlap = skillOverlap(opts.jobSkills, opts.candidateSkills)
+  return overlap.length * 3 + (opts.applied ? 8 : 0)
 }
 
 export function whyThisCandidate(opts: {
   jobSkills?: string[] | null
   candidateSkills?: string[] | null
   university?: string | null
+  applied?: boolean
 }) {
   const reasons: string[] = []
+  if (opts.applied) reasons.push("Applied")
   const skills = skillOverlap(opts.jobSkills, opts.candidateSkills)
   if (skills.length) reasons.push(`${skills.slice(0, 3).join(", ")} overlap`)
-  if (opts.university) reasons.push(opts.university)
   return reasons.slice(0, 3)
 }
 

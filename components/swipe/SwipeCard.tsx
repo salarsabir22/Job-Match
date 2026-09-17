@@ -2,6 +2,8 @@
 
 import { useRef, useCallback } from "react"
 
+import { cn } from "@/lib/utils"
+
 interface SwipeCardProps {
   onSwipeLeft:  () => void
   onSwipeRight: () => void
@@ -10,6 +12,7 @@ interface SwipeCardProps {
   /** Shown when dragging right (e.g. "Apply" for jobs, "Like" for candidates) */
   rightStampLabel?: string
   leftStampLabel?: string
+  className?: string
 }
 
 // How far (px) the card must travel to trigger a swipe
@@ -24,6 +27,7 @@ export function SwipeCard({
   disabled,
   rightStampLabel = "Apply",
   leftStampLabel = "Pass",
+  className,
 }: SwipeCardProps) {
   const cardRef  = useRef<HTMLDivElement>(null)
   const likeRef  = useRef<HTMLDivElement>(null)
@@ -189,7 +193,7 @@ export function SwipeCard({
         willChange:  "transform",
         userSelect:  "none",
       }}
-      className="relative cursor-grab active:cursor-grabbing"
+      className={cn("relative min-h-0 cursor-grab overflow-hidden active:cursor-grabbing max-lg:h-full", className)}
       onPointerDown={onDown}
       onPointerMove={onMove}
       onPointerUp={onUp}

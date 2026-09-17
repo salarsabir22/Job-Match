@@ -1196,6 +1196,7 @@ export default function OnboardingPage() {
     const supabase = createClient()
     const { error } = await supabase.storage.from(bucket).upload(path, file, { upsert: true })
     if (error) throw error
+    if (bucket === "resumes") return path
     const { data } = supabase.storage.from(bucket).getPublicUrl(path)
     return data.publicUrl
   }
@@ -1339,7 +1340,7 @@ export default function OnboardingPage() {
 
       if (role === "student") {
         let resumeUrl: string | undefined
-        if (resumeFile) resumeUrl = await uploadFile(resumeFile, "resumes", `${user.id}/resume.pdf`)
+        if (resumeFile) resumeUrl = await uploadFile(resumeFile, "resumes", `${user.id}/${crypto.randomUUID()}.pdf`)
         else if (existingResumeUrl) resumeUrl = existingResumeUrl
         const studentData = {
           id: user.id, university, degree,
@@ -1413,7 +1414,7 @@ export default function OnboardingPage() {
       <div className="relative z-10 flex flex-1 flex-col lg:flex-row">
 
         {/* ──────── LEFT: Form (50%) ──────── */}
-        <div className="flex w-full flex-col justify-start px-4 py-8 sm:px-6 lg:w-1/2 lg:justify-center lg:px-10 xl:px-12">
+        <div className="flex w-full flex-col justify-start px-4 py-5 sm:px-6 sm:py-8 lg:w-1/2 lg:justify-center lg:px-10 xl:px-12">
           <div className="mx-auto w-full max-w-lg">
             {/* Step overview */}
             <div className="mb-6 space-y-4">

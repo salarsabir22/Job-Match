@@ -166,7 +166,7 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
         </div>
       </div>
 
-      <form onSubmit={sendMessage} className="flex shrink-0 gap-2 border-t border-border bg-card p-4">
+      <form onSubmit={sendMessage} className="flex shrink-0 gap-2 border-t border-border bg-card p-3 sm:p-4">
         <Input
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}

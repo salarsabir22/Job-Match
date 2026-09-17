@@ -2,9 +2,10 @@ import { createClient } from "@/lib/supabase/server"
 import { AppNav } from "@/components/nav/AppNav"
 import { AppBottomNav } from "@/components/nav/AppBottomNav"
 import { AppFooter } from "@/components/nav/AppFooter"
+import { AppMain } from "@/components/nav/AppMain"
 import { cn } from "@/lib/utils"
 import type { UserRole } from "@/types"
-import { isStudentOnboardingComplete, STUDENT_ONBOARDING_SELECT } from "@/lib/profile/completeness"
+import { isStudentOnboardingComplete, isRecruiterOnboardingComplete, STUDENT_ONBOARDING_SELECT, RECRUITER_ONBOARDING_SELECT } from "@/lib/profile/completeness"
 import { redirect } from "next/navigation"
 
 export default async function MainLayout({ children }: { children: React.ReactNode }) {
@@ -29,10 +30,11 @@ export default async function MainLayout({ children }: { children: React.ReactNo
     if (role === "recruiter") {
       const { data: company } = await supabase
         .from("recruiter_profiles")
-        .select("company_name")
+        .select(RECRUITER_ONBOARDING_SELECT)
         .eq("id", user.id)
         .maybeSingle()
       if (company?.company_name) shareTitle = company.company_name
+      if (!isRecruiterOnboardingComplete(company)) redirect("/onboarding")
     }
     if (role === "student") {
       const { data: student } = await supabase
@@ -45,7 +47,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
   }
 
   return (
-    <div className="min-h-screen apple-grouped-bg text-foreground selection:bg-primary/20">
+    <div className="min-h-screen overflow-x-hidden apple-grouped-bg text-foreground selection:bg-primary/20">
       <AppNav
         role={role}
         userId={user?.id ?? null}
@@ -55,10 +57,8 @@ export default async function MainLayout({ children }: { children: React.ReactNo
         shareTitle={shareTitle}
       />
 
-      <main className={cn("pt-16", user && role !== "admin" && "lg:pb-0")}>
-        <div className="mx-auto w-full max-w-[1728px] min-h-[calc(100vh-4rem)] px-4 py-5 sm:px-6 lg:px-10 xl:px-14 lg:py-8">
-          {children}
-        </div>
+      <main className={cn("min-w-0 pt-16", user && role !== "admin" && "lg:pb-0")}>
+        <AppMain>{children}</AppMain>
         {user ? <AppFooter role={role} /> : null}
       </main>
       {user ? <AppBottomNav role={role} /> : null}

@@ -123,11 +123,12 @@ export function AppFooter({ role }: { role: UserRole | "admin" }) {
   if (pathname.startsWith("/chat")) return null
 
   const { cols, cta, blurb } = columnsFor(role)
+  const lockMobile = pathname === "/discover"
 
   return (
     <>
-      {role !== "admin" ? (
-        <div className="h-[calc(4.75rem+env(safe-area-inset-bottom))] lg:hidden" aria-hidden />
+      {role !== "admin" && !lockMobile ? (
+        <div className="h-[var(--app-tabbar-clearance)] lg:hidden" aria-hidden />
       ) : null}
     <footer
       role="contentinfo"

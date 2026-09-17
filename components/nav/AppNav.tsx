@@ -3,15 +3,13 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LogOut, Menu, MessageSquareText, Share2, UserRound } from "lucide-react"
+import { LogOut, Menu, MessageSquareText, LayoutDashboard, Users, UserRound } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { cn } from "@/lib/utils"
 import type { UserRole } from "@/types"
 import { NotificationBell } from "@/components/nav/NotificationBell"
 import { ShareProfileMenuItem } from "@/components/share/ShareButton"
 import { profileSharePath } from "@/lib/share/profile-path"
-import { shareOrCopyLink } from "@/lib/share/share-link"
-import { useToast } from "@/lib/hooks/use-toast"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
@@ -61,8 +59,6 @@ const adminLinks: NavLink[] = [
   { href: "/admin/reports", label: "Reports" },
 ]
 
-const mobileHidden = new Set(["/discover", "/matches", "/chat", "/jobs"])
-
 function BrandMark({ className }: { className?: string }) {
   return (
     <span className={cn("font-heading text-[17px] font-semibold tracking-[-0.03em] text-foreground", className)}>
@@ -92,10 +88,8 @@ interface AppNavProps {
 
 export function AppNav({ role, userId, fullName, email, avatarUrl, shareTitle }: AppNavProps) {
   const pathname = usePathname()
-  const { toast } = useToast()
   const [mobileOpen, setMobileOpen] = useState(false)
   const signedIn = Boolean(userId)
-  const canShareProfile = signedIn && role !== "admin" && Boolean(userId)
   const sharePath = userId && role !== "admin" ? profileSharePath(role, userId) : null
   const resolvedShareTitle = shareTitle || fullName || (role === "recruiter" ? "Company profile" : "Profile")
   const links = !signedIn
@@ -106,16 +100,6 @@ export function AppNav({ role, userId, fullName, email, avatarUrl, shareTitle }:
         ? recruiterLinks
         : adminLinks
   const homeHref = !signedIn ? "/" : role === "admin" ? "/admin" : "/discover"
-
-  const shareOwnProfile = async () => {
-    if (!sharePath) return
-    const result = await shareOrCopyLink({ path: sharePath, title: resolvedShareTitle })
-    if (result === "copied") {
-      toast({ title: "Link copied", description: "Anyone with the link can open this profile." })
-    } else if (result === "failed") {
-      toast({ variant: "destructive", title: "Could not copy link" })
-    }
-  }
 
   const handleSignOut = async () => {
     const supabase = createClient()
@@ -131,13 +115,12 @@ export function AppNav({ role, userId, fullName, email, avatarUrl, shareTitle }:
   const displayName = fullName ?? email?.split("@")[0] ?? "User"
   const initials = displayName.charAt(0).toUpperCase()
   const roleLabel = role === "admin" ? "Admin" : role === "recruiter" ? "Recruiter" : "Student"
-  const sheetLinks = role === "admin" ? links : links.filter((link) => !mobileHidden.has(link.href))
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 h-16 border-b border-border/80 bg-background/75 backdrop-blur-2xl backdrop-saturate-150">
       <div className="mx-auto grid h-full w-full max-w-[1728px] grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-6 lg:px-10 xl:px-14">
         <div className="flex min-w-0 items-center justify-self-start gap-0.5">
-          {signedIn ? (
+          {signedIn && role === "admin" ? (
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
               <SheetTrigger asChild>
                 <Button
@@ -149,7 +132,7 @@ export function AppNav({ role, userId, fullName, email, avatarUrl, shareTitle }:
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="flex w-[min(20rem,88vw)] flex-col p-0">
+              <SheetContent side="left" className="flex w-[min(20rem,88vw)] flex-col overflow-y-auto p-0">
                 <SheetHeader className="border-b border-border px-5 py-5 text-left">
                   <SheetTitle className="font-heading text-[17px] font-semibold tracking-[-0.03em]">
                     jobmatch<span className="text-muted-foreground">.</span>
@@ -159,7 +142,7 @@ export function AppNav({ role, userId, fullName, email, avatarUrl, shareTitle }:
                   </SheetDescription>
                 </SheetHeader>
                 <nav className="grid gap-0.5 p-3" aria-label="Menu">
-                  {sheetLinks.map((link) => (
+                  {links.map((link) => (
                     <SheetClose asChild key={link.href}>
                       <Link
                         href={link.href}
@@ -175,39 +158,6 @@ export function AppNav({ role, userId, fullName, email, avatarUrl, shareTitle }:
                       </Link>
                     </SheetClose>
                   ))}
-                  {signedIn && role !== "admin" ? (
-                    <>
-                      <SheetClose asChild>
-                        <Link
-                          href="/profile"
-                          className="rounded-xl px-3 py-2.5 text-[15px] font-medium tracking-[-0.01em] text-foreground/80 hover:bg-foreground/[0.04] hover:text-foreground"
-                        >
-                          Profile
-                        </Link>
-                      </SheetClose>
-                      {canShareProfile ? (
-                        <button
-                          type="button"
-                          className="flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-[15px] font-medium tracking-[-0.01em] text-foreground/80 hover:bg-foreground/[0.04] hover:text-foreground"
-                          onClick={() => {
-                            void shareOwnProfile()
-                            setMobileOpen(false)
-                          }}
-                        >
-                          <Share2 className="h-4 w-4" />
-                          Share profile
-                        </button>
-                      ) : null}
-                      <SheetClose asChild>
-                        <Link
-                          href="/feedback"
-                          className="rounded-xl px-3 py-2.5 text-[15px] font-medium tracking-[-0.01em] text-foreground/80 hover:bg-foreground/[0.04] hover:text-foreground"
-                        >
-                          Feedback
-                        </Link>
-                      </SheetClose>
-                    </>
-                  ) : null}
                 </nav>
                 <div className="mt-auto border-t border-border p-3">
                   <Button variant="ghost" className="w-full justify-start rounded-xl" onClick={handleSignOut}>
@@ -283,6 +233,18 @@ export function AppNav({ role, userId, fullName, email, avatarUrl, shareTitle }:
                         <Link href="/profile">
                           <UserRound />
                           Profile
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/dashboard">
+                          <LayoutDashboard />
+                          Insights
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/community">
+                          <Users />
+                          Community
                         </Link>
                       </DropdownMenuItem>
                       {sharePath ? <ShareProfileMenuItem path={sharePath} title={resolvedShareTitle} /> : null}

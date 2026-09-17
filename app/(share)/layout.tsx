@@ -26,7 +26,7 @@ export default async function ShareLayout({ children }: { children: React.ReactN
           )}
         </div>
       </header>
-      <main className="px-4 py-8">{children}</main>
+      <main className="px-4 py-6 sm:py-8">{children}</main>
     </div>
   )
 }

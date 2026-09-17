@@ -215,34 +215,27 @@ export function ProfilePosts({
   }
 
   return (
-    <section id="posts" className="space-y-4">
-      <div className="flex items-end justify-between gap-3">
-        <div>
-          <h2 className="font-data text-[10px] uppercase tracking-wide text-muted-foreground">Posts</h2>
-          <p className="mt-1 font-heading text-lg font-semibold tracking-tight">
-            {isOwn ? "Your posts" : "Activity"}
-          </p>
-        </div>
+    <section id="posts" className="space-y-3">
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="font-heading text-sm font-semibold">{isOwn ? "Your posts" : "Activity"}</h2>
         {isOwn ? (
-          <Button asChild variant="outline" size="sm" className="rounded-full">
+          <Button asChild variant="ghost" size="sm" className="h-8 rounded-full">
             <Link href="/feed">
               <PenLine className="h-4 w-4" />
               Write a post
             </Link>
           </Button>
         ) : (
-          <Link href="/feed" className="font-heading text-xs font-medium text-primary hover:underline">
+          <Link href="/feed" className="font-body text-xs font-medium text-muted-foreground hover:text-foreground">
             Open feed
           </Link>
         )}
       </div>
 
       {missing ? (
-        <Card className="border-dashed">
-          <CardContent className="px-5 py-8 text-center font-body text-sm text-muted-foreground">
-            Feed isn’t set up yet, so posts can’t load here.
-          </CardContent>
-        </Card>
+        <p className="rounded-xl bg-muted/50 px-4 py-5 text-center font-body text-sm text-muted-foreground">
+          Feed isn’t set up yet, so posts can’t load here.
+        </p>
       ) : loading ? (
         <div className="space-y-3">
           {[0, 1].map((i) => (
@@ -262,21 +255,9 @@ export function ProfilePosts({
           ))}
         </div>
       ) : posts.length === 0 ? (
-        <Card className="border-dashed">
-          <CardContent className="px-5 py-8 text-center">
-            <p className="font-heading text-sm font-semibold">
-              {isOwn ? "You haven’t posted yet" : "No posts yet"}
-            </p>
-            <p className="mt-1 font-body text-sm text-muted-foreground">
-              {isOwn ? "Share an update on Feed and it will show up here." : "When they post on Feed, it lands on this profile."}
-            </p>
-            {isOwn ? (
-              <Button asChild size="sm" className="mt-4 rounded-full">
-                <Link href="/feed">Go to Feed</Link>
-              </Button>
-            ) : null}
-          </CardContent>
-        </Card>
+        <p className="rounded-xl bg-muted/50 px-4 py-5 text-center font-body text-sm text-muted-foreground">
+          {isOwn ? "You haven’t posted on Feed yet." : "No posts on Feed yet."}
+        </p>
       ) : currentUser ? (
         <div className="space-y-4">
           {posts.map((post) => (

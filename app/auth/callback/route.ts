@@ -3,8 +3,10 @@ import { NextResponse, type NextRequest } from "next/server"
 import { safeInternalPath } from "@/lib/utils"
 import {
   isStudentOnboardingComplete,
+  isRecruiterOnboardingComplete,
   postAuthRedirect,
   STUDENT_ONBOARDING_SELECT,
+  RECRUITER_ONBOARDING_SELECT,
 } from "@/lib/profile/completeness"
 
 function loginErrorRedirect(origin: string, message: string) {
@@ -98,6 +100,7 @@ export async function GET(request: NextRequest) {
 
   const role = roleParam === "student" || roleParam === "recruiter" ? roleParam : profile?.role
   let studentReady = false
+  let recruiterReady = false
   if (role === "student") {
     try {
       const result = await Promise.race([
@@ -110,7 +113,19 @@ export async function GET(request: NextRequest) {
       return redirect("/onboarding")
     }
   }
+  if (role === "recruiter") {
+    try {
+      const result = await Promise.race([
+        supabase.from("recruiter_profiles").select(RECRUITER_ONBOARDING_SELECT).eq("id", user.id).maybeSingle(),
+        new Promise<never>((_, reject) => setTimeout(() => reject(new Error("timeout")), 2500)),
+      ])
+      recruiterReady = isRecruiterOnboardingComplete(result.data)
+    } catch (err) {
+      console.error("[auth/callback] recruiter profile lookup:", err)
+      return redirect("/onboarding")
+    }
+  }
 
   if (!profile) return redirect("/onboarding")
-  return redirect(postAuthRedirect({ role, studentReady, next: nextPath }))
+  return redirect(postAuthRedirect({ role, studentReady, recruiterReady, next: nextPath }))
 }

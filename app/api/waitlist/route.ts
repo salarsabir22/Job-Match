@@ -10,7 +10,33 @@ function normalizeEmail(raw: unknown): string | null {
   return v
 }
 
+const WINDOW_MS = 60_000
+const MAX_HITS = 5
+const hits = new Map<string, number[]>()
+
+function clientIp(request: Request) {
+  const forwarded = request.headers.get("x-forwarded-for")
+  if (forwarded) return forwarded.split(",")[0]?.trim() || "unknown"
+  return request.headers.get("x-real-ip") || "unknown"
+}
+
+function rateLimited(ip: string) {
+  const now = Date.now()
+  const recent = (hits.get(ip) ?? []).filter((t) => now - t < WINDOW_MS)
+  if (recent.length >= MAX_HITS) {
+    hits.set(ip, recent)
+    return true
+  }
+  recent.push(now)
+  hits.set(ip, recent)
+  return false
+}
+
 export async function POST(request: Request) {
+  if (rateLimited(clientIp(request))) {
+    return NextResponse.json({ error: "Too many attempts. Try again in a minute." }, { status: 429 })
+  }
+
   let body: unknown
   try {
     body = await request.json()

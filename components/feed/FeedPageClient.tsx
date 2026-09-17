@@ -618,14 +618,14 @@ export function FeedPageClient({ currentUser }: { currentUser: FeedCurrentUser }
           onPublish={publish}
         />
 
-        <div className="flex gap-2 overflow-x-auto pb-1">
+        <div className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {filters.map((item) => (
             <button
               key={item.id}
               type="button"
               onClick={() => setFilter(item.id)}
               className={cn(
-                "rounded-full border px-3 py-1.5 font-heading text-xs font-medium transition-colors",
+                "shrink-0 rounded-full border px-3 py-1.5 font-heading text-xs font-medium transition-colors",
                 filter === item.id
                   ? "border-primary bg-primary text-primary-foreground"
                   : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-foreground"

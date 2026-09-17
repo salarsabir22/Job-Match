@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server"
 import Link from "next/link"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, Pencil } from "lucide-react"
 import { DiscoverStatStrip } from "@/components/discover"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -62,6 +62,12 @@ export async function RecruiterJobDetail({
           <p className="font-body text-sm text-muted-foreground">{metaParts.join(" · ")}</p>
         </div>
         <ShareButton path={`/jobs/${jobId}`} title={job.title} label="Share job" />
+        <Button asChild variant="outline" className="rounded-full">
+          <Link href={`/jobs/${jobId}/edit`}>
+            <Pencil className="h-4 w-4" />
+            Edit
+          </Link>
+        </Button>
       </div>
 
       <DiscoverStatStrip

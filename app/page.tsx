@@ -259,7 +259,7 @@ function Hero() {
           <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left">
             <OrangeBadge>Now live · 10,000+ students matched</OrangeBadge>
 
-            <h1 className="font-heading font-bold text-5xl sm:text-6xl md:text-7xl leading-[1.05] mt-7 mb-6 max-w-xl">
+            <h1 className="font-heading font-bold text-[2.15rem] leading-[1.08] mt-7 mb-6 max-w-xl sm:text-5xl md:text-7xl sm:leading-[1.05]">
               Swipe Right
               <br />
               on Your{" "}
@@ -310,13 +310,13 @@ function Hero() {
             <HeroOrb />
 
             {/* Floating stat cards */}
-            <div className="absolute top-0 right-4 md:right-8 animate-float-card">
+            <div className="absolute top-0 right-2 sm:right-4 md:right-8 animate-float-card">
               <StatCard value="10,247" label="Active Students" icon={GraduationCap} />
             </div>
             <div className="absolute bottom-8 left-2 md:left-0 animate-float-card-2">
               <StatCard value="584" label="Top Companies" icon={Building2} />
             </div>
-            <div className="absolute top-1/2 -translate-y-1/2 -right-2 md:right-4 animate-float-card-3">
+            <div className="absolute top-1/2 -translate-y-1/2 right-0 md:right-4 animate-float-card-3">
               <StatCard value="5,312" label="Mutual Matches" icon={Heart} />
             </div>
             <div className="absolute bottom-0 right-8 md:right-16 animate-float-card-4">

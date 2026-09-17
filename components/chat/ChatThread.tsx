@@ -5,6 +5,7 @@ import TextareaAutosize from "react-textarea-autosize"
 import { ArrowUp, Mic, Plus } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { ChatChannelHeader } from "@/components/chat/ChatChannelHeader"
+import { InterviewRsvpBanner } from "@/components/chat/InterviewRsvpBanner"
 import { ChatEmojiPicker } from "@/components/chat/ChatEmojiPicker"
 import { ChatEmptyConversation, ChatErrorState, ChatLoadingState } from "@/components/chat/ChatEmptyState"
 import { ChatUserAvatar } from "@/components/chat/ChatUserAvatar"
@@ -139,7 +140,6 @@ export function ChatThread({
       return
     }
 
-    const { data: urlData } = supabase.storage.from("chat-media").getPublicUrl(path)
     const { data, error: sendError } = await supabase
       .from("messages")
       .insert({
@@ -147,7 +147,7 @@ export function ChatThread({
         sender_id: currentUserId,
         content: "Voice message",
         message_type: "voice",
-        media_url: urlData.publicUrl,
+        media_url: path,
         duration_seconds: duration,
       })
       .select(MESSAGE_COLS)
@@ -212,13 +212,12 @@ export function ChatThread({
       return
     }
 
-    const { data: urlData } = supabase.storage.from("chat-media").getPublicUrl(path)
     const payload = {
       conversation_id: conversationId,
       sender_id: currentUserId,
       content: label,
       message_type: messageType,
-      media_url: urlData.publicUrl,
+      media_url: path,
       duration_seconds: duration,
       file_name: fileName,
       file_size: file.size,
@@ -238,7 +237,7 @@ export function ChatThread({
           sender_id: currentUserId,
           content: label,
           message_type: fallbackType,
-          media_url: urlData.publicUrl,
+          media_url: path,
           duration_seconds: duration,
         })
         .select("id, conversation_id, sender_id, content, is_read, created_at, message_type, media_url, duration_seconds")
@@ -583,7 +582,7 @@ export function ChatThread({
 
   return (
     <div
-      className="jm-chat flex h-full min-h-0 flex-col"
+      className="jm-chat flex h-full min-h-0 w-full flex-col"
       onDragOver={(e) => {
         if (blocked) return
         e.preventDefault()
@@ -608,6 +607,9 @@ export function ChatThread({
         matchId={matchId}
         conversationId={conversationId}
       />
+      {matchId ? (
+        <InterviewRsvpBanner conversationId={conversationId} currentUserId={currentUserId} matchId={matchId} />
+      ) : null}
 
       <div className="jm-chat-thread min-h-0 flex-1 overflow-y-auto px-2 py-3 sm:px-4">
         {messages.length === 0 ? (
@@ -720,7 +722,7 @@ export function ChatThread({
           e.preventDefault()
           void sendMessage()
         }}
-        className="shrink-0 bg-gradient-to-t from-background via-background/95 to-transparent px-2 pb-[calc(0.65rem+env(safe-area-inset-bottom,0px))] pt-1.5 sm:px-4"
+        className="shrink-0 bg-gradient-to-t from-background via-background/95 to-transparent px-2 pb-2.5 pt-1.5 sm:px-4"
       >
         {blocked ? (
           <p className="px-4 pb-3 text-center font-body text-sm text-muted-foreground">

@@ -6,6 +6,9 @@
 /* ─── Design Token Layer — Clearpath app theme ───────────────────── */
 :root {
   --radius: 0.75rem;
+  --app-tabbar-height: 3.25rem;
+  --app-tabbar-offset: calc(var(--app-tabbar-height) + env(safe-area-inset-bottom, 0px));
+  --app-tabbar-clearance: calc(var(--app-tabbar-offset) + 0.5rem);
 
   /* Clearpath palette */
   --clearpath-page: #f5f5f5;

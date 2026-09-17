@@ -43,8 +43,8 @@ export function StudentDashboardCharts({
       {footnote ? (
         <p className="font-body text-[13px] leading-relaxed text-muted-foreground">{footnote}</p>
       ) : null}
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-5">
-        <Card className="lg:col-span-2">
+      <div className="grid min-w-0 grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-5">
+        <Card className="min-w-0 overflow-hidden lg:col-span-2">
           <CardHeader className="pb-2">
             <CardDescription className="font-data text-[10px] uppercase tracking-[0.16em]">Applications</CardDescription>
             <CardTitle className="font-body text-sm font-medium">Applied vs saved · 30 days</CardTitle>
@@ -89,7 +89,7 @@ export function StudentDashboardCharts({
           detail="of applications matched"
         />
 
-        <Card className="lg:col-span-3">
+        <Card className="min-w-0 overflow-hidden lg:col-span-3">
           <CardHeader className="pb-2">
             <CardDescription className="font-data text-[10px] uppercase tracking-[0.16em]">New matches</CardDescription>
             <CardTitle className="font-body text-sm font-medium">Mutual matches per day · 30 days</CardTitle>

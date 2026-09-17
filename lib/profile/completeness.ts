@@ -37,6 +37,23 @@ export function isStudentOnboardingComplete(row: StudentOnboardingFields | null 
   )
 }
 
+export const RECRUITER_ONBOARDING_SELECT = "company_name, description, hiring_focus"
+
+export type RecruiterOnboardingFields = {
+  company_name?: string | null
+  description?: string | null
+  hiring_focus?: string | null
+}
+
+export function isRecruiterOnboardingComplete(row: RecruiterOnboardingFields | null | undefined) {
+  if (!row) return false
+  return (
+    Boolean(row.company_name?.trim()) &&
+    (row.description?.trim().length ?? 0) >= 30 &&
+    (row.hiring_focus?.trim().length ?? 0) >= 10
+  )
+}
+
 function isDashboardPath(path: string) {
   return path === "/dashboard" || path.startsWith("/dashboard/")
 }
@@ -45,13 +62,17 @@ function isDashboardPath(path: string) {
 export function postAuthRedirect(opts: {
   role?: string | null
   studentReady?: boolean
+  recruiterReady?: boolean
   next?: string | null
 }) {
   const role = opts.role
   const next = safeInternalPath(opts.next)
 
   if (role === "admin") return next && !isDashboardPath(next) ? next : "/admin/users"
-  if (role === "recruiter") return next || "/jobs"
+  if (role === "recruiter") {
+    if (!opts.recruiterReady) return "/onboarding"
+    return next || "/jobs"
+  }
   if (role === "student") {
     if (!opts.studentReady) return "/onboarding"
     if (next && !isDashboardPath(next) && next !== "/onboarding") return next
