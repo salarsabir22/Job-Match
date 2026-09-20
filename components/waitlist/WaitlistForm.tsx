@@ -150,12 +150,26 @@ export function WaitlistForm() {
           >
             jobmatch<span className="opacity-50">.</span>
           </Link>
-          <a
-            href={CONTACT_MAIL}
-            className="text-[13px] font-medium text-white/45 transition-colors duration-300 hover:text-[var(--waitlist-blue)]"
-          >
-            Contact
-          </a>
+          <nav className="flex items-center gap-4 sm:gap-6" aria-label="Audience">
+            <Link
+              href="/universities"
+              className="text-[13px] font-medium text-white/45 transition-colors duration-300 hover:text-[var(--waitlist-blue)]"
+            >
+              Universities
+            </Link>
+            <Link
+              href="/corporates"
+              className="text-[13px] font-medium text-white/45 transition-colors duration-300 hover:text-[var(--waitlist-blue)]"
+            >
+              Corporates
+            </Link>
+            <a
+              href={CONTACT_MAIL}
+              className="text-[13px] font-medium text-white/45 transition-colors duration-300 hover:text-[var(--waitlist-blue)]"
+            >
+              Contact
+            </a>
+          </nav>
         </motion.header>
 
         <StaggerMount className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center px-5 py-12 text-center sm:px-10 sm:py-16 lg:px-12 lg:py-20">

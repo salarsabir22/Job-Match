@@ -11,6 +11,8 @@ const PUBLIC_PREFIXES = [
   "/terms",
   "/candidates",
   "/company",
+  "/universities",
+  "/corporates",
 ]
 
 function isPublicJobDetail(pathname: string) {

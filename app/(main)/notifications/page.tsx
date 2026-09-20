@@ -6,10 +6,11 @@ import { createClient } from "@/lib/supabase/client"
 import type { Notification } from "@/types"
 import { formatTime } from "@/lib/utils"
 import { resolveNotificationPath } from "@/lib/chat-navigation"
-import { Loader2, CheckCircle, XCircle } from "lucide-react"
+import { CheckCircle, XCircle } from "lucide-react"
 import { PushOptIn } from "@/components/nav/PushOptIn"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { NotificationListSkeleton } from "@/components/skeletons"
 
 export default function NotificationsPage() {
   const supabase = useMemo(() => createClient(), [])
@@ -76,9 +77,7 @@ export default function NotificationsPage() {
       </div>
 
       {loading ? (
-        <div className="flex items-center justify-center py-24">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
+        <NotificationListSkeleton />
       ) : items.length === 0 ? (
         <Card>
           <CardHeader className="text-center">

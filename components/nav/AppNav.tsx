@@ -3,12 +3,15 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LogOut, Menu, MessageSquareText, LayoutDashboard, Users, UserRound } from "lucide-react"
+import { LogOut, Menu, MessageSquareText, LayoutDashboard, Share2, Users, UserRound } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { cn } from "@/lib/utils"
 import type { UserRole } from "@/types"
 import { NotificationBell } from "@/components/nav/NotificationBell"
 import { ShareProfileMenuItem } from "@/components/share/ShareButton"
+import { shareOrCopyLink } from "@/lib/share/share-link"
+import { useToast } from "@/lib/hooks/use-toast"
+import { recruiterMoreLinks, studentMoreLinks } from "@/components/nav/app-nav-config"
 import { profileSharePath } from "@/lib/share/profile-path"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -88,6 +91,7 @@ interface AppNavProps {
 
 export function AppNav({ role, userId, fullName, email, avatarUrl, shareTitle }: AppNavProps) {
   const pathname = usePathname()
+  const { toast } = useToast()
   const [mobileOpen, setMobileOpen] = useState(false)
   const signedIn = Boolean(userId)
   const sharePath = userId && role !== "admin" ? profileSharePath(role, userId) : null
@@ -99,6 +103,7 @@ export function AppNav({ role, userId, fullName, email, avatarUrl, shareTitle }:
       : role === "recruiter"
         ? recruiterLinks
         : adminLinks
+  const moreLinks = role === "recruiter" ? recruiterMoreLinks : studentMoreLinks
   const homeHref = !signedIn ? "/" : role === "admin" ? "/admin" : "/discover"
 
   const handleSignOut = async () => {
@@ -120,7 +125,7 @@ export function AppNav({ role, userId, fullName, email, avatarUrl, shareTitle }:
     <header className="fixed inset-x-0 top-0 z-50 h-16 border-b border-border/80 bg-background/75 backdrop-blur-2xl backdrop-saturate-150">
       <div className="mx-auto grid h-full w-full max-w-[1728px] grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-6 lg:px-10 xl:px-14">
         <div className="flex min-w-0 items-center justify-self-start gap-0.5">
-          {signedIn && role === "admin" ? (
+          {signedIn ? (
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
               <SheetTrigger asChild>
                 <Button
@@ -138,26 +143,69 @@ export function AppNav({ role, userId, fullName, email, avatarUrl, shareTitle }:
                     jobmatch<span className="text-muted-foreground">.</span>
                   </SheetTitle>
                   <SheetDescription className="text-[13px] text-muted-foreground">
-                    {roleLabel}
+                    {displayName} · {roleLabel}
                   </SheetDescription>
                 </SheetHeader>
-                <nav className="grid gap-0.5 p-3" aria-label="Menu">
-                  {links.map((link) => (
-                    <SheetClose asChild key={link.href}>
-                      <Link
-                        href={link.href}
-                        aria-current={isActive(link.href) ? "page" : undefined}
-                        className={cn(
-                          "rounded-xl px-3 py-2.5 text-[15px] font-medium tracking-[-0.01em] transition-colors",
-                          isActive(link.href)
-                            ? "bg-foreground/[0.06] text-foreground"
-                            : "text-foreground/80 hover:bg-foreground/[0.04] hover:text-foreground"
-                        )}
+                <nav className="grid gap-0.5 p-3" aria-label="More">
+                  {role === "admin"
+                    ? links.map((link) => (
+                        <SheetClose asChild key={link.href}>
+                          <Link
+                            href={link.href}
+                            aria-current={isActive(link.href) ? "page" : undefined}
+                            className={cn(
+                              "rounded-xl px-3 py-2.5 text-[15px] font-medium tracking-[-0.01em] transition-colors",
+                              isActive(link.href)
+                                ? "bg-foreground/[0.06] text-foreground"
+                                : "text-foreground/80 hover:bg-foreground/[0.04] hover:text-foreground"
+                            )}
+                          >
+                            {link.label}
+                          </Link>
+                        </SheetClose>
+                      ))
+                    : moreLinks.map((link) => {
+                        const hrefPath = link.href.split("#")[0]
+                        const active = link.href.includes("#") ? false : isActive(hrefPath)
+                        const Icon = link.icon
+                        return (
+                          <SheetClose asChild key={link.href}>
+                            <Link
+                              href={link.href}
+                              aria-current={active ? "page" : undefined}
+                              className={cn(
+                                "flex items-center gap-3 rounded-xl px-3 py-2.5 text-[15px] font-medium tracking-[-0.01em] transition-colors",
+                                active
+                                  ? "bg-foreground/[0.06] text-foreground"
+                                  : "text-foreground/80 hover:bg-foreground/[0.04] hover:text-foreground"
+                              )}
+                            >
+                              <Icon className="h-4 w-4 shrink-0" strokeWidth={1.75} />
+                              {link.label}
+                            </Link>
+                          </SheetClose>
+                        )
+                      })}
+                  {sharePath ? (
+                    <SheetClose asChild>
+                      <button
+                        type="button"
+                        className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-left text-[15px] font-medium tracking-[-0.01em] text-foreground/80 transition-colors hover:bg-foreground/[0.04] hover:text-foreground"
+                        onClick={() => {
+                          void shareOrCopyLink({ path: sharePath, title: resolvedShareTitle }).then((result) => {
+                            if (result === "copied") {
+                              toast({ title: "Link copied", description: "Anyone with the link can open this profile." })
+                            } else if (result === "failed") {
+                              toast({ variant: "destructive", title: "Could not copy link" })
+                            }
+                          })
+                        }}
                       >
-                        {link.label}
-                      </Link>
+                        <Share2 className="h-4 w-4 shrink-0" strokeWidth={1.75} />
+                        Share profile
+                      </button>
                     </SheetClose>
-                  ))}
+                  ) : null}
                 </nav>
                 <div className="mt-auto border-t border-border p-3">
                   <Button variant="ghost" className="w-full justify-start rounded-xl" onClick={handleSignOut}>

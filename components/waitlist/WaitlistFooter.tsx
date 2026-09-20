@@ -24,11 +24,11 @@ function ExternalArrow({ label }: { label: string }) {
 }
 
 const exploreLinks = [
-  { href: "#early-access", label: "Join waitlist" },
-  { href: "#usp-heading", label: "Why JobMatch" },
-  { href: "#waitlist-faq-heading", label: "FAQ" },
-  { href: "#recruiters-heading", label: "For recruiters" },
-  { href: "#universities-heading", label: "For universities" },
+  { href: "/#early-access", label: "Join waitlist" },
+  { href: "/#usp-heading", label: "Why JobMatch" },
+  { href: "/#waitlist-faq-heading", label: "FAQ" },
+  { href: "/corporates", label: "For corporates" },
+  { href: "/universities", label: "For universities" },
 ] as const
 
 const socialLinks = [
@@ -94,7 +94,7 @@ export function WaitlistFooter() {
 
             <div className="flex shrink-0 flex-col gap-3 sm:items-end">
               <Button asChild className="h-12 w-full rounded-full bg-white px-8 text-[14px] font-semibold tracking-[-0.02em] text-[#050506] hover:bg-white/92 sm:w-auto">
-                <a href="#early-access">Join the waitlist</a>
+                <Link href="/#early-access">Join the waitlist</Link>
               </Button>
               <p className="text-center text-[11px] text-white/30 sm:text-right">One email when you&apos;re in. Unsubscribe anytime.</p>
             </div>
@@ -131,13 +131,23 @@ export function WaitlistFooter() {
             <h3 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/32">Partners</h3>
             <ul className="mt-5 flex flex-col gap-3 text-[14px]">
               <li>
+                <Link href="/corporates" className={`${focusRing} text-white/45 transition-colors hover:text-[var(--waitlist-blue)]`}>
+                  Corporates
+                </Link>
+              </li>
+              <li>
+                <Link href="/universities" className={`${focusRing} text-white/45 transition-colors hover:text-[var(--waitlist-blue)]`}>
+                  Universities
+                </Link>
+              </li>
+              <li>
                 <a href={RECRUITER} className={`${focusRing} text-white/45 transition-colors hover:text-[var(--waitlist-blue)]`}>
-                  Recruiter early access
+                  Recruiter inquiry
                 </a>
               </li>
               <li>
                 <a href={UNIVERSITY} className={`${focusRing} text-white/45 transition-colors hover:text-[var(--waitlist-blue)]`}>
-                  University partnerships
+                  Partnership inquiry
                 </a>
               </li>
             </ul>

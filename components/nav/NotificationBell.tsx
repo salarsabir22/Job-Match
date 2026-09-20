@@ -10,6 +10,7 @@ import { resolveNotificationPath } from "@/lib/chat-navigation"
 import type { Notification } from "@/types"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { ListRowSkeleton } from "@/components/skeletons"
 
 export function NotificationBell() {
   const supabase = useMemo(() => createClient(), [])
@@ -161,7 +162,7 @@ export function NotificationBell() {
 
               <div className="max-h-[min(24rem,calc(100vh-6.5rem))] overflow-y-auto overscroll-contain">
                 {loading ? (
-                  <p className="px-3 py-4 font-body text-xs text-muted-foreground">Loading…</p>
+                  <ListRowSkeleton count={4} className="px-3 py-2" />
                 ) : items.length === 0 ? (
                   <p className="px-3 py-4 font-body text-xs text-muted-foreground">No notifications yet.</p>
                 ) : (

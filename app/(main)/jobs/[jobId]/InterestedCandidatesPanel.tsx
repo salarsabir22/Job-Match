@@ -9,10 +9,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Separator } from "@/components/ui/separator"
 import { getInitials, formatDate } from "@/lib/utils"
 import { useToast } from "@/lib/hooks/use-toast"
-import { Loader2 } from "lucide-react"
 import Link from "next/link"
 import { ShowMoreButton, ShowMoreList } from "@/components/ui/show-more-list"
 import { CredentialLink } from "@/components/storage/SignedFileLink"
+import { ApplicantListSkeleton } from "@/components/skeletons"
 
 interface CandidateItem {
   id: string
@@ -170,10 +170,7 @@ export function InterestedCandidatesPanel({ recruiterId, jobId }: { recruiterId:
       </CardHeader>
       <CardContent>
         {loading ? (
-          <div className="flex items-center gap-3 py-6">
-            <Loader2 className="h-5 w-5 shrink-0 animate-spin text-muted-foreground" aria-hidden />
-            <p className="font-body text-sm text-muted-foreground">Loading…</p>
-          </div>
+          <ApplicantListSkeleton />
         ) : items.length === 0 ? (
           <p className="py-2 font-body text-sm text-muted-foreground">No applications yet.</p>
         ) : (

@@ -4,9 +4,10 @@ import { useCallback, useEffect, useState } from "react"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"
 import { useToast } from "@/lib/hooks/use-toast"
-import { Bookmark, X, Loader2, Check } from "lucide-react"
+import { Bookmark, X, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 
 type Direction = "right" | "left" | "saved"
 
@@ -71,9 +72,13 @@ export function StudentJobActions({
 
   if (loadingState === "fetch") {
     return (
-      <div className="flex items-center gap-3 py-2">
-        <Loader2 className="h-5 w-5 shrink-0 animate-spin text-muted-foreground" aria-hidden />
-        <span className="font-body text-sm text-muted-foreground">Loading your status…</span>
+      <div className="space-y-4" role="status" aria-label="Loading your status">
+        <Skeleton className="h-4 w-48" />
+        <div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
+          <Skeleton className="h-12 flex-1 rounded-xl" />
+          <Skeleton className="h-12 flex-1 rounded-xl" />
+          <Skeleton className="h-12 flex-1 rounded-xl" />
+        </div>
       </div>
     )
   }

@@ -1,4 +1,4 @@
-import { AppleActivityIndicator } from "@/components/ui/apple-activity-indicator"
+import { DiscoverPageSkeleton } from "@/components/skeletons"
 import { cn } from "@/lib/utils"
 
 type DiscoverLoadingProps = {
@@ -6,19 +6,6 @@ type DiscoverLoadingProps = {
   className?: string
 }
 
-export function DiscoverLoading({ label = "Loading…", className }: DiscoverLoadingProps) {
-  return (
-    <div
-      className={cn("flex min-h-[40vh] items-center justify-center py-24", className)}
-      role="status"
-      aria-live="polite"
-    >
-      <div className="flex flex-col items-center gap-3">
-        <AppleActivityIndicator size={36} />
-        <p className="font-body text-[13px] font-medium tracking-[-0.01em] text-muted-foreground">
-          {label}
-        </p>
-      </div>
-    </div>
-  )
+export function DiscoverLoading({ label = "Loading Discover", className }: DiscoverLoadingProps) {
+  return <DiscoverPageSkeleton className={cn(className)} label={label} />
 }

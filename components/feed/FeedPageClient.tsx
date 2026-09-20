@@ -16,6 +16,7 @@ import { isFeedReaction, type FeedReactionId } from "@/lib/feed/reactions"
 import { classifyFeedFile, validateFeedMedia, type FeedMediaKind } from "@/lib/feed/media"
 import { formatFeedHeadline } from "@/lib/feed/headline"
 import { copyShareLink } from "@/lib/share/share-link"
+import { FeedCardsSkeleton } from "@/components/skeletons"
 
 export type { FeedCurrentUser }
 
@@ -158,31 +159,6 @@ function FeedIdentityCard({
         <ChevronRight className="h-3.5 w-3.5" />
       </Link>
     </Card>
-  )
-}
-
-function FeedSkeleton() {
-  return (
-    <div className="space-y-4">
-      {[0, 1, 2].map((i) => (
-        <Card key={i} className="overflow-hidden">
-          <div className="animate-pulse space-y-4 p-5">
-            <div className="flex gap-3">
-              <div className="h-12 w-12 rounded-full bg-muted" />
-              <div className="flex-1 space-y-2 pt-1">
-                <div className="h-3 w-36 rounded bg-muted" />
-                <div className="h-3 w-52 rounded bg-muted" />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <div className="h-3 w-full rounded bg-muted" />
-              <div className="h-3 w-4/5 rounded bg-muted" />
-            </div>
-          </div>
-          <div className="h-40 animate-pulse bg-muted/70" />
-        </Card>
-      ))}
-    </div>
   )
 }
 
@@ -646,7 +622,7 @@ export function FeedPageClient({ currentUser }: { currentUser: FeedCurrentUser }
             </CardContent>
           </Card>
         ) : loading ? (
-          <FeedSkeleton />
+          <FeedCardsSkeleton />
         ) : visiblePosts.length === 0 ? (
           <Card className="border-dashed">
             <CardContent className="px-6 py-12 text-center">

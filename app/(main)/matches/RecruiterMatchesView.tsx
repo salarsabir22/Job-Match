@@ -16,7 +16,7 @@ import { DashboardPageHeader } from "@/components/dashboard/DashboardPageHeader"
 import { getInitials, formatDate, cn } from "@/lib/utils"
 import { useToast } from "@/lib/hooks/use-toast"
 import { PIPELINE_LABEL, PIPELINE_STATUSES, type PipelineStatus } from "@/lib/match/fit"
-import { AppleActivityIndicator } from "@/components/ui/apple-activity-indicator"
+import { PipelineSkeleton } from "@/components/skeletons"
 import { ShowMoreButton, ShowMoreList } from "@/components/ui/show-more-list"
 
 const BOARD_STAGES = ["chatting", "interview", "offer", "hired"] as const satisfies readonly PipelineStatus[]
@@ -358,12 +358,7 @@ export function RecruiterMatchesView({ userId }: { userId: string }) {
   )
 
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center gap-3 py-32">
-        <AppleActivityIndicator size={36} />
-        <p className="font-body text-[13px] font-medium tracking-[-0.01em] text-muted-foreground">Loading matches…</p>
-      </div>
-    )
+    return <PipelineSkeleton />
   }
 
   return (

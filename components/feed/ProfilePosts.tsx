@@ -13,6 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { FeedPostCard } from "./FeedPostCard"
+import { FeedCardsSkeleton } from "@/components/skeletons"
 import { FeedMedia } from "./FeedMedia"
 import { one, withEditedComment, withEditedPost, withoutComment, type FeedCurrentUser, type LikeRow, type PostRow } from "./types"
 
@@ -237,23 +238,7 @@ export function ProfilePosts({
           Feed isn’t set up yet, so posts can’t load here.
         </p>
       ) : loading ? (
-        <div className="space-y-3">
-          {[0, 1].map((i) => (
-            <Card key={i} className="overflow-hidden">
-              <div className="animate-pulse space-y-3 p-5">
-                <div className="flex gap-3">
-                  <div className="h-10 w-10 rounded-full bg-muted" />
-                  <div className="flex-1 space-y-2 pt-1">
-                    <div className="h-3 w-32 rounded bg-muted" />
-                    <div className="h-3 w-48 rounded bg-muted" />
-                  </div>
-                </div>
-                <div className="h-3 w-full rounded bg-muted" />
-                <div className="h-3 w-2/3 rounded bg-muted" />
-              </div>
-            </Card>
-          ))}
-        </div>
+        <FeedCardsSkeleton count={2} />
       ) : posts.length === 0 ? (
         <p className="rounded-xl bg-muted/50 px-4 py-5 text-center font-body text-sm text-muted-foreground">
           {isOwn ? "You haven’t posted on Feed yet." : "No posts on Feed yet."}

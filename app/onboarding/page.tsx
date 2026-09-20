@@ -12,6 +12,7 @@ import { CompanyPicker } from "@/components/profile/CompanyPicker"
 import { UniversityPicker } from "@/components/profile/UniversityPicker"
 import { COMPANY_INDUSTRIES, EMPLOYEE_RANGES } from "@/lib/company-options"
 import { cn } from "@/lib/utils"
+import { Skeleton } from "@/components/ui/skeleton"
 import type { UserRole } from "@/types"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -1383,9 +1384,14 @@ export default function OnboardingPage() {
 
   if (!role) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3 apple-grouped-bg text-foreground">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-        <p className="font-body text-sm text-muted-foreground">Loading…</p>
+      <div className="flex min-h-screen flex-col apple-grouped-bg px-6 py-16 text-foreground" role="status" aria-label="Loading onboarding">
+        <div className="mx-auto w-full max-w-lg space-y-6">
+          <Skeleton className="h-3 w-20" />
+          <Skeleton className="h-8 w-56 max-w-full" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-48 w-full rounded-2xl" />
+          <Skeleton className="h-12 w-full rounded-full" />
+        </div>
       </div>
     )
   }

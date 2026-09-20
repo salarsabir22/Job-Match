@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Send, Loader2, Zap } from "lucide-react"
 import { formatTime, getInitials, cn } from "@/lib/utils"
 import type { ChannelMessage } from "@/types"
+import { ChannelChatSkeleton } from "@/components/skeletons"
 
 interface ChannelChatProps {
   channelId: string
@@ -105,12 +106,7 @@ export function ChannelChat({ channelId, currentUserId }: ChannelChatProps) {
   }
 
   if (loading) {
-    return (
-      <div className="flex flex-1 items-center justify-center">
-        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" aria-hidden />
-        <span className="sr-only">Loading messages</span>
-      </div>
-    )
+    return <ChannelChatSkeleton />
   }
 
   return (

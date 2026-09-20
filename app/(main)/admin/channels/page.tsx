@@ -19,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { CommunityListSkeleton } from "@/components/skeletons"
 
 type ChannelRow = {
   id: string
@@ -128,9 +129,7 @@ export default function AdminChannelsPage() {
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
+        <CommunityListSkeleton showHeader={false} />
       ) : channels.length === 0 ? (
         <Alert>
           <Hash className="h-4 w-4" />

@@ -7,7 +7,8 @@ import { createClient } from "@/lib/supabase/client"
 import { ChatChannelHeader } from "@/components/chat/ChatChannelHeader"
 import { InterviewRsvpBanner } from "@/components/chat/InterviewRsvpBanner"
 import { ChatEmojiPicker } from "@/components/chat/ChatEmojiPicker"
-import { ChatEmptyConversation, ChatErrorState, ChatLoadingState } from "@/components/chat/ChatEmptyState"
+import { ChatEmptyConversation, ChatErrorState } from "@/components/chat/ChatEmptyState"
+import { ChatThreadSkeleton } from "@/components/skeletons"
 import { ChatUserAvatar } from "@/components/chat/ChatUserAvatar"
 import { ChatVoiceBubble } from "@/components/chat/ChatVoiceBubble"
 import { ChatMediaBubble } from "@/components/chat/ChatMediaBubble"
@@ -575,7 +576,7 @@ export function ChatThread({
     await startRecording()
   }
 
-  if (loading) return <ChatLoadingState />
+  if (loading) return <ChatThreadSkeleton />
   if (error) return <ChatErrorState message={error} />
 
   const canSend = (Boolean(draft.trim()) || pendingFiles.length > 0) && !sending && !voice.recording

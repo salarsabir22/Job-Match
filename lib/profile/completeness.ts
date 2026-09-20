@@ -58,7 +58,26 @@ function isDashboardPath(path: string) {
   return path === "/dashboard" || path.startsWith("/dashboard/")
 }
 
-/** Where to send a user after login. Students never land on dashboard until onboarding is done. */
+function isMarketingPath(path: string) {
+  const p = path.split("?")[0]
+  return (
+    p === "/" ||
+    p === "/waitlist" ||
+    p === "/universities" ||
+    p === "/corporates" ||
+    p === "/privacy" ||
+    p === "/terms" ||
+    p === "/login" ||
+    p === "/signup"
+  )
+}
+
+function appNext(path: string | null) {
+  if (!path || isMarketingPath(path) || isDashboardPath(path)) return null
+  return path
+}
+
+/** Where to send a user after login. Never bounce back to the waitlist landing. */
 export function postAuthRedirect(opts: {
   role?: string | null
   studentReady?: boolean
@@ -66,16 +85,16 @@ export function postAuthRedirect(opts: {
   next?: string | null
 }) {
   const role = opts.role
-  const next = safeInternalPath(opts.next)
+  const next = appNext(safeInternalPath(opts.next))
 
-  if (role === "admin") return next && !isDashboardPath(next) ? next : "/admin/users"
+  if (role === "admin") return next || "/admin/users"
   if (role === "recruiter") {
     if (!opts.recruiterReady) return "/onboarding"
     return next || "/jobs"
   }
   if (role === "student") {
     if (!opts.studentReady) return "/onboarding"
-    if (next && !isDashboardPath(next) && next !== "/onboarding") return next
+    if (next && next !== "/onboarding") return next
     return "/discover"
   }
   return "/onboarding"

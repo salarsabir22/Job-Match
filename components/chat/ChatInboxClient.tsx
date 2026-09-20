@@ -4,7 +4,8 @@ import { useEffect, useMemo, useState } from "react"
 import { Search } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { ChatChannelPreview } from "@/components/chat/ChatChannelPreview"
-import { ChatInboxEmpty, ChatLoadingState, ChatSelectPlaceholder } from "@/components/chat/ChatEmptyState"
+import { ChatInboxEmpty, ChatSelectPlaceholder } from "@/components/chat/ChatEmptyState"
+import { ChatInboxSkeleton } from "@/components/skeletons"
 import { ChatThread } from "@/components/chat/ChatThread"
 import { useIsDesktop } from "@/components/chat/chat-helpers"
 import { loadInbox, previewText, type InboxConversation } from "@/lib/chat/inbox"
@@ -66,7 +67,7 @@ export function ChatInboxClient({ currentUserId }: { currentUserId: string }) {
 
   const unreadTotal = conversations.reduce((sum, c) => sum + c.unreadCount, 0)
 
-  if (loading) return <ChatLoadingState />
+  if (loading) return <ChatInboxSkeleton />
 
   return (
     <div className="flex h-full min-h-0 min-w-0 bg-background">

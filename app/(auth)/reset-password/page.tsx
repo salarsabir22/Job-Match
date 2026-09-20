@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client"
 import { Loader2, Eye, EyeOff } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -89,9 +90,12 @@ export default function ResetPasswordPage() {
   if (!sessionReady && !sessionError) {
     return (
       <Card>
-        <CardContent className="pt-8 text-center">
-          <Loader2 className="mx-auto mb-3 h-8 w-8 animate-spin text-primary" />
-          <p className="font-body text-sm text-muted-foreground">Verifying your reset link…</p>
+        <CardContent className="space-y-4 pt-8" role="status" aria-label="Verifying your reset link">
+          <Skeleton className="mx-auto h-3 w-24" />
+          <Skeleton className="mx-auto h-7 w-48" />
+          <Skeleton className="h-10 w-full rounded-xl" />
+          <Skeleton className="h-10 w-full rounded-xl" />
+          <Skeleton className="h-11 w-full rounded-full" />
         </CardContent>
       </Card>
     )

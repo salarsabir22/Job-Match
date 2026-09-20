@@ -50,7 +50,7 @@ function MetricRow({
   )
 }
 
-function AudienceMetricMockup({
+export function AudienceMetricMockup({
   variant,
 }: {
   variant: "recruiter" | "university"
@@ -206,8 +206,14 @@ export function WaitlistAudienceSections() {
                   <span>Early partner access: launch timing, feedback loops, and campus-heavy workflows.</span>
                 </li>
               </ul>
-              <div className="mt-9">
+              <div className="mt-9 flex flex-wrap items-center gap-4">
                 <PrimaryCta href={RECRUITER_MAIL}>Get recruiter early access</PrimaryCta>
+                <a
+                  href="/corporates"
+                  className="text-[14px] font-medium tracking-[-0.02em] text-black/45 underline-offset-[5px] transition-colors hover:text-[var(--waitlist-blue)] hover:underline"
+                >
+                  Corporate page
+                </a>
               </div>
             </div>
             <div className="flex justify-center lg:justify-end">
@@ -246,8 +252,14 @@ export function WaitlistAudienceSections() {
                   <span>Advisor one-pagers, sessions, and a clear line for partnership questions.</span>
                 </li>
               </ul>
-              <div className="mt-9">
+              <div className="mt-9 flex flex-wrap items-center gap-4">
                 <PrimaryCta href={UNIVERSITY_MAIL}>Request partnership info</PrimaryCta>
+                <a
+                  href="/universities"
+                  className="text-[14px] font-medium tracking-[-0.02em] text-black/45 underline-offset-[5px] transition-colors hover:text-[var(--waitlist-blue)] hover:underline"
+                >
+                  University page
+                </a>
               </div>
             </div>
             <div className="flex justify-center lg:order-1 lg:justify-start">
