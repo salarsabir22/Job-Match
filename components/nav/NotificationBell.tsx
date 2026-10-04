@@ -1,6 +1,6 @@
 "use client"
 
-import { startTransition, useEffect, useMemo, useRef, useState } from "react"
+import { startTransition, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import { useRouter } from "next/navigation"
 import { Bell } from "lucide-react"
@@ -12,6 +12,26 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ListRowSkeleton } from "@/components/skeletons"
 
+type PanelCoords = { top: number; left: number; width: number; maxHeight: number }
+
+function measurePanel(button: HTMLElement): PanelCoords {
+  const rect = button.getBoundingClientRect()
+  const vw = window.innerWidth
+  const vh = window.innerHeight
+  const gutter = 12
+  const width = Math.min(360, Math.max(0, vw - gutter * 2))
+  const maxLeft = Math.max(gutter, vw - width - gutter)
+  const left = Math.min(Math.max(gutter, rect.right - width), maxLeft)
+  const top = rect.bottom + 8
+  const bottomNav = document.querySelector("nav.fixed.bottom-0")
+  const bottomLimit =
+    bottomNav instanceof HTMLElement && bottomNav.offsetHeight > 0
+      ? bottomNav.getBoundingClientRect().top
+      : vh
+  const maxHeight = Math.max(0, bottomLimit - top - 8)
+  return { top, left, width, maxHeight }
+}
+
 export function NotificationBell() {
   const supabase = useMemo(() => createClient(), [])
   const router = useRouter()
@@ -19,7 +39,7 @@ export function NotificationBell() {
   const [loading, setLoading] = useState(false)
   const [items, setItems] = useState<Notification[]>([])
   const [chatUnreadCount, setChatUnreadCount] = useState(0)
-  const [coords, setCoords] = useState({ top: 0, right: 12 })
+  const [coords, setCoords] = useState<PanelCoords | null>(null)
   const buttonRef = useRef<HTMLButtonElement | null>(null)
   const panelRef = useRef<HTMLDivElement | null>(null)
 
@@ -28,11 +48,7 @@ export function NotificationBell() {
   const placePanel = () => {
     const el = buttonRef.current
     if (!el) return
-    const rect = el.getBoundingClientRect()
-    setCoords({
-      top: Math.min(rect.bottom + 8, window.innerHeight - 16),
-      right: Math.max(12, window.innerWidth - rect.right),
-    })
+    setCoords(measurePanel(el))
   }
 
   const loadItems = async () => {
@@ -71,20 +87,28 @@ export function NotificationBell() {
     })
   }, [])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!open) return
     placePanel()
+    const onWin = () => placePanel()
+    window.addEventListener("resize", onWin)
+    window.addEventListener("scroll", onWin, true)
+    window.visualViewport?.addEventListener("resize", onWin)
+    window.visualViewport?.addEventListener("scroll", onWin)
+    return () => {
+      window.removeEventListener("resize", onWin)
+      window.removeEventListener("scroll", onWin, true)
+      window.visualViewport?.removeEventListener("resize", onWin)
+      window.visualViewport?.removeEventListener("scroll", onWin)
+    }
+  }, [open])
+
+  useEffect(() => {
+    if (!open) return
     startTransition(() => {
       void loadItems()
       void loadChatUnread()
     })
-    const onWin = () => placePanel()
-    window.addEventListener("resize", onWin)
-    window.addEventListener("scroll", onWin, true)
-    return () => {
-      window.removeEventListener("resize", onWin)
-      window.removeEventListener("scroll", onWin, true)
-    }
   }, [open])
 
   useEffect(() => {
@@ -135,17 +159,17 @@ export function NotificationBell() {
         ) : null}
       </Button>
 
-      {open && typeof document !== "undefined"
+      {open && coords && typeof document !== "undefined"
         ? createPortal(
             <Card
               ref={panelRef}
               role="dialog"
               aria-label="Notifications"
-              className="fixed z-[80] flex w-[min(22.5rem,calc(100vw-1.5rem))] flex-col overflow-hidden shadow-lg"
-              style={{ top: coords.top, right: coords.right }}
+              className="fixed z-[80] flex min-w-0 flex-col overflow-hidden shadow-lg"
+              style={{ top: coords.top, left: coords.left, width: coords.width }}
             >
-              <div className="flex shrink-0 items-center justify-between border-b border-border px-3 py-2">
-                <p className="font-body text-sm text-foreground">Notifications</p>
+              <div className="flex shrink-0 items-center justify-between gap-2 border-b border-border px-3 py-2">
+                <p className="min-w-0 truncate font-body text-sm text-foreground">Notifications</p>
                 <Button
                   type="button"
                   variant="ghost"
@@ -154,13 +178,16 @@ export function NotificationBell() {
                     setOpen(false)
                     router.push("/notifications")
                   }}
-                  className="h-7 px-2 font-data text-[10px] uppercase tracking-[0.15em] text-muted-foreground"
+                  className="h-7 shrink-0 px-2 font-data text-[10px] uppercase tracking-[0.15em] text-muted-foreground"
                 >
                   View all
                 </Button>
               </div>
 
-              <div className="max-h-[min(24rem,calc(100vh-6.5rem))] overflow-y-auto overscroll-contain">
+              <div
+                className="overflow-y-auto overscroll-contain"
+                style={{ maxHeight: Math.max(0, coords.maxHeight - 48) }}
+              >
                 {loading ? (
                   <ListRowSkeleton count={4} className="px-3 py-2" />
                 ) : items.length === 0 ? (
@@ -174,9 +201,9 @@ export function NotificationBell() {
                       className="flex w-full items-start gap-2.5 border-b border-border px-3 py-2.5 text-left last:border-b-0 hover:bg-muted/60"
                     >
                       <div className="min-w-0 flex-1">
-                        <p className="font-body text-xs font-medium leading-snug text-foreground">{n.title}</p>
+                        <p className="break-words font-body text-xs font-medium leading-snug text-foreground">{n.title}</p>
                         {n.body ? (
-                          <p className="mt-0.5 line-clamp-3 font-body text-[11px] leading-relaxed text-muted-foreground">
+                          <p className="mt-0.5 line-clamp-3 break-words font-body text-[11px] leading-relaxed text-muted-foreground">
                             {n.body}
                           </p>
                         ) : null}

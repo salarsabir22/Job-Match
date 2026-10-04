@@ -13,13 +13,21 @@ export function GET(request: Request) {
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="refresh" content="0;url=${safeHref}" />
     <title>Opening JobMatch</title>
-    <script>try{location.replace(${jsUrl})}catch(e){}</script>
   </head>
   <body style="margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#050506;color:#fff;font-family:system-ui,sans-serif">
     <p>Returning to JobMatch…</p>
-    <a href="${safeHref}" style="color:#fff">Open JobMatch</a>
+    <a id="open-app" href="${safeHref}" style="color:#fff">Open JobMatch</a>
+    <script>
+      (function () {
+        var target = ${jsUrl};
+        var hash = location.hash ? location.hash.replace(/^#/, "") : "";
+        if (hash) target += (target.indexOf("?") === -1 ? "?" : "&") + hash;
+        var link = document.getElementById("open-app");
+        if (link) link.setAttribute("href", target);
+        try { location.replace(target); } catch (e) {}
+      })();
+    </script>
   </body>
 </html>`,
     {
