@@ -1,59 +1,24 @@
 import { NextResponse, type NextRequest } from "next/server"
+import { DASHBOARD_ORIGIN } from "@/lib/auth-sites"
 
-const PUBLIC_PREFIXES = [
-  "/login",
-  "/signup",
-  "/auth",
-  "/forgot-password",
-  "/reset-password",
-  "/waitlist",
-  "/privacy",
-  "/terms",
-  "/candidates",
-  "/company",
-  "/universities",
-  "/corporates",
-]
-
-function isPublicJobDetail(pathname: string) {
-  return /^\/jobs\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(pathname)
+function staysOnLanding(pathname: string) {
+  if (pathname === "/") return true
+  if (pathname === "/waitlist" || pathname.startsWith("/waitlist/")) return true
+  if (pathname === "/universities" || pathname.startsWith("/universities/")) return true
+  if (pathname === "/corporates" || pathname.startsWith("/corporates/")) return true
+  if (pathname === "/privacy" || pathname === "/terms") return true
+  if (pathname === "/api/waitlist" || pathname.startsWith("/api/waitlist/")) return true
+  if (pathname === "/auth/native" || pathname.startsWith("/auth/native/")) return true
+  if (pathname === "/auth/google" || pathname.startsWith("/auth/google/")) return true
+  return false
 }
 
-function isPublicPath(pathname: string) {
-  return (
-    pathname === "/" ||
-    PUBLIC_PREFIXES.some((p) => pathname.startsWith(p)) ||
-    isPublicJobDetail(pathname)
-  )
-}
-
-function hasSupabaseSessionCookie(request: NextRequest) {
-  return request.cookies.getAll().some((cookie) => {
-    const name = cookie.name
-    if (!/^sb-.+-auth-token(?:\.\d+)?$/.test(name)) return false
-    return Boolean(cookie.value)
-  })
-}
-
-/**
- * Cookie-only gate. Do not call Supabase here — `getUser()` is a network hop
- * and hangs on Vercel Edge (sin1), which surfaces as MIDDLEWARE_INVOCATION_TIMEOUT.
- * Session refresh and real auth checks stay in server layouts / pages.
- */
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
+  const { pathname, search } = request.nextUrl
+  if (staysOnLanding(pathname)) return NextResponse.next()
 
-  if (isPublicPath(pathname) || pathname.startsWith("/api")) {
-    return NextResponse.next()
-  }
-
-  if (!hasSupabaseSessionCookie(request)) {
-    const login = new URL("/login", request.url)
-    login.searchParams.set("next", pathname + request.nextUrl.search)
-    return NextResponse.redirect(login)
-  }
-
-  return NextResponse.next()
+  const dest = new URL(pathname + search, DASHBOARD_ORIGIN)
+  return NextResponse.redirect(dest)
 }
 
 export const config = {
