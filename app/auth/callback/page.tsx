@@ -17,8 +17,14 @@ function fail(message: string) {
   window.location.replace(`/login?error=${encodeURIComponent(message)}`)
 }
 
-function hasCodeVerifier() {
-  return document.cookie.includes("code-verifier")
+function handoffToDashboard(path: string, accessToken: string, refreshToken: string) {
+  const dest = new URL("/auth/callback", DASHBOARD_ORIGIN)
+  dest.searchParams.set("next", path)
+  const fragment = new URLSearchParams({
+    access_token: accessToken,
+    refresh_token: refreshToken,
+  })
+  window.location.replace(`${dest.toString()}#${fragment.toString()}`)
 }
 
 function sendCodeToDashboard(params: URLSearchParams) {
@@ -43,6 +49,12 @@ export default function AuthCallbackPage() {
     async function run() {
       const params = new URLSearchParams(window.location.search)
       const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""))
+      const returnTo = sessionStorage.getItem("swypejobs.returnTo") || params.get("returnTo")
+      const roleParam = sessionStorage.getItem("swypejobs.returnRole") || params.get("role")
+      const next = sessionStorage.getItem("swypejobs.returnNext") || params.get("next")
+      sessionStorage.removeItem("swypejobs.returnTo")
+      sessionStorage.removeItem("swypejobs.returnRole")
+      sessionStorage.removeItem("swypejobs.returnNext")
       const oauthError =
         params.get("error_description") ||
         hash.get("error_description") ||
@@ -71,11 +83,6 @@ export default function AuthCallbackPage() {
           fail("Google sign-in did not complete. Try again.")
           return
         }
-        if (!hasCodeVerifier()) {
-          if (sendCodeToDashboard(params)) return
-          fail("Google sign-in did not complete. Try again.")
-          return
-        }
         const exchanged = await supabase.auth.exchangeCodeForSession(code)
         if (exchanged.error) {
           const existing = await supabase.auth.getSession()
@@ -96,12 +103,9 @@ export default function AuthCallbackPage() {
         return
       }
 
-      const returnTo = params.get("returnTo")
       if (returnTo && isAllowedReturn(returnTo) && new URL(returnTo).origin !== window.location.origin) {
         const dest = new URL("/auth/callback", returnTo)
-        const role = params.get("role")
-        const next = params.get("next")
-        if (role) dest.searchParams.set("role", role)
+        if (roleParam === "student" || roleParam === "recruiter") dest.searchParams.set("role", roleParam)
         if (next) dest.searchParams.set("next", next)
         const fragment = new URLSearchParams({
           access_token: session.access_token,
@@ -111,13 +115,11 @@ export default function AuthCallbackPage() {
         return
       }
 
-      const next = params.get("next")
       if (next === "reset-password") {
         window.location.replace("/reset-password")
         return
       }
 
-      const roleParam = params.get("role")
       if (roleParam === "student" || roleParam === "recruiter") {
         await supabase.from("profiles").update({ role: roleParam }).eq("id", session.user.id)
       }
@@ -147,11 +149,11 @@ export default function AuthCallbackPage() {
         recruiterReady = isRecruiterOnboardingComplete(data)
       }
       if (!profile && roleParam !== "student" && roleParam !== "recruiter") {
-        window.location.replace("/onboarding")
+        handoffToDashboard("/onboarding", session.access_token, session.refresh_token)
         return
       }
       const dest = postAuthRedirect({ role, studentReady, recruiterReady, next })
-      window.location.replace(dest === "/" ? DASHBOARD_ORIGIN : dest)
+      handoffToDashboard(dest, session.access_token, session.refresh_token)
     }
 
     void run()

@@ -15,10 +15,13 @@ export default function GoogleStartPage() {
     const returnTo = params.get("returnTo")
     const role = params.get("role")
     const next = params.get("next")
+    if (returnTo && isAllowedReturn(returnTo)) sessionStorage.setItem("swypejobs.returnTo", returnTo)
+    else sessionStorage.removeItem("swypejobs.returnTo")
+    if (role === "student" || role === "recruiter") sessionStorage.setItem("swypejobs.returnRole", role)
+    else sessionStorage.removeItem("swypejobs.returnRole")
+    if (next) sessionStorage.setItem("swypejobs.returnNext", next)
+    else sessionStorage.removeItem("swypejobs.returnNext")
     const redirectTo = new URL("/auth/callback", window.location.origin)
-    if (returnTo && isAllowedReturn(returnTo)) redirectTo.searchParams.set("returnTo", returnTo)
-    if (role === "student" || role === "recruiter") redirectTo.searchParams.set("role", role)
-    if (next) redirectTo.searchParams.set("next", next)
 
     const supabase = createClient()
     void supabase.auth

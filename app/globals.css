@@ -355,6 +355,133 @@ body {
   .animate-orbit-ccw { animation: none !important; }
 }
 
+/* ─── Landing page theme (.lp) ───────────────────────────────────── */
+.lp {
+  color-scheme: light;
+
+  /* shadcn tokens, remapped so every shadcn component renders light and high-contrast on this page */
+  --background: #f7f6ff;
+  --foreground: #14102e;
+  --card: #ffffff;
+  --card-foreground: #14102e;
+  --popover: #ffffff;
+  --popover-foreground: #14102e;
+  --primary: #5a48ff;
+  --primary-foreground: #ffffff;
+  --secondary: #ecebff;
+  --secondary-foreground: #14102e;
+  --muted-var: #ecebff;
+  --muted-foreground: #55506b;
+  --accent: #e9e6ff;
+  --accent-foreground: #251c4d;
+  --border: rgba(20, 16, 46, 0.14);
+  --input: rgba(20, 16, 46, 0.28);
+  --ring: #5a48ff;
+  --clearpath-navy-hover: #4a39e0;
+
+  /* landing accents */
+  --lp-accent: #4a39e0;
+  --lp-mint: #3ee0a8;
+  --lp-mint-ink: #0a7a56;
+  --lp-coral: #ff7a5c;
+  --lp-coral-ink: #b3361d;
+  --lp-surface: #ecebff;
+  --lp-grid: rgba(90, 72, 255, 0.09);
+
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* ─── Logo font: Bagoss Condensed ────────────────────────────────────
+   Bagoss is a commercial typeface (Displaay). Put your licensed files in
+   public/fonts/ using the names below. Until they exist the browser skips this
+   face and the logo falls back to the next font in the stack. */
+@font-face {
+  font-family: "BagossCondensedFont";
+  src:
+    url("/fonts/BagossCondensed-Bold.woff2") format("woff2"),
+    url("/fonts/BagossCondensed-Bold.woff") format("woff"),
+    url("/fonts/BagossCondensed-Bold.otf") format("opentype"),
+    url("/fonts/BagossCondensed-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "BagossCondensedFont Fallback";
+  src: local("Arial");
+  size-adjust: 92%;
+  ascent-override: 92%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+.lp-logo-font {
+  font-family: "BagossCondensedFont", var(--font-outfit), "BagossCondensedFont Fallback", Arial, Helvetica, sans-serif;
+}
+
+.lp-grid {
+  background-image:
+    linear-gradient(var(--lp-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--lp-grid) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 25%, #000 25%, transparent 78%);
+  mask-image: radial-gradient(ellipse 75% 70% at 50% 25%, #000 25%, transparent 78%);
+}
+
+/* Hero: copy, deck, form. Deck sits before the form on small screens. */
+.lp-hero-grid {
+  display: grid;
+  gap: 2.5rem;
+  grid-template-areas: "copy" "deck" "form";
+}
+.lp-area-copy { grid-area: copy; }
+.lp-area-deck { grid-area: deck; }
+.lp-area-form { grid-area: form; }
+@media (min-width: 1024px) {
+  .lp-hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(440px, 620px);
+    grid-template-rows: auto auto;
+    grid-template-areas: "copy deck" "form deck";
+    column-gap: 3.5rem;
+    row-gap: 2.25rem;
+    align-content: center;
+  }
+  .lp-area-deck { align-self: center; }
+  /* The deck spans both rows; keep copy and form adjacent, centred as a pair. */
+  .lp-area-copy { align-self: end; }
+  .lp-area-form { align-self: start; }
+}
+
+@keyframes lp-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.lp-float { animation: lp-float 6s ease-in-out infinite; }
+.lp-float-slow { animation: lp-float 8s ease-in-out infinite; animation-delay: -3s; }
+
+@keyframes lp-flow {
+  to { stroke-dashoffset: -24; }
+}
+.lp-flow {
+  stroke-dasharray: 4 8;
+  animation: lp-flow 1.1s linear infinite;
+}
+
+@keyframes lp-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(1.7); }
+}
+.lp-pulse {
+  animation: lp-pulse 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-flow,
+  .lp-float,
+  .lp-float-slow,
+  .lp-pulse { animation: none !important; }
+}
+
 /* ─── Waitlist USP demos (CSS only, no video) ───────────────────── */
 @keyframes usp-demo-swipe {
   0%, 100% { transform: translateX(0) rotate(0deg); }

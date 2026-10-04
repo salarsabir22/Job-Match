@@ -10,6 +10,9 @@ function staysOnLanding(pathname: string) {
   if (pathname === "/api/waitlist" || pathname.startsWith("/api/waitlist/")) return true
   if (pathname === "/auth/native" || pathname.startsWith("/auth/native/")) return true
   if (pathname === "/auth/google" || pathname.startsWith("/auth/google/")) return true
+  // Google returns here with the PKCE cookie. Forwarding this hop to the dashboard
+  // drops that cookie and the dashboard can only show its login page.
+  if (pathname === "/auth/callback" || pathname.startsWith("/auth/callback/")) return true
   return false
 }
 
