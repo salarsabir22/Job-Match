@@ -64,7 +64,7 @@ export default function LoginScreen() {
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: colors.ink }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
       <ScrollView contentContainerStyle={styles.wrap} keyboardShouldPersistTaps="handled">
         <Text style={styles.wordmark}>
-          jobmatch<Text style={{ opacity: 0.45 }}>.</Text>
+          swypejobs<Text style={{ opacity: 0.45 }}>.</Text>
         </Text>
         <Text style={styles.title}>Sign in</Text>
         <Text style={styles.lede}>Same account as the website. Swipe, match, chat.</Text>

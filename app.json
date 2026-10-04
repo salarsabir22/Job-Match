@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "JobMatch",
+    "name": "swypejobs",
     "slug": "jobmatch",
     "scheme": "jobmatch",
     "version": "1.0.0",
@@ -33,7 +33,6 @@
       ]
     },
     "web": {
-      "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
     "plugins": [
@@ -42,15 +41,15 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "JobMatch uses your photos for profile, logos, and feed posts.",
-          "cameraPermission": "JobMatch uses the camera for chat photos."
+          "photosPermission": "swypejobs uses your photos for profile, logos, and feed posts.",
+          "cameraPermission": "swypejobs uses the camera for chat photos."
         }
       ],
       "expo-document-picker",
       [
         "expo-audio",
         {
-          "microphonePermission": "JobMatch records voice notes in chat."
+          "microphonePermission": "swypejobs records voice notes in chat."
         }
       ],
       [

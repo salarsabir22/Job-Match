@@ -141,7 +141,7 @@ export default function DashboardScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.wrap}>
-      <Text style={styles.lede}>Same numbers as the website dashboard — pulled live from JobMatch.</Text>
+      <Text style={styles.lede}>Same numbers as the website dashboard — pulled live from swypejobs.</Text>
       <View style={styles.grid}>
         {stats.map((s) => (
           <View key={s.label} style={styles.card}>

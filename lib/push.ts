@@ -74,7 +74,7 @@ export async function presentPing(opts: {
   if (conversationId && conversationId === activeConversationId) return
   await api.scheduleNotificationAsync({
     content: {
-      title: opts.title || "JobMatch",
+      title: opts.title || "swypejobs",
       body: opts.body || "",
       data: opts.data ?? {},
       sound: true,

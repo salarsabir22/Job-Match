@@ -1,4 +1,4 @@
-# JobMatch mobile
+# swypejobs
 
 Expo app in `mobile/`. It uses the **same Supabase project** as `Job-Match` (auth, Postgres + RLS, realtime). There is no second API.
 
@@ -10,7 +10,7 @@ npm install
 npx expo start
 ```
 
-Scan the QR code with Expo Go. Sign in with an existing JobMatch email/password.
+Scan the QR code with Expo Go. Sign in with an existing swypejobs email/password.
 
 Copy `.env.example` to `.env` if needed. Only the public URL and anon key belong here — never the service-role key.
 

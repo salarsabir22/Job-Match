@@ -34,7 +34,7 @@ export default function ResetPasswordScreen() {
   return (
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: colors.ink }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
       <View style={styles.wrap}>
-        <Text style={styles.wordmark}>jobmatch.</Text>
+        <Text style={styles.wordmark}>swypejobs.</Text>
         <Text style={styles.title}>New password</Text>
         <Text style={styles.lede}>Choose a password for the same account you use on the website.</Text>
         <View style={{ gap: 14, marginTop: 28 }}>

@@ -31,7 +31,7 @@ export function PushBridge() {
             data?: Record<string, unknown> | null
           }
           void presentPing({
-            title: row.title || "JobMatch",
+            title: row.title || "swypejobs",
             body: row.body || row.message || "",
             data: { ...(row.data || {}), type: row.type },
           })

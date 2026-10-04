@@ -58,7 +58,7 @@ export default function SignupScreen() {
   if (verify) {
     return (
       <View style={styles.wrap}>
-        <Text style={styles.wordmark}>jobmatch.</Text>
+        <Text style={styles.wordmark}>swypejobs.</Text>
         <Text style={styles.title}>Check your inbox</Text>
         <Text style={styles.lede}>
           We sent a confirmation link to {email}. Open it, then come back and sign in.
@@ -75,7 +75,7 @@ export default function SignupScreen() {
   return (
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: colors.ink }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
       <ScrollView contentContainerStyle={styles.wrap} keyboardShouldPersistTaps="handled">
-        <Text style={styles.wordmark}>jobmatch.</Text>
+        <Text style={styles.wordmark}>swypejobs.</Text>
         <Text style={styles.title}>Create account</Text>
         <Text style={styles.lede}>Same backend as the site. Pick the role you’ll use.</Text>
         <View style={styles.roles}>

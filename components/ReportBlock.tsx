@@ -72,7 +72,7 @@ export function ReportBlock({
         <Pressable style={styles.backdrop} onPress={() => setOpen(false)}>
           <Pressable style={styles.sheet} onPress={() => undefined}>
             <Text style={styles.title}>Report {peerName || "this profile"}</Text>
-            <Text style={styles.body}>Reports go to JobMatch admins. Blocking is separate.</Text>
+            <Text style={styles.body}>Reports go to swypejobs admins. Blocking is separate.</Text>
             <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 12 }}>
               {REPORT_REASONS.map((item) => (
                 <Chip

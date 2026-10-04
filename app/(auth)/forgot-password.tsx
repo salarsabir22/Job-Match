@@ -33,7 +33,7 @@ export default function ForgotPasswordScreen() {
   return (
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: colors.ink }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
       <View style={styles.wrap}>
-        <Text style={styles.wordmark}>jobmatch.</Text>
+        <Text style={styles.wordmark}>swypejobs.</Text>
         <Text style={styles.title}>{sent ? "Check your inbox" : "Reset password"}</Text>
         <Text style={styles.lede}>
           {sent

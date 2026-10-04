@@ -366,7 +366,7 @@ export default function FeedScreen() {
                     <GhostButton label={shareCount ? `Repost ${shareCount}` : "Repost"} onPress={() => void repost(item)} />
                     <GhostButton
                       label="Share"
-                      onPress={() => void Share.share({ message: item.body || original?.body || "JobMatch post" })}
+                      onPress={() => void Share.share({ message: item.body || original?.body || "swypejobs post" })}
                     />
                   </View>
                   {item.author_id === userId ? (
