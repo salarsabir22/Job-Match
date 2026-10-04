@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 import { createClient } from "@/lib/supabase/client"
-import { isAllowedReturn } from "@/lib/auth-sites"
+import { DASHBOARD_ORIGIN, isAllowedReturn } from "@/lib/auth-sites"
 import {
   isRecruiterOnboardingComplete,
   isStudentOnboardingComplete,
@@ -15,6 +15,24 @@ let started = false
 
 function fail(message: string) {
   window.location.replace(`/login?error=${encodeURIComponent(message)}`)
+}
+
+function hasCodeVerifier() {
+  return document.cookie.includes("code-verifier")
+}
+
+function sendCodeToDashboard(params: URLSearchParams) {
+  const code = params.get("code")
+  if (!code || params.get("from") === "dashboard") return false
+  const dest = new URL("/auth/callback", DASHBOARD_ORIGIN)
+  dest.searchParams.set("code", code)
+  dest.searchParams.set("from", "landing")
+  const role = params.get("role")
+  const next = params.get("next")
+  if (role) dest.searchParams.set("role", role)
+  if (next) dest.searchParams.set("next", next)
+  window.location.replace(dest.toString())
+  return true
 }
 
 export default function AuthCallbackPage() {
@@ -53,10 +71,18 @@ export default function AuthCallbackPage() {
           fail("Google sign-in did not complete. Try again.")
           return
         }
+        if (!hasCodeVerifier()) {
+          if (sendCodeToDashboard(params)) return
+          fail("Google sign-in did not complete. Try again.")
+          return
+        }
         const exchanged = await supabase.auth.exchangeCodeForSession(code)
         if (exchanged.error) {
           const existing = await supabase.auth.getSession()
           if (!existing.data.session) {
+            if (exchanged.error.message.toLowerCase().includes("code verifier") && sendCodeToDashboard(params)) {
+              return
+            }
             fail(exchanged.error.message)
             return
           }
@@ -124,7 +150,8 @@ export default function AuthCallbackPage() {
         window.location.replace("/onboarding")
         return
       }
-      window.location.replace(postAuthRedirect({ role, studentReady, recruiterReady, next }))
+      const dest = postAuthRedirect({ role, studentReady, recruiterReady, next })
+      window.location.replace(dest === "/" ? DASHBOARD_ORIGIN : dest)
     }
 
     void run()

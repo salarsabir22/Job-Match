@@ -1,5 +1,7 @@
+import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import { WaitlistForm } from "@/components/waitlist/WaitlistForm"
+import { DASHBOARD_ORIGIN } from "@/lib/auth-sites"
 import { createClient } from "@/lib/supabase/server"
 import {
   isRecruiterOnboardingComplete,
@@ -25,6 +27,12 @@ export default async function HomePage({
     for (const [key, value] of Object.entries(params)) {
       const v = firstParam(value)
       if (v) q.set(key, v)
+    }
+    const jar = await cookies()
+    const hasVerifier = jar.getAll().some((cookie) => cookie.name.includes("code-verifier"))
+    if (firstParam(params.code) && !hasVerifier) {
+      q.set("from", "landing")
+      redirect(`${DASHBOARD_ORIGIN}/auth/callback?${q.toString()}`)
     }
     redirect(`/auth/callback?${q.toString()}`)
   }
