@@ -34,7 +34,7 @@ export function PushOptIn() {
           (payload) => {
             const row = payload.new as { title?: string; body?: string }
             try {
-              new Notification(row.title || "JobMatch", { body: row.body || "", icon: "/favicon.ico" })
+              new Notification(row.title || "swypejobs", { body: row.body || "", icon: "/favicon.ico" })
             } catch {
               /* ignore */
             }

@@ -148,7 +148,7 @@ export function ReportBlockMenu({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Report {peerName || "this profile"}</DialogTitle>
-            <DialogDescription>Reports go to JobMatch admins. Blocking is separate if you also want them gone from your feed.</DialogDescription>
+            <DialogDescription>Reports go to swypejobs admins. Blocking is separate if you also want them gone from your feed.</DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
             <div className="space-y-1.5">

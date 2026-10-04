@@ -6,7 +6,7 @@ export default function TermsPage() {
       <div className="mx-auto max-w-xl">
         <h1 className="text-2xl font-semibold tracking-tight">Terms</h1>
         <p className="mt-4 text-sm leading-relaxed text-black/60">
-          Terms of use for JobMatch are in progress. Reach us at{" "}
+          Terms of use for swypejobs are in progress. Reach us at{" "}
           <a href="mailto:hello@jobmatch.app" className="underline underline-offset-2">
             hello@jobmatch.app
           </a>{" "}

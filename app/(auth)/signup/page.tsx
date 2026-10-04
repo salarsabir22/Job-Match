@@ -144,7 +144,7 @@ export default function SignupPage() {
           <div className="mb-5 rounded-xl border border-border bg-muted/50 p-3.5 text-left">
             <p className="mb-2 font-data text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Next steps</p>
             <ol className="list-inside list-decimal space-y-1">
-              <li className="font-body text-xs text-muted-foreground">Open the email from JobMatch</li>
+              <li className="font-body text-xs text-muted-foreground">Open the email from swypejobs</li>
               <li className="font-body text-xs text-muted-foreground">Click &quot;Confirm your email&quot;</li>
               <li className="font-body text-xs text-muted-foreground">Complete your profile</li>
             </ol>

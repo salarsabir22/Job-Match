@@ -31,7 +31,7 @@ function transporter() {
 export function mailFrom() {
   const user = process.env.SMTP_USER?.trim()
   const from = process.env.SMTP_FROM?.trim()
-  return from || user || "JobMatch"
+  return from || user || "swypejobs"
 }
 
 export async function sendMail(input: SendMailInput): Promise<{ ok: boolean; error?: string }> {

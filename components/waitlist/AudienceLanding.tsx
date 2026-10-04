@@ -64,14 +64,14 @@ const university: PageCopy = {
   kicker: "For career centers & universities",
   title: "Help students get hired without turning your office into another job board",
   lede:
-    "JobMatch sits beside career services. Students opt in. Employers only talk after a mutual match. You keep the advising relationship — we handle discovery, intent, and the conversation tied to the role.",
+    "swypejobs sits beside career services. Students opt in. Employers only talk after a mutual match. You keep the advising relationship — we handle discovery, intent, and the conversation tied to the role.",
   chips: ["Student opt-in", "Mutual match before chat", "Partnership reporting"],
   ctaLabel: "Request a partnership briefing",
   ctaHref: UNIVERSITY_MAIL,
   problemKicker: "The gap on campus",
   problemTitle: "Portals collect applications. They do not tell you who actually wants the role.",
   problemLede:
-    "Students spray résumés. Employers ghost. Advisors cannot see what happened after the fair. JobMatch is built for that gap — interest first, conversation second.",
+    "Students spray résumés. Employers ghost. Advisors cannot see what happened after the fair. swypejobs is built for that gap — interest first, conversation second.",
   pains: [
     {
       title: "Students drown in noise",
@@ -170,7 +170,7 @@ const university: PageCopy = {
   faqs: [
     {
       q: "Do we have to migrate off our existing career platform?",
-      a: "No. JobMatch is an extra discovery layer. Keep your events, appointments, and employer database. Students use JobMatch when they want swipe-based matching with chat only after mutual interest.",
+      a: "No. swypejobs is an extra discovery layer. Keep your events, appointments, and employer database. Students use swypejobs when they want swipe-based matching with chat only after mutual interest.",
     },
     {
       q: "Will you email our student list?",
@@ -208,7 +208,7 @@ const corporate: PageCopy = {
   problemKicker: "Why campus pipelines stall",
   problemTitle: "Volume is easy. Knowing who still wants the job is not.",
   problemLede:
-    "Boards reward spray-and-pray. Fairs expire. LinkedIn is a cold inbox. JobMatch is for teams that want a shortlist of people who actually raised their hand.",
+    "Boards reward spray-and-pray. Fairs expire. LinkedIn is a cold inbox. swypejobs is for teams that want a shortlist of people who actually raised their hand.",
   pains: [
     {
       title: "Applications without intent",
@@ -289,7 +289,7 @@ const corporate: PageCopy = {
       next: "No message until they swiped your role and you swiped them back.",
     },
   ],
-  processTitle: "Getting on JobMatch",
+  processTitle: "Getting on swypejobs",
   process: [
     {
       title: "Fit call",
@@ -307,7 +307,7 @@ const corporate: PageCopy = {
   faqs: [
     {
       q: "Do we need a full ATS replacement?",
-      a: "No. JobMatch is where campus interest is qualified. Export or copy people you hire into whatever you already use for offers and onboarding.",
+      a: "No. swypejobs is where campus interest is qualified. Export or copy people you hire into whatever you already use for offers and onboarding.",
     },
     {
       q: "Can we message students who have not matched?",
@@ -570,7 +570,7 @@ export function AudienceLanding({ audience }: { audience: Audience }) {
           style={{ fontSize: "clamp(4.5rem, 16vw, 12rem)" }}
           aria-hidden
         >
-          jobmatch.
+          swypejobs.
         </div>
         <motion.div
           className="relative z-10 mx-auto flex w-full max-w-[1120px] items-center justify-between gap-4 px-5 pt-7 sm:px-10 sm:pt-9 lg:px-12"
@@ -582,7 +582,7 @@ export function AudienceLanding({ audience }: { audience: Audience }) {
             href="/"
             className="text-lg font-semibold lowercase tracking-[-0.02em] text-white/90 transition-colors hover:text-white sm:text-[1.15rem]"
           >
-            jobmatch<span className="opacity-50">.</span>
+            swypejobs<span className="opacity-50">.</span>
           </Link>
           <nav className="flex flex-wrap items-center justify-end gap-x-4 gap-y-2 sm:gap-6" aria-label="Audience">
             <Link
@@ -776,7 +776,7 @@ export function AudienceLanding({ audience }: { audience: Audience }) {
                   </p>
                   <p className="text-[14px] leading-[1.6] text-black/70">
                     <span className="mb-1.5 block text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--waitlist-blue)]">
-                      On JobMatch
+                      On swypejobs
                     </span>
                     {row.next}
                   </p>

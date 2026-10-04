@@ -40,19 +40,19 @@ const formShake = {
 const WAITLIST_FACE_AVATARS: { src: string; alt: string }[] = [
   {
     src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&crop=faces&w=128&h=128&q=75",
-    alt: "Student on the JobMatch waitlist",
+    alt: "Student on the swypejobs waitlist",
   },
   {
     src: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&crop=faces&w=128&h=128&q=75",
-    alt: "Student on the JobMatch waitlist",
+    alt: "Student on the swypejobs waitlist",
   },
   {
     src: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&crop=faces&w=128&h=128&q=75",
-    alt: "Student on the JobMatch waitlist",
+    alt: "Student on the swypejobs waitlist",
   },
   {
     src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&crop=faces&w=128&h=128&q=75",
-    alt: "Student on the JobMatch waitlist",
+    alt: "Student on the swypejobs waitlist",
   },
 ]
 
@@ -148,7 +148,7 @@ export function WaitlistForm() {
             href="/"
             className="text-lg sm:text-[1.15rem] font-semibold tracking-[-0.02em] lowercase text-white/90 hover:text-white transition-colors duration-300"
           >
-            jobmatch<span className="opacity-50">.</span>
+            swypejobs<span className="opacity-50">.</span>
           </Link>
           <nav className="flex items-center gap-4 sm:gap-6" aria-label="Audience">
             <Link

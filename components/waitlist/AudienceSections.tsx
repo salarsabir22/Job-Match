@@ -160,7 +160,7 @@ export function AudienceMetricMockup({
           {isRecruiter ? (
             <>
               <p>Posting · Summer intern - Engineering</p>
-              <p>Channel · JobMatch · Mutual-only chat</p>
+              <p>Channel · swypejobs · Mutual-only chat</p>
             </>
           ) : (
             <>
@@ -193,7 +193,7 @@ export function WaitlistAudienceSections() {
                 Hire from real intent, not inbox noise
               </h2>
               <p className="mt-5 max-w-[42ch] text-[16px] leading-[1.55] text-black/48 sm:text-[17px]">
-                JobMatch is built for teams that want signal before the first message - especially for internships, new
+                swypejobs is built for teams that want signal before the first message - especially for internships, new
                 grad, and high-volume campus pipelines. Swipe interest, mutual match, then chat tied to the role.
               </p>
               <ul className="mt-6 max-w-[44ch] space-y-3 text-[15px] leading-[1.5] text-black/50">

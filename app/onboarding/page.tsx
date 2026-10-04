@@ -73,7 +73,7 @@ function BrowserFrame({ children }: { children: React.ReactNode }) {
       <div className="border-b border-border bg-muted/75 px-1.5 pt-1.5">
         <div className="flex max-w-full items-center gap-2 rounded-t-lg border border-b-0 border-border bg-background px-3 py-2 shadow-[0_-1px_0_0_var(--background)]">
           <Globe className="size-3.5 shrink-0 text-primary" aria-hidden />
-          <span className="truncate font-data text-[11px] font-medium tracking-tight text-foreground">jobmatch.app</span>
+          <span className="truncate font-data text-[11px] font-medium tracking-tight text-foreground">swypejobs.app</span>
         </div>
       </div>
       {/* Omnibox */}
@@ -81,7 +81,7 @@ function BrowserFrame({ children }: { children: React.ReactNode }) {
         <div className="flex h-8 items-center gap-2 rounded-lg border border-border bg-background px-2.5 shadow-sm">
           <Lock className="size-3 shrink-0 text-emerald-600" aria-hidden />
           <span className="min-w-0 flex-1 truncate font-data text-[10px] text-muted-foreground tabular-nums">
-            https://jobmatch.app/discover
+            https://swypejobs.app/discover
           </span>
         </div>
       </div>
@@ -1406,7 +1406,7 @@ export default function OnboardingPage() {
       {/* ── Top bar ── */}
       <header className="relative z-10 flex items-center justify-between gap-4 border-b border-border bg-card/90 px-4 py-3.5 backdrop-blur-md sm:px-6">
         <div className="min-w-0">
-          <span className="font-heading text-base font-semibold tracking-tight text-foreground">JobMatch</span>
+          <span className="font-heading text-base font-semibold tracking-tight text-foreground">swypejobs</span>
           <p className="truncate font-data text-[10px] uppercase tracking-wide text-muted-foreground">Set up your account</p>
         </div>
 

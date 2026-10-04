@@ -13,11 +13,11 @@ export function GET(request: Request) {
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Opening JobMatch</title>
+    <title>Opening swypejobs</title>
   </head>
   <body style="margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#050506;color:#fff;font-family:system-ui,sans-serif">
-    <p>Returning to JobMatch…</p>
-    <a id="open-app" href="${safeHref}" style="color:#fff">Open JobMatch</a>
+    <p>Returning to swypejobs…</p>
+    <a id="open-app" href="${safeHref}" style="color:#fff">Open swypejobs</a>
     <script>
       (function () {
         var target = ${jsUrl};

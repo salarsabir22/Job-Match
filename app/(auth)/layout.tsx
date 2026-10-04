@@ -5,7 +5,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
     <div className="flex min-h-screen flex-col apple-grouped-bg text-foreground selection:bg-primary/20">
       <header className="flex h-16 shrink-0 items-center px-4 sm:px-8">
         <Link href="/" className="font-heading text-[17px] font-semibold tracking-tight text-foreground">
-          jobmatch<span className="text-muted-foreground">.</span>
+          swypejobs<span className="text-muted-foreground">.</span>
         </Link>
       </header>
 
@@ -15,7 +15,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
       <footer className="mx-auto w-full max-w-[1280px] shrink-0 px-4 py-8 sm:px-8 lg:px-24">
         <p className="text-center font-body text-[11px] text-muted-foreground sm:text-right sm:text-xs">
-          © {new Date().getFullYear()} JobMatch
+          © {new Date().getFullYear()} swypejobs
         </p>
       </footer>
     </div>

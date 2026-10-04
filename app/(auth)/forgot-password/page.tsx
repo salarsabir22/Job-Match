@@ -71,7 +71,7 @@ export default function ForgotPasswordPage() {
         <CardContent>
           <div className="mb-5 space-y-3 rounded-xl border border-border bg-muted/40 p-4">
             {[
-              { n: "1", text: "Open the email from JobMatch" },
+              { n: "1", text: "Open the email from swypejobs" },
               { n: "2", text: "Click “Reset your password”" },
               { n: "3", text: "Choose a new password" },
             ].map(({ n, text }) => (

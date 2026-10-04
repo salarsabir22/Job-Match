@@ -16,7 +16,7 @@ export default async function WaitlistSuccessPage({
             href="/"
             className="text-lg sm:text-[1.15rem] font-semibold tracking-[-0.02em] lowercase text-white/90 hover:text-white transition-colors duration-300"
           >
-            jobmatch<span className="opacity-50">.</span>
+            swypejobs<span className="opacity-50">.</span>
           </Link>
           <a
             href="mailto:hello@jobmatch.app"
@@ -42,7 +42,7 @@ export default async function WaitlistSuccessPage({
         </main>
 
         <footer className="w-full max-w-[1120px] mx-auto px-5 sm:px-10 lg:px-12 py-8 flex justify-center sm:justify-end">
-          <p className="text-[11px] sm:text-xs text-white/28 font-body">© {new Date().getFullYear()} JobMatch</p>
+          <p className="text-[11px] sm:text-xs text-white/28 font-body">© {new Date().getFullYear()} swypejobs</p>
         </footer>
       </div>
     )
@@ -55,7 +55,7 @@ export default async function WaitlistSuccessPage({
           href="/"
           className="text-lg sm:text-[1.15rem] font-semibold tracking-[-0.02em] lowercase text-white/90 hover:text-white transition-colors duration-300"
         >
-          jobmatch<span className="opacity-50">.</span>
+          swypejobs<span className="opacity-50">.</span>
         </Link>
         <a
           href="mailto:hello@jobmatch.app"
@@ -98,7 +98,7 @@ export default async function WaitlistSuccessPage({
       </main>
 
       <footer className="w-full max-w-[1120px] mx-auto px-5 sm:px-10 lg:px-12 py-8 flex justify-center sm:justify-end">
-        <p className="text-[11px] sm:text-xs text-white/28 font-body">© {new Date().getFullYear()} JobMatch</p>
+        <p className="text-[11px] sm:text-xs text-white/28 font-body">© {new Date().getFullYear()} swypejobs</p>
       </footer>
     </div>
   )

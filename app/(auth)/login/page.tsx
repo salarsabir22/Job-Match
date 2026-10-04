@@ -126,7 +126,7 @@ export default function LoginPage() {
       <CardHeader className="text-center">
         <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">Account</p>
         <CardTitle className="text-[20px] sm:text-[21px]">Welcome back</CardTitle>
-        <CardDescription>Sign in to JobMatch</CardDescription>
+        <CardDescription>Sign in to swypejobs</CardDescription>
       </CardHeader>
       <CardContent>
 

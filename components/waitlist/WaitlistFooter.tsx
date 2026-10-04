@@ -25,7 +25,7 @@ function ExternalArrow({ label }: { label: string }) {
 
 const exploreLinks = [
   { href: "/#early-access", label: "Join waitlist" },
-  { href: "/#usp-heading", label: "Why JobMatch" },
+  { href: "/#usp-heading", label: "Why swypejobs" },
   { href: "/#waitlist-faq-heading", label: "FAQ" },
   { href: "/corporates", label: "For corporates" },
   { href: "/universities", label: "For universities" },
@@ -56,7 +56,7 @@ export function WaitlistFooter() {
         style={{ fontSize: "clamp(5rem, 22vw, 16rem)" }}
         aria-hidden
       >
-        jobmatch
+        swypejobs
       </div>
 
       <div className="relative z-10 w-full px-[clamp(1.25rem,5vw,4.5rem)]">
@@ -64,13 +64,13 @@ export function WaitlistFooter() {
         <Reveal className="flex w-full flex-col gap-10 border-b border-white/[0.07] py-14 sm:gap-12 sm:py-16 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-xl lg:max-w-[min(100%,36rem)]">
             <p id="footer-brand-heading" className="text-[10px] font-semibold uppercase tracking-[0.28em] text-white/30">
-              JobMatch
+              swypejobs
             </p>
             <Link
               href="/"
               className={`${focusRing} mt-3 inline-block text-[clamp(1.75rem,4vw,2.75rem)] font-semibold tracking-[-0.045em] text-white`}
             >
-              jobmatch<span className="text-white/35">.</span>
+              swypejobs<span className="text-white/35">.</span>
             </Link>
             <p className="mt-5 text-pretty text-[15px] leading-[1.65] text-white/48 sm:text-base sm:leading-relaxed">
               Early-access hiring for students, recruiters, and university partners. Swipe with context, match with
@@ -106,12 +106,12 @@ export function WaitlistFooter() {
           <section className="xl:col-span-4">
             <h3 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/32">About</h3>
             <p className="mt-5 text-pretty text-[14px] leading-[1.7] text-white/48 sm:text-[15px]">
-              Less noise, more signal. JobMatch is built for early-career pipelines where spray-and-pray inboxes
+              Less noise, more signal. swypejobs is built for early-career pipelines where spray-and-pray inboxes
               don&apos;t scale - for students who want clarity and teams who want intent they can trust.
             </p>
           </section>
 
-          <nav aria-label="Explore JobMatch" className="xl:col-span-2">
+          <nav aria-label="Explore swypejobs" className="xl:col-span-2">
             <h3 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/32">Explore</h3>
             <ul className="mt-5 flex flex-col gap-3">
               {exploreLinks.map((item) => (
@@ -201,7 +201,7 @@ export function WaitlistFooter() {
         {/* ── Sub-footer: full-width bar ─────────────────────────────────── */}
         <Reveal className="grid w-full grid-cols-1 gap-6 py-10 text-[12px] sm:py-12 lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-4">
           <p className="text-white/32 tabular-nums tracking-[-0.01em] lg:justify-self-start">
-            © {YEAR} JobMatch. All rights reserved.
+            © {YEAR} swypejobs. All rights reserved.
           </p>
           <p className="text-center text-[11px] font-medium uppercase tracking-[0.35em] text-white/22 lg:px-6">
             Swipe · Match · Hire

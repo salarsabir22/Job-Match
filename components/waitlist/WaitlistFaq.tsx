@@ -17,7 +17,7 @@ const CONTACT_MAIL = "mailto:hello@jobmatch.app"
 
 const faqs: { q: string; a: string }[] = [
   {
-    q: "How does JobMatch work for students?",
+    q: "How does swypejobs work for students?",
     a: "You browse roles with context on pay band, location, and team. Swipe to pass or show interest. If a recruiter shortlists you back, it’s a mutual match - only then can you message in-app, tied to that job.",
   },
   {
@@ -25,7 +25,7 @@ const faqs: { q: string; a: string }[] = [
     a: "So neither side burns time on one-way outreach. Students aren’t buried in recruiter spam, and recruiters focus on people who actually want that role.",
   },
   {
-    q: "Is JobMatch only for internships?",
+    q: "Is swypejobs only for internships?",
     a: "We’re focused on early-career and campus-heavy hiring - internships and new grad roles are the sweet spot. Other full-time roles may appear as we grow.",
   },
   {
@@ -33,7 +33,7 @@ const faqs: { q: string; a: string }[] = [
     a: "We’re onboarding in waves. Join the waitlist with your email and we’ll notify you once - no spam. Recruiters and universities can also reach out via Contact for partner timing.",
   },
   {
-    q: "How do recruiters get on JobMatch?",
+    q: "How do recruiters get on swypejobs?",
     a: "We’re working with a small set of hiring teams first. Email us from the recruiters section (or Contact) with your volume and target schools - we’ll share early-access details.",
   },
   {
@@ -65,7 +65,7 @@ export function WaitlistFaq() {
               Frequently Asked Questions
             </h2>
             <p className="mt-5 text-[16px] leading-[1.55] text-black/48 sm:text-[17px]">
-              Get answers to commonly asked questions about JobMatch, early access, and how students, recruiters, and
+              Get answers to commonly asked questions about swypejobs, early access, and how students, recruiters, and
               schools fit together.
             </p>
             <a

@@ -73,7 +73,7 @@ function DemoSwipe() {
           </div>
           <div className="min-w-0">
             <p className="truncate text-[12px] font-semibold tracking-[-0.02em] text-black">Discover</p>
-            <p className="truncate font-mono text-[9px] text-black/38">jobmatch.app/student</p>
+            <p className="truncate font-mono text-[9px] text-black/38">swypejobs.app/student</p>
           </div>
         </div>
         <div className="flex shrink-0 items-center gap-1.5">
@@ -346,7 +346,7 @@ export function WaitlistUspSections() {
             id="usp-heading"
             className="text-[11px] font-medium uppercase tracking-[0.22em] text-[var(--waitlist-blue)]"
           >
-            Why JobMatch
+            Why swypejobs
           </p>
           <h2 className="mx-auto mt-5 max-w-4xl text-balance text-[clamp(2.35rem,6.5vw,4rem)] font-semibold leading-[1.08] tracking-[-0.038em] text-black md:text-[clamp(2.65rem,5.5vw,3.95rem)]">
             Built for how hiring should feel.

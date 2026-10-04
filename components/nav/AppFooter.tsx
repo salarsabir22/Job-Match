@@ -53,7 +53,7 @@ function columnsFor(role: UserRole | "admin"): { cols: FooterCol[]; cta: FooterL
 
   if (role === "admin") {
     return {
-      blurb: "Moderation, approvals, and reports for the JobMatch campus network.",
+      blurb: "Moderation, approvals, and reports for the swypejobs campus network.",
       cta: { href: "/admin", label: "Open console" },
       cols: [
         {
@@ -144,7 +144,7 @@ export function AppFooter({ role }: { role: UserRole | "admin" }) {
         style={{ fontSize: "clamp(5rem, 22vw, 16rem)" }}
         aria-hidden
       >
-        jobmatch
+        swypejobs
       </div>
 
       <div
@@ -156,13 +156,13 @@ export function AppFooter({ role }: { role: UserRole | "admin" }) {
               id="app-footer-brand-heading"
               className="text-[10px] font-semibold uppercase tracking-[0.28em] text-white/30"
             >
-              JobMatch
+              swypejobs
             </p>
             <Link
               href="/discover"
               className={`${focusRing} mt-3 inline-block text-[clamp(1.75rem,4vw,2.75rem)] font-semibold tracking-[-0.045em] text-white`}
             >
-              jobmatch<span className="text-white/35">.</span>
+              swypejobs<span className="text-white/35">.</span>
             </Link>
             <p className="mt-5 max-w-md text-pretty text-[15px] leading-[1.65] text-white/48 sm:text-base">
               {blurb}
@@ -204,7 +204,7 @@ export function AppFooter({ role }: { role: UserRole | "admin" }) {
 
         <div className="grid w-full grid-cols-1 gap-6 py-10 text-[12px] sm:py-12 lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-4">
           <p className="text-white/32 tabular-nums tracking-[-0.01em] lg:justify-self-start">
-            © {YEAR} JobMatch. All rights reserved.
+            © {YEAR} swypejobs. All rights reserved.
           </p>
           <p className="text-center text-[11px] font-medium uppercase tracking-[0.35em] text-white/22 lg:px-6">
             Discover · Match · Chat

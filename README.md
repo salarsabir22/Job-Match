@@ -1,4 +1,4 @@
-# JobMatch MVP
+# swypejobs MVP
 
 A Tinder-style job matching platform for students and recruiters — built with Next.js 14 (App Router) and Supabase.
 
@@ -105,4 +105,4 @@ Use either the **publishable** key (`sb_publishable_...`) or the legacy **anon**
 
 **Waitlist:** The homepage waitlist form calls **`/api/waitlist`**, which uses **`SUPABASE_SERVICE_ROLE_KEY`** so signups are not blocked by browser RLS or publishable-key quirks. Never expose that key in client code or `NEXT_PUBLIC_*` vars.
 
-**Waitlist confirmation email (optional):** Add **`RESEND_API_KEY`** from [Resend](https://resend.com). Optionally set **`WAITLIST_EMAIL_FROM`** (e.g. `JobMatch <waitlist@yourdomain.com>` — must be a verified sender in Resend). If `RESEND_API_KEY` is omitted, waitlist signup still works; the UI just won’t mention a confirmation email.
+**Waitlist confirmation email (optional):** Add **`RESEND_API_KEY`** from [Resend](https://resend.com). Optionally set **`WAITLIST_EMAIL_FROM`** (e.g. `swypejobs <waitlist@yourdomain.com>` — must be a verified sender in Resend). If `RESEND_API_KEY` is omitted, waitlist signup still works; the UI just won’t mention a confirmation email.

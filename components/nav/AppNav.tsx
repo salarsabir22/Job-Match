@@ -65,7 +65,7 @@ const adminLinks: NavLink[] = [
 function BrandMark({ className }: { className?: string }) {
   return (
     <span className={cn("font-heading text-[17px] font-semibold tracking-[-0.03em] text-foreground", className)}>
-      jobmatch<span className="text-muted-foreground">.</span>
+      swypejobs<span className="text-muted-foreground">.</span>
     </span>
   )
 }
@@ -140,7 +140,7 @@ export function AppNav({ role, userId, fullName, email, avatarUrl, shareTitle }:
               <SheetContent side="left" className="flex w-[min(20rem,88vw)] flex-col overflow-y-auto p-0">
                 <SheetHeader className="border-b border-border px-5 py-5 text-left">
                   <SheetTitle className="font-heading text-[17px] font-semibold tracking-[-0.03em]">
-                    jobmatch<span className="text-muted-foreground">.</span>
+                    swypejobs<span className="text-muted-foreground">.</span>
                   </SheetTitle>
                   <SheetDescription className="text-[13px] text-muted-foreground">
                     {displayName} · {roleLabel}

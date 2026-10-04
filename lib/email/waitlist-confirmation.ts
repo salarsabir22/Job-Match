@@ -18,7 +18,7 @@ function confirmationHtml() {
             <td align="center">
               <p style="margin:0;color:#ffffff;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:18px;font-weight:600;letter-spacing:-0.02em;">You&#39;re on the waitlist</p>
               <p style="margin:14px 0 0;color:rgba(255,255,255,0.5);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:14px;line-height:1.55;max-width:360px;">
-                Thanks for joining <strong style="color:rgba(255,255,255,0.85);">JobMatch</strong> early access. We&apos;ll email you once when your spot opens &mdash; no spam.
+                Thanks for joining <strong style="color:rgba(255,255,255,0.85);">swypejobs</strong> early access. We&apos;ll email you once when your spot opens &mdash; no spam.
               </p>
               <p style="margin:24px 0 0;color:rgba(255,255,255,0.28);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:12px;line-height:1.5;">
                 If you didn&#39;t sign up, you can ignore this message.
@@ -36,7 +36,7 @@ function confirmationHtml() {
 function notifyHtml(email: string) {
   return `<!DOCTYPE html>
 <html lang="en"><body style="font-family:system-ui,sans-serif;line-height:1.5;color:#111;">
-  <p>New JobMatch waitlist signup</p>
+  <p>New swypejobs waitlist signup</p>
   <p><strong>${email.replace(/</g, "")}</strong></p>
   <p style="color:#666;font-size:13px;">Stored in <code>waitlist_emails</code>.</p>
 </body></html>`
@@ -49,9 +49,9 @@ export async function sendWaitlistConfirmationEmail(to: string): Promise<{ ok: b
 
   const confirmation = await sendMail({
     to,
-    subject: "You're on the JobMatch waitlist",
+    subject: "You're on the swypejobs waitlist",
     html: confirmationHtml(),
-    text: "You're on the JobMatch waitlist. We'll email you once when early access opens.",
+    text: "You're on the swypejobs waitlist. We'll email you once when early access opens.",
   })
 
   const notifyTo = (process.env.WAITLIST_NOTIFY_TO?.trim() || process.env.SMTP_USER?.trim() || "").toLowerCase()

@@ -409,7 +409,7 @@ export function WaitlistPageSkeleton() {
 
 export function LandingPageSkeleton() {
   return (
-    <div className="min-h-screen bg-white" role="status" aria-label="Loading JobMatch">
+    <div className="min-h-screen bg-white" role="status" aria-label="Loading swypejobs">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5">
         <Skeleton className="h-8 w-32 bg-black/10" />
         <div className="hidden gap-3 md:flex">
