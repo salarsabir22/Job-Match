@@ -3,8 +3,8 @@
 import type { ReactNode } from "react"
 import { Reveal } from "@/components/motion/waitlist-motion"
 
-const RECRUITER_MAIL = "mailto:hello@jobmatch.app?subject=Recruiter%20inquiry"
-const UNIVERSITY_MAIL = "mailto:hello@jobmatch.app?subject=University%20partnership"
+const RECRUITER_MAIL = "mailto:hello@swypejobs.app?subject=Recruiter%20inquiry"
+const UNIVERSITY_MAIL = "mailto:hello@swypejobs.app?subject=University%20partnership"
 
 function Chevron() {
   return (

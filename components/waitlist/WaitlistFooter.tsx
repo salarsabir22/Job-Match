@@ -4,9 +4,9 @@ import Link from "next/link"
 import { Reveal } from "@/components/motion/waitlist-motion"
 import { Button } from "@/components/ui/button"
 
-const CONTACT = "mailto:hello@jobmatch.app"
-const RECRUITER = "mailto:hello@jobmatch.app?subject=Recruiter%20inquiry"
-const UNIVERSITY = "mailto:hello@jobmatch.app?subject=University%20partnership"
+const CONTACT = "mailto:hello@swypejobs.app"
+const RECRUITER = "mailto:hello@swypejobs.app?subject=Recruiter%20inquiry"
+const UNIVERSITY = "mailto:hello@swypejobs.app?subject=University%20partnership"
 const YEAR = new Date().getFullYear()
 
 const focusRing =
@@ -85,7 +85,7 @@ export function WaitlistFooter() {
                 href={CONTACT}
                 className={`${focusRing} mt-3 block w-fit text-[17px] font-medium tracking-[-0.02em] text-white transition-colors hover:text-[var(--waitlist-blue)] sm:ml-auto`}
               >
-                hello@jobmatch.app
+                hello@swypejobs.app
               </a>
               <p className="mt-2 max-w-xs text-[13px] leading-snug text-white/38 sm:ml-auto sm:text-right">
                 We read every message - typically within two to three business days.

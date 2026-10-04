@@ -19,7 +19,7 @@ export default async function WaitlistSuccessPage({
             swypejobs<span className="opacity-50">.</span>
           </Link>
           <a
-            href="mailto:hello@jobmatch.app"
+            href="mailto:hello@swypejobs.app"
             className="text-[13px] font-medium text-white/40 hover:text-white/80 transition-colors duration-300"
           >
             Contact
@@ -58,7 +58,7 @@ export default async function WaitlistSuccessPage({
           swypejobs<span className="opacity-50">.</span>
         </Link>
         <a
-          href="mailto:hello@jobmatch.app"
+          href="mailto:hello@swypejobs.app"
           className="text-[13px] font-medium text-white/40 hover:text-white/80 transition-colors duration-300"
         >
           Contact

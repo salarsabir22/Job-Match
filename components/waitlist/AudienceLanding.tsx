@@ -22,9 +22,9 @@ import { WaitlistFooter } from "@/components/waitlist/WaitlistFooter"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-const CONTACT_MAIL = "mailto:hello@jobmatch.app"
-const RECRUITER_MAIL = "mailto:hello@jobmatch.app?subject=Recruiter%20inquiry"
-const UNIVERSITY_MAIL = "mailto:hello@jobmatch.app?subject=University%20partnership"
+const CONTACT_MAIL = "mailto:hello@swypejobs.app"
+const RECRUITER_MAIL = "mailto:hello@swypejobs.app?subject=Recruiter%20inquiry"
+const UNIVERSITY_MAIL = "mailto:hello@swypejobs.app?subject=University%20partnership"
 
 type Audience = "university" | "corporate"
 

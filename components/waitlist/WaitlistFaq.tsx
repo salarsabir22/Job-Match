@@ -13,7 +13,7 @@ import {
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
-const CONTACT_MAIL = "mailto:hello@jobmatch.app"
+const CONTACT_MAIL = "mailto:hello@swypejobs.app"
 
 const faqs: { q: string; a: string }[] = [
   {

@@ -7,8 +7,8 @@ export default function PrivacyPage() {
         <h1 className="text-2xl font-semibold tracking-tight">Privacy</h1>
         <p className="mt-4 text-sm leading-relaxed text-black/60">
           We&apos;re drafting a clear privacy policy for swypejobs. For questions in the meantime, email{" "}
-          <a href="mailto:hello@jobmatch.app" className="underline underline-offset-2">
-            hello@jobmatch.app
+          <a href="mailto:hello@swypejobs.app" className="underline underline-offset-2">
+            hello@swypejobs.app
           </a>
           .
         </p>

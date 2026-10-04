@@ -29,7 +29,7 @@ const WaitlistFooter = dynamic(() =>
   import("@/components/waitlist/WaitlistFooter").then((m) => m.WaitlistFooter),
 )
 
-const CONTACT_MAIL = "mailto:hello@jobmatch.app"
+const CONTACT_MAIL = "mailto:hello@swypejobs.app"
 
 const formShake = {
   x: [0, -10, 10, -8, 8, -4, 4, 0],

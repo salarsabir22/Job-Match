@@ -7,8 +7,8 @@ export default function TermsPage() {
         <h1 className="text-2xl font-semibold tracking-tight">Terms</h1>
         <p className="mt-4 text-sm leading-relaxed text-black/60">
           Terms of use for swypejobs are in progress. Reach us at{" "}
-          <a href="mailto:hello@jobmatch.app" className="underline underline-offset-2">
-            hello@jobmatch.app
+          <a href="mailto:hello@swypejobs.app" className="underline underline-offset-2">
+            hello@swypejobs.app
           </a>{" "}
           for product or partnership questions.
         </p>
