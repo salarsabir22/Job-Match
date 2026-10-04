@@ -1,0 +1,39 @@
+{
+  "cli": {
+    "version": ">= 24.7.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_SITE_URL": "https://job-match-self.vercel.app",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://wywfusrvbtuhjvvwawrd.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5d2Z1c3J2YnR1aGp2dndhd3JkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0MjIyMzQsImV4cCI6MjA4ODk5ODIzNH0.KoYn67GxnHNyysHRsA_EHJhA2b--oimlyB8XUqK5lG0"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_SITE_URL": "https://job-match-self.vercel.app",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://wywfusrvbtuhjvvwawrd.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5d2Z1c3J2YnR1aGp2dndhd3JkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0MjIyMzQsImV4cCI6MjA4ODk5ODIzNH0.KoYn67GxnHNyysHRsA_EHJhA2b--oimlyB8XUqK5lG0"
+      }
+    },
+    "production": {
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_SITE_URL": "https://job-match-self.vercel.app",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://wywfusrvbtuhjvvwawrd.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5d2Z1c3J2YnR1aGp2dndhd3JkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0MjIyMzQsImV4cCI6MjA4ODk5ODIzNH0.KoYn67GxnHNyysHRsA_EHJhA2b--oimlyB8XUqK5lG0"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

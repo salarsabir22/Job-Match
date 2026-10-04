@@ -1,25 +1,76 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "JobMatch",
+    "slug": "jobmatch",
+    "scheme": "jobmatch",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#050506"
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "app.jobmatch.mobile"
     },
     "android": {
+      "package": "app.jobmatch.mobile",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#1e3a5f",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"
+      ]
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-web-browser",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "JobMatch uses your photos for profile, logos, and feed posts.",
+          "cameraPermission": "JobMatch uses the camera for chat photos."
+        }
+      ],
+      "expo-document-picker",
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "JobMatch records voice notes in chat."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#1e3a5f",
+          "defaultChannel": "pings"
+        }
+      ],
+      "expo-video"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c2187314-fa0c-4d89-b042-4b6d4bff0ade"
+      }
+    },
+    "owner": "salar2"
   }
 }
