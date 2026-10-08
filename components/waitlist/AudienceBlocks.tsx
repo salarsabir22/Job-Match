@@ -1,8 +1,8 @@
 "use client"
 
-import type { ReactNode } from "react"
 import { Button } from "@/components/ui/button"
 import { QAAccordion, type AccordionItemData } from "@/components/waitlist/Accordion"
+import type { HeroMode } from "@/components/waitlist/landing-mode"
 import { CandidatePanel, RecruiterPanel, UniversityPanel } from "@/components/waitlist/ProductPanels"
 import { Rise } from "@/components/waitlist/lp-ui"
 
@@ -72,32 +72,9 @@ const lede = "mt-5 max-w-[44ch] text-[16px] leading-[1.6] text-muted-foreground"
 const wrap =
   "mx-auto grid w-full max-w-[1120px] items-center gap-12 px-5 py-20 sm:px-8 sm:py-24 lg:grid-cols-2 lg:gap-16 lg:py-28"
 
-export function AudienceBlocks({ afterCandidates }: { afterCandidates?: ReactNode }) {
-  return (
-    <>
-      <section id="candidates" className="scroll-mt-20" aria-labelledby="candidates-heading">
-        <div className={wrap}>
-          <Rise>
-            <h2 id="candidates-heading" className={`${h2} max-w-[14ch]`}>
-              Judge a job in one glance.
-            </h2>
-            <p className={lede}>
-              Internships and new-grad roles, shown as cards with the details that matter. No forty-field forms and no
-              applying into the void.
-            </p>
-            <QAAccordion items={candidateItems} className="mt-8" />
-            <Button asChild className="mt-8 h-11 px-6 text-[14px] font-semibold">
-              <a href="#early-access">Join the waitlist</a>
-            </Button>
-          </Rise>
-          <Rise>
-            <CandidatePanel />
-          </Rise>
-        </div>
-      </section>
-
-      {afterCandidates}
-
+export function AudienceBlocks({ mode }: { mode: HeroMode }) {
+  if (mode === "people") {
+    return (
       <section id="recruiters" className="scroll-mt-20 bg-[var(--lp-surface)]" aria-labelledby="recruiters-heading">
         <div className={wrap}>
           <Rise className="lg:order-2">
@@ -117,7 +94,11 @@ export function AudienceBlocks({ afterCandidates }: { afterCandidates?: ReactNod
           </Rise>
         </div>
       </section>
+    )
+  }
 
+  if (mode === "campus") {
+    return (
       <section id="universities" className="scroll-mt-20" aria-labelledby="universities-heading">
         <div className={wrap}>
           <Rise>
@@ -140,6 +121,29 @@ export function AudienceBlocks({ afterCandidates }: { afterCandidates?: ReactNod
           </Rise>
         </div>
       </section>
-    </>
+    )
+  }
+
+  return (
+    <section id="candidates" className="scroll-mt-20" aria-labelledby="candidates-heading">
+      <div className={wrap}>
+        <Rise>
+          <h2 id="candidates-heading" className={`${h2} max-w-[14ch]`}>
+            Judge a job in one glance.
+          </h2>
+          <p className={lede}>
+            Internships and new-grad roles, shown as cards with the details that matter. No forty-field forms and no
+            applying into the void.
+          </p>
+          <QAAccordion items={candidateItems} className="mt-8" />
+          <Button asChild className="mt-8 h-11 px-6 text-[14px] font-semibold">
+            <a href="#early-access">Join the waitlist</a>
+          </Button>
+        </Rise>
+        <Rise>
+          <CandidatePanel />
+        </Rise>
+      </div>
+    </section>
   )
 }

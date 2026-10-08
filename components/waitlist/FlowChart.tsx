@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { easeOutExpo } from "@/components/motion/waitlist-motion"
+import { campusSteps, type HeroMode } from "@/components/waitlist/landing-mode"
 import { cn } from "@/lib/utils"
 
 type Lane = "candidate" | "recruiter" | "decision" | "match" | "none"
@@ -72,9 +73,36 @@ function NodeBody({ node }: { node: FlowNode }) {
   )
 }
 
-export function FlowChart() {
+function CampusFlow() {
+  const reduce = useReducedMotion()
+  return (
+    <ol className="grid gap-4 sm:grid-cols-2">
+      {campusSteps.map((step, i) => (
+        <motion.li
+          key={step.k}
+          initial={reduce ? false : { y: 12 }}
+          whileInView={{ y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.4, delay: i * 0.08, ease: easeOutExpo }}
+        >
+          <Card className="h-full bg-[var(--lp-surface)] p-6">
+            <p className="font-mono text-[13px] tabular-nums text-[var(--lp-mint-ink)]">{String(i + 1).padStart(2, "0")}</p>
+            <p className="mt-3 text-[1.2rem] font-semibold tracking-[-0.03em]">{step.k}</p>
+            <p className="mt-2 text-[15px] leading-[1.55] text-muted-foreground">{step.d}</p>
+          </Card>
+        </motion.li>
+      ))}
+    </ol>
+  )
+}
+
+export function FlowChart({ mode = "jobs" }: { mode?: HeroMode }) {
   const reduce = useReducedMotion()
   const pct = (v: number, total: number) => `${(v / total) * 100}%`
+
+  if (mode === "campus") {
+    return <CampusFlow />
+  }
 
   return (
     <div>

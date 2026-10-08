@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, type FormEvent } from "react"
+import { useEffect, useState, type FormEvent } from "react"
 import Link from "next/link"
 import { Menu } from "lucide-react"
 import { AnimatePresence, motion, useAnimation, useReducedMotion } from "framer-motion"
@@ -21,9 +21,21 @@ import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { QAAccordion, type AccordionItemData } from "@/components/waitlist/Accordion"
+import { QAAccordion } from "@/components/waitlist/Accordion"
 import { AudienceBlocks } from "@/components/waitlist/AudienceBlocks"
 import { FlowChart } from "@/components/waitlist/FlowChart"
+import {
+  audienceHash,
+  compareByMode,
+  ctaCopy,
+  faqsByMode,
+  heroCopy,
+  heroTiles,
+  howCopy,
+  modeFromHash,
+  principlesByMode,
+  type HeroMode,
+} from "@/components/waitlist/landing-mode"
 import { UniversityPanel } from "@/components/waitlist/ProductPanels"
 import { BentoGrid, BuiltForBand, PersonaTabs } from "@/components/waitlist/Showcase"
 import { SwipeDeck } from "@/components/waitlist/SwipeDeck"
@@ -34,86 +46,21 @@ const CONTACT = "mailto:hello@swypejobs.app"
 const UNIVERSITY_MAIL = "mailto:hello@swypejobs.app?subject=University%20partnership"
 const YEAR = new Date().getFullYear()
 
-type HeroMode = "jobs" | "people" | "campus"
-
 const formShake = {
   x: [0, -8, 8, -5, 5, 0],
   transition: { duration: 0.4, ease: "easeInOut" as const },
 }
 
-const heroCopy: Record<HeroMode, { a: string; b: string; lede: string }> = {
-  jobs: {
-    a: "Swipe the jobs",
-    b: "you’d actually take.",
-    lede: "swypejobs is a hiring platform for students and early-career talent. Pay, city and team are on every card. A swipe is your application, and chat opens only if the recruiter swipes back.",
-  },
-  people: {
-    a: "Swipe the students",
-    b: "who already want it.",
-    lede: "Every student in your deck already swiped your role. Swipe back to open a thread tied to that job. No cold outreach and no inbox full of résumés.",
-  },
-  campus: {
-    a: "A better way to get",
-    b: "your students hired.",
-    lede: "swypejobs sits beside career services. Students opt in, employers talk to them only after a mutual match, and your office sees aggregate outcomes where consent allows.",
-  },
-}
-
-const heroTiles: { id: HeroMode; label: string }[] = [
-  { id: "jobs", label: "Candidate" },
-  { id: "people", label: "Recruiter" },
-  { id: "campus", label: "University" },
-]
-
-const navLinks = [
+const sectionLinks = [
   { href: "#platform", label: "Platform" },
   { href: "#how-it-works", label: "How it works" },
-  { href: "#candidates", label: "Candidates" },
-  { href: "#recruiters", label: "Recruiters" },
-  { href: "#universities", label: "Universities" },
   { href: "#faq", label: "FAQ" },
 ]
 
-const principles = [
-  { v: "0", l: "cold messages", d: "Nobody can message first." },
-  { v: "2", l: "yeses to unlock chat", d: "Candidate and recruiter both opt in." },
-  { v: "1", l: "thread per role", d: "Every conversation is tied to a job." },
-  { v: "3", l: "sides, one platform", d: "Candidates, recruiters and campuses." },
-]
-
-const compareCols = ["Job boards", "Cold DMs and email", "swypejobs"]
-const compareRows: { k: string; v: [string, string, string] }[] = [
-  { k: "Who can message first", v: ["The candidate applies, then waits", "Whoever hits send", "Nobody, until both swipe yes"] },
-  { k: "Signal of intent", v: ["A click on Apply", "None", "A swipe on one specific role"] },
-  { k: "Pay and city up front", v: ["Sometimes", "Rarely", "On every card"] },
-  { k: "Where the conversation lives", v: ["Email", "Scattered DMs", "One thread per role"] },
-]
-
-const faqs: AccordionItemData[] = [
-  {
-    q: "How does swypejobs work for students?",
-    a: "You browse roles with pay band, location and team context. Swipe to pass or show interest. If the recruiter swipes back, it is a mutual match and you can message in-app, tied to that job.",
-  },
-  {
-    q: "Why mutual match before chat?",
-    a: "So neither side burns time on one-way outreach. Students are not buried in recruiter spam, and recruiters focus on people who actually want that role.",
-  },
-  {
-    q: "Is it only for internships?",
-    a: "The focus is early-career and campus-heavy hiring: internships and new-grad roles. Other full-time roles may appear as we grow.",
-  },
-  {
-    q: "When does early access open?",
-    a: "We are onboarding in waves. Join the waitlist and we will email you once when your wave opens. Recruiters and universities can also reach out for partner timing.",
-  },
-  {
-    q: "How do recruiters get on?",
-    a: "We are working with a small set of hiring teams first. Email us with your volume and target schools and we will share early-access details.",
-  },
-  {
-    q: "Can career centers and universities partner?",
-    a: "Yes. The product is designed to sit beside your office, not replace it. Partnerships can include co-branded sessions, advisor materials and aggregate reporting where policy allows.",
-  },
+const audienceLinks: { mode: HeroMode; label: string }[] = [
+  { mode: "jobs", label: "Candidates" },
+  { mode: "people", label: "Recruiters" },
+  { mode: "campus", label: "Universities" },
 ]
 
 function Wordmark() {
@@ -124,7 +71,7 @@ function Wordmark() {
   )
 }
 
-function Signup({ id }: { id: string }) {
+function Signup({ id, audience }: { id: string; audience: HeroMode }) {
   const reduceMotion = useReducedMotion()
   const formControls = useAnimation()
 
@@ -158,7 +105,7 @@ function Signup({ id }: { id: string }) {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: value }),
+        body: JSON.stringify({ email: value, audience }),
       })
       const data = (await res.json().catch(() => ({}))) as { error?: string; confirmationEmailSent?: boolean }
       if (!res.ok) throw new Error(data.error || "Failed to join waitlist.")
@@ -190,42 +137,42 @@ function Signup({ id }: { id: string }) {
                 ? "We sent a confirmation. We’ll email you again when your wave opens."
                 : "We’ll email you when your wave opens."}
             </p>
-          </motion.div>
-        ) : (
+                  </motion.div>
+                ) : (
           <motion.form key="form" onSubmit={submit} animate={formControls} className="flex flex-col gap-2 sm:flex-row">
             <Label htmlFor={id} className="sr-only">
-              Email address
-            </Label>
-            <Input
+                      Email address
+                    </Label>
+                    <Input
               id={id}
-              value={email}
+                      value={email}
               onChange={(event) => setEmail(event.target.value)}
-              placeholder="Email address"
-              type="email"
-              autoComplete="email"
-              disabled={submitting}
+                      placeholder="Email address"
+                      type="email"
+                      autoComplete="email"
+                      disabled={submitting}
               className="h-12 flex-1 rounded-full border-input bg-white px-5 text-[15px] text-foreground placeholder:text-muted-foreground focus-visible:ring-primary"
-            />
-            <Button
-              type="submit"
-              disabled={submitting}
+                    />
+                    <Button
+                      type="submit"
+                      disabled={submitting}
               className="h-12 shrink-0 bg-primary px-6 text-[15px] font-semibold text-white hover:bg-[var(--clearpath-navy-hover)]"
-            >
-              {submitting ? "Joining…" : "Join waitlist"}
-            </Button>
-          </motion.form>
-        )}
-      </AnimatePresence>
+                    >
+                      {submitting ? "Joining…" : "Join waitlist"}
+                    </Button>
+                  </motion.form>
+                )}
+              </AnimatePresence>
       {error && !done ? (
         <p role="alert" className="mt-3 text-[14px] font-medium text-[var(--lp-coral-ink)]">
-          {error}
+                    {error}
         </p>
       ) : null}
       {!done ? (
         <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">
           One email when your wave opens. Unsubscribe anytime.
         </p>
-      ) : null}
+                ) : null}
     </div>
   )
 }
@@ -234,6 +181,31 @@ export function WaitlistForm() {
   const reduceMotion = useReducedMotion()
   const [mode, setMode] = useState<HeroMode>("jobs")
   const copy = heroCopy[mode]
+  const how = howCopy[mode]
+  const principles = principlesByMode[mode]
+  const compare = compareByMode[mode]
+  const faqs = faqsByMode[mode]
+  const cta = ctaCopy[mode]
+
+  const selectMode = (next: HeroMode, scroll = false) => {
+    setMode(next)
+    if (typeof window !== "undefined") {
+      window.history.replaceState(null, "", audienceHash[next])
+      if (scroll) {
+        document.getElementById("early-access")?.scrollIntoView({ behavior: "smooth", block: "start" })
+      }
+    }
+  }
+
+  useEffect(() => {
+    const applyHash = () => {
+      const next = modeFromHash[window.location.hash]
+      if (next) setMode(next)
+    }
+    applyHash()
+    window.addEventListener("hashchange", applyHash)
+    return () => window.removeEventListener("hashchange", applyHash)
+  }, [])
 
   return (
     <div className="lp min-h-screen overflow-x-clip selection:bg-primary selection:text-white">
@@ -243,7 +215,7 @@ export function WaitlistForm() {
 
           <NavigationMenu viewport={false} className="hidden md:flex" aria-label="Sections">
             <NavigationMenuList>
-              {navLinks.map((link) => (
+              {sectionLinks.map((link) => (
                 <NavigationMenuItem key={link.href}>
                   <NavigationMenuLink asChild>
                     <a
@@ -255,6 +227,23 @@ export function WaitlistForm() {
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}
+              {audienceLinks.map((link) => (
+                <NavigationMenuItem key={link.mode}>
+                  <NavigationMenuLink asChild>
+                    <button
+                      type="button"
+                      onClick={() => selectMode(link.mode)}
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        "text-[14px]",
+                        mode === link.mode ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      {link.label}
+                    </button>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              ))}
             </NavigationMenuList>
           </NavigationMenu>
 
@@ -263,7 +252,7 @@ export function WaitlistForm() {
               <Link href="/login">Log in</Link>
             </Button>
             <Button asChild className="h-9 bg-primary px-4 text-[13px] font-semibold text-white hover:bg-[var(--clearpath-navy-hover)]">
-              <a href="#early-access">Join waitlist</a>
+              <a href="#early-access">{mode === "campus" ? "Request a briefing" : "Join waitlist"}</a>
             </Button>
             <Sheet>
               <SheetTrigger asChild>
@@ -276,11 +265,22 @@ export function WaitlistForm() {
                   <SheetTitle>swypejobs</SheetTitle>
                 </SheetHeader>
                 <nav aria-label="Mobile sections" className="mt-8 flex flex-col">
-                  {navLinks.map((link) => (
+                  {sectionLinks.map((link) => (
                     <SheetClose asChild key={link.href}>
                       <a href={link.href} className="border-b border-border py-4 text-[16px] font-medium">
                         {link.label}
                       </a>
+                    </SheetClose>
+                  ))}
+                  {audienceLinks.map((link) => (
+                    <SheetClose asChild key={link.mode}>
+                      <button
+                        type="button"
+                        onClick={() => selectMode(link.mode)}
+                        className="border-b border-border py-4 text-left text-[16px] font-medium"
+                      >
+                        {link.label}
+                      </button>
                     </SheetClose>
                   ))}
                   <SheetClose asChild>
@@ -304,7 +304,7 @@ export function WaitlistForm() {
           <div className="lp-grid pointer-events-none absolute inset-0" aria-hidden />
           <div className="lp-hero-grid relative mx-auto w-full max-w-[1360px] px-5 pb-16 pt-10 sm:px-8 sm:pt-14 lg:px-12 lg:py-6">
             <div className="lp-area-copy">
-              <Tabs value={mode} onValueChange={(value) => setMode(value as HeroMode)}>
+              <Tabs value={mode} onValueChange={(value) => selectMode(value as HeroMode)}>
                 <TabsList
                   aria-label="Choose your side"
                   className="h-12 w-full max-w-[460px] rounded-full border border-border bg-secondary p-1"
@@ -348,7 +348,7 @@ export function WaitlistForm() {
                   {mode === "campus" ? <UniversityPanel /> : <SwipeDeck key={mode} variant={mode} />}
                 </div>
               </div>
-            </div>
+      </div>
 
             <div className="lp-area-form">
               {mode === "campus" ? (
@@ -358,7 +358,7 @@ export function WaitlistForm() {
                   </Button>
                 </div>
               ) : (
-                <Signup id="waitlist-email" />
+                <Signup id="waitlist-email" audience={mode} />
               )}
               <p className="mt-6 text-[14px] text-muted-foreground">
                 <span className="font-semibold text-foreground">600+</span> students and recruiters are already on the list.
@@ -367,9 +367,16 @@ export function WaitlistForm() {
           </div>
         </section>
 
-        <BuiltForBand />
-        <BentoGrid />
-        <PersonaTabs />
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={mode}
+            initial={reduceMotion ? false : { y: 8 }}
+            animate={{ y: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.28, ease: easeOutExpo }}
+          >
+        <BuiltForBand mode={mode} />
+        <BentoGrid mode={mode} />
+        <PersonaTabs mode={mode} />
 
         {/* How it works */}
         <section id="how-it-works" className="scroll-mt-20" aria-labelledby="how-heading">
@@ -379,19 +386,19 @@ export function WaitlistForm() {
                 id="how-heading"
                 className="mt-4 max-w-[18ch] text-balance text-[clamp(2rem,4vw,3.1rem)] font-semibold leading-[1.04] tracking-[-0.04em]"
               >
-                Two swipes. One conversation.
+                {how.title}
               </h2>
               <p className="mt-5 max-w-[54ch] text-[16px] leading-[1.6] text-muted-foreground">
-                Follow a role from the day it is posted to the day it is filled.
+                {how.lede}
               </p>
             </Rise>
             <div className="mt-12">
-              <FlowChart />
+              <FlowChart mode={mode} />
             </div>
           </div>
         </section>
 
-        <AudienceBlocks />
+        <AudienceBlocks mode={mode} />
 
         {/* Numbers */}
         <section
@@ -435,7 +442,7 @@ export function WaitlistForm() {
                       <TableHead className="h-14 px-5">
                         <span className="sr-only">Question</span>
                       </TableHead>
-                      {compareCols.map((col, i) => (
+                      {compare.cols.map((col, i) => (
                         <TableHead
                           key={col}
                           className={cn(
@@ -449,7 +456,7 @@ export function WaitlistForm() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {compareRows.map((row) => (
+                    {compare.rows.map((row) => (
                       <TableRow key={row.k}>
                         <TableHead scope="row" className="h-auto px-5 py-5 text-[14px] font-semibold text-foreground">
                           {row.k}
@@ -508,15 +515,25 @@ export function WaitlistForm() {
                 id="cta-heading"
                 className="max-w-[16ch] text-balance text-[clamp(2.2rem,4.6vw,3.6rem)] font-semibold leading-[1.02] tracking-[-0.045em]"
               >
-                Get in line for the first wave.
+                {cta.title}
               </h2>
               <p className="mt-4 max-w-[40ch] text-[16px] leading-[1.6] text-muted-foreground">
-                Candidates, recruiters and campus teams are all onboarding in waves.
+                {cta.lede}
               </p>
             </div>
-            <Signup id="waitlist-email-cta" />
+            {mode === "campus" ? (
+              <div>
+                <Button asChild className="h-12 bg-primary px-6 text-[15px] font-semibold text-white hover:bg-[var(--clearpath-navy-hover)]">
+                  <a href={UNIVERSITY_MAIL}>Request a briefing</a>
+                </Button>
+              </div>
+            ) : (
+              <Signup id="waitlist-email-cta" audience={mode} />
+            )}
           </div>
         </section>
+          </motion.div>
+        </AnimatePresence>
       </main>
 
       <footer className="border-t border-border bg-white">
@@ -547,9 +564,13 @@ export function WaitlistForm() {
             <nav aria-label="Audiences" className="lg:col-span-3">
               <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--lp-accent)]">Who it is for</p>
               <ul className="mt-4 space-y-3 text-[14px] text-muted-foreground">
-                <li><a href="#candidates" className="hover:text-primary">Candidates</a></li>
-                <li><a href="#recruiters" className="hover:text-primary">Recruiters</a></li>
-                <li><a href="#universities" className="hover:text-primary">Universities</a></li>
+                {audienceLinks.map((link) => (
+                  <li key={link.mode}>
+                    <button type="button" onClick={() => selectMode(link.mode, true)} className="hover:text-primary">
+                      {link.label}
+                    </button>
+                  </li>
+                ))}
               </ul>
             </nav>
 

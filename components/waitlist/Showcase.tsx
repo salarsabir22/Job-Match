@@ -3,7 +3,13 @@
 import type { ReactNode } from "react"
 import Image from "next/image"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+  bentoByMode,
+  builtForCopy,
+  personaId,
+  platformCopy,
+  type HeroMode,
+} from "@/components/waitlist/landing-mode"
 import { Chip, Rise } from "@/components/waitlist/lp-ui"
 import { cn } from "@/lib/utils"
 
@@ -65,7 +71,7 @@ function LogoGrid({ campuses }: { campuses: Campus[] }) {
   )
 }
 
-export function BuiltForBand() {
+export function BuiltForBand({ mode }: { mode: HeroMode }) {
   return (
     <section className="border-y border-border bg-[var(--lp-surface)]" aria-labelledby="campuses-heading">
       <div className="mx-auto w-full max-w-[1120px] px-5 py-14 sm:px-8 sm:py-16">
@@ -73,7 +79,7 @@ export function BuiltForBand() {
           id="campuses-heading"
           className="max-w-[30ch] text-balance text-[clamp(1.4rem,2.6vw,2rem)] font-semibold leading-[1.1] tracking-[-0.035em]"
         >
-          Built for students at the schools you already know.
+          {builtForCopy[mode]}
         </h2>
 
         <div className="mt-4">
@@ -234,7 +240,11 @@ const bento: { title: string; body: string; visual: ReactNode }[] = [
   },
 ]
 
-export function BentoGrid() {
+export function BentoGrid({ mode }: { mode: HeroMode }) {
+  const cards = bentoByMode[mode].flatMap((i) => {
+    const card = bento[i]
+    return card ? [card] : []
+  })
   return (
     <section id="platform" className="scroll-mt-20" aria-labelledby="platform-heading">
       <div className="mx-auto w-full max-w-[1120px] px-5 py-20 sm:px-8 sm:py-24 lg:py-28">
@@ -243,12 +253,12 @@ export function BentoGrid() {
             id="platform-heading"
             className="mt-4 max-w-[20ch] text-balance text-[clamp(2rem,4vw,3.1rem)] font-semibold leading-[1.04] tracking-[-0.04em]"
           >
-            The early-career hiring platform, in six pieces.
+            {platformCopy[mode]}
           </h2>
         </Rise>
-        <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {bento.map((card, i) => (
-            <Rise key={card.title} delay={(i % 3) * 0.05}>
+        <div className="mt-12 grid gap-4 md:grid-cols-2">
+          {cards.map((card, i) => (
+            <Rise key={card.title} delay={(i % 2) * 0.05}>
               <Card className="h-full transition-colors duration-300 hover:border-[var(--lp-accent)]/60">
                 <CardHeader className="p-6 pb-0">
                   <CardTitle className="text-[1.15rem] leading-snug tracking-[-0.03em]">{card.title}</CardTitle>
@@ -299,7 +309,8 @@ const personas = [
   },
 ]
 
-export function PersonaTabs() {
+export function PersonaTabs({ mode }: { mode: HeroMode }) {
+  const persona = personas.find((p) => p.id === personaId[mode]) ?? personas[0]
   return (
     <section className="bg-[var(--lp-surface)]" aria-labelledby="persona-heading">
       <div className="mx-auto w-full max-w-[1120px] px-5 py-20 sm:px-8 sm:py-24 lg:py-28">
@@ -308,43 +319,19 @@ export function PersonaTabs() {
             id="persona-heading"
             className="mt-4 max-w-[18ch] text-balance text-[clamp(2rem,4vw,3.1rem)] font-semibold leading-[1.04] tracking-[-0.04em]"
           >
-            Accomplish more in less time.
+            {persona.title}
           </h2>
         </Rise>
-
-        <Tabs defaultValue="candidate" className="mt-10">
-          <TabsList
-            aria-label="Choose a role"
-            className="h-auto max-w-full overflow-x-auto rounded-full border border-border bg-secondary p-1"
-          >
-            {personas.map((p) => (
-              <TabsTrigger
-                key={p.id}
-                value={p.id}
-                className="rounded-full px-5 py-2.5 text-[14px] text-muted-foreground data-[state=active]:bg-primary data-[state=active]:text-white"
-              >
-                {p.tab}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-
-          {personas.map((p) => (
-            <TabsContent key={p.id} value={p.id} className="mt-10">
-              <p className="max-w-[28ch] text-[clamp(1.5rem,2.6vw,2.1rem)] font-semibold leading-[1.1] tracking-[-0.035em]">
-                {p.title}
-              </p>
-              <ol className="mt-10 grid gap-4 md:grid-cols-3">
-                {p.steps.map((step) => (
-                  <li key={step.body}>
-                    <Card className="h-full bg-card p-6">
-                      <p className="text-[1.15rem] font-semibold leading-snug tracking-[-0.025em]">{step.body}</p>
-                    </Card>
-                  </li>
-                ))}
-              </ol>
-            </TabsContent>
+        <ol className="mt-10 grid gap-4 md:grid-cols-3">
+          {persona.steps.map((step) => (
+            <li key={step.body}>
+              <Card className="h-full bg-card p-6">
+                <p className="font-mono text-[12px] text-[var(--lp-mint-ink)]">{step.when}</p>
+                <p className="mt-2 text-[1.15rem] font-semibold leading-snug tracking-[-0.025em]">{step.body}</p>
+              </Card>
+            </li>
           ))}
-        </Tabs>
+        </ol>
       </div>
     </section>
   )
