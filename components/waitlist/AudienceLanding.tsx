@@ -21,6 +21,7 @@ import { WaitlistEarthCanvas } from "@/components/waitlist/WaitlistEarthCanvas"
 import { WaitlistFooter } from "@/components/waitlist/WaitlistFooter"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { DASHBOARD_ORIGIN } from "@/lib/auth-sites"
 
 const CONTACT_MAIL = "mailto:hello@swypejobs.app"
 const RECRUITER_MAIL = "mailto:hello@swypejobs.app?subject=Recruiter%20inquiry"
@@ -594,6 +595,22 @@ export function AudienceLanding({ audience }: { audience: Audience }) {
             >
               Universities
             </Link>
+            {audience === "university" ? (
+              <>
+                <a
+                  href={`${DASHBOARD_ORIGIN}/login`}
+                  className="text-[13px] font-medium text-white/70 transition-colors hover:text-[var(--waitlist-blue)]"
+                >
+                  Sign in
+                </a>
+                <a
+                  href={`${DASHBOARD_ORIGIN}/signup?role=university`}
+                  className="text-[13px] font-medium text-white transition-colors hover:text-[var(--waitlist-blue)]"
+                >
+                  Create account
+                </a>
+              </>
+            ) : null}
             <Link
               href="/corporates"
               className={cn(

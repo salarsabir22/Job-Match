@@ -248,9 +248,6 @@ export function WaitlistForm() {
           </NavigationMenu>
 
           <div className="flex items-center gap-2">
-            <Button asChild variant="ghost" className="hidden text-[14px] text-muted-foreground hover:text-foreground sm:inline-flex">
-              <Link href="/login">Log in</Link>
-            </Button>
             <Button asChild className="h-9 bg-primary px-4 text-[13px] font-semibold text-white hover:bg-[var(--clearpath-navy-hover)]">
               <a href="#early-access">{mode === "campus" ? "Request a briefing" : "Join waitlist"}</a>
             </Button>
@@ -283,11 +280,6 @@ export function WaitlistForm() {
                       </button>
                     </SheetClose>
                   ))}
-                  <SheetClose asChild>
-                    <Link href="/login" className="py-4 text-[16px] font-medium text-muted-foreground">
-                      Log in
-                    </Link>
-                  </SheetClose>
                 </nav>
               </SheetContent>
             </Sheet>
@@ -578,7 +570,6 @@ export function WaitlistForm() {
               <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--lp-accent)]">Company</p>
               <ul className="mt-4 space-y-3 text-[14px] text-muted-foreground">
                 <li><a href={CONTACT} className="hover:text-primary">Contact</a></li>
-                <li><Link href="/login" className="hover:text-primary">Log in</Link></li>
                 <li><Link href="/privacy" className="hover:text-primary">Privacy</Link></li>
                 <li><Link href="/terms" className="hover:text-primary">Terms</Link></li>
               </ul>

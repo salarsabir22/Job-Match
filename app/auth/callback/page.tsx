@@ -105,7 +105,10 @@ export default function AuthCallbackPage() {
 
       if (returnTo && isAllowedReturn(returnTo) && new URL(returnTo).origin !== window.location.origin) {
         const dest = new URL("/auth/callback", returnTo)
-        if (roleParam === "student" || roleParam === "recruiter") dest.searchParams.set("role", roleParam)
+        if (roleParam === "student" || roleParam === "recruiter" || roleParam === "university") {
+          dest.searchParams.set("role", roleParam)
+        }
+        if (roleParam === "university") dest.searchParams.set("portal", "university")
         if (next) dest.searchParams.set("next", next)
         const fragment = new URLSearchParams({
           access_token: session.access_token,
